@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-# SubPro Lite - Dịch phụ đề + TTS, nhẹ, chạy trên RAM 256MB
+# SubPro Lite - Dịch phụ đề + TTS, chạy trên RAM 256MB
+# PORT: 20613 (cho Bot-Hosting)
 
 import os
 import sys
@@ -8,6 +9,7 @@ import tempfile
 import threading
 import time
 import json
+import re
 from datetime import datetime
 import requests
 from flask import Flask, request, jsonify, render_template_string, send_file
@@ -42,104 +44,118 @@ VOICES = {
 HTML = '''
 <!DOCTYPE html>
 <html>
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🎙️ SubPro Lite - Dịch Phụ Đề</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{background:#0a0e14;color:#e0e8f0;font-family:'Segoe UI',-apple-system,sans-serif;padding:16px}
-.container{max-width:1000px;margin:auto}
-.header{display:flex;justify-content:space-between;align-items:center;padding:10px 0 20px;border-bottom:1px solid #00e5ff20;flex-wrap:wrap}
-.header h1{color:#ffcc00;font-size:24px;display:flex;align-items:center;gap:10px}
-.header h1 span{color:#00e5ff}
-.header .badge{background:#00e5ff20;color:#00e5ff;padding:2px 12px;border-radius:20px;font-size:11px}
-.card{background:#141c28;border-radius:12px;border:1px solid #00e5ff15;padding:20px;margin:15px 0}
-.card-title{font-size:17px;font-weight:600;margin-bottom:14px;display:flex;align-items:center;gap:10px}
-.card-title i{color:#ffcc00}
-input,select{width:100%;padding:12px 16px;border-radius:8px;border:1px solid #00e5ff30;background:#0d1520;color:#e0e8f0;font-size:15px;margin-bottom:10px}
-input:focus,select:focus{outline:none;border-color:#ffcc00;box-shadow:0 0 0 3px #ffcc0020}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 28px;border-radius:8px;border:none;font-weight:600;font-size:15px;cursor:pointer;transition:0.3s}
-.btn-primary{background:linear-gradient(135deg,#00e5ff,#0088ff);color:#000}
-.btn-primary:hover{transform:scale(1.02);box-shadow:0 4px 20px #00e5ff40}
-.btn-outline{background:transparent;border:1px solid #00e5ff40;color:#00e5ff}
-.btn-outline:hover{background:#00e5ff10}
-.btn-sm{padding:6px 16px;font-size:12px}
-.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:15px}
-.grid-3{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
-.voice-card{background:#0d1520;padding:10px 14px;border-radius:8px;border:2px solid transparent;cursor:pointer;transition:0.3s;font-size:13px}
-.voice-card:hover{border-color:#00e5ff40}
-.voice-card.selected{border-color:#00e5ff;background:#00e5ff10}
-.voice-card .v-provider{font-size:10px;color:#8899aa;background:#1a2530;padding:1px 8px;border-radius:10px}
-.task-item{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border-bottom:1px solid #00e5ff08;gap:10px;cursor:pointer;transition:0.2s}
-.task-item:hover{background:#00e5ff05}
-.task-item .title{font-weight:500;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.task-item .meta{font-size:12px;color:#8899aa;display:flex;gap:10px;align-items:center}
-.status{display:inline-block;padding:2px 12px;border-radius:20px;font-size:11px;font-weight:600}
-.status-pending{background:#ffaa00;color:#000}
-.status-processing{background:#0088ff;color:#fff}
-.status-done{background:#00ff88;color:#000}
-.status-fail{background:#ff4444;color:#fff}
-.log-box{background:#0a0e14;padding:14px;max-height:350px;overflow:auto;border-radius:8px;border:1px solid #00e5ff08;font-family:monospace;font-size:13px;line-height:1.8}
-.log-box .time{color:#ffcc00}
-.log-box .ok{color:#00ff88}
-.log-box .err{color:#ff4444}
-.log-box .info{color:#88aacc}
-.toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);background:#141c28;border:1px solid #ffcc00;padding:12px 24px;border-radius:10px;display:none;z-index:999;font-size:14px;box-shadow:0 8px 30px rgba(0,0,0,0.6)}
-@media(max-width:600px){.grid-2{grid-template-columns:1fr}.header h1{font-size:20px}}
-</style>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>🎙️ SubPro - Dịch Phụ Đề</title>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{background:#0a0e14;color:#e0e8f0;font-family:'Segoe UI',-apple-system,sans-serif;padding:16px;min-height:100vh}
+        .container{max-width:1000px;margin:auto}
+        .header{display:flex;justify-content:space-between;align-items:center;padding:10px 0 20px;border-bottom:1px solid #00e5ff20;flex-wrap:wrap}
+        .header h1{color:#ffcc00;font-size:24px;display:flex;align-items:center;gap:10px}
+        .header h1 span{color:#00e5ff}
+        .header .badge{background:#00e5ff20;color:#00e5ff;padding:2px 12px;border-radius:20px;font-size:11px}
+        .header .status{color:#00ff88;font-size:13px;display:flex;align-items:center;gap:6px}
+        .header .status .dot{width:8px;height:8px;border-radius:50%;background:#00ff88;display:inline-block;animation:pulse 1.5s infinite}
+        @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+        .card{background:#141c28;border-radius:16px;border:1px solid #00e5ff15;padding:20px;margin:15px 0;transition:0.3s}
+        .card:hover{border-color:#00e5ff30}
+        .card-title{font-size:17px;font-weight:600;margin-bottom:14px;display:flex;align-items:center;gap:10px}
+        .card-title i{color:#ffcc00}
+        input,select{width:100%;padding:12px 16px;border-radius:10px;border:1px solid #00e5ff30;background:#0d1520;color:#e0e8f0;font-size:15px;margin-bottom:10px;transition:0.3s;-webkit-appearance:none;appearance:none}
+        input:focus,select:focus{outline:none;border-color:#ffcc00;box-shadow:0 0 0 3px #ffcc0020}
+        select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2300e5ff' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center;padding-right:40px}
+        .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 28px;border-radius:10px;border:none;font-weight:600;font-size:15px;cursor:pointer;transition:0.3s;touch-action:manipulation}
+        .btn-primary{background:linear-gradient(135deg,#00e5ff,#0088ff);color:#000}
+        .btn-primary:hover{transform:scale(1.02);box-shadow:0 4px 20px #00e5ff40}
+        .btn-primary:active{transform:scale(0.97)}
+        .btn-outline{background:transparent;border:1px solid #00e5ff40;color:#00e5ff}
+        .btn-outline:hover{background:#00e5ff10}
+        .btn-sm{padding:6px 16px;font-size:12px}
+        .btn-success{background:#00ff88;color:#000}
+        .btn-success:hover{transform:scale(1.02)}
+        .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+        .grid-3{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+        .voice-card{background:#0d1520;padding:10px 14px;border-radius:10px;border:2px solid transparent;cursor:pointer;transition:0.3s;font-size:13px}
+        .voice-card:hover{border-color:#00e5ff40}
+        .voice-card.selected{border-color:#00e5ff;background:#00e5ff10}
+        .voice-card .v-provider{font-size:10px;color:#8899aa;background:#1a2530;padding:1px 8px;border-radius:10px}
+        .task-item{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border-bottom:1px solid #00e5ff08;gap:10px;cursor:pointer;transition:0.2s}
+        .task-item:hover{background:#00e5ff05}
+        .task-item .title{font-weight:500;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+        .task-item .meta{font-size:12px;color:#8899aa;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+        .status{display:inline-block;padding:2px 12px;border-radius:20px;font-size:11px;font-weight:600}
+        .status-pending{background:#ffaa00;color:#000}
+        .status-processing{background:#0088ff;color:#fff}
+        .status-done{background:#00ff88;color:#000}
+        .status-fail{background:#ff4444;color:#fff}
+        .log-box{background:#0a0e14;padding:14px;max-height:350px;overflow:auto;border-radius:10px;border:1px solid #00e5ff08;font-family:monospace;font-size:13px;line-height:1.8}
+        .log-box .time{color:#ffcc00}
+        .log-box .ok{color:#00ff88}
+        .log-box .err{color:#ff4444}
+        .log-box .info{color:#88aacc}
+        .toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);background:#141c28;border:1px solid #ffcc00;padding:12px 24px;border-radius:12px;display:none;z-index:999;font-size:14px;box-shadow:0 8px 30px rgba(0,0,0,0.6);max-width:90%}
+        .footer{text-align:center;color:#556677;font-size:12px;padding:20px 0;border-top:1px solid #00e5ff10;margin-top:20px}
+        @media(max-width:600px){.grid-2{grid-template-columns:1fr}.header h1{font-size:20px}.card{padding:16px}}
+        @media(max-width:400px){.task-item{flex-wrap:wrap}.task-item .meta{width:100%}}
+    </style>
 </head>
 <body>
 <div class="container">
-<div class="header">
-<h1>🎙️ Sub<span>Pro</span> <span class="badge">Lite</span></h1>
-<span style="color:#8899aa;font-size:13px;"><span id="taskCount">0</span> tasks</span>
-</div>
+    <div class="header">
+        <h1>🎙️ Sub<span>Pro</span> <span class="badge">Lite</span></h1>
+        <div class="status"><span class="dot"></span> <span id="taskCount">0</span> tasks</div>
+    </div>
 
-<div id="toast" class="toast"></div>
+    <div id="toast" class="toast"></div>
 
-<div class="card">
-<div class="card-title"><i>📥</i> Tạo video mới</div>
-<div class="grid-2">
-<input id="videoUrl" placeholder="🔗 Dán link video (YouTube, FB, TikTok...)" />
-<select id="srcLang">
-<option value="auto">🌐 Tự động nhận diện</option>
-<option value="en-US">🇺🇸 English</option>
-<option value="vi-VN">🇻🇳 Tiếng Việt</option>
-<option value="zh-CN">🇨🇳 中文</option>
-<option value="ja-JP">🇯🇵 日本語</option>
-<option value="ko-KR">🇰🇷 한국어</option>
-<option value="fr-FR">🇫🇷 Français</option>
-<option value="es-ES">🇪🇸 Español</option>
-<option value="de-DE">🇩🇪 Deutsch</option>
-<option value="it-IT">🇮🇹 Italiano</option>
-<option value="pt-PT">🇵🇹 Português</option>
-<option value="ru-RU">🇷🇺 Русский</option>
-<option value="hi-IN">🇮🇳 हिन्दी</option>
-</select>
-</div>
-<div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:6px;">
-<button class="btn btn-primary" onclick="startProcess()">🚀 Bắt đầu xử lý</button>
-<button class="btn btn-outline" onclick="clearInput()">🗑️ Xóa</button>
-<span style="margin-left:auto;color:#8899aa;font-size:13px;display:flex;align-items:center;gap:6px;">
-🎤 <span id="voiceDisplay">Chọn giọng</span>
-</span>
-</div>
-<div id="result" style="margin-top:12px;color:#ffcc00;font-weight:500;"></div>
-</div>
+    <div class="card">
+        <div class="card-title"><i>📥</i> Tạo video mới</div>
+        <div class="grid-2">
+            <input id="videoUrl" placeholder="🔗 Dán link video (YouTube, FB, TikTok...)" />
+            <select id="srcLang">
+                <option value="auto">🌐 Tự động nhận diện</option>
+                <option value="en-US">🇺🇸 English</option>
+                <option value="vi-VN">🇻🇳 Tiếng Việt</option>
+                <option value="zh-CN">🇨🇳 中文</option>
+                <option value="ja-JP">🇯🇵 日本語</option>
+                <option value="ko-KR">🇰🇷 한국어</option>
+                <option value="fr-FR">🇫🇷 Français</option>
+                <option value="es-ES">🇪🇸 Español</option>
+                <option value="de-DE">🇩🇪 Deutsch</option>
+                <option value="it-IT">🇮🇹 Italiano</option>
+                <option value="pt-PT">🇵🇹 Português</option>
+                <option value="ru-RU">🇷🇺 Русский</option>
+                <option value="hi-IN">🇮🇳 हिन्दी</option>
+            </select>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:6px;">
+            <button class="btn btn-primary" onclick="startProcess()">🚀 Bắt đầu xử lý</button>
+            <button class="btn btn-outline" onclick="clearInput()">🗑️ Xóa</button>
+            <span style="margin-left:auto;color:#8899aa;font-size:13px;display:flex;align-items:center;gap:6px;">
+                🎤 <span id="voiceDisplay">Chọn giọng</span>
+            </span>
+        </div>
+        <div id="result" style="margin-top:12px;color:#ffcc00;font-weight:500;"></div>
+    </div>
 
-<div class="card">
-<div class="card-title"><i>🗣️</i> Giọng nói <button class="btn btn-sm btn-outline" onclick="toggleVoices()" style="margin-left:auto;">Hiện</button></div>
-<div id="voiceContainer" class="grid-3" style="display:none;"></div>
-</div>
+    <div class="card">
+        <div class="card-title"><i>🗣️</i> Giọng nói <button class="btn btn-sm btn-outline" onclick="toggleVoices()" style="margin-left:auto;">Hiện</button></div>
+        <div id="voiceContainer" class="grid-3" style="display:none;"></div>
+    </div>
 
-<div class="card">
-<div class="card-title"><i>📋</i> Video của tôi <button class="btn btn-sm btn-outline" onclick="loadTasks()" style="margin-left:auto;">🔄</button></div>
-<div id="taskList"></div>
-</div>
+    <div class="card">
+        <div class="card-title"><i>📋</i> Video của tôi <button class="btn btn-sm btn-outline" onclick="loadTasks()" style="margin-left:auto;">🔄</button></div>
+        <div id="taskList"></div>
+    </div>
 
-<div class="card">
-<div class="card-title"><i>📝</i> Log chi tiết</div>
-<div id="logBox" class="log-box">▶ Chọn video để xem log</div>
-</div>
+    <div class="card">
+        <div class="card-title"><i>📝</i> Log chi tiết</div>
+        <div id="logBox" class="log-box">▶ Chọn video để xem log</div>
+    </div>
+
+    <div class="footer">SubPro Lite · Powered by Bot-Hosting</div>
 </div>
 
 <script>
@@ -243,7 +259,7 @@ async function loadTasks() {
                 </div>
                 <div style="display:flex;gap:6px;flex-shrink:0;">
                     ${t.status === 'done' ? `<button class="btn btn-sm btn-outline" onclick="event.stopPropagation();downloadFile('${t.id}','srt')">📄 SRT</button>` : ''}
-                    ${t.status === 'done' && t.audio_path ? `<button class="btn btn-sm btn-primary" onclick="event.stopPropagation();downloadFile('${t.id}','audio')">🎧 Audio</button>` : ''}
+                    ${t.status === 'done' && t.audio_path ? `<button class="btn btn-sm btn-success" onclick="event.stopPropagation();downloadFile('${t.id}','audio')">🎧 Audio</button>` : ''}
                 </div>
             </div>
         `).join('');
@@ -287,7 +303,9 @@ def download_video(url, output_path):
             'format': 'best[ext=mp4]',
             'quiet': True,
             'no_warnings': True,
-            'outtmpl': output_path
+            'outtmpl': output_path,
+            'ignoreerrors': True,
+            'no_check_certificate': True
         }
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             ydl.download([url])
@@ -310,9 +328,12 @@ def transcribe_audio(audio_path, lang='auto'):
         # Chuyển đổi audio sang WAV nếu cần
         if not audio_path.endswith('.wav'):
             wav_path = audio_path.replace('.wav', '_temp.wav')
-            audio = AudioSegment.from_file(audio_path)
-            audio.export(wav_path, format='wav')
-            audio_path = wav_path
+            try:
+                audio = AudioSegment.from_file(audio_path)
+                audio.export(wav_path, format='wav')
+                audio_path = wav_path
+            except:
+                pass
         
         r = sr.Recognizer()
         with sr.AudioFile(audio_path) as source:
@@ -348,6 +369,8 @@ def transcribe_audio(audio_path, lang='auto'):
         return [{'start': 0, 'end': 10, 'text': '⚠️ Cần cài: pip install speechrecognition pydub'}]
     except sr.UnknownValueError:
         return [{'start': 0, 'end': 10, 'text': '⚠️ Không nhận diện được giọng nói'}]
+    except sr.RequestError as e:
+        return [{'start': 0, 'end': 10, 'text': f'⚠️ Lỗi Google API: {str(e)}'}]
     except Exception as e:
         return [{'start': 0, 'end': 10, 'text': f'⚠️ Lỗi: {str(e)}'}]
 
@@ -387,30 +410,31 @@ def text_to_speech(text, voice_code, output_path):
     from gtts import gTTS
     
     # Map voice code to language
-    lang_map = {}
-    for provider, voices in VOICES.items():
-        for code in voices.keys():
-            parts = code.split('-')
-            if len(parts) >= 2:
-                lang_map[code] = parts[0].lower()
-            else:
-                lang_map[code] = 'vi'
+    lang_map = {
+        'vi-VN-Standard-A': 'vi', 'vi-VN-Standard-B': 'vi',
+        'vi-VN-Standard-C': 'vi', 'vi-VN-Standard-D': 'vi',
+        'en-US-Standard-A': 'en', 'en-US-Standard-B': 'en',
+        'ja-JP-Standard-A': 'ja', 'zh-CN-Standard-A': 'zh-cn',
+        'ko-KR-Standard-A': 'ko', 'fr-FR-Standard-A': 'fr',
+        'es-ES-Standard-A': 'es', 'de-DE-Standard-A': 'de',
+        'it-IT-Standard-A': 'it', 'pt-PT-Standard-A': 'pt',
+        'ru-RU-Standard-A': 'ru', 'hi-IN-Standard-A': 'hi'
+    }
     
     lang = lang_map.get(voice_code, 'vi')
-    if lang == 'en' and 'GB' in voice_code:
-        lang = 'en-uk'
-    elif lang == 'zh':
-        lang = 'zh-cn'
     
     try:
         tts = gTTS(text=text[:5000], lang=lang, slow=False)
         tts.save(output_path)
         return True
-    except:
-        # Fallback
-        tts = gTTS(text=text[:5000], lang='vi', slow=False)
-        tts.save(output_path)
-        return True
+    except Exception as e:
+        # Fallback tiếng Việt
+        try:
+            tts = gTTS(text=text[:5000], lang='vi', slow=False)
+            tts.save(output_path)
+            return True
+        except:
+            return False
 
 def process_task(task_id):
     """Xử lý task trong background"""
@@ -447,7 +471,7 @@ def process_task(task_id):
     task['log'].append('🎵 Trích xuất audio...')
     if not extract_audio(video_path, audio_path):
         task['status'] = 'fail'
-        task['log'].append('✘ Lỗi ffmpeg')
+        task['log'].append('✘ Lỗi ffmpeg - Kiểm tra đã cài ffmpeg chưa')
         return
     task['log'].append('✔ Đã trích xuất audio')
     
@@ -482,9 +506,11 @@ def process_task(task_id):
     task['log'].append(f'🗣️ Tạo audio với giọng {task["voice"]}...')
     full_text = ' '.join([seg['text'] for seg in translated])
     try:
-        text_to_speech(full_text, task['voice'], tts_path)
-        task['audio_path'] = tts_path
-        task['log'].append('✔ Đã tạo audio TTS')
+        if text_to_speech(full_text, task['voice'], tts_path):
+            task['audio_path'] = tts_path
+            task['log'].append('✔ Đã tạo audio TTS')
+        else:
+            task['log'].append('⚠️ Lỗi tạo TTS')
     except Exception as e:
         task['log'].append(f'⚠️ Lỗi TTS: {str(e)}')
     
@@ -545,14 +571,16 @@ def download_audio(task_id):
 # ================ MAIN ================
 
 if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 5000))
+    # Lấy port từ biến môi trường, mặc định là 20613 cho Bot-Hosting
+    port = int(os.environ.get('PORT', 20613))
     print("""
-╔═══════════════════════════════════════════╗
-║  🎙️ SUBPRO LITE - Nhẹ, Nhanh, Chạy tốt  ║
-║  ─────────────────────────────────────── ║
-║  📍 Truy cập: http://0.0.0.0:%s         ║
-║  💾 RAM yêu cầu: ~100MB                  ║
-║  🎯 Dùng SpeechRecognition thay Whisper  ║
-╚═══════════════════════════════════════════╝
-    """ % port)
+╔══════════════════════════════════════════════════════════╗
+║  🎙️ SUBPRO LITE - Nhẹ, Nhanh, Chạy tốt                 ║
+║  ────────────────────────────────────────────────────── ║
+║  📍 Truy cập: http://fi14.bot-hosting.cloud:%s         ║
+║  💾 RAM yêu cầu: ~100MB                                ║
+║  🎯 Dùng SpeechRecognition thay Whisper                ║
+║  🔧 PORT: %s                                           ║
+╚══════════════════════════════════════════════════════════╝
+    """ % (port, port))
     app.run(host='0.0.0.0', port=port, debug=False, threaded=True)
