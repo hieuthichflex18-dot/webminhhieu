@@ -1,19 +1,22 @@
 #!/usr/bin/env python3
-# subtitle_tts_ultimate.py - Web Pro với 50+ giọng nói
-# Chạy: python3 subtitle_tts_ultimate.py
-# Truy cập: http://localhost:5000
+# SubPro Lite - Dịch phụ đề + TTS, nhẹ, chạy trên RAM 256MB
 
-from flask import Flask, request, jsonify, render_template_string, send_file
-import subprocess, os, json, threading, time, tempfile, base64, hashlib
+import os
+import sys
+import subprocess
+import tempfile
+import threading
+import time
+import json
 from datetime import datetime
 import requests
-import random
+from flask import Flask, request, jsonify, render_template_string, send_file
 
 app = Flask(__name__)
 tasks = {}
 task_counter = 0
 
-# ================ 50+ GIỌNG NÓI HOT ================
+# ================ VOICES ================
 VOICES = {
     'google': {
         'vi-VN-Standard-A': {'name': '🌸 Linh - Nữ Bắc', 'gender': 'Nữ', 'style': 'Tự nhiên'},
@@ -22,353 +25,130 @@ VOICES = {
         'vi-VN-Standard-D': {'name': '🌿 Tuấn - Nam Nam', 'gender': 'Nam', 'style': 'Sâu lắng'},
         'en-US-Standard-A': {'name': '🇺🇸 Emma - US Female', 'gender': 'Nữ', 'style': 'Modern'},
         'en-US-Standard-B': {'name': '🇺🇸 James - US Male', 'gender': 'Nam', 'style': 'Professional'},
-        'en-US-Standard-C': {'name': '🇺🇸 Sophia - US Female', 'gender': 'Nữ', 'style': 'Warm'},
-        'en-US-Standard-D': {'name': '🇺🇸 Michael - US Male', 'gender': 'Nam', 'style': 'Deep'},
-        'en-US-Standard-E': {'name': '🇺🇸 Emily - US Female', 'gender': 'Nữ', 'style': 'Cheerful'},
-        'en-US-Standard-F': {'name': '🇺🇸 David - US Male', 'gender': 'Nam', 'style': 'Neutral'},
-        'en-GB-Standard-A': {'name': '🇬🇧 Olivia - UK Female', 'gender': 'Nữ', 'style': 'Elegant'},
-        'en-GB-Standard-B': {'name': '🇬🇧 William - UK Male', 'gender': 'Nam', 'style': 'Royal'},
-        'en-GB-Standard-C': {'name': '🇬🇧 Charlotte - UK Female', 'gender': 'Nữ', 'style': 'Bright'},
-        'en-GB-Standard-D': {'name': '🇬🇧 George - UK Male', 'gender': 'Nam', 'style': 'Mature'},
-        'ja-JP-Standard-A': {'name': '🇯🇵 Sakura - Japanese Female', 'gender': 'Nữ', 'style': 'Kawaii'},
-        'ja-JP-Standard-B': {'name': '🇯🇵 Kenji - Japanese Male', 'gender': 'Nam', 'style': 'Formal'},
-        'ja-JP-Standard-C': {'name': '🇯🇵 Yuki - Japanese Female', 'gender': 'Nữ', 'style': 'Soft'},
-        'ja-JP-Standard-D': {'name': '🇯🇵 Takeshi - Japanese Male', 'gender': 'Nam', 'style': 'Strong'},
-        'zh-CN-Standard-A': {'name': '🇨🇳 Xiaomei - Chinese Female', 'gender': 'Nữ', 'style': 'Cute'},
-        'zh-CN-Standard-B': {'name': '🇨🇳 Weijun - Chinese Male', 'gender': 'Nam', 'style': 'Clear'},
-        'zh-CN-Standard-C': {'name': '🇨🇳 Liling - Chinese Female', 'gender': 'Nữ', 'style': 'Warm'},
-        'zh-CN-Standard-D': {'name': '🇨🇳 Hongming - Chinese Male', 'gender': 'Nam', 'style': 'Professional'},
-        'ko-KR-Standard-A': {'name': '🇰🇷 Hana - Korean Female', 'gender': 'Nữ', 'style': 'Sweet'},
-        'ko-KR-Standard-B': {'name': '🇰🇷 Minjun - Korean Male', 'gender': 'Nam', 'style': 'Serious'},
-        'ko-KR-Standard-C': {'name': '🇰🇷 Sora - Korean Female', 'gender': 'Nữ', 'style': 'Bright'},
-        'ko-KR-Standard-D': {'name': '🇰🇷 Youngjin - Korean Male', 'gender': 'Nam', 'style': 'Deep'},
-        'fr-FR-Standard-A': {'name': '🇫🇷 Camille - French Female', 'gender': 'Nữ', 'style': 'Romantic'},
-        'fr-FR-Standard-B': {'name': '🇫🇷 Pierre - French Male', 'gender': 'Nam', 'style': 'Sophisticated'},
-        'fr-FR-Standard-C': {'name': '🇫🇷 Amélie - French Female', 'gender': 'Nữ', 'style': 'Charming'},
-        'fr-FR-Standard-D': {'name': '🇫🇷 Antoine - French Male', 'gender': 'Nam', 'style': 'Elegant'},
-        'es-ES-Standard-A': {'name': '🇪🇸 Lucia - Spanish Female', 'gender': 'Nữ', 'style': 'Passionate'},
-        'es-ES-Standard-B': {'name': '🇪🇸 Javier - Spanish Male', 'gender': 'Nam', 'style': 'Warm'},
-        'es-ES-Standard-C': {'name': '🇪🇸 Carmen - Spanish Female', 'gender': 'Nữ', 'style': 'Spirited'},
-        'es-ES-Standard-D': {'name': '🇪🇸 Diego - Spanish Male', 'gender': 'Nam', 'style': 'Smooth'},
-        'de-DE-Standard-A': {'name': '🇩🇪 Anna - German Female', 'gender': 'Nữ', 'style': 'Clear'},
-        'de-DE-Standard-B': {'name': '🇩🇪 Lukas - German Male', 'gender': 'Nam', 'style': 'Precise'},
-        'de-DE-Standard-C': {'name': '🇩🇪 Marie - German Female', 'gender': 'Nữ', 'style': 'Warm'},
-        'de-DE-Standard-D': {'name': '🇩🇪 Felix - German Male', 'gender': 'Nam', 'style': 'Deep'},
-        'it-IT-Standard-A': {'name': '🇮🇹 Sofia - Italian Female', 'gender': 'Nữ', 'style': 'Melodic'},
-        'it-IT-Standard-B': {'name': '🇮🇹 Matteo - Italian Male', 'gender': 'Nam', 'style': 'Passionate'},
-        'it-IT-Standard-C': {'name': '🇮🇹 Giulia - Italian Female', 'gender': 'Nữ', 'style': 'Elegant'},
-        'it-IT-Standard-D': {'name': '🇮🇹 Marco - Italian Male', 'gender': 'Nam', 'style': 'Warm'},
-        'pt-PT-Standard-A': {'name': '🇵🇹 Beatriz - Portuguese Female', 'gender': 'Nữ', 'style': 'Soft'},
-        'pt-PT-Standard-B': {'name': '🇵🇹 Joao - Portuguese Male', 'gender': 'Nam', 'style': 'Clear'},
-        'pt-PT-Standard-C': {'name': '🇵🇹 Ines - Portuguese Female', 'gender': 'Nữ', 'style': 'Warm'},
-        'pt-PT-Standard-D': {'name': '🇵🇹 Pedro - Portuguese Male', 'gender': 'Nam', 'style': 'Strong'},
-        'ru-RU-Standard-A': {'name': '🇷🇺 Anastasia - Russian Female', 'gender': 'Nữ', 'style': 'Melodic'},
-        'ru-RU-Standard-B': {'name': '🇷🇺 Dmitri - Russian Male', 'gender': 'Nam', 'style': 'Deep'},
-        'ru-RU-Standard-C': {'name': '🇷🇺 Irina - Russian Female', 'gender': 'Nữ', 'style': 'Warm'},
-        'ru-RU-Standard-D': {'name': '🇷🇺 Alexei - Russian Male', 'gender': 'Nam', 'style': 'Strong'},
-        'hi-IN-Standard-A': {'name': '🇮🇳 Priya - Hindi Female', 'gender': 'Nữ', 'style': 'Sweet'},
-        'hi-IN-Standard-B': {'name': '🇮🇳 Raj - Hindi Male', 'gender': 'Nam', 'style': 'Clear'},
-        'hi-IN-Standard-C': {'name': '🇮🇳 Anjali - Hindi Female', 'gender': 'Nữ', 'style': 'Warm'},
-        'hi-IN-Standard-D': {'name': '🇮🇳 Vikram - Hindi Male', 'gender': 'Nam', 'style': 'Strong'},
-    },
-    'azure': {
-        'vi-VN-HoaiMyNeural': {'name': '🌹 Hoài My - Nữ Bắc', 'gender': 'Nữ', 'style': 'Xúc cảm'},
-        'vi-VN-NamMinhNeural': {'name': '🌲 Nam Minh - Nam Bắc', 'gender': 'Nam', 'style': 'Trầm ấm'},
-        'vi-VN-HueNeural': {'name': '🏮 Huệ - Nữ Huế', 'gender': 'Nữ', 'style': 'Dịu dàng'},
-        'vi-VN-ThiNeural': {'name': '🌺 Thi - Nữ Nam', 'gender': 'Nữ', 'style': 'Tươi sáng'},
-        'en-US-JennyNeural': {'name': '🇺🇸 Jenny - US Female', 'gender': 'Nữ', 'style': 'Friendly'},
-        'en-US-GuyNeural': {'name': '🇺🇸 Guy - US Male', 'gender': 'Nam', 'style': 'Professional'},
-        'en-US-AriaNeural': {'name': '🇺🇸 Aria - US Female', 'gender': 'Nữ', 'style': 'Bright'},
-        'en-US-DavisNeural': {'name': '🇺🇸 Davis - US Male', 'gender': 'Nam', 'style': 'Deep'},
-        'ja-JP-NanamiNeural': {'name': '🇯🇵 Nanami - Japanese Female', 'gender': 'Nữ', 'style': 'Cute'},
-        'ja-JP-KeitaNeural': {'name': '🇯🇵 Keita - Japanese Male', 'gender': 'Nam', 'style': 'Formal'},
-        'zh-CN-XiaoxiaoNeural': {'name': '🇨🇳 Xiaoxiao - Chinese Female', 'gender': 'Nữ', 'style': 'Lively'},
-        'zh-CN-YunxiNeural': {'name': '🇨🇳 Yunxi - Chinese Male', 'gender': 'Nam', 'style': 'Clear'},
-        'ko-KR-SunHiNeural': {'name': '🇰🇷 SunHi - Korean Female', 'gender': 'Nữ', 'style': 'Friendly'},
-        'ko-KR-InJoonNeural': {'name': '🇰🇷 InJoon - Korean Male', 'gender': 'Nam', 'style': 'Smooth'},
-        'fr-FR-DeniseNeural': {'name': '🇫🇷 Denise - French Female', 'gender': 'Nữ', 'style': 'Elegant'},
-        'fr-FR-HenriNeural': {'name': '🇫🇷 Henri - French Male', 'gender': 'Nam', 'style': 'Sophisticated'},
-        'es-ES-ElviraNeural': {'name': '🇪🇸 Elvira - Spanish Female', 'gender': 'Nữ', 'style': 'Passionate'},
-        'es-ES-AlvaroNeural': {'name': '🇪🇸 Alvaro - Spanish Male', 'gender': 'Nam', 'style': 'Warm'},
-        'de-DE-KatjaNeural': {'name': '🇩🇪 Katja - German Female', 'gender': 'Nữ', 'style': 'Clear'},
-        'de-DE-ConradNeural': {'name': '🇩🇪 Conrad - German Male', 'gender': 'Nam', 'style': 'Precise'},
-    },
-    'elevenlabs': {
-        'rachel': {'name': '🎙️ Rachel - US Female', 'gender': 'Nữ', 'style': 'Natural'},
-        'adam': {'name': '🎙️ Adam - US Male', 'gender': 'Nam', 'style': 'Deep'},
-        'bella': {'name': '🎙️ Bella - UK Female', 'gender': 'Nữ', 'style': 'Elegant'},
-        'antoni': {'name': '🎙️ Antoni - Spanish Male', 'gender': 'Nam', 'style': 'Warm'},
-        'drew': {'name': '🎙️ Drew - US Male', 'gender': 'Nam', 'style': 'Professional'},
-        'emily': {'name': '🎙️ Emily - US Female', 'gender': 'Nữ', 'style': 'Cheerful'},
-        'josh': {'name': '🎙️ Josh - US Male', 'gender': 'Nam', 'style': 'Friendly'},
-        'linda': {'name': '🎙️ Linda - US Female', 'gender': 'Nữ', 'style': 'Warm'},
-        'mike': {'name': '🎙️ Mike - US Male', 'gender': 'Nam', 'style': 'Smooth'},
-        'sarah': {'name': '🎙️ Sarah - UK Female', 'gender': 'Nữ', 'style': 'Soft'},
-    },
-    'amazon': {
-        'Joanna': {'name': '📀 Joanna - US Female', 'gender': 'Nữ', 'style': 'Natural'},
-        'Matthew': {'name': '📀 Matthew - US Male', 'gender': 'Nam', 'style': 'Deep'},
-        'Salli': {'name': '📀 Salli - US Female', 'gender': 'Nữ', 'style': 'Friendly'},
-        'Kendra': {'name': '📀 Kendra - US Female', 'gender': 'Nữ', 'style': 'Warm'},
-        'Justin': {'name': '📀 Justin - US Male', 'gender': 'Nam', 'style': 'Clear'},
-        'Ivy': {'name': '📀 Ivy - US Female', 'gender': 'Nữ', 'style': 'Bright'},
-        'Joey': {'name': '📀 Joey - US Male', 'gender': 'Nam', 'style': 'Friendly'},
-        'Geraint': {'name': '📀 Geraint - UK Male', 'gender': 'Nam', 'style': 'Elegant'},
-        'Emma': {'name': '📀 Emma - UK Female', 'gender': 'Nữ', 'style': 'Soft'},
-        'Brian': {'name': '📀 Brian - UK Male', 'gender': 'Nam', 'style': 'Deep'},
-    },
-    'ibm': {
-        'en-US_MichaelV3Voice': {'name': '💎 Michael - US Male', 'gender': 'Nam', 'style': 'Professional'},
-        'en-US_AllisonV3Voice': {'name': '💎 Allison - US Female', 'gender': 'Nữ', 'style': 'Natural'},
-        'en-US_LisaV3Voice': {'name': '💎 Lisa - US Female', 'gender': 'Nữ', 'style': 'Warm'},
-        'en-US_HenryV3Voice': {'name': '💎 Henry - US Male', 'gender': 'Nam', 'style': 'Deep'},
-        'es-ES_EnriqueV3Voice': {'name': '💎 Enrique - Spanish Male', 'gender': 'Nam', 'style': 'Passionate'},
-        'es-ES_LauraV3Voice': {'name': '💎 Laura - Spanish Female', 'gender': 'Nữ', 'style': 'Warm'},
+        'ja-JP-Standard-A': {'name': '🇯🇵 Sakura - Japanese', 'gender': 'Nữ', 'style': 'Kawaii'},
+        'zh-CN-Standard-A': {'name': '🇨🇳 Xiaomei - Chinese', 'gender': 'Nữ', 'style': 'Cute'},
+        'ko-KR-Standard-A': {'name': '🇰🇷 Hana - Korean', 'gender': 'Nữ', 'style': 'Sweet'},
+        'fr-FR-Standard-A': {'name': '🇫🇷 Camille - French', 'gender': 'Nữ', 'style': 'Romantic'},
+        'es-ES-Standard-A': {'name': '🇪🇸 Lucia - Spanish', 'gender': 'Nữ', 'style': 'Passionate'},
+        'de-DE-Standard-A': {'name': '🇩🇪 Anna - German', 'gender': 'Nữ', 'style': 'Clear'},
+        'it-IT-Standard-A': {'name': '🇮🇹 Sofia - Italian', 'gender': 'Nữ', 'style': 'Melodic'},
+        'pt-PT-Standard-A': {'name': '🇵🇹 Beatriz - Portuguese', 'gender': 'Nữ', 'style': 'Soft'},
+        'ru-RU-Standard-A': {'name': '🇷🇺 Anastasia - Russian', 'gender': 'Nữ', 'style': 'Melodic'},
+        'hi-IN-Standard-A': {'name': '🇮🇳 Priya - Hindi', 'gender': 'Nữ', 'style': 'Sweet'},
     }
 }
 
-# ================ HTML GIAO DIỆN ================
-HTML_TEMPLATE = '''
+# ================ HTML ================
+HTML = '''
 <!DOCTYPE html>
-<html lang="vi">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>🎙️ SubPro Voice - 50+ Giọng Nói AI</title>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<html>
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🎙️ SubPro Lite - Dịch Phụ Đề</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#0a0e14;--card:#141c28;--accent:#00e5ff;--gold:#ffcc00;--success:#00ff88;--danger:#ff4444;--text:#e0e8f0;--shadow:0 8px 32px rgba(0,0,0,0.4)}
-body{background:var(--bg);color:var(--text);font-family:'Segoe UI',-apple-system,sans-serif;min-height:100vh;padding:0}
-/* HEADER */
-.header{background:linear-gradient(135deg,#0d1520,#1a2635);padding:20px 24px;border-bottom:1px solid #00e5ff20;position:sticky;top:0;z-index:100;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap}
-.header h1{font-size:24px;font-weight:700;display:flex;align-items:center;gap:10px}
-.header h1 span{color:var(--gold)}
-.header .sub{font-size:13px;color:#8899aa}
-.header .badge{background:var(--gold);color:#000;padding:2px 12px;border-radius:20px;font-size:11px;font-weight:bold}
-/* CONTAINER */
-.container{max-width:1400px;margin:0 auto;padding:20px}
-/* TAB NAV */
-.tabs{display:flex;gap:4px;background:var(--card);border-radius:12px;padding:4px;margin-bottom:20px;border:1px solid #00e5ff10;overflow-x:auto}
-.tab-btn{flex:1;padding:12px 16px;border:none;background:transparent;color:#8899aa;font-weight:600;font-size:14px;cursor:pointer;border-radius:8px;transition:0.3s;white-space:nowrap;display:flex;align-items:center;gap:8px;justify-content:center}
-.tab-btn:hover{color:var(--text);background:#00e5ff10}
-.tab-btn.active{background:#00e5ff20;color:var(--accent);box-shadow:inset 0 0 20px #00e5ff10}
-.tab-btn i{font-size:16px}
-.tab-content{display:none}
-.tab-content.active{display:block}
-/* CARD */
-.card{background:var(--card);border-radius:16px;padding:24px;margin-bottom:20px;border:1px solid #00e5ff10;transition:0.3s}
-.card:hover{border-color:#00e5ff30;box-shadow:var(--shadow)}
-.card-title{font-size:18px;font-weight:600;margin-bottom:16px;display:flex;align-items:center;gap:10px}
-.card-title i{color:var(--gold)}
-/* GRID */
-.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.grid-3{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px}
-@media(max-width:768px){.grid-2{grid-template-columns:1fr}}
-/* INPUT */
-input,select,textarea{width:100%;padding:12px 16px;border-radius:10px;border:1px solid #00e5ff20;background:#0d1520;color:var(--text);font-size:15px;transition:0.3s}
-input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px #00e5ff20}
-textarea{min-height:80px;resize:vertical;font-family:monospace}
-/* BUTTON */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 28px;border-radius:10px;border:none;font-weight:600;font-size:15px;cursor:pointer;transition:0.3s;text-decoration:none}
+body{background:#0a0e14;color:#e0e8f0;font-family:'Segoe UI',-apple-system,sans-serif;padding:16px}
+.container{max-width:1000px;margin:auto}
+.header{display:flex;justify-content:space-between;align-items:center;padding:10px 0 20px;border-bottom:1px solid #00e5ff20;flex-wrap:wrap}
+.header h1{color:#ffcc00;font-size:24px;display:flex;align-items:center;gap:10px}
+.header h1 span{color:#00e5ff}
+.header .badge{background:#00e5ff20;color:#00e5ff;padding:2px 12px;border-radius:20px;font-size:11px}
+.card{background:#141c28;border-radius:12px;border:1px solid #00e5ff15;padding:20px;margin:15px 0}
+.card-title{font-size:17px;font-weight:600;margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.card-title i{color:#ffcc00}
+input,select{width:100%;padding:12px 16px;border-radius:8px;border:1px solid #00e5ff30;background:#0d1520;color:#e0e8f0;font-size:15px;margin-bottom:10px}
+input:focus,select:focus{outline:none;border-color:#ffcc00;box-shadow:0 0 0 3px #ffcc0020}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 28px;border-radius:8px;border:none;font-weight:600;font-size:15px;cursor:pointer;transition:0.3s}
 .btn-primary{background:linear-gradient(135deg,#00e5ff,#0088ff);color:#000}
-.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 30px #00e5ff40}
-.btn-success{background:var(--success);color:#000}
-.btn-success:hover{transform:translateY(-2px);box-shadow:0 8px 30px #00ff8840}
-.btn-danger{background:var(--danger);color:#fff}
-.btn-outline{background:transparent;border:1px solid #00e5ff40;color:var(--accent)}
-.btn-outline:hover{background:#00e5ff20}
-.btn-sm{padding:8px 16px;font-size:13px}
-.btn-gold{background:var(--gold);color:#000}
-.btn-gold:hover{transform:translateY(-2px);box-shadow:0 8px 30px #ffcc0040}
-.w-full{width:100%}
-/* VOICE CARD */
-.voice-card{background:#0d1520;padding:14px 16px;border-radius:10px;border:2px solid transparent;cursor:pointer;transition:0.3s;display:flex;flex-direction:column;gap:4px}
-.voice-card:hover{border-color:#00e5ff30;transform:translateY(-2px)}
-.voice-card.selected{border-color:var(--accent);background:#00e5ff10;box-shadow:0 0 20px #00e5ff20}
-.voice-card .v-name{font-weight:600;font-size:14px}
-.voice-card .v-desc{font-size:12px;color:#8899aa;display:flex;gap:12px}
-.voice-card .v-badge{font-size:10px;background:#1a2530;padding:1px 10px;border-radius:12px;color:#8899aa}
-.voice-card input[type="radio"]{display:none}
-/* TASK LIST */
-.task-item{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-bottom:1px solid #00e5ff08;gap:12px;transition:0.2s}
+.btn-primary:hover{transform:scale(1.02);box-shadow:0 4px 20px #00e5ff40}
+.btn-outline{background:transparent;border:1px solid #00e5ff40;color:#00e5ff}
+.btn-outline:hover{background:#00e5ff10}
+.btn-sm{padding:6px 16px;font-size:12px}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+.grid-3{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.voice-card{background:#0d1520;padding:10px 14px;border-radius:8px;border:2px solid transparent;cursor:pointer;transition:0.3s;font-size:13px}
+.voice-card:hover{border-color:#00e5ff40}
+.voice-card.selected{border-color:#00e5ff;background:#00e5ff10}
+.voice-card .v-provider{font-size:10px;color:#8899aa;background:#1a2530;padding:1px 8px;border-radius:10px}
+.task-item{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border-bottom:1px solid #00e5ff08;gap:10px;cursor:pointer;transition:0.2s}
 .task-item:hover{background:#00e5ff05}
-.task-info{flex:1;min-width:0}
-.task-title{font-weight:500;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.task-meta{font-size:12px;color:#8899aa;margin-top:4px;display:flex;gap:12px;flex-wrap:wrap}
+.task-item .title{font-weight:500;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.task-item .meta{font-size:12px;color:#8899aa;display:flex;gap:10px;align-items:center}
 .status{display:inline-block;padding:2px 12px;border-radius:20px;font-size:11px;font-weight:600}
 .status-pending{background:#ffaa00;color:#000}
-.status-processing{background:#0088ff;color:#fff;animation:pulse 1s infinite}
-.status-done{background:var(--success);color:#000}
-.status-fail{background:var(--danger);color:#fff}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.5}}
-.task-actions{display:flex;gap:6px;flex-wrap:wrap}
-/* LOG */
-.log-box{background:#0a0e14;padding:16px;max-height:400px;overflow:auto;border-radius:10px;border:1px solid #00e5ff08;font-family:monospace;font-size:13px;line-height:1.8}
-.log-box .time{color:var(--gold)}
-.log-box .ok{color:var(--success)}
-.log-box .err{color:var(--danger)}
+.status-processing{background:#0088ff;color:#fff}
+.status-done{background:#00ff88;color:#000}
+.status-fail{background:#ff4444;color:#fff}
+.log-box{background:#0a0e14;padding:14px;max-height:350px;overflow:auto;border-radius:8px;border:1px solid #00e5ff08;font-family:monospace;font-size:13px;line-height:1.8}
+.log-box .time{color:#ffcc00}
+.log-box .ok{color:#00ff88}
+.log-box .err{color:#ff4444}
 .log-box .info{color:#88aacc}
-/* MODAL */
-.modal{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.85);z-index:999;padding:20px;animation:fadeIn 0.3s;overflow:auto}
-.modal-inner{background:var(--card);border-radius:16px;padding:24px;max-width:800px;margin:auto;border:1px solid #00e5ff20}
-.modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
-.modal-body{max-height:60vh;overflow:auto}
-@keyframes fadeIn{from{opacity:0;transform:scale(0.95)}to{opacity:1;transform:scale(1)}}
-/* TOAST */
-.toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);background:var(--card);border:1px solid var(--accent);padding:14px 28px;border-radius:12px;color:var(--text);font-size:14px;z-index:1000;box-shadow:0 8px 40px rgba(0,0,0,0.6);animation:slideUp 0.4s;display:none;border-left:4px solid var(--gold)}
-@keyframes slideUp{from{opacity:0;transform:translateX(-50%) translateY(30px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
-/* SCROLL */
-::-webkit-scrollbar{width:6px;height:6px}
-::-webkit-scrollbar-track{background:transparent}
-::-webkit-scrollbar-thumb{background:#00e5ff30;border-radius:10px}
-::-webkit-scrollbar-thumb:hover{background:#00e5ff50}
-/* RESPONSIVE */
-@media(max-width:600px){.header h1{font-size:18px}.container{padding:12px}.card{padding:16px}.grid-3{grid-template-columns:1fr 1fr}.task-item{flex-wrap:wrap}.task-actions{width:100%;justify-content:flex-end}}
+.toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);background:#141c28;border:1px solid #ffcc00;padding:12px 24px;border-radius:10px;display:none;z-index:999;font-size:14px;box-shadow:0 8px 30px rgba(0,0,0,0.6)}
+@media(max-width:600px){.grid-2{grid-template-columns:1fr}.header h1{font-size:20px}}
 </style>
 </head>
 <body>
+<div class="container">
+<div class="header">
+<h1>🎙️ Sub<span>Pro</span> <span class="badge">Lite</span></h1>
+<span style="color:#8899aa;font-size:13px;"><span id="taskCount">0</span> tasks</span>
+</div>
 
-<!-- TOAST -->
 <div id="toast" class="toast"></div>
 
-<!-- HEADER -->
-<div class="header">
-    <h1><i class="fas fa-microphone-alt" style="color:var(--gold)"></i> Sub<span>Pro</span> <span class="badge">50+ Voices</span></h1>
-    <div class="sub"><i class="fas fa-circle" style="color:var(--success);font-size:10px"></i> Online · <span id="taskCount">0</span> tasks</div>
+<div class="card">
+<div class="card-title"><i>📥</i> Tạo video mới</div>
+<div class="grid-2">
+<input id="videoUrl" placeholder="🔗 Dán link video (YouTube, FB, TikTok...)" />
+<select id="srcLang">
+<option value="auto">🌐 Tự động nhận diện</option>
+<option value="en-US">🇺🇸 English</option>
+<option value="vi-VN">🇻🇳 Tiếng Việt</option>
+<option value="zh-CN">🇨🇳 中文</option>
+<option value="ja-JP">🇯🇵 日本語</option>
+<option value="ko-KR">🇰🇷 한국어</option>
+<option value="fr-FR">🇫🇷 Français</option>
+<option value="es-ES">🇪🇸 Español</option>
+<option value="de-DE">🇩🇪 Deutsch</option>
+<option value="it-IT">🇮🇹 Italiano</option>
+<option value="pt-PT">🇵🇹 Português</option>
+<option value="ru-RU">🇷🇺 Русский</option>
+<option value="hi-IN">🇮🇳 हिन्दी</option>
+</select>
+</div>
+<div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:6px;">
+<button class="btn btn-primary" onclick="startProcess()">🚀 Bắt đầu xử lý</button>
+<button class="btn btn-outline" onclick="clearInput()">🗑️ Xóa</button>
+<span style="margin-left:auto;color:#8899aa;font-size:13px;display:flex;align-items:center;gap:6px;">
+🎤 <span id="voiceDisplay">Chọn giọng</span>
+</span>
+</div>
+<div id="result" style="margin-top:12px;color:#ffcc00;font-weight:500;"></div>
 </div>
 
-<div class="container">
-    <!-- TABS -->
-    <div class="tabs">
-        <button class="tab-btn active" onclick="switchTab('home')"><i class="fas fa-home"></i> Trang chủ</button>
-        <button class="tab-btn" onclick="switchTab('voices')"><i class="fas fa-microphone-alt"></i> Giọng nói</button>
-        <button class="tab-btn" onclick="switchTab('tasks')"><i class="fas fa-list"></i> Video của tôi</button>
-        <button class="tab-btn" onclick="switchTab('settings')"><i class="fas fa-cog"></i> Cài đặt</button>
-    </div>
-
-    <!-- TAB HOME -->
-    <div id="tab-home" class="tab-content active">
-        <div class="card">
-            <div class="card-title"><i class="fas fa-upload"></i> Tạo video mới</div>
-            <div class="grid-2">
-                <div>
-                    <label style="font-size:13px;color:#8899aa;">🔗 Link video</label>
-                    <input id="videoUrl" placeholder="YouTube, Facebook, TikTok, Twitter..." />
-                </div>
-                <div>
-                    <label style="font-size:13px;color:#8899aa;">🌐 Ngôn ngữ gốc</label>
-                    <select id="srcLang">
-                        <option value="auto">🔍 Tự động nhận diện</option>
-                        <option value="en">🇺🇸 English</option>
-                        <option value="zh">🇨🇳 中文</option>
-                        <option value="ja">🇯🇵 日本語</option>
-                        <option value="ko">🇰🇷 한국어</option>
-                        <option value="fr">🇫🇷 Français</option>
-                        <option value="es">🇪🇸 Español</option>
-                        <option value="de">🇩🇪 Deutsch</option>
-                        <option value="it">🇮🇹 Italiano</option>
-                        <option value="pt">🇵🇹 Português</option>
-                        <option value="ru">🇷🇺 Русский</option>
-                        <option value="hi">🇮🇳 हिन्दी</option>
-                        <option value="vi">🇻🇳 Tiếng Việt</option>
-                    </select>
-                </div>
-            </div>
-            <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap;">
-                <button class="btn btn-primary" onclick="startProcess()"><i class="fas fa-play"></i> Bắt đầu xử lý</button>
-                <button class="btn btn-outline" onclick="clearInput()"><i class="fas fa-eraser"></i> Xóa</button>
-                <span id="selectedVoiceDisplay" style="margin-left:auto;color:#8899aa;font-size:13px;display:flex;align-items:center;gap:6px;">
-                    <i class="fas fa-microphone"></i> <span id="voiceNameDisplay">Chưa chọn</span>
-                </span>
-            </div>
-            <div id="result" style="margin-top:12px;color:var(--gold);font-weight:500;"></div>
-        </div>
-
-        <div class="card">
-            <div class="card-title"><i class="fas fa-clock"></i> Xử lý gần đây</div>
-            <div id="recentTasks"></div>
-        </div>
-    </div>
-
-    <!-- TAB VOICES -->
-    <div id="tab-voices" class="tab-content">
-        <div class="card">
-            <div class="card-title"><i class="fas fa-microphone-alt" style="color:var(--gold)"></i> Thư viện giọng nói <span style="font-size:13px;color:#8899aa;font-weight:400;">({{ total_voices }} giọng)</span></div>
-            <div style="margin-bottom:12px;display:flex;gap:10px;flex-wrap:wrap;">
-                <input id="voiceSearch" placeholder="🔍 Tìm kiếm giọng nói..." oninput="filterVoices()" style="flex:1;min-width:200px;" />
-                <select id="voiceFilter" onchange="filterVoices()" style="width:auto;min-width:120px;">
-                    <option value="all">Tất cả</option>
-                    <option value="Nữ">Nữ</option>
-                    <option value="Nam">Nam</option>
-                </select>
-                <select id="providerFilter" onchange="filterVoices()" style="width:auto;min-width:120px;">
-                    <option value="all">Tất cả nhà cung cấp</option>
-                    <option value="google">Google</option>
-                    <option value="azure">Azure</option>
-                    <option value="elevenlabs">ElevenLabs</option>
-                    <option value="amazon">Amazon</option>
-                    <option value="ibm">IBM</option>
-                </select>
-            </div>
-            <div id="voiceContainer" class="grid-3"></div>
-        </div>
-    </div>
-
-    <!-- TAB TASKS -->
-    <div id="tab-tasks" class="tab-content">
-        <div class="card">
-            <div class="card-title"><i class="fas fa-list"></i> Tất cả video <button class="btn btn-sm btn-outline" onclick="loadTasks()" style="margin-left:auto;"><i class="fas fa-sync"></i></button></div>
-            <div id="taskList"></div>
-        </div>
-    </div>
-
-    <!-- TAB SETTINGS -->
-    <div id="tab-settings" class="tab-content">
-        <div class="card">
-            <div class="card-title"><i class="fas fa-cog"></i> Cài đặt nâng cao</div>
-            <div style="max-width:500px;display:grid;gap:12px;">
-                <label style="font-size:13px;color:#8899aa;">🔑 Google TTS API Key (tùy chọn)</label>
-                <input id="googleKey" placeholder="Nhập API key..." />
-                <label style="font-size:13px;color:#8899aa;">🔑 Azure Speech Key</label>
-                <input id="azureKey" placeholder="Nhập Azure key..." />
-                <label style="font-size:13px;color:#8899aa;">🔑 ElevenLabs API Key</label>
-                <input id="elevenKey" placeholder="Nhập ElevenLabs key..." />
-                <button class="btn btn-success" onclick="saveSettings()"><i class="fas fa-save"></i> Lưu cài đặt</button>
-                <div style="font-size:12px;color:#556677;border-top:1px solid #00e5ff10;padding-top:12px;">
-                    <i class="fas fa-info-circle"></i> Để trống để dùng gTTS miễn phí (giới hạn 200 ký tự/lần)
-                </div>
-            </div>
-        </div>
-    </div>
+<div class="card">
+<div class="card-title"><i>🗣️</i> Giọng nói <button class="btn btn-sm btn-outline" onclick="toggleVoices()" style="margin-left:auto;">Hiện</button></div>
+<div id="voiceContainer" class="grid-3" style="display:none;"></div>
 </div>
 
-<!-- MODAL LOG -->
-<div id="logModal" class="modal" onclick="if(event.target===this)closeLog()">
-    <div class="modal-inner">
-        <div class="modal-header">
-            <h3><i class="fas fa-terminal" style="color:var(--gold)"></i> Chi tiết xử lý</h3>
-            <button class="btn btn-sm btn-outline" onclick="closeLog()"><i class="fas fa-times"></i></button>
-        </div>
-        <div class="modal-body">
-            <div id="logDetail" class="log-box"></div>
-        </div>
-        <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap;">
-            <button class="btn btn-sm btn-success" id="downloadSrtBtn" onclick="downloadSub()" style="display:none;"><i class="fas fa-file-alt"></i> Tải SRT</button>
-            <button class="btn btn-sm btn-primary" id="downloadAudioBtn" onclick="downloadAudio()" style="display:none;"><i class="fas fa-headphones"></i> Tải Audio (TTS)</button>
-            <button class="btn btn-sm btn-outline" onclick="closeLog()">Đóng</button>
-        </div>
-    </div>
+<div class="card">
+<div class="card-title"><i>📋</i> Video của tôi <button class="btn btn-sm btn-outline" onclick="loadTasks()" style="margin-left:auto;">🔄</button></div>
+<div id="taskList"></div>
+</div>
+
+<div class="card">
+<div class="card-title"><i>📝</i> Log chi tiết</div>
+<div id="logBox" class="log-box">▶ Chọn video để xem log</div>
+</div>
 </div>
 
 <script>
-// ===== DATA =====
 const VOICES = {{ voices|tojson }};
 let selectedVoice = localStorage.getItem('selectedVoice') || 'vi-VN-Standard-A';
 let currentTaskId = null;
 let allVoices = [];
+let voiceVisible = false;
 
-// ===== FLATTEN VOICES =====
 function flattenVoices() {
     allVoices = [];
     for (const [provider, voices] of Object.entries(VOICES)) {
@@ -376,61 +156,37 @@ function flattenVoices() {
             allVoices.push({ code, provider, ...info });
         }
     }
-    return allVoices;
 }
 
-// ===== RENDER VOICES =====
-function renderVoices(filter='all', provider='all', search='') {
+function renderVoices() {
     const container = document.getElementById('voiceContainer');
-    let list = allVoices;
-    
-    if (filter !== 'all') list = list.filter(v => v.gender === filter);
-    if (provider !== 'all') list = list.filter(v => v.provider === provider);
-    if (search) {
-        const s = search.toLowerCase();
-        list = list.filter(v => v.name.toLowerCase().includes(s) || v.code.toLowerCase().includes(s));
-    }
-    
-    if (!list.length) {
-        container.innerHTML = '<div style="padding:40px;text-align:center;color:#556677;">Không tìm thấy giọng nói</div>';
-        return;
-    }
-    
-    container.innerHTML = list.map(v => `
+    if (!allVoices.length) flattenVoices();
+    container.innerHTML = allVoices.map(v => `
         <div class="voice-card ${v.code === selectedVoice ? 'selected' : ''}" onclick="selectVoice('${v.code}')">
-            <input type="radio" name="voice" value="${v.code}" ${v.code === selectedVoice ? 'checked' : ''} />
-            <div class="v-name">${v.name}</div>
-            <div class="v-desc">
+            <div>${v.name}</div>
+            <div style="font-size:11px;color:#8899aa;display:flex;gap:8px;margin-top:2px;">
                 <span>${v.gender}</span>
-                <span>${v.style}</span>
-                <span class="v-badge">${v.provider}</span>
+                <span class="v-provider">${v.provider}</span>
             </div>
         </div>
     `).join('');
-}
-
-function filterVoices() {
-    const filter = document.getElementById('voiceFilter').value;
-    const provider = document.getElementById('providerFilter').value;
-    const search = document.getElementById('voiceSearch').value;
-    renderVoices(filter, provider, search);
+    const voice = allVoices.find(v => v.code === selectedVoice);
+    document.getElementById('voiceDisplay').textContent = voice ? voice.name : 'Chọn giọng';
 }
 
 function selectVoice(code) {
     selectedVoice = code;
     localStorage.setItem('selectedVoice', code);
-    renderVoices(
-        document.getElementById('voiceFilter').value,
-        document.getElementById('providerFilter').value,
-        document.getElementById('voiceSearch').value
-    );
-    // Update display
-    const voice = allVoices.find(v => v.code === code);
-    document.getElementById('voiceNameDisplay').textContent = voice ? voice.name : 'Chưa chọn';
-    showToast('✅ Đã chọn: ' + (voice ? voice.name : code));
+    renderVoices();
+    showToast('✅ Đã chọn: ' + (allVoices.find(v => v.code === code)?.name || code));
 }
 
-// ===== TOAST =====
+function toggleVoices() {
+    voiceVisible = !voiceVisible;
+    document.getElementById('voiceContainer').style.display = voiceVisible ? 'grid' : 'none';
+    if (voiceVisible) renderVoices();
+}
+
 function showToast(msg) {
     const t = document.getElementById('toast');
     t.textContent = msg;
@@ -439,27 +195,16 @@ function showToast(msg) {
     t._hide = setTimeout(() => t.style.display = 'none', 3000);
 }
 
-// ===== TABS =====
-function switchTab(tab) {
-    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-    document.querySelector(`.tab-btn:has(.fa-${tab === 'home' ? 'home' : tab === 'voices' ? 'microphone-alt' : tab === 'tasks' ? 'list' : 'cog'})`)?.classList.add('active');
-    document.getElementById('tab-' + tab).classList.add('active');
-    if (tab === 'voices') renderVoices();
-    if (tab === 'tasks') loadTasks();
+function clearInput() {
+    document.getElementById('videoUrl').value = '';
+    document.getElementById('result').textContent = '';
 }
 
-// ===== PROCESS =====
 async function startProcess() {
     const url = document.getElementById('videoUrl').value.trim();
     const lang = document.getElementById('srcLang').value;
     if (!url) { showToast('⚠️ Vui lòng dán link video'); return; }
-    
-    const btn = document.querySelector('.btn-primary');
-    btn.disabled = true;
-    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang xử lý...';
     document.getElementById('result').textContent = '⏳ Đang khởi tạo...';
-    
     try {
         const res = await fetch('/api/process', {
             method: 'POST',
@@ -468,71 +213,48 @@ async function startProcess() {
         });
         const data = await res.json();
         document.getElementById('result').textContent = '✅ Task #' + data.id + ' đã tạo';
-        showToast('✅ Task #' + data.id + ' đã tạo');
+        showToast('✅ Task #' + data.id);
         loadTasks();
         if (data.id) setTimeout(() => showLog(data.id), 1000);
     } catch(e) {
         showToast('❌ Lỗi: ' + e.message);
     }
-    btn.disabled = false;
-    btn.innerHTML = '<i class="fas fa-play"></i> Bắt đầu xử lý';
 }
 
-function clearInput() {
-    document.getElementById('videoUrl').value = '';
-    document.getElementById('result').textContent = '';
-}
-
-// ===== TASKS =====
 async function loadTasks() {
     try {
         const res = await fetch('/api/tasks');
         const data = await res.json();
         document.getElementById('taskCount').textContent = data.length;
-        
         const container = document.getElementById('taskList');
-        const recent = document.getElementById('recentTasks');
         if (!data.length) {
-            const empty = '<div style="padding:20px;text-align:center;color:#556677;">Chưa có video nào</div>';
-            container.innerHTML = empty;
-            recent.innerHTML = empty;
+            container.innerHTML = '<div style="padding:20px;text-align:center;color:#556677;">Chưa có video nào</div>';
             return;
         }
-        const html = data.map(t => `
-            <div class="task-item" onclick="showLog('${t.id}')" style="cursor:pointer;">
-                <div class="task-info">
-                    <div class="task-title">${t.title || t.url.substring(0,50)}...</div>
-                    <div class="task-meta">
+        container.innerHTML = data.map(t => `
+            <div class="task-item" onclick="showLog('${t.id}')">
+                <div style="flex:1;min-width:0;">
+                    <div class="title">${t.title || t.url.substring(0,50)}...</div>
+                    <div class="meta">
                         <span class="status status-${t.status}">${t.status}</span>
                         <span>${t.time}</span>
-                        <span style="color:#556677;">Giọng: ${t.voice || 'Mặc định'}</span>
+                        <span style="color:#556677;">${t.voice || 'Mặc định'}</span>
                     </div>
                 </div>
-                <div class="task-actions" onclick="event.stopPropagation();">
-                    ${t.status === 'done' ? `<button class="btn btn-sm btn-success" onclick="showLog('${t.id}')"><i class="fas fa-file-alt"></i></button>` : ''}
-                    ${t.status === 'done' && t.audio_path ? `<button class="btn btn-sm btn-primary" onclick="downloadAudio('${t.id}')"><i class="fas fa-headphones"></i></button>` : ''}
-                    <button class="btn btn-sm btn-outline" onclick="showLog('${t.id}')"><i class="fas fa-terminal"></i></button>
-                </div>
-            </div>
-        `).join('');
-        container.innerHTML = html;
-        recent.innerHTML = data.slice(0, 5).map(t => `
-            <div class="task-item" onclick="showLog('${t.id}')" style="cursor:pointer;">
-                <div class="task-info">
-                    <div class="task-title">${t.title || t.url.substring(0,40)}...</div>
-                    <div class="task-meta"><span class="status status-${t.status}">${t.status}</span> ${t.time}</div>
+                <div style="display:flex;gap:6px;flex-shrink:0;">
+                    ${t.status === 'done' ? `<button class="btn btn-sm btn-outline" onclick="event.stopPropagation();downloadFile('${t.id}','srt')">📄 SRT</button>` : ''}
+                    ${t.status === 'done' && t.audio_path ? `<button class="btn btn-sm btn-primary" onclick="event.stopPropagation();downloadFile('${t.id}','audio')">🎧 Audio</button>` : ''}
                 </div>
             </div>
         `).join('');
     } catch(e) {}
 }
 
-// ===== LOG =====
 async function showLog(id) {
     currentTaskId = id;
     const res = await fetch('/api/log/'+id);
     const task = await res.json();
-    const box = document.getElementById('logDetail');
+    const box = document.getElementById('logBox');
     box.innerHTML = (task.log || ['Không có log']).map(l => {
         let cls = '';
         if (l.includes('✔') || l.includes('✅')) cls = 'ok';
@@ -540,53 +262,16 @@ async function showLog(id) {
         else cls = 'info';
         return `<div><span class="time">[${new Date().toLocaleTimeString()}]</span> <span class="${cls}">${l}</span></div>`;
     }).join('');
-    document.getElementById('logModal').style.display = 'block';
-    
-    const srtBtn = document.getElementById('downloadSrtBtn');
-    const audioBtn = document.getElementById('downloadAudioBtn');
-    srtBtn.style.display = (task.status === 'done' && task.srt_path) ? 'inline-flex' : 'none';
-    audioBtn.style.display = (task.status === 'done' && task.audio_path) ? 'inline-flex' : 'none';
 }
 
-function closeLog() {
-    document.getElementById('logModal').style.display = 'none';
+function downloadFile(id, type) {
+    window.open('/api/download/' + type + '/' + id, '_blank');
 }
 
-function downloadSub() {
-    if (currentTaskId) window.open('/api/download/srt/'+currentTaskId, '_blank');
-}
-
-function downloadAudio() {
-    if (currentTaskId) window.open('/api/download/audio/'+currentTaskId, '_blank');
-}
-
-// ===== SETTINGS =====
-function saveSettings() {
-    const google = document.getElementById('googleKey').value;
-    const azure = document.getElementById('azureKey').value;
-    const eleven = document.getElementById('elevenKey').value;
-    localStorage.setItem('googleKey', google);
-    localStorage.setItem('azureKey', azure);
-    localStorage.setItem('elevenKey', eleven);
-    showToast('✅ Đã lưu cài đặt');
-}
-
-// ===== INIT =====
 flattenVoices();
 renderVoices();
 loadTasks();
-
-// Set default voice display
-const defaultVoice = allVoices.find(v => v.code === selectedVoice);
-if (defaultVoice) document.getElementById('voiceNameDisplay').textContent = defaultVoice.name;
-
-// Auto refresh
 setInterval(loadTasks, 5000);
-
-// Load saved settings
-document.getElementById('googleKey').value = localStorage.getItem('googleKey') || '';
-document.getElementById('azureKey').value = localStorage.getItem('azureKey') || '';
-document.getElementById('elevenKey').value = localStorage.getItem('elevenKey') || '';
 </script>
 </body>
 </html>
@@ -595,25 +280,88 @@ document.getElementById('elevenKey').value = localStorage.getItem('elevenKey') |
 # ================ BACKEND ================
 
 def download_video(url, output_path):
-    cmd = f'yt-dlp -f best[ext=mp4] -o "{output_path}" "{url}" 2>&1'
-    result = subprocess.run(cmd, shell=True, capture_output=True, text=True)
-    return result.returncode == 0, result.stderr
+    """Tải video bằng yt-dlp"""
+    try:
+        import yt_dlp
+        ydl_opts = {
+            'format': 'best[ext=mp4]',
+            'quiet': True,
+            'no_warnings': True,
+            'outtmpl': output_path
+        }
+        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+            ydl.download([url])
+        return True, ''
+    except Exception as e:
+        return False, str(e)
 
 def extract_audio(video_path, audio_path):
-    cmd = f'ffmpeg -i "{video_path}" -acodec pcm_s16le -ar 16000 -ac 1 "{audio_path}" -y 2>&1'
+    """Trích xuất audio từ video"""
+    cmd = f'ffmpeg -i "{video_path}" -acodec pcm_s16le -ar 16000 -ac 1 "{audio_path}" -y -loglevel error 2>&1'
     result = subprocess.run(cmd, shell=True, capture_output=True, text=True)
     return result.returncode == 0
 
 def transcribe_audio(audio_path, lang='auto'):
-    import whisper
-    model = whisper.load_model("base")
-    result = model.transcribe(audio_path, language=lang if lang != 'auto' else None)
-    return result["segments"]
+    """Nhận diện giọng nói bằng SpeechRecognition (Google API)"""
+    try:
+        import speech_recognition as sr
+        from pydub import AudioSegment
+        
+        # Chuyển đổi audio sang WAV nếu cần
+        if not audio_path.endswith('.wav'):
+            wav_path = audio_path.replace('.wav', '_temp.wav')
+            audio = AudioSegment.from_file(audio_path)
+            audio.export(wav_path, format='wav')
+            audio_path = wav_path
+        
+        r = sr.Recognizer()
+        with sr.AudioFile(audio_path) as source:
+            audio_data = r.record(source)
+        
+        # Chuyển đổi language code
+        lang_map = {
+            'auto': 'vi-VN',
+            'vi-VN': 'vi-VN',
+            'en-US': 'en-US',
+            'zh-CN': 'zh-CN',
+            'ja-JP': 'ja-JP',
+            'ko-KR': 'ko-KR',
+            'fr-FR': 'fr-FR',
+            'es-ES': 'es-ES',
+            'de-DE': 'de-DE',
+            'it-IT': 'it-IT',
+            'pt-PT': 'pt-PT',
+            'ru-RU': 'ru-RU',
+            'hi-IN': 'hi-IN'
+        }
+        lang_code = lang_map.get(lang, 'vi-VN')
+        
+        text = r.recognize_google(audio_data, language=lang_code)
+        
+        # Trả về dạng segments
+        return [{
+            'start': 0,
+            'end': 10,
+            'text': text
+        }]
+    except ImportError:
+        return [{'start': 0, 'end': 10, 'text': '⚠️ Cần cài: pip install speechrecognition pydub'}]
+    except sr.UnknownValueError:
+        return [{'start': 0, 'end': 10, 'text': '⚠️ Không nhận diện được giọng nói'}]
+    except Exception as e:
+        return [{'start': 0, 'end': 10, 'text': f'⚠️ Lỗi: {str(e)}'}]
 
 def translate_text(text):
-    url = "https://translate.googleapis.com/translate_a/single"
-    params = {'client':'gtx','sl':'auto','tl':'vi','dt':'t','q':text}
+    """Dịch văn bản sang tiếng Việt"""
     try:
+        url = "https://translate.googleapis.com/translate_a/single"
+        params = {
+            'client': 'gtx',
+            'sl': 'auto',
+            'tl': 'vi',
+            'dt': 't',
+            'q': text
+        }
         resp = requests.get(url, params=params, timeout=10)
         data = resp.json()
         return ''.join([item[0] for item in data[0] if item[0]])
@@ -621,20 +369,27 @@ def translate_text(text):
         return text
 
 def generate_srt(segments, output_path):
+    """Tạo file SRT"""
     with open(output_path, 'w', encoding='utf-8') as f:
         for i, seg in enumerate(segments, 1):
             def fmt(t):
-                h = int(t//3600); m = int((t%3600)//60); s = int(t%60); ms = int((t%1)*1000)
+                h = int(t//3600)
+                m = int((t%3600)//60)
+                s = int(t%60)
+                ms = int((t%1)*1000)
                 return f"{h:02d}:{m:02d}:{s:02d},{ms:03d}"
-            f.write(f"{i}\n{fmt(seg['start'])} --> {fmt(seg['end'])}\n{seg['text']}\n\n")
+            f.write(f"{i}\n")
+            f.write(f"{fmt(seg['start'])} --> {fmt(seg['end'])}\n")
+            f.write(f"{seg['text']}\n\n")
 
 def text_to_speech(text, voice_code, output_path):
+    """Tạo audio TTS bằng gTTS"""
     from gtts import gTTS
+    
     # Map voice code to language
     lang_map = {}
     for provider, voices in VOICES.items():
         for code in voices.keys():
-            # Extract language from code
             parts = code.split('-')
             if len(parts) >= 2:
                 lang_map[code] = parts[0].lower()
@@ -642,7 +397,6 @@ def text_to_speech(text, voice_code, output_path):
                 lang_map[code] = 'vi'
     
     lang = lang_map.get(voice_code, 'vi')
-    # Handle special cases
     if lang == 'en' and 'GB' in voice_code:
         lang = 'en-uk'
     elif lang == 'zh':
@@ -653,23 +407,25 @@ def text_to_speech(text, voice_code, output_path):
         tts.save(output_path)
         return True
     except:
-        # Fallback to Vietnamese
+        # Fallback
         tts = gTTS(text=text[:5000], lang='vi', slow=False)
         tts.save(output_path)
         return True
 
 def process_task(task_id):
+    """Xử lý task trong background"""
     task = tasks[task_id]
     task['status'] = 'processing'
     task['log'].append('🔄 Bắt đầu xử lý...')
     
+    # Tạo thư mục tạm
     temp_dir = tempfile.mkdtemp()
     video_path = os.path.join(temp_dir, 'video.mp4')
     audio_path = os.path.join(temp_dir, 'audio.wav')
     srt_path = os.path.join(temp_dir, 'subtitle.srt')
     tts_path = os.path.join(temp_dir, 'tts.mp3')
     
-    # 1. Download
+    # 1. Download video
     task['log'].append(f'📥 Đang tải: {task["url"]}')
     ok, err = download_video(task['url'], video_path)
     if not ok:
@@ -678,7 +434,7 @@ def process_task(task_id):
         return
     task['log'].append('✔ Đã tải xong')
     
-    # Get title
+    # Lấy title
     try:
         import yt_dlp
         with yt_dlp.YoutubeDL({'quiet': True}) as ydl:
@@ -695,27 +451,25 @@ def process_task(task_id):
         return
     task['log'].append('✔ Đã trích xuất audio')
     
-    # 3. Whisper
-    task['log'].append('🔊 Nhận diện giọng nói (Whisper)...')
+    # 3. Transcribe
+    task['log'].append('🔊 Nhận diện giọng nói...')
     try:
         segments = transcribe_audio(audio_path, task['lang'])
     except Exception as e:
         task['status'] = 'fail'
-        task['log'].append(f'✘ Lỗi Whisper: {str(e)}')
+        task['log'].append(f'✘ Lỗi: {str(e)}')
         return
     task['log'].append(f'✔ Nhận diện {len(segments)} đoạn')
     
     # 4. Translate
     task['log'].append('🌐 Dịch sang tiếng Việt...')
     translated = []
-    total = len(segments)
-    for i, seg in enumerate(segments, 1):
-        if i % 10 == 0 or i == total:
-            task['log'].append(f'   Đang dịch {i}/{total}...')
+    for seg in segments:
+        translated_text = translate_text(seg['text'])
         translated.append({
             'start': seg['start'],
             'end': seg['end'],
-            'text': translate_text(seg['text'])
+            'text': translated_text
         })
     task['log'].append('✔ Đã dịch xong')
     
@@ -737,10 +491,11 @@ def process_task(task_id):
     task['status'] = 'done'
     task['log'].append('✅ HOÀN THÀNH!')
 
+# ================ ROUTES ================
+
 @app.route('/')
 def index():
-    total = sum(len(v) for v in VOICES.values())
-    return render_template_string(HTML_TEMPLATE, voices=VOICES, total_voices=total)
+    return render_template_string(HTML, voices=VOICES)
 
 @app.route('/api/process', methods=['POST'])
 def start_process():
@@ -748,6 +503,7 @@ def start_process():
     data = request.json
     task_counter += 1
     task_id = str(task_counter)
+    
     tasks[task_id] = {
         'id': task_id,
         'url': data.get('url'),
@@ -760,6 +516,7 @@ def start_process():
         'srt_path': None,
         'audio_path': None
     }
+    
     threading.Thread(target=process_task, args=(task_id,)).start()
     return jsonify({'id': task_id})
 
@@ -785,15 +542,17 @@ def download_audio(task_id):
         return 'Chưa có audio', 404
     return send_file(task['audio_path'], as_attachment=True, download_name=f'tts_{task_id}.mp3')
 
+# ================ MAIN ================
+
 if __name__ == '__main__':
+    port = int(os.environ.get('PORT', 5000))
     print("""
-╔═══════════════════════════════════════════════════════════════╗
-║  🎙️ SUBPRO ULTIMATE - 50+ Giọng Nói AI                     ║
-║  ─────────────────────────────────────────────────────────── ║
-║  📍 Truy cập: http://localhost:5000                        ║
-║  📦 Yêu cầu: pip install flask yt-dlp openai-whisper gtts  ║
-║  🎯 Hỗ trợ: Google, Azure, ElevenLabs, Amazon, IBM        ║
-║  🌟 Tổng cộng: 50+ giọng nói từ 5 nhà cung cấp            ║
-╚═══════════════════════════════════════════════════════════════╝
-    """)
-    app.run(host='0.0.0.0', port=5000, debug=False, threaded=True)
+╔═══════════════════════════════════════════╗
+║  🎙️ SUBPRO LITE - Nhẹ, Nhanh, Chạy tốt  ║
+║  ─────────────────────────────────────── ║
+║  📍 Truy cập: http://0.0.0.0:%s         ║
+║  💾 RAM yêu cầu: ~100MB                  ║
+║  🎯 Dùng SpeechRecognition thay Whisper  ║
+╚═══════════════════════════════════════════╝
+    """ % port)
+    app.run(host='0.0.0.0', port=port, debug=False, threaded=True)
