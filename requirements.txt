@@ -6,3 +6,5 @@ speechrecognition
 pydub
 setuptools
 wheel
+Pillow
+moviepy
