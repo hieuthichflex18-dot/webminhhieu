@@ -1,5 +1,7 @@
-flask==2.3.3
-yt-dlp==2024.7.25
-openai-whisper==20231117
-gTTS==2.5.1
-requests==2.31.0
+flask
+yt-dlp
+openai-whisper
+gTTS
+requests
+setuptools
+wheel
