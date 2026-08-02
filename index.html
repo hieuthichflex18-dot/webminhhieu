@@ -1,0 +1,1465 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌧️ Minh Hieu Store - Web Mua Hàng Uy Tín </title>
+    <style>
+        :root {
+            --bg: #0a1628;
+            --bg2: #0f1f3d;
+            --card: #132347;
+            --accent: #2196F3;
+            --accent2: #64B5F6;
+            --success: #4CAF50;
+            --danger: #f44336;
+            --warning: #FF9800;
+            --text: #E3F2FD;
+            --text2: #90CAF9;
+            --border: #1e3a5f;
+            --blue-glow: rgba(33,150,243,0.15);
+            --radius: 16px;
+            --shadow: 0 8px 32px rgba(0,0,0,0.4);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* ===== RAIN EFFECT ===== */
+        #rainCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* ===== MUSIC PLAYER ===== */
+        .music-player {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: rgba(19,35,71,0.95);
+            border: 1px solid var(--border);
+            border-radius: 50px;
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .music-player:hover {
+            transform: scale(1.05);
+            border-color: var(--accent);
+        }
+        .music-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--accent);
+            border: none;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+        .music-btn:hover { background: #1976D2; }
+        .music-btn.playing { animation: pulse 2s infinite; }
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(33,150,243,0.4); }
+            50% { box-shadow: 0 0 0 15px rgba(33,150,243,0); }
+        }
+        .music-info {
+            color: var(--text2);
+            font-size: 12px;
+        }
+        .music-info .song-title {
+            color: var(--text);
+            font-weight: 600;
+            font-size: 13px;
+        }
+        .music-volume {
+            width: 60px;
+            height: 4px;
+            background: var(--border);
+            border-radius: 2px;
+            cursor: pointer;
+            position: relative;
+        }
+        .music-volume-fill {
+            height: 100%;
+            background: var(--accent);
+            border-radius: 2px;
+            width: 70%;
+        }
+
+        /* ===== SCROLLBAR ===== */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+        ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 3px; }
+
+        /* ===== AUTH ===== */
+        .auth-wrapper {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+        .auth-card {
+            background: rgba(19,35,71,0.9);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 40px;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(20px);
+            animation: fadeInUp 0.6s ease;
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .auth-logo { text-align: center; margin-bottom: 30px; }
+        .auth-logo .icon { font-size: 50px; margin-bottom: 10px; }
+        .auth-logo h1 {
+            font-size: 30px;
+            background: linear-gradient(135deg, #42A5F5, #90CAF9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .auth-logo p { color: var(--text2); margin-top: 5px; font-size: 14px; }
+
+        .form-group { margin-bottom: 20px; }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text2);
+            font-weight: 500;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 14px 16px;
+            background: rgba(10,22,40,0.8);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            color: var(--text);
+            font-size: 15px;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--blue-glow);
+        }
+        .form-group input::placeholder { color: #4a6fa5; }
+
+        .btn {
+            padding: 14px 28px;
+            border: none;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            justify-content: center;
+            letter-spacing: 0.5px;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #2196F3, #1976D2);
+            color: white;
+            width: 100%;
+            box-shadow: 0 4px 15px rgba(33,150,243,0.3);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(33,150,243,0.5);
+        }
+        .btn-success {
+            background: linear-gradient(135deg, #4CAF50, #388E3C);
+            color: white;
+        }
+        .btn-success:hover { box-shadow: 0 4px 15px rgba(76,175,80,0.3); }
+        .btn-danger {
+            background: linear-gradient(135deg, #f44336, #d32f2f);
+            color: white;
+        }
+        .btn-warning {
+            background: linear-gradient(135deg, #FF9800, #F57C00);
+            color: white;
+        }
+        .btn-sm { padding: 8px 16px; font-size: 13px; border-radius: 8px; }
+        .btn-xs { padding: 6px 12px; font-size: 11px; border-radius: 6px; }
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--accent);
+            color: var(--accent);
+        }
+        .btn-outline:hover { background: var(--accent); color: white; }
+        .btn-ghost {
+            background: transparent;
+            color: var(--text2);
+            border: 1px solid transparent;
+        }
+        .btn-ghost:hover {
+            background: rgba(33,150,243,0.1);
+            border-color: var(--border);
+        }
+
+        .auth-link {
+            text-align: center;
+            margin-top: 20px;
+            color: var(--text2);
+            font-size: 14px;
+        }
+        .auth-link a {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .auth-link a:hover { text-decoration: underline; }
+
+        /* ===== SHOP LAYOUT ===== */
+        .shop-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: rgba(19,35,71,0.9);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 16px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(20px);
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .navbar-brand {
+            font-size: 22px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #42A5F5, #90CAF9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .navbar-menu {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .user-chip {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(10,22,40,0.6);
+            padding: 8px 16px;
+            border-radius: 25px;
+            border: 1px solid var(--border);
+        }
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #2196F3, #1976D2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        .role-badge {
+            font-size: 11px;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .role-admin { background: #FF9800; color: #000; }
+        .role-seller { background: #4CAF50; color: #fff; }
+        .role-user { background: #2196F3; color: #fff; }
+        .balance-display {
+            font-weight: 700;
+            color: #4CAF50;
+            font-size: 16px;
+            background: rgba(76,175,80,0.1);
+            padding: 8px 15px;
+            border-radius: 20px;
+            border: 1px solid rgba(76,175,80,0.3);
+        }
+        .btn-add-balance {
+            background: linear-gradient(135deg, #FF9800, #F57C00);
+            color: white;
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s;
+        }
+        .btn-add-balance:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(255,152,0,0.3);
+        }
+
+        /* Quick Stats */
+        .quick-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        .stat-mini {
+            background: rgba(19,35,71,0.9);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            backdrop-filter: blur(10px);
+        }
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+        .stat-icon.blue { background: rgba(33,150,243,0.2); }
+        .stat-icon.green { background: rgba(76,175,80,0.2); }
+        .stat-icon.orange { background: rgba(255,152,0,0.2); }
+        .stat-info h4 { font-size: 13px; color: var(--text2); margin-bottom: 4px; }
+        .stat-info .value { font-size: 22px; font-weight: 700; }
+
+        /* Filter Bar */
+        .filter-bar {
+            background: rgba(19,35,71,0.9);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 20px;
+            margin-bottom: 25px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            backdrop-filter: blur(10px);
+        }
+        .filter-bar select,
+        .filter-bar input {
+            flex: 1;
+            min-width: 180px;
+            padding: 12px 16px;
+            background: rgba(10,22,40,0.8);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            color: var(--text);
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        .filter-bar select:focus,
+        .filter-bar input:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        /* Products Grid */
+        .section-title {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .section-title::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .product-card {
+            background: rgba(19,35,71,0.9);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+        }
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(33,150,243,0.2);
+            border-color: var(--accent);
+        }
+        .product-img {
+            width: 100%;
+            height: 200px;
+            background: rgba(10,22,40,0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+            border-bottom: 1px solid var(--border);
+            overflow: hidden;
+        }
+        .product-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .product-body { padding: 20px; }
+        .product-body h3 { font-size: 18px; margin-bottom: 10px; color: var(--text); }
+        .product-tags {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+        .tag {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        .tag-game {
+            background: rgba(33,150,243,0.2);
+            color: #64B5F6;
+            border: 1px solid rgba(33,150,243,0.3);
+        }
+        .tag-hack {
+            background: rgba(76,175,80,0.2);
+            color: #81C784;
+            border: 1px solid rgba(76,175,80,0.3);
+        }
+        .product-desc {
+            color: var(--text2);
+            font-size: 13px;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .product-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text2);
+            font-size: 12px;
+            margin-bottom: 15px;
+        }
+        .product-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid var(--border);
+            padding-top: 15px;
+        }
+        .product-price {
+            font-size: 22px;
+            font-weight: 700;
+            color: #4CAF50;
+        }
+        .product-actions { display: flex; gap: 8px; }
+
+        /* Admin Panel */
+        .admin-panel {
+            background: rgba(19,35,71,0.9);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 25px;
+            margin-top: 30px;
+            backdrop-filter: blur(10px);
+        }
+        .admin-panel h2 {
+            margin-bottom: 20px;
+            color: var(--accent);
+            font-size: 22px;
+        }
+        .tab-nav {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+        .tab-btn {
+            padding: 10px 20px;
+            background: rgba(10,22,40,0.6);
+            border: 1px solid var(--border);
+            border-radius: 25px;
+            color: var(--text2);
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+            font-size: 14px;
+        }
+        .tab-btn.active {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+            box-shadow: 0 4px 15px rgba(33,150,243,0.3);
+        }
+        .tab-btn:hover:not(.active) {
+            border-color: var(--accent);
+            color: var(--text);
+        }
+
+        /* Table */
+        .table-wrapper {
+            overflow-x: auto;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th {
+            background: rgba(10,22,40,0.8);
+            padding: 14px 16px;
+            text-align: left;
+            font-weight: 600;
+            color: var(--text2);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid var(--border);
+        }
+        td {
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--border);
+            font-size: 14px;
+        }
+        tr:hover td { background: rgba(33,150,243,0.05); }
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        .status-active { background: rgba(76,175,80,0.2); color: #81C784; }
+        .status-pending { background: rgba(255,152,0,0.2); color: #FFB74D; }
+        .status-delivered { background: rgba(76,175,80,0.3); color: #A5D6A7; }
+        .status-cancelled { background: rgba(244,67,54,0.2); color: #EF9A9A; }
+        .status-deleted { background: rgba(244,67,54,0.3); color: #EF9A9A; }
+
+        /* Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            backdrop-filter: blur(5px);
+            animation: fadeIn 0.3s ease;
+        }
+        .modal-overlay.show { display: flex; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .modal-box {
+            background: rgba(19,35,71,0.95);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 30px;
+            width: 90%;
+            max-width: 550px;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.6);
+            animation: slideUp 0.4s ease;
+            backdrop-filter: blur(20px);
+        }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+        .modal-box h3 { margin-bottom: 20px; color: var(--accent); font-size: 22px; }
+        .modal-actions { display: flex; gap: 10px; margin-top: 20px; justify-content: flex-end; }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            top: 25px;
+            right: 25px;
+            padding: 16px 24px;
+            border-radius: 12px;
+            color: white;
+            font-weight: 600;
+            z-index: 3000;
+            animation: slideInRight 0.4s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            backdrop-filter: blur(10px);
+        }
+        @keyframes slideInRight { from { transform: translateX(120%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        .toast-success { background: rgba(76,175,80,0.9); }
+        .toast-error { background: rgba(244,67,54,0.9); }
+        .toast-info { background: rgba(33,150,243,0.9); }
+
+        .hidden { display: none !important; }
+        .text-center { text-align: center; }
+        .mt-2 { margin-top: 10px; }
+        .mt-3 { margin-top: 20px; }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px;
+            color: var(--text2);
+        }
+        .empty-state .icon { font-size: 60px; margin-bottom: 15px; }
+
+        .hack-type-manager {
+            background: rgba(10,22,40,0.6);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .hack-type-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        .hack-type-chip {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(19,35,71,0.8);
+            border: 1px solid var(--border);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+        }
+        .hack-type-chip .delete-btn {
+            cursor: pointer;
+            color: var(--danger);
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        /* Nạp tiền button nổi bật */
+        .btn-naptien {
+            background: linear-gradient(135deg, #FF9800, #F57C00);
+            color: #fff;
+            padding: 8px 18px;
+            border-radius: 25px;
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s;
+            animation: glow 2s infinite;
+        }
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 5px rgba(255,152,0,0.5); }
+            50% { box-shadow: 0 0 20px rgba(255,152,0,0.8); }
+        }
+        .btn-naptien:hover {
+            transform: scale(1.08);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== RAIN CANVAS ===== -->
+    <canvas id="rainCanvas"></canvas>
+
+    <!-- ===== MUSIC PLAYER ===== -->
+    <div class="music-player" id="musicPlayer" title="Nhạc nền Lofi - Click để phát/dừng">
+        <button class="music-btn" id="musicBtn" onclick="toggleMusic()">▶️</button>
+        <div class="music-info">
+            <div class="song-title">🌧️ Lofi Chill</div>
+            <div>GameHack Store</div>
+        </div>
+        <div class="music-volume" onclick="changeVolume(event)">
+            <div class="music-volume-fill" id="volumeFill"></div>
+        </div>
+    </div>
+
+    <!-- ===== AUTH SCREEN ===== -->
+    <div id="authScreen" class="auth-wrapper">
+        <!-- Login -->
+        <div id="loginCard" class="auth-card">
+            <div class="auth-logo">
+                <div class="icon">🌧️</div>
+                <h1>GameHack Store</h1>
+                <p>Chợ Hack Game Số 1 Việt Nam</p>
+            </div>
+            <div class="form-group">
+                <label>📧 Email</label>
+                <input type="email" id="loginEmail" placeholder="Nhập email">
+            </div>
+            <div class="form-group">
+                <label>🔒 Mật khẩu</label>
+                <input type="password" id="loginPassword" placeholder="Nhập mật khẩu">
+            </div>
+            <button class="btn btn-primary" onclick="login()">🚀 Đăng Nhập</button>
+            <p class="auth-link">Chưa có tài khoản? <a onclick="showRegister()">Đăng ký ngay</a></p>
+            <div style="margin-top:20px;padding:15px;background:rgba(10,22,40,0.6);border-radius:12px;font-size:12px;color:var(--text2);">
+                <strong style="color:#64B5F6;">🔑 Demo:</strong><br>
+                👑 Admin: <strong>admin@game.com</strong> / admin123<br>
+                🛍️ Seller: <strong>seller@game.com</strong> / seller123<br>
+                👤 User: <strong>user@game.com</strong> / user123
+            </div>
+        </div>
+
+        <!-- Register -->
+        <div id="registerCard" class="auth-card hidden">
+            <div class="auth-logo">
+                <div class="icon">✨</div>
+                <h1>Tạo Tài Khoản</h1>
+                <p>Tham gia cộng đồng GameHack</p>
+            </div>
+            <div class="form-group"><label>👤 Tên người dùng</label><input type="text" id="regUsername" placeholder="Chọn tên"></div>
+            <div class="form-group"><label>📧 Email</label><input type="email" id="regEmail" placeholder="Nhập email"></div>
+            <div class="form-group"><label>🔒 Mật khẩu</label><input type="password" id="regPassword" placeholder="Ít nhất 6 ký tự"></div>
+            <div class="form-group"><label>🔒 Xác nhận</label><input type="password" id="regConfirm" placeholder="Nhập lại mật khẩu"></div>
+            <button class="btn btn-primary" onclick="register()">📝 Đăng Ký</button>
+            <p class="auth-link">Đã có tài khoản? <a onclick="showLogin()">Đăng nhập</a></p>
+        </div>
+    </div>
+
+    <!-- ===== SHOP SCREEN ===== -->
+    <div id="shopScreen" class="shop-container hidden">
+        <!-- Navbar -->
+        <nav class="navbar">
+            <div class="navbar-brand">🌧️ GameHack Store</div>
+            <div class="navbar-menu">
+                <button class="btn-naptien" onclick="openNaptienModal()">💰 Nạp Tiền</button>
+                <div class="balance-display">💰 <span id="displayBalance">0</span> VNĐ</div>
+                <div class="user-chip">
+                    <div class="user-avatar" id="userAvatar">U</div>
+                    <div>
+                        <strong id="displayName">User</strong>
+                        <span id="roleBadge" class="role-badge role-user">user</span>
+                    </div>
+                </div>
+                <button class="btn btn-ghost btn-sm" onclick="logout()">🚪</button>
+            </div>
+        </nav>
+
+        <!-- Quick Stats -->
+        <div class="quick-stats">
+            <div class="stat-mini">
+                <div class="stat-icon blue">🛍️</div>
+                <div class="stat-info"><h4>Sản phẩm</h4><div class="value" id="statProducts">0</div></div>
+            </div>
+            <div class="stat-mini">
+                <div class="stat-icon green">📦</div>
+                <div class="stat-info"><h4>Đơn hàng</h4><div class="value" id="statOrders">0</div></div>
+            </div>
+            <div class="stat-mini">
+                <div class="stat-icon orange">👥</div>
+                <div class="stat-info"><h4>Người dùng</h4><div class="value" id="statUsers">0</div></div>
+            </div>
+        </div>
+
+        <!-- Filter Bar -->
+        <div class="filter-bar">
+            <select id="filterGame" onchange="renderProducts()">
+                <option value="">🎮 Tất cả Game</option>
+                <option>PUBG</option><option>Free Fire</option><option>Mobile Legends</option>
+                <option>Valorant</option><option>CS:GO</option><option>Liên Quân</option>
+                <option>Genshin Impact</option><option>Other</option>
+            </select>
+            <select id="filterHack" onchange="renderProducts()">
+                <option value="">🔧 Tất cả Loại Hack</option>
+            </select>
+            <input type="text" id="filterSearch" placeholder="🔍 Tìm kiếm sản phẩm..." oninput="renderProducts()">
+        </div>
+
+        <!-- Products -->
+        <div class="section-title">🛍️ Sản Phẩm Nổi Bật</div>
+        <div class="products-grid" id="productsGrid"></div>
+
+        <!-- Admin Panel -->
+        <div id="adminPanel" class="admin-panel hidden">
+            <h2>⚙️ Bảng Điều Khiển</h2>
+            <div class="tab-nav">
+                <button class="tab-btn active" onclick="switchTab('products')">🛍️ Sản phẩm</button>
+                <button class="tab-btn" onclick="switchTab('users')">👥 Người dùng</button>
+                <button class="tab-btn" onclick="switchTab('orders')">📦 Đơn hàng</button>
+                <button class="tab-btn" onclick="switchTab('add')">➕ Đăng sản phẩm</button>
+                <button class="tab-btn" onclick="switchTab('hacktypes')">🏷️ Loại Hack</button>
+            </div>
+            <div id="tabContent"></div>
+        </div>
+    </div>
+
+    <!-- ===== MODALS ===== -->
+    <!-- Nạp tiền -->
+    <div id="naptienModal" class="modal-overlay">
+        <div class="modal-box">
+            <h3>💰 Nạp Tiền Vào Tài Khoản</h3>
+            <p style="color:var(--text2);margin-bottom:15px;">Số dư hiện tại: <strong style="color:#4CAF50;" id="modalBalance">0 VNĐ</strong></p>
+            <div class="form-group"><label>Số tiền muốn nạp (VNĐ)</label><input type="number" id="inputNaptien" placeholder="100000"></div>
+            <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:15px;">
+                <button class="btn btn-sm btn-outline" onclick="quickNaptien(10000)">10,000đ</button>
+                <button class="btn btn-sm btn-outline" onclick="quickNaptien(50000)">50,000đ</button>
+                <button class="btn btn-sm btn-outline" onclick="quickNaptien(100000)">100,000đ</button>
+                <button class="btn btn-sm btn-outline" onclick="quickNaptien(500000)">500,000đ</button>
+                <button class="btn btn-sm btn-outline" onclick="quickNaptien(1000000)">1,000,000đ</button>
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-ghost btn-sm" onclick="closeModal('naptienModal')">Hủy</button>
+                <button class="btn btn-success btn-sm" onclick="naptien()">💰 Nạp Ngay</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mua hàng -->
+    <div id="purchaseModal" class="modal-overlay">
+        <div class="modal-box">
+            <h3>🛒 Xác Nhận Mua Hàng</h3>
+            <div id="purchaseInfo"></div>
+            <div class="modal-actions">
+                <button class="btn btn-ghost btn-sm" onclick="closeModal('purchaseModal')">Hủy</button>
+                <button class="btn btn-success btn-sm" id="btnConfirmBuy">✅ Xác Nhận</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sửa giá -->
+    <div id="editPriceModal" class="modal-overlay">
+        <div class="modal-box">
+            <h3>💲 Chỉnh Sửa Giá</h3>
+            <div class="form-group"><label>Giá mới (VNĐ)</label><input type="number" id="inputNewPrice"></div>
+            <div class="modal-actions">
+                <button class="btn btn-ghost btn-sm" onclick="closeModal('editPriceModal')">Hủy</button>
+                <button class="btn btn-success btn-sm" id="btnSavePrice">💾 Lưu</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div id="toast" class="toast hidden"></div>
+
+    <!-- ===== SCRIPTS ===== -->
+    <script>
+        // ============ DATABASE ============
+        const STORAGE_KEY = 'gamehackstore_v2';
+        let DB = {
+            users: [],
+            products: [],
+            orders: [],
+            hackTypes: ['Aimbot', 'Wallhack', 'ESP', 'Speed Hack', 'Unlimited Money', 'No Recoil', 'God Mode', 'Teleport', 'Map Hack'],
+            currentUser: null,
+            nextId: { user: 1, product: 1, order: 1 }
+        };
+
+        function loadDB() {
+            const saved = localStorage.getItem(STORAGE_KEY);
+            if (saved) {
+                DB = JSON.parse(saved);
+            } else {
+                seedData();
+                saveDB();
+            }
+        }
+
+        function saveDB() { localStorage.setItem(STORAGE_KEY, JSON.stringify(DB)); }
+
+        function seedData() {
+            const now = new Date().toISOString();
+            DB.users = [
+                { id: 1, username: 'Admin', email: 'admin@game.com', password: 'admin123', role: 'admin', balance: 9999999, createdAt: now },
+                { id: 2, username: 'Seller', email: 'seller@game.com', password: 'seller123', role: 'seller', balance: 500000, createdAt: now },
+                { id: 3, username: 'User', email: 'user@game.com', password: 'user123', role: 'user', balance: 100000, createdAt: now }
+            ];
+            DB.nextId.user = 4;
+            DB.products = [
+                { id: 1, name: 'Aimbot Pro PUBG', description: 'Aimbot tự động khóa mục tiêu, độ chính xác 99%, hỗ trợ tất cả vũ khí.', price: 50000, game: 'PUBG', hackType: 'Aimbot', imageUrl: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?w=400', sellerId: 2, status: 'active', sales: 150, createdAt: now },
+                { id: 2, name: 'Wallhack Free Fire', description: 'Nhìn xuyên tường, ESP hiển thị thông tin đối thủ chi tiết.', price: 35000, game: 'Free Fire', hackType: 'Wallhack', imageUrl: 'https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=400', sellerId: 2, status: 'active', sales: 200, createdAt: now },
+                { id: 3, name: 'MLBB Map Hack', description: 'Hiển thị toàn bộ bản đồ, vị trí tướng địch, auto anti-ban.', price: 45000, game: 'Mobile Legends', hackType: 'Map Hack', imageUrl: 'https://images.unsplash.com/photo-1511512578047-dfb367046420?w=400', sellerId: 2, status: 'active', sales: 300, createdAt: now },
+                { id: 4, name: 'CS:GO Aimbot+WH', description: 'Combo hack mạnh nhất CS:GO. Silent aimbot + Wallhack ESP.', price: 80000, game: 'CS:GO', hackType: 'Aimbot', imageUrl: 'https://images.unsplash.com/photo-1552820728-8b83bb6b2b26?w=400', sellerId: 2, status: 'active', sales: 180, createdAt: now }
+            ];
+            DB.nextId.product = 5;
+            DB.orders = [];
+            DB.nextId.order = 1;
+        }
+
+        // ============ TOAST ============
+        function toast(msg, type = 'info') {
+            const el = document.getElementById('toast');
+            el.innerHTML = msg;
+            el.className = `toast toast-${type}`;
+            el.classList.remove('hidden');
+            setTimeout(() => el.classList.add('hidden'), 3000);
+        }
+
+        // ============ RAIN EFFECT ============
+        const canvas = document.getElementById('rainCanvas');
+        const ctx = canvas.getContext('2d');
+        let drops = [];
+        
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        function createDrops() {
+            drops = [];
+            const count = Math.floor(canvas.width * 0.15);
+            for (let i = 0; i < count; i++) {
+                drops.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    length: Math.random() * 20 + 10,
+                    speed: Math.random() * 8 + 4,
+                    opacity: Math.random() * 0.4 + 0.1
+                });
+            }
+        }
+        createDrops();
+        window.addEventListener('resize', createDrops);
+
+        function drawRain() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.strokeStyle = 'rgba(100, 180, 255, 0.3)';
+            ctx.lineWidth = 1;
+            ctx.lineCap = 'round';
+            
+            drops.forEach(drop => {
+                ctx.beginPath();
+                ctx.moveTo(drop.x, drop.y);
+                ctx.lineTo(drop.x, drop.y + drop.length);
+                ctx.strokeStyle = `rgba(144, 202, 249, ${drop.opacity})`;
+                ctx.stroke();
+                
+                drop.y += drop.speed;
+                if (drop.y > canvas.height) {
+                    drop.y = -drop.length;
+                    drop.x = Math.random() * canvas.width;
+                }
+            });
+            requestAnimationFrame(drawRain);
+        }
+        drawRain();
+
+        // ============ MUSIC PLAYER ============
+        let audioCtx = null;
+        let gainNode = null;
+        let isPlaying = false;
+        let currentVolume = 0.5;
+        
+        // Sử dụng Audio element để phát nhạc từ SoundCloud stream
+        const audioElement = new Audio();
+        audioElement.loop = true;
+        audioElement.volume = currentVolume;
+        
+        // SoundCloud stream URL (đã convert sang dạng có thể phát)
+        const SOUNDCLOUD_STREAM = 'https://api.soundcloud.com/tracks/1992348025/stream?client_id=a3e059563d7fd3372b49b37f00a00bcf';
+        
+        function initAudio() {
+            audioElement.src = SOUNDCLOUD_STREAM;
+            audioElement.crossOrigin = 'anonymous';
+        }
+
+        function toggleMusic() {
+            const btn = document.getElementById('musicBtn');
+            if (!audioElement.src || audioElement.src === window.location.href) {
+                initAudio();
+            }
+            
+            if (isPlaying) {
+                audioElement.pause();
+                btn.textContent = '▶️';
+                btn.classList.remove('playing');
+                isPlaying = false;
+            } else {
+                audioElement.play().catch(err => {
+                    console.log('Không thể phát nhạc:', err);
+                    toast('🎵 Đang thử phát nhạc nền...', 'info');
+                    initAudio();
+                    audioElement.play().catch(e => {
+                        toast('⚠️ Không thể phát nhạc. Click để thử lại.', 'error');
+                    });
+                });
+                btn.textContent = '⏸️';
+                btn.classList.add('playing');
+                isPlaying = true;
+            }
+        }
+
+        function changeVolume(e) {
+            const bar = e.currentTarget;
+            const rect = bar.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            currentVolume = Math.max(0, Math.min(1, x / rect.width));
+            audioElement.volume = currentVolume;
+            document.getElementById('volumeFill').style.width = (currentVolume * 100) + '%';
+        }
+
+        // Tự động phát nhạc khi user tương tác lần đầu
+        let musicInitialized = false;
+        document.addEventListener('click', function initMusic() {
+            if (!musicInitialized) {
+                initAudio();
+                audioElement.play().catch(() => {});
+                isPlaying = true;
+                document.getElementById('musicBtn').textContent = '⏸️';
+                document.getElementById('musicBtn').classList.add('playing');
+                musicInitialized = true;
+            }
+        }, { once: false });
+
+        // ============ AUTH ============
+        function showRegister() {
+            document.getElementById('loginCard').classList.add('hidden');
+            document.getElementById('registerCard').classList.remove('hidden');
+        }
+        function showLogin() {
+            document.getElementById('registerCard').classList.add('hidden');
+            document.getElementById('loginCard').classList.remove('hidden');
+        }
+
+        function register() {
+            const username = document.getElementById('regUsername').value.trim();
+            const email = document.getElementById('regEmail').value.trim();
+            const password = document.getElementById('regPassword').value;
+            const confirm = document.getElementById('regConfirm').value;
+
+            if (!username || !email || !password || !confirm) return toast('⚠️ Vui lòng điền đầy đủ!', 'error');
+            if (password.length < 6) return toast('⚠️ Mật khẩu ít nhất 6 ký tự!', 'error');
+            if (password !== confirm) return toast('⚠️ Mật khẩu không khớp!', 'error');
+            if (DB.users.find(u => u.email === email)) return toast('⚠️ Email đã tồn tại!', 'error');
+
+            const user = {
+                id: DB.nextId.user++,
+                username, email, password,
+                role: 'user',
+                balance: 0,
+                createdAt: new Date().toISOString()
+            };
+            DB.users.push(user);
+            saveDB();
+            toast('✅ Đăng ký thành công!', 'success');
+            showLogin();
+            ['regUsername','regEmail','regPassword','regConfirm'].forEach(id => document.getElementById(id).value = '');
+        }
+
+        function login() {
+            const email = document.getElementById('loginEmail').value.trim();
+            const password = document.getElementById('loginPassword').value;
+            if (!email || !password) return toast('⚠️ Nhập đầy đủ thông tin!', 'error');
+
+            const user = DB.users.find(u => u.email === email && u.password === password);
+            if (!user) return toast('❌ Sai thông tin!', 'error');
+            if (user.status === 'banned') return toast('🚫 Tài khoản bị khóa!', 'error');
+
+            DB.currentUser = user;
+            saveDB();
+            document.getElementById('authScreen').classList.add('hidden');
+            document.getElementById('shopScreen').classList.remove('hidden');
+            updateUI();
+            renderProducts();
+            updateStats();
+            
+            if (user.role === 'admin' || user.role === 'seller') {
+                document.getElementById('adminPanel').classList.remove('hidden');
+            }
+            if (user.role === 'admin') switchTab('products');
+            
+            toast(`👋 Chào ${user.username}!`, 'success');
+            ['loginEmail','loginPassword'].forEach(id => document.getElementById(id).value = '');
+        }
+
+        function logout() {
+            DB.currentUser = null;
+            saveDB();
+            document.getElementById('shopScreen').classList.add('hidden');
+            document.getElementById('authScreen').classList.remove('hidden');
+            document.getElementById('adminPanel').classList.add('hidden');
+        }
+
+        function updateUI() {
+            if (!DB.currentUser) return;
+            document.getElementById('userAvatar').textContent = DB.currentUser.username.charAt(0).toUpperCase();
+            document.getElementById('displayName').textContent = DB.currentUser.username;
+            const badge = document.getElementById('roleBadge');
+            badge.textContent = DB.currentUser.role;
+            badge.className = `role-badge role-${DB.currentUser.role}`;
+            document.getElementById('displayBalance').textContent = DB.currentUser.balance.toLocaleString('vi-VN');
+            document.getElementById('modalBalance').textContent = DB.currentUser.balance.toLocaleString('vi-VN') + ' VNĐ';
+        }
+
+        function updateStats() {
+            document.getElementById('statProducts').textContent = DB.products.filter(p => p.status === 'active').length;
+            document.getElementById('statOrders').textContent = DB.orders.length;
+            document.getElementById('statUsers').textContent = DB.users.length;
+        }
+
+        // ============ NẠP TIỀN ============
+        function openNaptienModal() {
+            if (!DB.currentUser) return toast('⚠️ Vui lòng đăng nhập!', 'error');
+            document.getElementById('modalBalance').textContent = DB.currentUser.balance.toLocaleString('vi-VN') + ' VNĐ';
+            document.getElementById('inputNaptien').value = '';
+            document.getElementById('naptienModal').classList.add('show');
+        }
+
+        function quickNaptien(amount) {
+            document.getElementById('inputNaptien').value = amount;
+        }
+
+        function naptien() {
+            const amount = parseInt(document.getElementById('inputNaptien').value);
+            if (!amount || amount <= 0) return toast('⚠️ Số tiền không hợp lệ!', 'error');
+            if (amount > 10000000) return toast('⚠️ Tối đa 10,000,000đ/lần!', 'error');
+            
+            DB.currentUser.balance += amount;
+            saveDB();
+            updateUI();
+            closeModal('naptienModal');
+            toast(`✅ Đã nạp ${amount.toLocaleString('vi-VN')}đ thành công!`, 'success');
+        }
+
+        // ============ PRODUCTS ============
+        function updateHackTypeFilter() {
+            const select = document.getElementById('filterHack');
+            const val = select.value;
+            select.innerHTML = '<option value="">🔧 Tất cả Loại Hack</option>';
+            DB.hackTypes.forEach(ht => select.innerHTML += `<option value="${ht}">${ht}</option>`);
+            select.value = val;
+        }
+
+        function renderProducts() {
+            updateHackTypeFilter();
+            const game = document.getElementById('filterGame').value;
+            const hack = document.getElementById('filterHack').value;
+            const search = document.getElementById('filterSearch').value.toLowerCase();
+            let products = DB.products.filter(p => p.status === 'active');
+            if (game) products = products.filter(p => p.game === game);
+            if (hack) products = products.filter(p => p.hackType === hack);
+            if (search) products = products.filter(p => p.name.toLowerCase().includes(search) || p.description.toLowerCase().includes(search));
+
+            const grid = document.getElementById('productsGrid');
+            if (products.length === 0) {
+                grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1"><div class="icon">🔍</div><h3>Không tìm thấy</h3></div>`;
+                return;
+            }
+
+            grid.innerHTML = products.map(p => {
+                const seller = DB.users.find(u => u.id === p.sellerId);
+                const isOwner = DB.currentUser && (DB.currentUser.role === 'admin' || DB.currentUser.id === p.sellerId);
+                return `
+                <div class="product-card">
+                    <div class="product-img">${p.imageUrl ? `<img src="${p.imageUrl}" alt="${p.name}" onerror="this.parentElement.innerHTML='🎮'">` : '🎮'}</div>
+                    <div class="product-body">
+                        <h3>${p.name}</h3>
+                        <div class="product-tags">
+                            <span class="tag tag-game">🎮 ${p.game}</span>
+                            <span class="tag tag-hack">🔧 ${p.hackType}</span>
+                        </div>
+                        <p class="product-desc">${p.description}</p>
+                        <div class="product-meta">
+                            <span>👤 ${seller?.username || '???'}</span>
+                            <span>📊 ${p.sales} đã bán</span>
+                        </div>
+                        <div class="product-footer">
+                            <span class="product-price">${p.price.toLocaleString('vi-VN')}đ</span>
+                            <div class="product-actions">
+                                ${isOwner ? `<button class="btn btn-xs btn-outline" onclick="editPrice(${p.id})">💲</button>
+                                <button class="btn btn-xs btn-danger" onclick="delProduct(${p.id})">🗑️</button>` : ''}
+                                ${DB.currentUser ? `<button class="btn btn-sm btn-success" onclick="buyProduct(${p.id})">🛒 Mua</button>` : ''}
+                            </div>
+                        </div>
+                    </div>
+                </div>`;
+            }).join('');
+        }
+
+        // ============ BUY ============
+        let selectedProductId = null;
+        function buyProduct(pid) {
+            if (!DB.currentUser) return toast('⚠️ Đăng nhập để mua!', 'error');
+            const p = DB.products.find(x => x.id === pid);
+            if (!p) return;
+            selectedProductId = pid;
+            document.getElementById('purchaseInfo').innerHTML = `
+                <p><strong>🛍️ SP:</strong> ${p.name}</p>
+                <p><strong>🎮 Game:</strong> ${p.game} | <strong>🔧</strong> ${p.hackType}</p>
+                <p><strong>💲 Giá:</strong> ${p.price.toLocaleString('vi-VN')}đ</p>
+                <p><strong>💰 Số dư:</strong> ${DB.currentUser.balance.toLocaleString('vi-VN')}đ</p>
+                ${DB.currentUser.balance < p.price ? '<p style="color:#f44336;">⚠️ KHÔNG ĐỦ TIỀN! Hãy nạp thêm.</p>' : '<p style="color:#4CAF50;">✅ Đủ số dư</p>'}
+            `;
+            document.getElementById('btnConfirmBuy').onclick = confirmBuy;
+            document.getElementById('btnConfirmBuy').disabled = DB.currentUser.balance < p.price;
+            document.getElementById('purchaseModal').classList.add('show');
+        }
+
+        function confirmBuy() {
+            if (!selectedProductId || !DB.currentUser) return;
+            const p = DB.products.find(x => x.id === selectedProductId);
+            if (!p) return toast('❌ SP không tồn tại!', 'error');
+            if (DB.currentUser.balance < p.price) return toast('❌ Không đủ tiền! Nạp thêm đi.', 'error');
+
+            DB.currentUser.balance -= p.price;
+            const seller = DB.users.find(u => u.id === p.sellerId);
+            if (seller) seller.balance += Math.floor(p.price * 0.9);
+            p.sales++;
+
+            DB.orders.push({
+                id: DB.nextId.order++,
+                productId: p.id, productName: p.name, game: p.game, hackType: p.hackType,
+                buyerId: DB.currentUser.id, buyerName: DB.currentUser.username,
+                sellerId: p.sellerId, price: p.price,
+                status: 'pending', createdAt: new Date().toISOString()
+            });
+            saveDB();
+            updateUI();
+            updateStats();
+            closeModal('purchaseModal');
+            renderProducts();
+            toast(`✅ Mua thành công: ${p.name}!`, 'success');
+        }
+
+        // ============ ADMIN ============
+        function switchTab(tab) {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+            const c = document.getElementById('tabContent');
+            if (tab === 'products') c.innerHTML = renderAdminProducts();
+            if (tab === 'users') c.innerHTML = renderAdminUsers();
+            if (tab === 'orders') c.innerHTML = renderAdminOrders();
+            if (tab === 'add') c.innerHTML = renderAddForm();
+            if (tab === 'hacktypes') c.innerHTML = renderHackTypes();
+        }
+
+        function renderAdminProducts() {
+            return `<div class="table-wrapper"><table><thead><tr><th>ID</th><th>Ảnh</th><th>Tên</th><th>Game</th><th>Loại</th><th>Giá</th><th>Bán</th><th>TT</th><th>HĐ</th></tr></thead><tbody>${DB.products.map(p => `
+                <tr><td>#${p.id}</td><td>${p.imageUrl ? '<img src="'+p.imageUrl+'" style="width:40px;height:40px;border-radius:6px;object-fit:cover" onerror="this.style.display=\'none\'">' : '🖼️'}</td>
+                <td>${p.name}</td><td>${p.game}</td><td>${p.hackType}</td><td>${p.price.toLocaleString('vi-VN')}đ</td><td>${p.sales}</td>
+                <td><span class="status-badge status-${p.status}">${p.status}</span></td>
+                <td><button class="btn btn-xs btn-outline" onclick="editPrice(${p.id})">💲</button>
+                <button class="btn btn-xs btn-danger" onclick="delProduct(${p.id})">🗑️</button></td></tr>
+            `).join('')}</tbody></table></div>`;
+        }
+
+        function renderAdminUsers() {
+            return `<div class="table-wrapper"><table><thead><tr><th>ID</th><th>User</th><th>Email</th><th>Role</th><th>Số dư</th><th>Ngày tạo</th><th>HĐ</th></tr></thead><tbody>${DB.users.map(u => `
+                <tr><td>#${u.id}</td><td>${u.username}</td><td>${u.email}</td>
+                <td><select onchange="changeRole(${u.id},this.value)" ${u.id===DB.currentUser?.id?'disabled':''} style="background:var(--bg);color:var(--text);border:1px solid var(--border);padding:6px 10px;border-radius:8px;">
+                    <option value="user" ${u.role==='user'?'selected':''}>User</option>
+                    <option value="seller" ${u.role==='seller'?'selected':''}>Seller</option>
+                    <option value="admin" ${u.role==='admin'?'selected':''}>Admin</option>
+                </select></td>
+                <td>${u.balance.toLocaleString('vi-VN')}đ</td>
+                <td>${new Date(u.createdAt).toLocaleDateString('vi-VN')}</td>
+                <td><button class="btn btn-xs btn-warning" onclick="adminNaptien(${u.id})">💰 Nạp</button></td></tr>
+            `).join('')}</tbody></table></div>`;
+        }
+
+        function renderAdminOrders() {
+            return `<div class="table-wrapper"><table><thead><tr><th>ID</th><th>SP</th><th>Mua</th><th>Giá</th><th>TT</th><th>Ngày</th><th>HĐ</th></tr></thead><tbody>${DB.orders.length===0?'<tr><td colspan="7" class="text-center">Chưa có đơn</td></tr>':DB.orders.map(o=>`
+                <tr><td>#${o.id}</td><td>${o.productName}</td><td>${o.buyerName}</td>
+                <td>${o.price.toLocaleString('vi-VN')}đ</td>
+                <td><span class="status-badge status-${o.status}">${o.status}</span></td>
+                <td>${new Date(o.createdAt).toLocaleDateString('vi-VN')}</td>
+                <td>${o.status==='pending'?`<button class="btn btn-xs btn-success" onclick="updateOrder(${o.id},'delivered')">✅ Giao</button>`:''}</td></tr>
+            `).join('')}</tbody></table></div>`;
+        }
+
+        function renderAddForm() {
+            return `<div style="max-width:600px">
+                <div class="form-group"><label>🖼️ URL Ảnh</label><input type="text" id="addImg" placeholder="https://..."></div>
+                <div class="form-group"><label>📝 Tên SP *</label><input type="text" id="addName"></div>
+                <div class="form-group"><label>📄 Mô tả *</label><textarea id="addDesc" rows="3"></textarea></div>
+                <div class="form-group"><label>💲 Giá *</label><input type="number" id="addPrice"></div>
+                <div class="form-group"><label>🎮 Game *</label><select id="addGame"><option value="">Chọn</option><option>PUBG</option><option>Free Fire</option><option>Mobile Legends</option><option>Valorant</option><option>CS:GO</option><option>Liên Quân</option><option>Genshin Impact</option><option>Other</option></select></div>
+                <div class="form-group"><label>🔧 Loại Hack *</label><select id="addHack">${DB.hackTypes.map(h=>`<option>${h}</option>`).join('')}</select></div>
+                <button class="btn btn-primary mt-3" onclick="addProduct()" style="width:auto">➕ Đăng SP</button>
+            </div>`;
+        }
+
+        function renderHackTypes() {
+            return `<div class="hack-type-manager">
+                <h4>🏷️ Quản lý Loại Hack</h4>
+                <p style="color:var(--text2);margin-bottom:15px;">Thêm/xóa loại hack - cập nhật ngay toàn hệ thống</p>
+                <div style="display:flex;gap:10px;margin-bottom:15px;">
+                    <input type="text" id="newHackType" placeholder="Tên loại hack mới..." style="flex:1;padding:12px;background:var(--bg);border:2px solid var(--border);border-radius:12px;color:var(--text);">
+                    <button class="btn btn-success btn-sm" onclick="addHackType()">➕ Thêm</button>
+                </div>
+                <div class="hack-type-list" id="hackTypeList">
+                    ${DB.hackTypes.map((ht,i) => `<span class="hack-type-chip">${ht} <span class="delete-btn" onclick="delHackType(${i})">×</span></span>`).join('')}
+                </div>
+            </div>`;
+        }
+
+        function editPrice(pid) {
+            const p = DB.products.find(x=>x.id===pid);
+            if(!p) return;
+            document.getElementById('inputNewPrice').value = p.price;
+            document.getElementById('btnSavePrice').onclick = () => {
+                const np = parseInt(document.getElementById('inputNewPrice').value);
+                if(!np||np<=0) return toast('⚠️ Giá không hợp lệ!','error');
+                p.price = np;
+                saveDB();
+                closeModal('editPriceModal');
+                renderProducts();
+                if(DB.currentUser.role==='admin') switchTab('products');
+                toast('✅ Đã cập nhật giá!','success');
+            };
+            document.getElementById('editPriceModal').classList.add('show');
+        }
+
+        function delProduct(pid) {
+            if(!confirm('Xóa sản phẩm này?')) return;
+            const p = DB.products.find(x=>x.id===pid);
+            if(p && (DB.currentUser.role==='admin'||DB.currentUser.id===p.sellerId)) {
+                p.status='deleted';
+                saveDB();
+                renderProducts();
+                updateStats();
+                if(DB.currentUser.role==='admin') switchTab('products');
+                toast('🗑️ Đã xóa!','info');
+            }
+        }
+
+        function addProduct() {
+            const name=document.getElementById('addName').value.trim();
+            const desc=document.getElementById('addDesc').value.trim();
+            const price=parseInt(document.getElementById('addPrice').value);
+            const game=document.getElementById('addGame').value;
+            const hack=document.getElementById('addHack').value;
+            const img=document.getElementById('addImg').value.trim();
+            if(!name||!desc||!price||!game||!hack) return toast('⚠️ Điền đầy đủ!','error');
+            if(price<=0) return toast('⚠️ Giá > 0!','error');
+            DB.products.push({
+                id:DB.nextId.product++, name, description:desc, price, game, hackType:hack, imageUrl:img,
+                sellerId:DB.currentUser.id, status:'active', sales:0, createdAt:new Date().toISOString()
+            });
+            saveDB();
+            renderProducts();
+            updateStats();
+            switchTab('add');
+            toast('✅ Đăng SP thành công!','success');
+        }
+
+        function changeRole(uid, role) {
+            const u = DB.users.find(x=>x.id===uid);
+            if(u) { u.role=role; saveDB(); switchTab('users'); toast(`✅ ${u.username} → ${role}`,'success'); }
+        }
+
+        function adminNaptien(uid) {
+            const u = DB.users.find(x=>x.id===uid);
+            if(!u) return;
+            const amt = prompt(`Nạp tiền cho ${u.username} (VNĐ):`, '100000');
+            if(amt && !isNaN(amt) && parseInt(amt)>0) {
+                u.balance += parseInt(amt);
+                saveDB();
+                switchTab('users');
+                if(DB.currentUser.id===uid) updateUI();
+                toast(`✅ Nạp ${parseInt(amt).toLocaleString('vi-VN')}đ cho ${u.username}`,'success');
+            }
+        }
+
+        function updateOrder(oid, status) {
+            const o = DB.orders.find(x=>x.id===oid);
+            if(o) { o.status=status; saveDB(); switchTab('orders'); toast(`✅ Đơn #${oid} → ${status}`,'success'); }
+        }
+
+        function addHackType() {
+            const name = document.getElementById('newHackType').value.trim();
+            if(!name) return toast('⚠️ Nhập tên!','error');
+            if(DB.hackTypes.includes(name)) return toast('⚠️ Đã tồn tại!','error');
+            DB.hackTypes.push(name);
+            saveDB();
+            updateHackTypeFilter();
+            switchTab('hacktypes');
+            renderProducts(); // Cập nhật filter ngay
+            toast(`✅ Thêm loại hack: ${name}`,'success');
+        }
+
+        function delHackType(i) {
+            if(!confirm(`Xóa "${DB.hackTypes[i]}"?`)) return;
+            DB.hackTypes.splice(i,1);
+            saveDB();
+            updateHackTypeFilter();
+            switchTab('hacktypes');
+            renderProducts(); // Cập nhật filter ngay
+            toast('🗑️ Đã xóa!','info');
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).classList.remove('show');
+        }
+
+        // ============ INIT ============
+        window.onload = () => {
+            loadDB();
+            updateHackTypeFilter();
+            window.onclick = (e) => {
+                if (e.target.classList.contains('modal-overlay')) e.target.classList.remove('show');
+            };
+        };
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && !document.getElementById('authScreen').classList.contains('hidden')) {
+                if (!document.getElementById('loginCard').classList.contains('hidden')) login();
+                else if (!document.getElementById('registerCard').classList.contains('hidden')) register();
+            }
+        });
+    </script>
+</body>
+</html>
