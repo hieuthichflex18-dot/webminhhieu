@@ -167,7 +167,6 @@
             color: #8a8f9a;
         }
 
-        /* HUD */
         .hud {
             position: fixed;
             z-index: 50;
@@ -249,7 +248,6 @@
             border-top: 2px solid rgba(59, 130, 246, 0.3);
         }
 
-        /* Gear button */
         .gear-btn {
             position: fixed;
             z-index: 60;
@@ -313,7 +311,6 @@
             transform: scale(0.95);
         }
 
-        /* History */
         .hist {
             position: fixed;
             bottom: 12px;
@@ -350,7 +347,6 @@
             color: #60a5fa;
         }
 
-        /* Settings panel */
         .settings-panel {
             position: fixed;
             z-index: 55;
@@ -391,7 +387,6 @@
             border: none;
         }
 
-        /* Scrollbar */
         ::-webkit-scrollbar {
             width: 3px;
         }
@@ -442,14 +437,47 @@
 
     <div id="root"></div>
 
+    <!-- Load React -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js">
+    </script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js">
+    </script>
+
     <script>
         // ============================================================
-        // DUMMY DATA & LOGIC (từ file dump_1.txt)
+        // DUMMY DATA GENERATOR - thay thế API
+        // ============================================================
+        function generateDummyData(type) {
+            const results = ['Tài', 'Xỉu'];
+            const list = [];
+            const startPhiên = Math.floor(Math.random() * 1000) + 100;
+
+            // Tạo 20-30 phiên ngẫu nhiên
+            const count = Math.floor(Math.random() * 10) + 20;
+
+            for (let i = 0; i < count; i++) {
+                const ketQua = results[Math.floor(Math.random() * 2)];
+                const dice1 = Math.floor(Math.random() * 6) + 1;
+                const dice2 = Math.floor(Math.random() * 6) + 1;
+                const dice3 = Math.floor(Math.random() * 6) + 1;
+                const tong = dice1 + dice2 + dice3;
+
+                list.push({
+                    phien: startPhiên + i,
+                    ketQua: ketQua,
+                    dices: [dice1, dice2, dice3],
+                    tong: tong
+                });
+            }
+
+            return { list: list.reverse() };
+        }
+
+        // ============================================================
+        // DUMMY LOGIC (từ file dump_1.txt)
         // ============================================================
 
-        // Utility
         const clamp = (v, min, max) => Math.min(max, Math.max(min, v));
-
         const invertPred = (p) => p === 'Tài' ? 'Xỉu' : 'Tài';
 
         function makePred(prob, name, threshold = 0.04) {
@@ -461,7 +489,7 @@
             };
         }
 
-        // Các thuật toán từ dump
+        // Các thuật toán
         function algoBetTheo(history) {
             let streak = 1;
             for (let i = 1; i < history.length && history[i] === history[0]; i++) streak++;
@@ -563,15 +591,12 @@
         }
 
         // ============================================================
-        // REACT (via CDN)
+        // REACT APP
         // ============================================================
         const { useState, useEffect, useRef, useCallback, Fragment } = React;
 
-        // ============================================================
-        // MAIN APP
-        // ============================================================
         function App() {
-            const [gameType, setGameType] = useState('hu'); // 'hu' or 'md5'
+            const [gameType, setGameType] = useState('hu');
             const [prediction, setPrediction] = useState(null);
             const [currentResult, setCurrentResult] = useState(null);
             const [history, setHistory] = useState([]);
@@ -595,13 +620,11 @@
             const [pos, setPos] = useState({ x: 12, y: 12 });
             const dragRef = useRef(null);
 
-            // ========== API CALL ==========
+            // ========== FETCH DATA ==========
             const fetchData = useCallback(async () => {
                 try {
-                    const url = `/api/public/tx?type=${gameType}`;
-                    const resp = await fetch(url, { cache: 'no-store' });
-                    if (!resp.ok) return;
-                    const data = await resp.json();
+                    // Dùng dữ liệu giả thay vì API
+                    const data = generateDummyData(gameType);
                     const list = data.list || [];
                     if (!list.length) return;
 
@@ -610,18 +633,15 @@
 
                     // Check if new phiên
                     if (latest.phien === lastPhiênRef.current) {
-                        // Learn from last prediction
                         if (lastPredRef.current && lastPredRef.current.phien === latest.phien) {
                             const pred = lastPredRef.current.pred;
                             const actual = latest.ketQua;
                             const win = pred === actual;
-                            // Update stats
                             setWins(prev => prev + (win ? 1 : 0));
                             setLosses(prev => prev + (!win ? 1 : 0));
                             setStreak(prev => win ? prev + 1 : 0);
                             setMaxStreak(prev => Math.max(prev, win ? streak + 1 : 0));
 
-                            // Update history
                             setHistory(prev => [{
                                 phien: latest.phien,
                                 pred: pred,
@@ -629,7 +649,6 @@
                                 win: win
                             }, ...prev].slice(0, 40));
 
-                            // Update performance (simplified)
                             if (!perfRef.current[gameType][pred]) {
                                 perfRef.current[gameType][pred] = { hit: 0, miss: 0 };
                             }
@@ -655,42 +674,35 @@
                 } catch (e) {
                     console.warn('Fetch error:', e);
                 }
-            }, [gameType]);
+            }, [gameType, streak]);
 
             // ========== ALGORITHMS ==========
             function runAllAlgorithms(history) {
                 const signals = [];
                 const h = history;
 
-                // S
                 const s1 = algoBetTheo(h);
                 if (s1) signals.push({ ...s1, pred: s1.pred });
 
-                // 1-1
                 const s2 = algo1_1(h);
                 if (s2) signals.push({ ...s2, pred: s2.pred });
 
-                // Cầu 2,3,4
                 for (const t of [2, 3, 4]) {
                     const s = algoCau(h, t);
                     if (s) signals.push({ ...s, pred: s.pred });
                 }
 
-                // 1-2-1
                 const s6 = algo1_2_1(h);
                 if (s6) signals.push({ ...s6, pred: s6.pred });
 
-                // Markov
                 for (const t of [1, 2, 3, 4, 5]) {
                     const s = algoMarkov(h, t);
                     if (s) signals.push({ ...s, pred: s.pred });
                 }
 
-                // KNN
                 const knn = algoKNN(h);
                 if (knn) signals.push({ ...knn, pred: knn.pred });
 
-                // Hồi quy
                 const hq = algoHoiQuy(h);
                 if (hq && hq.length) signals.push(...hq);
 
@@ -714,7 +726,6 @@
                 let bestScore = -Infinity;
 
                 for (const sig of signals) {
-                    // Tính accuracy từ perf (giả lập)
                     const perf = perfRef.current[type]?.[sig.pred] || { hit: 1, miss: 1 };
                     const acc = (perf.hit + 4) / (perf.hit + perf.miss + 8);
                     const accScore = (acc - 0.5) * 2;
@@ -737,7 +748,7 @@
                 const prob = 1 / (1 + Math.exp(-totalScore / Math.sqrt(signals.length)));
                 const pred = prob >= 0.5 ? 'Tài' : 'Xỉu';
                 const conf = Math.round(clamp(50 + Math.abs(prob - 0.5) * 72 + ratio * 14 + Math.min(signals.length, 8), 51,
-                97));
+                    97));
 
                 return {
                     phien: (currentResult?.phien || 0) + 1,
@@ -750,7 +761,6 @@
 
             // ========== EFFECTS ==========
             useEffect(() => {
-                // Reset state when switching type
                 lastPredRef.current = null;
                 lastPhiênRef.current = 0;
                 setPrediction(null);
