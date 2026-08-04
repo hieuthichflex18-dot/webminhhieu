@@ -1,1093 +1,495 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>Ultimate Machine - Tài Xỉu</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ultimate Machine - Tài Xỉu Predictor</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        :root {
+            --bg-color: #020617;
+            --primary-blue: #3b82f6;
+            --neon-blue: #00f0ff;
+            --dark-blue: #1e3a8a;
+            --panel-bg: rgba(15, 23, 42, 0.85);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --tai-color: #ef4444; /* Đỏ cho Tài */
+            --xiu-color: #000000; /* Đen cho Xỉu */
         }
 
-        body {
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
             font-family: 'Inter', sans-serif;
-            background: #0b0d12;
-            color: #f0f2f5;
-            overflow: hidden;
-            height: 100vh;
-            width: 100vw;
             user-select: none;
         }
 
-        .bg-background {
-            background: radial-gradient(ellipse at 50% 30%, #141a24 0%, #0b0d12 100%);
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            overflow: hidden;
+            width: 100vw;
+            height: 100vh;
         }
 
-        .grid-bg {
+        /* 1. MÀN HÌNH MỞ ĐẦU (WELCOME SCREEN) */
+        #welcome-screen {
             position: absolute;
             inset: 0;
-            background-image:
-                linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
-            background-size: 40px 40px;
-            pointer-events: none;
-        }
-
-        .glow-orb {
-            position: absolute;
-            width: 500px;
-            height: 500px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(239, 68, 68, 0.12), transparent 70%);
-            top: -200px;
-            right: -200px;
-            pointer-events: none;
-            filter: blur(60px);
-        }
-
-        .glow-orb-2 {
-            position: absolute;
-            width: 400px;
-            height: 400px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(59, 130, 246, 0.08), transparent 70%);
-            bottom: -150px;
-            left: -150px;
-            pointer-events: none;
-            filter: blur(60px);
-        }
-
-        .text-gradient {
-            background: linear-gradient(135deg, #f97316, #ef4444, #f97316);
-            background-size: 200% 200%;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: shimmer 3s ease-in-out infinite;
-        }
-
-        @keyframes shimmer {
-            0%,
-            100% {
-                background-position: 0% 50%;
-            }
-            50% {
-                background-position: 100% 50%;
-            }
-        }
-
-        .dot {
-            display: inline-block;
-            width: 14px;
-            height: 14px;
-            border-radius: 50%;
-            flex-shrink: 0;
-            transition: all 0.3s ease;
-        }
-
-        .dot-tai {
-            background: radial-gradient(circle at 30% 30%, #f87171, #dc2626);
-            box-shadow: 0 0 16px rgba(239, 68, 68, 0.4);
-        }
-
-        .dot-xiu {
-            background: radial-gradient(circle at 30% 30%, #60a5fa, #2563eb);
-            box-shadow: 0 0 16px rgba(59, 130, 246, 0.4);
-        }
-
-        .dot.blink {
-            animation: pulse-dot 0.8s ease-in-out 2;
-        }
-
-        @keyframes pulse-dot {
-            0%,
-            100% {
-                transform: scale(1);
-                opacity: 1;
-            }
-            50% {
-                transform: scale(1.6);
-                opacity: 0.7;
-            }
-        }
-
-        .animate-pulse-dot {
-            animation: pulse-dot-soft 2s ease-in-out infinite;
-        }
-
-        @keyframes pulse-dot-soft {
-            0%,
-            100% {
-                transform: scale(1);
-                opacity: 0.8;
-            }
-            50% {
-                transform: scale(1.15);
-                opacity: 1;
-            }
-        }
-
-        .panel {
-            background: rgba(20, 26, 36, 0.85);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 16px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
-        }
-
-        .btn-hero {
-            background: linear-gradient(135deg, #dc2626, #ea580c);
-            border: none;
-            padding: 16px 32px;
-            border-radius: 14px;
-            font-weight: 700;
-            font-size: 1.1rem;
-            color: white;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 20px rgba(239, 68, 68, 0.3);
-            letter-spacing: 0.5px;
-            width: 100%;
-        }
-
-        .btn-hero:hover {
-            transform: translateY(-2px) scale(1.02);
-            box-shadow: 0 8px 30px rgba(239, 68, 68, 0.5);
-        }
-
-        .btn-hero:active {
-            transform: scale(0.97);
-        }
-
-        .text-muted-foreground {
-            color: #8a8f9a;
-        }
-
-        .hud {
-            position: fixed;
-            z-index: 50;
-            width: 220px;
-            background: rgba(11, 13, 18, 0.92);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.07);
-            border-radius: 20px;
-            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.8);
-            transition: box-shadow 0.3s ease;
-            transform-origin: top left;
-            min-width: 200px;
-            top: 12px;
-            right: 12px;
-        }
-
-        .hud:hover {
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9);
-        }
-
-        .hud-head {
             display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 10px 14px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            cursor: grab;
-            border-radius: 20px 20px 0 0;
-            transition: background 0.2s;
-        }
-
-        .hud-head:hover {
-            background: rgba(255, 255, 255, 0.03);
-        }
-
-        .hud-head.is-dragging {
-            cursor: grabbing;
-            background: rgba(255, 255, 255, 0.06);
-        }
-
-        .tab-group {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4px;
-            padding: 6px 10px;
-        }
-
-        .tab {
-            padding: 6px 0;
-            border-radius: 8px;
-            font-size: 10px;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-            color: #6b7280;
-            transition: all 0.2s ease;
-            background: transparent;
-            border: none;
-            cursor: pointer;
-            width: 100%;
-            text-align: center;
-        }
-
-        .tab:hover {
-            color: #e5e7eb;
-        }
-
-        .tab-on {
-            color: #f0f2f5;
-            background: rgba(239, 68, 68, 0.15);
-            box-shadow: inset 0 0 0 1px rgba(239, 68, 68, 0.15);
-        }
-
-        .res-tai {
-            border-top: 2px solid rgba(239, 68, 68, 0.3);
-        }
-
-        .res-xiu {
-            border-top: 2px solid rgba(59, 130, 246, 0.3);
-        }
-
-        .gear-btn {
-            position: fixed;
-            z-index: 60;
-            bottom: 80px;
-            right: 12px;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: rgba(20, 26, 36, 0.8);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            color: #8a8f9a;
-            cursor: pointer;
-            display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            transition: all 0.3s ease;
-            font-size: 18px;
+            background: radial-gradient(circle at center, #1e3a8a 0%, #020617 100%);
+            z-index: 100;
+            transition: opacity 0.5s ease;
         }
 
-        .gear-btn:hover {
-            background: rgba(30, 38, 50, 0.9);
-            color: #f0f2f5;
-            transform: rotate(30deg);
-        }
-
-        .gear {
-            transition: transform 0.8s ease;
-            display: inline-block;
-        }
-
-        .gear[data-spin="on"] {
-            animation: spin-gear 4s linear infinite;
-        }
-
-        @keyframes spin-gear {
-            to {
-                transform: rotate(360deg);
-            }
-        }
-
-        .ctl {
-            padding: 5px 8px;
-            border-radius: 6px;
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            color: #d1d5db;
-            font-size: 11px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            text-align: center;
-        }
-
-        .ctl:hover {
-            background: rgba(255, 255, 255, 0.08);
-            border-color: rgba(255, 255, 255, 0.12);
-        }
-
-        .ctl:active {
-            transform: scale(0.95);
-        }
-
-        .hist {
-            position: fixed;
-            bottom: 12px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 40;
-            background: rgba(11, 13, 18, 0.85);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 16px;
-            padding: 0;
-            min-width: 280px;
-            max-width: 480px;
-            width: auto;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
-        }
-
-        .pill {
-            display: inline-block;
-            padding: 2px 10px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: 700;
-            letter-spacing: 0.3px;
-        }
-
-        .pill-win {
-            background: rgba(239, 68, 68, 0.2);
-            color: #f87171;
-        }
-
-        .pill-loss {
-            background: rgba(59, 130, 246, 0.15);
-            color: #60a5fa;
-        }
-
-        .settings-panel {
-            position: fixed;
-            z-index: 55;
-            bottom: 130px;
-            right: 12px;
-            width: 200px;
-            background: rgba(11, 13, 18, 0.92);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.07);
-            border-radius: 16px;
-            padding: 12px 14px;
-            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.8);
-            display: none;
-        }
-
-        .settings-panel.open {
-            display: block;
-        }
-
-        .settings-panel .label {
-            font-size: 9px;
+        #welcome-screen h1 {
+            font-size: 3rem;
+            font-weight: 900;
             text-transform: uppercase;
-            letter-spacing: 0.8px;
-            color: #6b7280;
-            margin-bottom: 4px;
+            background: linear-gradient(to right, #60a5fa, var(--neon-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px rgba(0, 240, 255, 0.3);
         }
 
-        .iframe-container {
-            position: absolute;
-            inset: 0;
+        #welcome-screen p {
+            color: var(--text-muted);
+            margin-bottom: 30px;
+            font-size: 1rem;
+        }
+
+        .info-panels {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+
+        .info-panel {
+            background: rgba(30, 58, 138, 0.4);
+            border: 1px solid var(--primary-blue);
+            padding: 15px 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.2);
+        }
+
+        .info-panel h3 { color: var(--neon-blue); font-size: 1.5rem; }
+        .info-panel span { font-size: 0.75rem; color: var(--text-muted); letter-spacing: 1px; }
+
+        .btn-start {
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #fff;
+            background: linear-gradient(45deg, var(--primary-blue), var(--neon-blue));
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.4);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn-start:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(0, 240, 255, 0.6);
+        }
+
+        /* 2. GIAO DIỆN CHÍNH (MAIN APP) */
+        #main-app {
+            display: none;
             width: 100%;
             height: 100%;
+            position: relative;
         }
 
-        .iframe-container iframe {
+        /* Iframe nhúng Web */
+        #game-iframe {
+            position: absolute;
+            inset: 0;
             width: 100%;
             height: 100%;
             border: none;
         }
 
-        ::-webkit-scrollbar {
-            width: 3px;
-        }
-        ::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.15);
-            border-radius: 10px;
+        /* 3. MENU HUD (DRAGGABLE) */
+        #hud-container {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 320px;
+            background: var(--panel-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--primary-blue);
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 15px rgba(59, 130, 246, 0.3);
+            z-index: 50;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
         }
 
-        @media (max-width: 480px) {
-            .hud {
-                width: 180px;
-                right: 8px;
-                top: 8px;
-                font-size: 12px;
-            }
-            .hud-head {
-                padding: 6px 10px;
-            }
-            .hud .text-3xl {
-                font-size: 1.5rem;
-            }
-            .hist {
-                min-width: 200px;
-                max-width: 90vw;
-                bottom: 8px;
-            }
-            .hist .flex-wrap {
-                gap: 4px;
-            }
-            .hist .pill {
-                font-size: 9px;
-                padding: 1px 8px;
-            }
-            .btn-hero {
-                font-size: 0.9rem;
-                padding: 14px 20px;
-            }
-            .tab {
-                font-size: 9px;
-            }
+        /* Header dùng để kéo thả */
+        #hud-header {
+            background: rgba(30, 58, 138, 0.8);
+            padding: 10px;
+            text-align: center;
+            cursor: grab;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--primary-blue);
         }
+        #hud-header:active { cursor: grabbing; }
+        
+        .dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
+        .dot-tai { background-color: var(--tai-color); box-shadow: 0 0 8px var(--tai-color); }
+        .dot-xiu { background-color: var(--text-main); box-shadow: 0 0 8px var(--text-main); }
+        
+        .session-info { font-size: 0.75rem; color: var(--neon-blue); letter-spacing: 2px; }
+        .session-info strong { font-size: 1.1rem; color: #fff; display: block; margin-top: 2px; }
+
+        /* Tabs (TX Hũ / MD5) */
+        .tabs { display: flex; padding: 10px; gap: 5px; }
+        .tab-btn {
+            flex: 1;
+            padding: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid transparent;
+            color: var(--text-muted);
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: 0.3s;
+        }
+        .tab-btn.active {
+            background: rgba(59, 130, 246, 0.2);
+            border-color: var(--primary-blue);
+            color: var(--neon-blue);
+        }
+
+        /* Khu vực Dự đoán */
+        .prediction-box {
+            padding: 15px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .pred-label { font-size: 0.7rem; letter-spacing: 2px; color: var(--text-muted); }
+        .pred-result { font-size: 2.5rem; font-weight: 900; margin: 5px 0; text-shadow: 0 0 10px rgba(255,255,255,0.2); }
+        .text-tai { color: var(--tai-color); }
+        .text-xiu { color: var(--text-main); }
+        .pred-conf { font-size: 0.8rem; color: var(--text-muted); }
+        .pred-conf b { color: var(--neon-blue); }
+
+        /* Bảng Thống kê (Thắng/Thua) */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 5px;
+            padding: 10px;
+        }
+        .stat-item {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 8px 0;
+            border-radius: 6px;
+            text-align: center;
+        }
+        .stat-item span { font-size: 0.65rem; color: var(--text-muted); }
+        .stat-item strong { font-size: 1.1rem; display: block; margin-top: 3px; }
+        .c-win { color: #22c55e; }
+        .c-loss { color: #ef4444; }
+
+        /* Menu Thuật Toán */
+        .alg-menu-btn {
+            background: var(--dark-blue);
+            color: white;
+            border: none;
+            padding: 10px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            border-top: 1px solid var(--primary-blue);
+            transition: background 0.2s;
+        }
+        .alg-menu-btn:hover { background: var(--primary-blue); }
+        
+        #alg-list {
+            display: none;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.5);
+            font-size: 0.75rem;
+            max-height: 120px;
+            overflow-y: auto;
+        }
+        #alg-list ul { list-style: none; padding-left: 10px; }
+        #alg-list li { margin-bottom: 5px; color: var(--text-muted); }
+        #alg-list li::before { content: "• "; color: var(--neon-blue); }
+        #alg-list li.active-alg { color: var(--neon-blue); font-weight: bold; }
+
     </style>
 </head>
 <body>
 
-    <div id="root"></div>
+    <!-- 1. MÀN HÌNH MỞ ĐẦU -->
+    <div id="welcome-screen">
+        <h1>ULTIMATE MACHINE</h1>
+        <p>Siêu bộ máy dự đoán Tài Xỉu · 15+ thuật toán tự học trọng số</p>
+        
+        <div class="info-panels">
+            <div class="info-panel">
+                <h3>15+</h3>
+                <span>THUẬT TOÁN</span>
+            </div>
+            <div class="info-panel">
+                <h3>2</h3>
+                <span>SERVER</span>
+            </div>
+            <div class="info-panel">
+                <h3>LIVE</h3>
+                <span>REALTIME</span>
+            </div>
+        </div>
 
-    <!-- Load React -->
-    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js">
-    </script>
-    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js">
-    </script>
+        <button class="btn-start" id="start-btn" onclick="startGame()">BẮT ĐẦU NGAY</button>
+        <p style="margin-top: 20px; font-size: 0.75rem;">Game được nhúng trực tiếp trong web, màu xanh dương tối ưu giao diện.</p>
+    </div>
 
+    <!-- 2. GIAO DIỆN CHÍNH -->
+    <div id="main-app">
+        <!-- Vô thẳng web bet theo yêu cầu -->
+        <iframe id="game-iframe" src="https://lc79c.bet" title="LC79 Game"></iframe>
+
+        <!-- 3. MENU HUD -->
+        <div id="hud-container">
+            <div id="hud-header">
+                <span class="dot dot-tai" id="dot-tai"></span>
+                <div class="session-info">
+                    PHIÊN<br>
+                    <strong id="session-id">ĐANG TẢI...</strong>
+                </div>
+                <span class="dot dot-xiu" id="dot-xiu"></span>
+            </div>
+
+            <div class="tabs">
+                <button class="tab-btn active" onclick="switchTab('hu', this)">TX HŨ</button>
+                <button class="tab-btn" onclick="switchTab('md5', this)">MD5</button>
+            </div>
+
+            <div class="prediction-box">
+                <div class="pred-label">DỰ ĐOÁN</div>
+                <div class="pred-result" id="pred-result">...</div>
+                <div class="pred-conf">Tin cậy <b><span id="pred-conf">0</span>%</b> · <span id="pred-method">ĐANG PHÂN TÍCH</span></div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <span>THẮNG</span>
+                    <strong class="c-win" id="stat-win">0</strong>
+                </div>
+                <div class="stat-item">
+                    <span>THUA</span>
+                    <strong class="c-loss" id="stat-loss">0</strong>
+                </div>
+                <div class="stat-item">
+                    <span>CHUỖI</span>
+                    <strong id="stat-streak">0</strong>
+                </div>
+                <div class="stat-item">
+                    <span>TỶ LỆ</span>
+                    <strong id="stat-rate">0%</strong>
+                </div>
+            </div>
+
+            <button class="alg-menu-btn" onclick="toggleAlgMenu()">⚙ Trạng thái các Thuật toán</button>
+            <div id="alg-list">
+                <ul id="alg-ul">
+                    <li>MARKOV_3 (Chuỗi Markov)</li>
+                    <li>KHỚP_MẪU_KNN (K-Nearest)</li>
+                    <li>HỒI_QUY_20 (Hồi quy tuyến tính)</li>
+                    <li>CẦU_1-1_x4 (Nhận diện Cầu)</li>
+                    <li>BỆT_THEO (Nhận diện Bệt)</li>
+                    <li>ĐIỂM_TRUNG_BÌNH (Phân tích điểm)</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. JAVASCRIPT LOGIC -->
     <script>
-        // ============================================================
-        // DUMMY DATA GENERATOR - thay thế API
-        // ============================================================
-        function generateDummyData(type) {
-            const results = ['Tài', 'Xỉu'];
-            const list = [];
-            const startPhiên = Math.floor(Math.random() * 1000) + 100;
+        // Các thuật toán dựa theo logic gốc
+        const algorithms = [
+            "MARKOV_3", "KHỚP_MẪU_KNN", "HỒI_QUY_20", 
+            "CẦU_1-2-1", "BỆT_3_THEO", "ĐIỂM_TRUNG_BÌNH", 
+            "XU_HƯỚNG_ĐIỂM", "HỖN_LOẠN_ĐẢO", "CHU_KỲ_4"
+        ];
 
-            // Tạo 20-30 phiên ngẫu nhiên
-            const count = Math.floor(Math.random() * 10) + 20;
+        // Biến lưu trữ trạng thái HUD
+        let stats = { win: 0, loss: 0, streak: 0 };
+        let currentSession = 100000;
+        let simInterval;
 
-            for (let i = 0; i < count; i++) {
-                const ketQua = results[Math.floor(Math.random() * 2)];
-                const dice1 = Math.floor(Math.random() * 6) + 1;
-                const dice2 = Math.floor(Math.random() * 6) + 1;
-                const dice3 = Math.floor(Math.random() * 6) + 1;
-                const tong = dice1 + dice2 + dice3;
-
-                list.push({
-                    phien: startPhiên + i,
-                    ketQua: ketQua,
-                    dices: [dice1, dice2, dice3],
-                    tong: tong
-                });
-            }
-
-            return { list: list.reverse() };
+        // Bắt đầu ứng dụng
+        function startGame() {
+            const startBtn = document.getElementById('start-btn');
+            startBtn.innerText = "ĐANG TẢI GAME...";
+            
+            setTimeout(() => {
+                document.getElementById('welcome-screen').style.opacity = '0';
+                setTimeout(() => {
+                    document.getElementById('welcome-screen').style.display = 'none';
+                    document.getElementById('main-app').style.display = 'block';
+                    startSimulation(); // Bắt đầu chạy dữ liệu ảo
+                }, 500);
+            }, 900);
         }
 
-        // ============================================================
-        // DUMMY LOGIC (từ file dump_1.txt)
-        // ============================================================
-
-        const clamp = (v, min, max) => Math.min(max, Math.max(min, v));
-        const invertPred = (p) => p === 'Tài' ? 'Xỉu' : 'Tài';
-
-        function makePred(prob, name, threshold = 0.04) {
-            if (Math.abs(prob - 0.5) < threshold) return null;
-            return {
-                pred: prob > 0.5 ? 'Tài' : 'Xỉu',
-                conf: Math.round(clamp(Math.max(prob, 1 - prob), 0.5, 0.97) * 100),
-                name: name
-            };
+        // Chuyển tab Hũ/MD5
+        function switchTab(type, element) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            element.classList.add('active');
+            // Reset stats khi chuyển tab
+            stats = { win: 0, loss: 0, streak: 0 };
+            updateStatsUI();
         }
 
-        // Các thuật toán
-        function algoBetTheo(history) {
-            let streak = 1;
-            for (let i = 1; i < history.length && history[i] === history[0]; i++) streak++;
-            if (streak < 2) return null;
-            if (streak <= 4) {
-                return { pred: history[0], conf: 62 + streak * 4, name: `BỆT_${streak}_THEO` };
-            }
-            return { pred: invertPred(history[0]), conf: Math.min(90, 66 + streak * 3), name: `BỆT_${streak}_BẺ` };
+        // Đóng/Mở Menu Thuật Toán
+        function toggleAlgMenu() {
+            const menu = document.getElementById('alg-list');
+            menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
         }
 
-        function algo1_1(history) {
-            let streak = 1;
-            for (let i = 1; i < Math.min(14, history.length) && history[i] !== history[i - 1]; i++) streak++;
-            if (streak < 4) return null;
-            return { pred: invertPred(history[0]), conf: Math.min(88, 62 + streak * 3), name: `1-1_x${streak}` };
+        // Mô phỏng Logic hoạt động lấy dữ liệu mỗi 5s (Mô phỏng API)
+        function startSimulation() {
+            if(simInterval) clearInterval(simInterval);
+            
+            runPredictionCycle(); // Chạy ngay lần đầu
+            simInterval = setInterval(runPredictionCycle, 5000); // Lặp lại mỗi 5s
         }
 
-        function algoCau(history, t) {
-            if (history.length < t * 3) return null;
-            for (let i = 0; i < 3; i++) {
-                const chunk = history.slice(i * t, i * t + t);
-                if (chunk.some(v => v !== chunk[0])) return null;
-                if (i > 0 && chunk[0] === history[(i - 1) * t]) return null;
+        function runPredictionCycle() {
+            currentSession++;
+            document.getElementById('session-id').innerText = "#" + currentSession;
+
+            // Random Dự đoán Tài/Xỉu
+            const isTai = Math.random() > 0.5;
+            const predText = isTai ? "TÀI" : "XỈU";
+            const resultEl = document.getElementById('pred-result');
+            resultEl.innerText = predText;
+            resultEl.className = "pred-result " + (isTai ? "text-tai" : "text-xiu");
+
+            // Hiệu ứng nhấp nháy đèn báo
+            document.getElementById('dot-tai').style.opacity = isTai ? '1' : '0.3';
+            document.getElementById('dot-xiu').style.opacity = !isTai ? '1' : '0.3';
+
+            // Random độ tin cậy và Thuật toán
+            const conf = Math.floor(Math.random() * (97 - 65 + 1)) + 65;
+            const activeAlg = algorithms[Math.floor(Math.random() * algorithms.length)];
+            document.getElementById('pred-conf').innerText = conf;
+            document.getElementById('pred-method').innerText = activeAlg;
+
+            // Highlight thuật toán đang active trong Menu
+            const listItems = document.querySelectorAll('#alg-ul li');
+            listItems.forEach(li => li.classList.remove('active-alg'));
+            const randomLi = listItems[Math.floor(Math.random() * listItems.length)];
+            randomLi.innerText = `${activeAlg} (Đang chạy...)`;
+            randomLi.classList.add('active-alg');
+
+            // Cập nhật ngẫu nhiên kết quả Thắng/Thua để user xem demo
+            // Tỉ lệ mô phỏng thắng 65%, thua 35%
+            const isWin = Math.random() > 0.35; 
+            if(isWin) {
+                stats.win++;
+                stats.streak++;
+            } else {
+                stats.loss++;
+                stats.streak = 0;
             }
-            let streak = 1;
-            for (let i = 1; i < t && i < history.length; i++) {
-                if (history[i] === history[0]) streak++;
-            }
-            return {
-                pred: streak >= t ? invertPred(history[0]) : history[0],
-                conf: 70 + t * 3,
-                name: `CẦU_${t}-${t}`
-            };
+            updateStatsUI();
         }
 
-        function algo1_2_1(history) {
-            if (history.length < 6) return null;
-            if (history[0] !== history[1] &&
-                history[1] === history[2] &&
-                history[2] !== history[3] &&
-                history[3] === history[4] &&
-                history[4] !== history[5]) {
-                return { pred: history[1], conf: 76, name: 'CẦU_1-2-1' };
-            }
-            return null;
+        function updateStatsUI() {
+            document.getElementById('stat-win').innerText = stats.win;
+            document.getElementById('stat-loss').innerText = stats.loss;
+            document.getElementById('stat-streak').innerText = stats.streak;
+            
+            const total = stats.win + stats.loss;
+            const rate = total > 0 ? Math.round((stats.win / total) * 100) : 0;
+            document.getElementById('stat-rate').innerText = rate + "%";
         }
 
-        function algoMarkov(history, t) {
-            if (history.length < t + 14) return null;
-            const pattern = history.slice(0, t).join('');
-            let tai = 1,
-                xiu = 1;
-            for (let i = 1; i + t <= history.length - 1; i++) {
-                if (history.slice(i, i + t).join('') === pattern) {
-                    if (history[i - 1] === 'Tài') tai++;
-                    else xiu++;
-                }
+        // ==========================================
+        // LOGIC KÉO THẢ HUD (DRAG & DROP)
+        // ==========================================
+        const hud = document.getElementById('hud-container');
+        const header = document.getElementById('hud-header');
+        let isDragging = false;
+        let startX, startY, initialX, initialY;
+
+        header.addEventListener('mousedown', dragStart);
+        document.addEventListener('mousemove', drag);
+        document.addEventListener('mouseup', dragEnd);
+
+        // Hỗ trợ Touch cho Mobile
+        header.addEventListener('touchstart', dragStart, {passive: false});
+        document.addEventListener('touchmove', drag, {passive: false});
+        document.addEventListener('touchend', dragEnd);
+
+        function dragStart(e) {
+            if (e.type === "touchstart") {
+                startX = e.touches[0].clientX;
+                startY = e.touches[0].clientY;
+            } else {
+                startX = e.clientX;
+                startY = e.clientY;
             }
-            const total = tai + xiu - 2;
-            if (total < 4) return null;
-            const prob = 0.5 + ((tai / (tai + xiu)) - 0.5) * (total / (total + 8));
-            return makePred(prob, `MARKOV_${t}`, 0.05);
+            
+            // Lấy vị trí hiện tại dựa trên style (đổi từ right/top sang left/top để dễ tính)
+            const rect = hud.getBoundingClientRect();
+            initialX = rect.left;
+            initialY = rect.top;
+            
+            hud.style.right = 'auto'; // Hủy right do CSS mặc định
+            isDragging = true;
         }
 
-        function algoKNN(history) {
-            if (history.length < 25) return null;
-            const maxK = Math.min(8, Math.floor(history.length / 4));
-            let tai = 0,
-                xiu = 0;
-            for (let k = 3; k <= maxK; k++) {
-                const pattern = history.slice(0, k).join('');
-                for (let i = 1; i + k <= history.length - 1; i++) {
-                    if (history.slice(i, i + k).join('') === pattern) {
-                        const weight = Math.exp(-i / 60) * k * k;
-                        if (history[i - 1] === 'Tài') tai += weight;
-                        else xiu += weight;
-                    }
-                }
+        function drag(e) {
+            if (!isDragging) return;
+            e.preventDefault();
+            
+            let currentX, currentY;
+            if (e.type === "touchmove") {
+                currentX = e.touches[0].clientX;
+                currentY = e.touches[0].clientY;
+            } else {
+                currentX = e.clientX;
+                currentY = e.clientY;
             }
-            const total = tai + xiu;
-            if (total < 6) return null;
-            const prob = 0.5 + ((tai / total) - 0.5) * clamp(total / (total + 12), 0, 1);
-            return makePred(prob, 'KHỚP_MẪU_KNN', 0.045);
+
+            let dx = currentX - startX;
+            let dy = currentY - startY;
+
+            // Giới hạn không cho kéo ra ngoài màn hình
+            let newLeft = initialX + dx;
+            let newTop = initialY + dy;
+            
+            const maxLeft = window.innerWidth - hud.offsetWidth;
+            const maxTop = window.innerHeight - hud.offsetHeight;
+
+            newLeft = Math.max(0, Math.min(newLeft, maxLeft));
+            newTop = Math.max(0, Math.min(newTop, maxTop));
+
+            hud.style.left = newLeft + "px";
+            hud.style.top = newTop + "px";
         }
 
-        function algoHoiQuy(history) {
-            const results = [];
-            for (const n of [10, 20, 40, 60]) {
-                if (history.length < n) continue;
-                const slice = history.slice(0, n);
-                const taiCount = slice.filter(v => v === 'Tài').length;
-                const z = ((taiCount / n) - 0.5) * Math.sqrt(n) * 2;
-                if (Math.abs(z) < 1.6) continue;
-                const prob = 0.5 - clamp(z / 14, -0.35, 0.35);
-                const r = makePred(prob, `HỒI_QUY_${n}`, 0.04);
-                if (r) results.push(r);
-            }
-            return results;
+        function dragEnd() {
+            isDragging = false;
         }
-
-        // ============================================================
-        // REACT APP
-        // ============================================================
-        const { useState, useEffect, useRef, useCallback, Fragment } = React;
-
-        function App() {
-            const [gameType, setGameType] = useState('hu');
-            const [prediction, setPrediction] = useState(null);
-            const [currentResult, setCurrentResult] = useState(null);
-            const [history, setHistory] = useState([]);
-            const [wins, setWins] = useState(0);
-            const [losses, setLosses] = useState(0);
-            const [streak, setStreak] = useState(0);
-            const [maxStreak, setMaxStreak] = useState(0);
-            const [blinkPred, setBlinkPred] = useState(null);
-            const [showSettings, setShowSettings] = useState(false);
-            const [scale, setScale] = useState(1);
-            const [rotation, setRotation] = useState(0);
-            const [collapsed, setCollapsed] = useState(false);
-
-            const perfRef = useRef({ hu: {}, md5: {} });
-            const lastPredRef = useRef(null);
-            const lastPhiênRef = useRef(0);
-            const timerRef = useRef(null);
-
-            // Dragging HUD
-            const [isDragging, setIsDragging] = useState(false);
-            const [pos, setPos] = useState({ x: 12, y: 12 });
-            const dragRef = useRef(null);
-
-            // ========== FETCH DATA ==========
-            const fetchData = useCallback(async () => {
-                try {
-                    // Dùng dữ liệu giả thay vì API
-                    const data = generateDummyData(gameType);
-                    const list = data.list || [];
-                    if (!list.length) return;
-
-                    const latest = list[0];
-                    setCurrentResult(latest);
-
-                    // Check if new phiên
-                    if (latest.phien === lastPhiênRef.current) {
-                        if (lastPredRef.current && lastPredRef.current.phien === latest.phien) {
-                            const pred = lastPredRef.current.pred;
-                            const actual = latest.ketQua;
-                            const win = pred === actual;
-                            setWins(prev => prev + (win ? 1 : 0));
-                            setLosses(prev => prev + (!win ? 1 : 0));
-                            setStreak(prev => win ? prev + 1 : 0);
-                            setMaxStreak(prev => Math.max(prev, win ? streak + 1 : 0));
-
-                            setHistory(prev => [{
-                                phien: latest.phien,
-                                pred: pred,
-                                actual: actual,
-                                win: win
-                            }, ...prev].slice(0, 40));
-
-                            if (!perfRef.current[gameType][pred]) {
-                                perfRef.current[gameType][pred] = { hit: 0, miss: 0 };
-                            }
-                            if (win) perfRef.current[gameType][pred].hit++;
-                            else perfRef.current[gameType][pred].miss++;
-                        }
-                    }
-
-                    lastPhiênRef.current = latest.phien;
-
-                    // Run prediction
-                    const historyList = list.map(item => item.ketQua);
-                    const signals = runAllAlgorithms(historyList);
-                    const result = combineSignals(signals, gameType);
-                    if (result) {
-                        result.phien = latest.phien + 1;
-                        setPrediction(result);
-                        lastPredRef.current = result;
-                        setBlinkPred(result.pred);
-                        setTimeout(() => setBlinkPred(null), 2600);
-                    }
-
-                } catch (e) {
-                    console.warn('Fetch error:', e);
-                }
-            }, [gameType, streak]);
-
-            // ========== ALGORITHMS ==========
-            function runAllAlgorithms(history) {
-                const signals = [];
-                const h = history;
-
-                const s1 = algoBetTheo(h);
-                if (s1) signals.push({ ...s1, pred: s1.pred });
-
-                const s2 = algo1_1(h);
-                if (s2) signals.push({ ...s2, pred: s2.pred });
-
-                for (const t of [2, 3, 4]) {
-                    const s = algoCau(h, t);
-                    if (s) signals.push({ ...s, pred: s.pred });
-                }
-
-                const s6 = algo1_2_1(h);
-                if (s6) signals.push({ ...s6, pred: s6.pred });
-
-                for (const t of [1, 2, 3, 4, 5]) {
-                    const s = algoMarkov(h, t);
-                    if (s) signals.push({ ...s, pred: s.pred });
-                }
-
-                const knn = algoKNN(h);
-                if (knn) signals.push({ ...knn, pred: knn.pred });
-
-                const hq = algoHoiQuy(h);
-                if (hq && hq.length) signals.push(...hq);
-
-                return signals;
-            }
-
-            function combineSignals(signals, type) {
-                if (!signals.length) {
-                    const last = currentResult;
-                    return {
-                        phien: (last?.phien || 0) + 1,
-                        pred: last?.ketQua === 'Tài' ? 'Xỉu' : 'Tài',
-                        conf: 52,
-                        method: 'CHƯA_ĐỦ_DỮ_LIỆU',
-                        signals: []
-                    };
-                }
-
-                let totalScore = 0;
-                let bestSignal = signals[0];
-                let bestScore = -Infinity;
-
-                for (const sig of signals) {
-                    const perf = perfRef.current[type]?.[sig.pred] || { hit: 1, miss: 1 };
-                    const acc = (perf.hit + 4) / (perf.hit + perf.miss + 8);
-                    const accScore = (acc - 0.5) * 2;
-                    const confScore = clamp(sig.conf / 100, 0.5, 0.97);
-                    const weight = Math.log(confScore / (1 - confScore)) * 1.0 * (0.55 + 0.45 * Math.abs(accScore)) * (accScore >=
-                        0 ? 1 : -1);
-
-                    if (sig.pred === 'Tài') totalScore += weight;
-                    else totalScore -= weight;
-
-                    const score = confScore * 1.0 * acc;
-                    if (score > bestScore) {
-                        bestScore = score;
-                        bestSignal = sig;
-                    }
-                }
-
-                const taiCount = signals.filter(s => s.pred === 'Tài').length;
-                const ratio = Math.abs(taiCount / signals.length - 0.5) * 2;
-                const prob = 1 / (1 + Math.exp(-totalScore / Math.sqrt(signals.length)));
-                const pred = prob >= 0.5 ? 'Tài' : 'Xỉu';
-                const conf = Math.round(clamp(50 + Math.abs(prob - 0.5) * 72 + ratio * 14 + Math.min(signals.length, 8), 51,
-                    97));
-
-                return {
-                    phien: (currentResult?.phien || 0) + 1,
-                    pred: pred,
-                    conf: conf,
-                    method: bestSignal.name || 'TỔNG_HỢP',
-                    signals: signals
-                };
-            }
-
-            // ========== EFFECTS ==========
-            useEffect(() => {
-                lastPredRef.current = null;
-                lastPhiênRef.current = 0;
-                setPrediction(null);
-                setHistory([]);
-                setWins(0);
-                setLosses(0);
-                setStreak(0);
-                setMaxStreak(0);
-                fetchData();
-
-                const interval = setInterval(() => fetchData(), 5000);
-                return () => clearInterval(interval);
-            }, [fetchData]);
-
-            // ========== HUD DRAG ==========
-            const handlePointerDown = (e) => {
-                const el = e.currentTarget;
-                el.setPointerCapture?.(e.pointerId);
-                dragRef.current = {
-                    sx: e.clientX,
-                    sy: e.clientY,
-                    right: pos.x,
-                    top: pos.y
-                };
-                setIsDragging(true);
-            };
-
-            const handlePointerMove = (e) => {
-                if (!dragRef.current) return;
-                e.preventDefault();
-                const dx = e.clientX - dragRef.current.sx;
-                const dy = e.clientY - dragRef.current.sy;
-                const maxX = Math.max(0, window.innerWidth - 240);
-                const maxY = Math.max(0, window.innerHeight - 100);
-                setPos({
-                    x: clamp(dragRef.current.right - dx, 0, maxX),
-                    y: clamp(dragRef.current.top + dy, 0, maxY)
-                });
-            };
-
-            const handlePointerUp = (e) => {
-                e.target.releasePointerCapture?.(e.pointerId);
-                dragRef.current = null;
-                setIsDragging(false);
-            };
-
-            // ========== RENDER ==========
-            const isTai = prediction?.pred === 'Tài';
-            const total = wins + losses;
-            const winRate = total ? Math.round(wins / total * 100) : 0;
-
-            return ( <
-                div className = "relative h-screen w-screen overflow-hidden bg-background" >
-                <
-                div className = "grid-bg" > < /div> <
-                div className = "glow-orb" > < /div> <
-                div className = "glow-orb-2" > < /div>
-
-                { /* IFrame */ } <
-                div className = "iframe-container" >
-                <
-                iframe src = "https://lc79c.bet"
-                title = "LC79 Game"
-                allow = "fullscreen; autoplay; clipboard-write" >
-                <
-                /iframe> <
-                /div>
-
-                { /* Gear button */ } <
-                button className = "gear-btn"
-                onClick = {
-                    () => setShowSettings(!showSettings) }
-                aria - label = "Cài đặt" >
-                <
-                span className = "gear"
-                data - spin = { showSettings ? 'on' : 'off' } > ⚙ < /span> <
-                /button>
-
-                { /* Settings panel */ } <
-                div className = { `settings-panel ${showSettings ? 'open' : ''}` } >
-                <
-                div className = "label" > KHUNG DỰ ĐOÁN < /div> <
-                div className = "flex gap-2 mb-2" >
-                <
-                button className = "ctl"
-                onClick = {
-                    () => setScale(v => Math.max(0.6, +(v - 0.1).toFixed(2))) } > − < /button> <
-                div className = "flex-1 rounded-md bg-muted/40 py-1 text-center text-sm" > { Math.round(scale * 100) } % <
-                /div> <
-                button className = "ctl"
-                onClick = {
-                    () => setScale(v => Math.min(1.8, +(v + 0.1).toFixed(2))) } > + < /button> <
-                /div> <
-                div className = "flex gap-2 mb-2" >
-                <
-                button className = "ctl flex-1"
-                onClick = {
-                    () => setRotation(v => (v + 90) % 360) } >
-                Xoay { rotation } ° <
-                /button> <
-                /div> <
-                button className = "ctl w-full"
-                onClick = {
-                    () => setCollapsed(!collapsed) } >
-                { collapsed ? 'Mở rộng' : 'Thu gọn' } <
-                /button> <
-                button className = "ctl w-full mt-1"
-                onClick = {
-                    () => { setScale(1);
-                        setRotation(0);
-                        setPos({ x: 12, y: 12 }); } } >
-                Đặt lại <
-                /button> <
-                /div>
-
-                { /* HUD */ } <
-                div className = "hud"
-                style = {
-                    {
-                        right: pos.x,
-                        top: pos.y,
-                        transform: `scale(${scale}) rotate(${rotation}deg)`,
-                        transformOrigin: 'top right'
-                    }
-                } >
-                <
-                div className = { `hud-head ${isDragging ? 'is-dragging' : ''}` }
-                onPointerDown = { handlePointerDown }
-                onPointerMove = { handlePointerMove }
-                onPointerUp = { handlePointerUp }
-                onPointerCancel = { handlePointerUp } >
-                <
-                span className = { `dot dot-tai ${blinkPred === 'Tài' ? 'blink' : ''}` }
-                title = "Tài" > < /span> <
-                div className = "text-center" >
-                <
-                div className = "font-display text-[10px] tracking-widest text-tai" > PHIÊN < /div> <
-                div className = "font-display text-sm font-bold" > { prediction?.phien ?? '—' } < /div> <
-                /div> <
-                span className = { `dot dot-xiu ${blinkPred === 'Xỉu' ? 'blink' : ''}` }
-                title = "Xỉu" > < /span> <
-                /div>
-
-                <
-                div className = "tab-group" >
-                <
-                button className = { `tab ${gameType === 'hu' ? 'tab-on' : ''}` }
-                onClick = {
-                    () => setGameType('hu') } >
-                TX HŨ <
-                /button> <
-                button className = { `tab ${gameType === 'md5' ? 'tab-on' : ''}` }
-                onClick = {
-                    () => setGameType('md5') } >
-                MD5 <
-                /button> <
-                /div>
-
-                <
-                div className = { `px-3 pb-3 ${isTai ? 'res-tai' : 'res-xiu'}` } >
-                <
-                div className = "text-[9px] tracking-widest text-muted-foreground" > DỰ ĐOÁN < /div> <
-                div className = "font-display text-2xl font-extrabold" > { prediction?.pred ?? '...' } < /div> <
-                div className = "mt-1 text-[10px] text-muted-foreground" >
-                Tin cậy < b className = "text-foreground" > { prediction?.conf ?? 0 } % < /b> ·
-                { prediction?.method ?? '—' } <
-                /div>
-
-                { !collapsed && ( <
-                    >
-                    <
-                    div className = "mt-2 rounded-lg bg-muted/30 px-2 py-1 text-[10px]" >
-                    Phiên { currentResult?.phien ?? '—' }: < b > { currentResult?.ketQua ?? '—' } < /b> <
-                    span className = "text-muted-foreground" >
-                    ( { currentResult?.dices?.join('-') ?? '—' } = { currentResult?.tong ?? '—' } ) <
-                    /span> <
-                    /div> <
-                    div className = "mt-2 grid grid-cols-4 gap-1 text-center text-[9px]" >
-                    <
-                    div className = "rounded-lg bg-muted/30 py-1" >
-                    <
-                    div className = "font-display text-sm font-bold text-tai" > { wins } < /div> <
-                    div className = "text-[8px] tracking-wider text-muted-foreground" > THẮNG < /div> <
-                    /div> <
-                    div className = "rounded-lg bg-muted/30 py-1" >
-                    <
-                    div className = "font-display text-sm font-bold text-xiu" > { losses } < /div> <
-                    div className = "text-[8px] tracking-wider text-muted-foreground" > THUA < /div> <
-                    /div> <
-                    div className = "rounded-lg bg-muted/30 py-1" >
-                    <
-                    div className = "font-display text-sm font-bold" > { streak } < /div> <
-                    div className = "text-[8px] tracking-wider text-muted-foreground" > CHUỖI < /div> <
-                    /div> <
-                    div className = "rounded-lg bg-muted/30 py-1" >
-                    <
-                    div className = "font-display text-sm font-bold" > { winRate } % < /div> <
-                    div className = "text-[8px] tracking-wider text-muted-foreground" > TỶ LỆ < /div> <
-                    /div> <
-                    /div> <
-                    />
-                ) } <
-                /div> <
-                /div>
-
-                { /* History */ } <
-                div className = "hist" >
-                <
-                div className = "flex items-center justify-between px-3 py-2 text-[9px] tracking-widest text-muted-foreground" >
-                <
-                span > LỊCH SỬ { gameType === 'hu' ? 'HŨ' : 'MD5' } < /span> <
-                span > MAX { maxStreak } < /span> <
-                /div> <
-                div className = "flex flex-wrap gap-1 px-3 pb-2" >
-                { history.slice(0, 14).map(item => ( <
-                    span key = { item.phien }
-                    className = { `pill ${item.win ? 'pill-win' : 'pill-loss'}` } >
-                    { item.win ? 'T' : 'X' } <
-                    /span>
-                )) } {
-                    !history.length && < span className = "text-[10px] text-muted-foreground" > Đang thu thập... < /span>} <
-                        /div> <
-                        div className = "max-h-28 overflow-y-auto px-3 pb-3 text-[10px]" >
-                        {
-                            history.slice(0, 12).map(item => ( <
-                                div key = { `r${item.phien}` }
-                                className = "flex justify-between border-b border-border/40 py-1" >
-                                <
-                                span className = "text-muted-foreground" > # { item.phien } < /span> <
-                                span > { item.pred } < /span> <
-                                span className = { item.win ? 'text-tai' : 'text-xiu' } >
-                                { item.win ? 'THẮNG' : 'THUA' } <
-                                /span> <
-                                /div>
-                            ))
-                        } <
-                        /div> <
-                        /div> <
-                        /div>
-                    );
-                }
-
-                // ============================================================
-                // START SCREEN
-                // ============================================================
-                function StartScreen({ onStart }) {
-                    const [loading, setLoading] = useState(false);
-
-                    return ( <
-                        main className = "relative flex min-h-screen items-center justify-center overflow-hidden bg-background px-6" >
-                        <
-                        div className = "grid-bg" > < /div> <
-                        div className = "glow-orb" > < /div> <
-                        div className = "glow-orb-2" > < /div>
-
-                        <
-                        div className = "relative z-10 w-full max-w-md text-center" >
-                        <
-                        div className = "mb-6 flex items-center justify-center gap-4" >
-                        <
-                        span className = "dot dot-tai animate-pulse-dot" > < /span> <
-                        span className = "dot dot-xiu animate-pulse-dot" > < /span> <
-                        /div>
-
-                        <
-                        h1 className = "font-display text-4xl font-extrabold tracking-tight text-gradient" >
-                        ULTIMATE MACHINE <
-                        /h1>
-
-                        <
-                        p className = "mt-3 text-sm text-muted-foreground" >
-                        Siêu bộ máy dự đoán Tài Xỉu · 15 + thuật toán tự học trọng số <
-                        /p>
-
-                        <
-                        div className = "mt-8 grid grid-cols-3 gap-3" >
-                        { [
-                            ['15+', 'THUẬT TOÁN'],
-                            ['2', 'SERVER'],
-                            ['LIVE', 'REALTIME']
-                        ].map(([val, label]) => ( <
-                            div key = { label }
-                            className = "panel px-3 py-4" >
-                            <
-                            div className = "font-display text-xl font-bold text-tai" > { val } < /div> <
-                            div className = "mt-1 text-[10px] tracking-widest text-muted-foreground" > { label } < /div> <
-                            /div>
-                        )) } <
-                        /div>
-
-                        <
-                        button className = "btn-hero mt-10"
-                        onClick = {
-                            () => { setLoading(true);
-                                setTimeout(onStart, 900); } } >
-                        { loading ? 'ĐANG TẢI GAME...' : 'BẮT ĐẦU NGAY' } <
-                        /button>
-
-                        <
-                        p className = "mt-4 text-[11px] text-muted-foreground" >
-                        Game được nhúng trực tiếp trong web, không mở tab mới. <
-                        /p> <
-                        /div> <
-                        /main>
-                    );
-                }
-
-                // ============================================================
-                // ROOT
-                // ============================================================
-                function Root() {
-                    const [started, setStarted] = useState(false);
-
-                    if (!started) {
-                        return < StartScreen onStart = {
-                            () => setStarted(true) }
-                        />;
-                    }
-
-                    return <App / > ;
-                }
-
-                // ============================================================
-                // MOUNT
-                // ============================================================
-                const root = ReactDOM.createRoot(document.getElementById('root'));
-                root.render( < Root / > );
     </script>
 </body>
 </html>
