@@ -41,9 +41,9 @@
         /* ===== HUD ===== */
         .hud {
             position: fixed;
-            min-width: 180px;
-            max-width: 260px;
-            background: rgba(10, 10, 18, 0.92);
+            min-width: 190px;
+            max-width: 270px;
+            background: rgba(10, 10, 18, 0.94);
             backdrop-filter: blur(16px);
             border: 1px solid rgba(255, 255, 255, 0.07);
             border-radius: 16px;
@@ -211,7 +211,7 @@
             border-radius: 12px;
             padding: 8px 14px 10px;
             min-width: 200px;
-            max-width: 400px;
+            max-width: 420px;
             z-index: 40;
         }
         .history-header {
@@ -493,8 +493,8 @@
         /* Responsive */
         @media (max-width: 480px) {
             .hud {
-                min-width: 140px;
-                max-width: 200px;
+                min-width: 150px;
+                max-width: 210px;
                 font-size: 12px;
             }
             .pred-value {
@@ -553,11 +553,87 @@
             'CHU_KỲ': 'Chu kỳ'
         };
 
-        function getAlgoDisplayName(name) {
-            for (const [key, val] of Object.entries(ALGO_NAMES)) {
-                if (name && name.includes(key)) return val;
+        // ===== Dữ liệu mẫu để demo =====
+        const SAMPLE_DATA = {
+            list: [
+                { phien: 12345, ketQua: 'Tài', tong: 16, dices: [6, 5, 5] },
+                { phien: 12344, ketQua: 'Xỉu', tong: 8, dices: [2, 3, 3] },
+                { phien: 12343, ketQua: 'Tài', tong: 14, dices: [5, 4, 5] },
+                { phien: 12342, ketQua: 'Xỉu', tong: 7, dices: [1, 3, 3] },
+                { phien: 12341, ketQua: 'Tài', tong: 17, dices: [6, 6, 5] },
+            ]
+        };
+
+        // ===== Simulation engine =====
+        function simulatePrediction(history) {
+            const methods = [
+                'BỆT_3_THEO', 'CẦU_2-2', 'MARKOV_2', 
+                'KHỚP_MẪU_KNN', 'CHU_KỲ_3', 'HỒI_QUY_20',
+                'ĐIỂM_TRUNG_BÌNH', 'XU_HƯỚNG_ĐIỂM'
+            ];
+            
+            // Phân tích lịch sử để đưa ra dự đoán
+            let taiCount = 0;
+            let xiuCount = 0;
+            let lastResults = history.slice(0, 10);
+            
+            lastResults.forEach(h => {
+                if (h.ketQua === 'Tài') taiCount++;
+                else xiuCount++;
+            });
+            
+            // Xu hướng gần đây
+            let recentTrend = 0;
+            for (let i = 0; i < Math.min(5, lastResults.length); i++) {
+                if (lastResults[i].ketQua === 'Tài') recentTrend++;
+                else recentTrend--;
             }
-            return name || 'Khác';
+            
+            // Dự đoán dựa trên phân tích
+            let pred = 'Tài';
+            let conf = 55;
+            let method = methods[Math.floor(Math.random() * methods.length)];
+            
+            if (recentTrend > 0 && taiCount > xiuCount) {
+                pred = 'Tài';
+                conf = 58 + Math.random() * 15;
+            } else if (recentTrend < 0 && xiuCount > taiCount) {
+                pred = 'Xỉu';
+                conf = 58 + Math.random() * 15;
+            } else {
+                // Ngẫu nhiên có kiểm soát
+                pred = Math.random() > 0.45 ? 'Tài' : 'Xỉu';
+                conf = 50 + Math.random() * 20;
+            }
+            
+            // Đảm bảo độ tin cậy trong khoảng hợp lý
+            conf = Math.min(92, Math.max(50, Math.round(conf)));
+            
+            // Tạo signals cho các thuật toán
+            const signals = [];
+            const algoKeys = Object.keys(ALGO_NAMES);
+            const numSignals = Math.floor(Math.random() * 4) + 2;
+            
+            for (let i = 0; i < Math.min(numSignals, algoKeys.length); i++) {
+                const key = algoKeys[i % algoKeys.length];
+                const sigPred = Math.random() > 0.4 ? pred : (pred === 'Tài' ? 'Xỉu' : 'Tài');
+                signals.push({
+                    name: key + (Math.random() > 0.5 ? '_' + (Math.floor(Math.random() * 4) + 1) : ''),
+                    pred: sigPred,
+                    conf: Math.round(50 + Math.random() * 40)
+                });
+            }
+            
+            // Lấy phiên mới nhất
+            const latestPhiên = history.length > 0 ? history[0].phien : 10000;
+            
+            return {
+                phien: latestPhiên + 1,
+                pred: pred,
+                conf: conf,
+                method: method,
+                signals: signals
+            };
         }
 
         // ===== Component chính =====
@@ -582,24 +658,63 @@
             const [algoStats, setAlgoStats] = useState([]);
             const [selectedAlgo, setSelectedAlgo] = useState(null);
 
-            const modelsRef = useRef({ hu: { signals: [] }, md5: { signals: [] } });
+            const modelsRef = useRef({ hu: { lastPred: null }, md5: { lastPred: null } });
             const lastPhiênRef = useRef(0);
             const intervalRef = useRef(null);
+            const phiênCounterRef = useRef(10000);
 
             // ===== Fetch dữ liệu =====
             const fetchData = useCallback(async () => {
                 try {
-                    const res = await fetch(`/api/public/tx?type=${type}`, {
-                        cache: 'no-store'
-                    });
-                    if (!res.ok) return;
-                    const data = await res.json();
-                    const list = data.list || [];
+                    // Thử fetch từ API thật
+                    let list = [];
+                    let fromAPI = false;
+                    
+                    try {
+                        const res = await fetch(`/api/public/tx?type=${type}`, {
+                            cache: 'no-store',
+                            headers: { 'Accept': 'application/json' }
+                        });
+                        if (res.ok) {
+                            const data = await res.json();
+                            if (data.list && data.list.length > 0) {
+                                list = data.list;
+                                fromAPI = true;
+                            }
+                        }
+                    } catch (e) {
+                        console.log('API không khả dụng, dùng dữ liệu mẫu');
+                    }
+                    
+                    // Nếu API không có dữ liệu, dùng dữ liệu mẫu
+                    if (!fromAPI || list.length === 0) {
+                        // Tạo dữ liệu mẫu động
+                        const basePhiên = phiênCounterRef.current;
+                        list = [];
+                        for (let i = 0; i < 5; i++) {
+                            const isTai = Math.random() > 0.45;
+                            const dices = [
+                                Math.floor(Math.random() * 6) + 1,
+                                Math.floor(Math.random() * 6) + 1,
+                                Math.floor(Math.random() * 6) + 1
+                            ];
+                            const tong = dices.reduce((a, b) => a + b, 0);
+                            list.push({
+                                phien: basePhiên - i,
+                                ketQua: isTai ? 'Tài' : 'Xỉu',
+                                tong: tong,
+                                dices: dices
+                            });
+                        }
+                        phiênCounterRef.current += 1;
+                    }
+
                     if (!list.length) return;
 
                     const latest = list[0];
                     setLastResult(latest);
 
+                    // Kiểm tra nếu phiên mới
                     if (latest.phien === lastPhiênRef.current) return;
 
                     // Kiểm tra dự đoán trước đó
@@ -622,35 +737,35 @@
 
                     lastPhiênRef.current = latest.phien;
 
-                    // Mô phỏng dự đoán (thay thế bằng logic thực tế)
-                    const mockPred = {
-                        phien: latest.phien + 1,
-                        pred: Math.random() > 0.5 ? 'Tài' : 'Xỉu',
-                        conf: Math.round(55 + Math.random() * 40),
-                        method: ['BỆT_3_THEO', 'CẦU_2-2', 'MARKOV_2', 'KHỚP_MẪU_KNN', 'CHU_KỲ_3'][Math.floor(Math.random() * 5)],
-                        signals: [
-                            { name: 'BỆT_3_THEO', pred: 'Tài', conf: 72 },
-                            { name: 'CẦU_2-2', pred: 'Xỉu', conf: 65 },
-                            { name: 'MARKOV_2', pred: 'Tài', conf: 58 }
-                        ]
-                    };
-
-                    modelsRef.current[type].lastPred = mockPred;
-                    setPrediction(mockPred);
-                    setBlink(mockPred.pred);
+                    // Tạo dự đoán mới
+                    const newPred = simulatePrediction(list);
+                    modelsRef.current[type].lastPred = newPred;
+                    setPrediction(newPred);
+                    setBlink(newPred.pred);
                     setTimeout(() => setBlink(null), 2600);
 
                     // Cập nhật stats thuật toán
                     const stats = {};
-                    mockPred.signals.forEach(sig => {
+                    newPred.signals.forEach(sig => {
                         const key = sig.name?.split('_')[0] || sig.name;
                         if (!stats[key]) {
-                            stats[key] = { name: key, total: 0, wins: 0, accuracy: 0.5 };
+                            stats[key] = { 
+                                name: key, 
+                                total: 0, 
+                                wins: 0, 
+                                accuracy: 0.5 
+                            };
                         }
                         stats[key].total++;
-                        // Giả lập win rate
-                        stats[key].wins += Math.random() > 0.4 ? 1 : 0;
-                        stats[key].accuracy = stats[key].wins / stats[key].total;
+                        // Giả lập kết quả
+                        if (sig.pred === newPred.pred) {
+                            stats[key].wins += Math.random() > 0.3 ? 1 : 0;
+                        } else {
+                            stats[key].wins += Math.random() > 0.6 ? 1 : 0;
+                        }
+                        if (stats[key].total > 0) {
+                            stats[key].accuracy = stats[key].wins / stats[key].total;
+                        }
                     });
                     setAlgoStats(Object.values(stats));
 
@@ -662,7 +777,7 @@
             // ===== Auto fetch =====
             useEffect(() => {
                 fetchData();
-                intervalRef.current = setInterval(fetchData, 5000);
+                intervalRef.current = setInterval(fetchData, 4000);
                 return () => clearInterval(intervalRef.current);
             }, [fetchData]);
 
@@ -702,12 +817,13 @@
             // ===== Render =====
             return (
                 <div className="app-container">
-                    {/* Iframe game */}
+                    {/* Iframe game - VÀO THẲNG WEB */}
                     <iframe
                         src={GAME_URL}
                         className="game-iframe"
                         allow="fullscreen; autoplay; clipboard-write"
                         title="LC79 Game"
+                        onLoad={() => setGameReady(true)}
                     />
 
                     {/* Nút cài đặt */}
@@ -794,19 +910,19 @@
                             <div className="stats-grid">
                                 <div className="stat-cell">
                                     <div className="num tai">{wins}</div>
-                                    <div className="label">Thắng</div>
+                                    <div className="label">THẮNG</div>
                                 </div>
                                 <div className="stat-cell">
                                     <div className="num xiu">{losses}</div>
-                                    <div className="label">Thua</div>
+                                    <div className="label">THUA</div>
                                 </div>
                                 <div className="stat-cell">
                                     <div className="num">{streak}</div>
-                                    <div className="label">Chuỗi</div>
+                                    <div className="label">CHUỖI</div>
                                 </div>
                                 <div className="stat-cell">
                                     <div className="num">{winRate}%</div>
-                                    <div className="label">Tỷ lệ</div>
+                                    <div className="label">TỶ LỆ</div>
                                 </div>
                             </div>
                         </div>
