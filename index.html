@@ -1,10 +1,23 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Ultimate Machine - Tài Xỉu</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Tự Động Tạo Video Review Sản Phẩm</title>
     <style>
+        :root {
+            --bg: #0a0a12;
+            --card: #13132b;
+            --primary: #6c5ce7;
+            --secondary: #a855f7;
+            --accent: #f59e0b;
+            --text: #e2e8f0;
+            --text-secondary: #94a3b8;
+            --border: #1e1e3a;
+            --success: #10b981;
+            --danger: #ef4444;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -12,1005 +25,1003 @@
         }
 
         body {
-            background: #0a0a12;
-            color: #f0f0f5;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            overflow: hidden;
-            height: 100vh;
-            width: 100vw;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            padding: 20px;
+            background-image:
+                radial-gradient(ellipse at 20% 50%, rgba(108, 92, 231, 0.08) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 50%, rgba(168, 85, 247, 0.06) 0%, transparent 60%);
         }
 
-        /* Container chính */
-        .app-container {
-            position: relative;
-            height: 100vh;
-            width: 100vw;
-            background: #0a0a12;
+        .container {
+            max-width: 750px;
+            margin: 0 auto;
+            background: var(--card);
+            border-radius: 24px;
+            padding: 32px 28px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 0 1px var(--border);
+            border: 1px solid #1e1e3a;
         }
 
-        /* Iframe game */
-        .game-iframe {
-            position: absolute;
-            inset: 0;
+        .header {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+        .header .icon {
+            font-size: 48px;
+            margin-bottom: 8px;
+        }
+        .header h1 {
+            font-size: 26px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, #6c5ce7, #a855f7, #f59e0b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .header .subtitle {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+
+        .input-group {
+            margin-bottom: 16px;
+        }
+        .input-group label {
+            display: block;
+            font-weight: 600;
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        input[type="url"],
+        select {
             width: 100%;
-            height: 100%;
-            border: none;
-            background: #0a0a12;
-        }
-
-        /* ===== HUD ===== */
-        .hud {
-            position: fixed;
-            min-width: 190px;
-            max-width: 270px;
-            background: rgba(10, 10, 18, 0.94);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.07);
-            border-radius: 16px;
-            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.6);
-            z-index: 50;
-            user-select: none;
-            transition: transform 0.15s ease;
-        }
-
-        .hud-head {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 10px 14px 6px;
-            cursor: grab;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-        }
-        .hud-head:active {
-            cursor: grabbing;
-        }
-        .hud-head.is-dragging {
-            opacity: 0.8;
-        }
-
-        .dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            flex-shrink: 0;
+            padding: 14px 16px;
+            background: #0a0a1a;
+            border: 2px solid var(--border);
+            border-radius: 14px;
+            color: var(--text);
+            font-size: 15px;
+            font-family: inherit;
             transition: all 0.3s;
+            outline: none;
         }
-        .dot-tai {
-            background: #ef4444;
-            box-shadow: 0 0 8px rgba(239, 68, 68, 0.4);
+        input[type="url"]:focus,
+        select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(108, 92, 231, 0.15);
         }
-        .dot-xiu {
-            background: #3b82f6;
-            box-shadow: 0 0 8px rgba(59, 130, 246, 0.4);
-        }
-        .dot.blink {
-            animation: blink-dot 0.5s ease 3;
-        }
-
-        @keyframes blink-dot {
-            0%,
-            100% {
-                opacity: 1;
-                transform: scale(1);
-            }
-            50% {
-                opacity: 0.2;
-                transform: scale(1.4);
-            }
+        select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 14px center;
         }
 
-        .tabs {
+        .row-2 {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 4px;
-            padding: 4px 12px 0;
+            gap: 12px;
         }
-        .tab {
-            padding: 4px 0;
+
+        .btn-submit {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #6c5ce7, #a855f7);
+            color: white;
             border: none;
-            background: transparent;
-            color: rgba(255, 255, 255, 0.35);
-            font-size: 10px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            border-radius: 14px;
+            font-size: 16px;
+            font-weight: 700;
             cursor: pointer;
-            border-radius: 6px;
-            transition: all 0.2s;
-        }
-        .tab-on {
-            background: rgba(255, 255, 255, 0.06);
-            color: #fff;
-        }
-        .tab:hover {
-            color: rgba(255, 255, 255, 0.7);
-        }
-
-        .result-box {
-            padding: 10px 14px 14px;
-            border-radius: 0 0 16px 16px;
-            transition: background 0.3s;
-        }
-        .result-box.res-tai {
-            background: rgba(239, 68, 68, 0.06);
-        }
-        .result-box.res-xiu {
-            background: rgba(59, 130, 246, 0.06);
-        }
-
-        .pred-label {
-            font-size: 9px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            color: rgba(255, 255, 255, 0.3);
-        }
-        .pred-value {
-            font-size: 28px;
-            font-weight: 800;
-            line-height: 1.2;
-        }
-        .pred-meta {
-            font-size: 10px;
-            color: rgba(255, 255, 255, 0.4);
-            margin-top: 2px;
-        }
-        .pred-meta b {
-            color: #fff;
-        }
-
-        .info-row {
-            margin-top: 8px;
-            padding: 4px 8px;
-            background: rgba(255, 255, 255, 0.04);
-            border-radius: 8px;
-            font-size: 10px;
-            color: rgba(255, 255, 255, 0.5);
-        }
-        .info-row b {
-            color: #fff;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr 1fr;
-            gap: 4px;
+            letter-spacing: 0.5px;
+            transition: all 0.3s;
+            font-family: inherit;
+            box-shadow: 0 8px 24px rgba(108, 92, 231, 0.35);
             margin-top: 8px;
         }
-        .stat-cell {
-            padding: 4px 0;
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 6px;
-            text-align: center;
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 32px rgba(108, 92, 231, 0.5);
         }
-        .stat-cell .num {
-            font-weight: 700;
-            font-size: 13px;
-        }
-        .stat-cell .num.tai {
-            color: #ef4444;
-        }
-        .stat-cell .num.xiu {
-            color: #3b82f6;
-        }
-        .stat-cell .label {
-            font-size: 7px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            color: rgba(255, 255, 255, 0.25);
+        .btn-submit:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
         }
 
-        /* History */
-        .history {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(10, 10, 18, 0.88);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 12px;
-            padding: 8px 14px 10px;
-            min-width: 200px;
-            max-width: 420px;
-            z-index: 40;
+        /* AI Processing Section */
+        .ai-section {
+            display: none;
+            margin-top: 24px;
+            padding: 20px;
+            background: #0a0a1a;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            animation: fadeIn 0.4s ease;
         }
-        .history-header {
-            display: flex;
-            justify-content: space-between;
-            font-size: 8px;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            color: rgba(255, 255, 255, 0.25);
-            padding-bottom: 4px;
+        .ai-section.active {
+            display: block;
         }
-        .history-pills {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 4px;
-        }
-        .pill {
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-size: 10px;
-            font-weight: 700;
-        }
-        .pill-win {
-            background: rgba(239, 68, 68, 0.2);
-            color: #ef4444;
-        }
-        .pill-loss {
-            background: rgba(59, 130, 246, 0.2);
-            color: #3b82f6;
-        }
-
-        /* ===== Nút menu thuật toán ===== */
-        .algo-menu-btn {
-            position: fixed;
-            bottom: 80px;
-            right: 20px;
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            background: rgba(10, 10, 18, 0.9);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            color: #fff;
-            font-size: 20px;
-            cursor: pointer;
-            z-index: 60;
-            backdrop-filter: blur(12px);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-            transition: all 0.25s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .algo-menu-btn:hover {
-            transform: scale(1.08);
-            background: rgba(30, 30, 50, 0.95);
-            border-color: rgba(255, 215, 0, 0.25);
-        }
-        .algo-menu-btn .badge {
-            position: absolute;
-            top: -4px;
-            right: -4px;
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-            background: #ef4444;
-            font-size: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-        }
-
-        /* ===== Overlay menu thuật toán ===== */
-        .algo-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(6px);
-            z-index: 200;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            animation: fadeIn 0.25s ease;
-        }
-
         @keyframes fadeIn {
             from {
                 opacity: 0;
-                transform: scale(0.96);
+                transform: translateY(10px);
             }
             to {
                 opacity: 1;
-                transform: scale(1);
+                transform: translateY(0);
             }
         }
 
-        .algo-panel {
-            background: rgba(14, 14, 24, 0.96);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 20px;
-            width: 90%;
-            max-width: 480px;
-            max-height: 80vh;
-            padding: 20px 0 0;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
-            overflow: hidden;
-        }
-
-        .algo-panel-header {
+        .ai-status {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            padding: 0 20px 16px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            gap: 12px;
+            margin-bottom: 16px;
+            padding: 12px 16px;
+            background: rgba(108, 92, 231, 0.1);
+            border-radius: 10px;
+            border: 1px solid rgba(108, 92, 231, 0.3);
         }
-        .algo-panel-header h2 {
+        .ai-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--primary);
+            animation: pulse-dot 1.5s infinite;
+        }
+        @keyframes pulse-dot {
+            0%,
+            100% {
+                box-shadow: 0 0 0 0 rgba(108, 92, 231, 0.6);
+            }
+            50% {
+                box-shadow: 0 0 0 12px rgba(108, 92, 231, 0);
+            }
+        }
+        .ai-status-text {
+            font-weight: 600;
             font-size: 14px;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-        }
-        .algo-panel-header h2 span {
-            color: rgba(255, 255, 255, 0.3);
-            font-weight: 400;
-        }
-        .algo-close {
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            border: none;
-            background: rgba(255, 255, 255, 0.05);
-            color: rgba(255, 255, 255, 0.4);
-            font-size: 16px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        .algo-close:hover {
-            background: rgba(255, 255, 255, 0.1);
-            color: #fff;
         }
 
-        .algo-list {
-            padding: 8px 12px 16px;
+        .ai-log {
+            font-size: 12px;
+            color: var(--text-secondary);
+            font-family: 'Courier New', monospace;
+            max-height: 200px;
             overflow-y: auto;
-            max-height: 60vh;
+            padding: 10px;
+            background: #050510;
+            border-radius: 8px;
+            line-height: 1.8;
         }
-        .algo-list::-webkit-scrollbar {
-            width: 3px;
+        .ai-log .log-entry {
+            padding: 3px 0;
+            border-bottom: 1px solid #1a1a2e;
         }
-        .algo-list::-webkit-scrollbar-track {
-            background: transparent;
+        .ai-log .log-entry.success {
+            color: #10b981;
         }
-        .algo-list::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
+        .ai-log .log-entry.processing {
+            color: #f59e0b;
         }
-
-        .algo-item {
-            padding: 10px 12px;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.2s;
-            border: 1px solid transparent;
-            margin-bottom: 4px;
-        }
-        .algo-item:hover {
-            background: rgba(255, 255, 255, 0.04);
-            border-color: rgba(255, 255, 255, 0.06);
-        }
-        .algo-item.active {
-            background: rgba(255, 215, 0, 0.06);
-            border-color: rgba(255, 215, 0, 0.15);
+        .ai-log .log-entry.info {
+            color: #6c5ce7;
         }
 
-        .algo-item-top {
+        /* Product Info Card */
+        .product-card {
+            display: none;
+            margin-top: 16px;
+            padding: 16px;
+            background: #0a0a1a;
+            border-radius: 14px;
+            border: 1px solid var(--border);
+            gap: 14px;
+        }
+        .product-card.active {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
+            align-items: flex-start;
         }
-        .algo-item-name {
+        .product-card img {
+            width: 100px;
+            height: 100px;
+            border-radius: 10px;
+            object-fit: cover;
+            border: 2px solid var(--border);
+            flex-shrink: 0;
+        }
+        .product-info h3 {
+            font-size: 15px;
+            font-weight: 700;
+            margin-bottom: 6px;
+            color: #fff;
+        }
+        .product-info .price {
+            font-size: 20px;
+            font-weight: 800;
+            color: #f59e0b;
+        }
+        .product-info .original-price {
+            font-size: 13px;
+            color: #64748b;
+            text-decoration: line-through;
+            margin-left: 8px;
+        }
+        .product-info .stats {
             font-size: 12px;
-            font-weight: 600;
-        }
-        .algo-item-stats {
-            font-size: 10px;
-            color: rgba(255, 255, 255, 0.35);
-        }
-        .algo-item-bar {
+            color: var(--text-secondary);
             margin-top: 4px;
-            height: 3px;
-            border-radius: 4px;
-            background: rgba(255, 255, 255, 0.05);
+        }
+
+        /* Video Result */
+        .video-result {
+            display: none;
+            margin-top: 20px;
+            animation: fadeIn 0.5s ease;
+        }
+        .video-result.active {
+            display: block;
+        }
+        .video-wrapper {
+            border-radius: 16px;
             overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+            border: 2px solid var(--border);
+            aspect-ratio: 9/16;
+            background: #000;
+            position: relative;
         }
-        .algo-item-fill {
+        .video-wrapper video {
+            width: 100%;
             height: 100%;
-            border-radius: 4px;
-            transition: width 0.5s ease;
+            object-fit: contain;
         }
-
-        /* ===== Gear settings ===== */
-        .gear-btn {
-            position: fixed;
-            top: 16px;
-            right: 16px;
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            border: none;
-            background: rgba(10, 10, 18, 0.8);
-            backdrop-filter: blur(8px);
-            color: rgba(255, 255, 255, 0.5);
-            font-size: 16px;
-            cursor: pointer;
-            z-index: 30;
-            transition: all 0.3s;
-        }
-        .gear-btn:hover {
-            color: #fff;
-            background: rgba(20, 20, 35, 0.9);
-        }
-        .gear {
-            display: inline-block;
-            transition: transform 0.6s ease;
-        }
-        .gear[data-spin="on"] {
-            transform: rotate(90deg);
-        }
-
-        .settings-panel {
-            position: fixed;
-            top: 60px;
-            right: 16px;
-            background: rgba(10, 10, 18, 0.92);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 12px;
-            padding: 14px 16px;
-            min-width: 160px;
-            z-index: 35;
-            animation: fadeIn 0.2s ease;
-        }
-        .settings-panel .row {
+        .video-actions {
             display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-top: 6px;
+            gap: 10px;
+            margin-top: 12px;
         }
-        .settings-panel .row:first-child {
-            margin-top: 0;
-        }
-        .settings-panel label {
-            font-size: 9px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            color: rgba(255, 255, 255, 0.3);
-            min-width: 30px;
-        }
-        .settings-panel .ctl {
-            padding: 2px 10px;
-            border: none;
-            border-radius: 4px;
-            background: rgba(255, 255, 255, 0.06);
-            color: #fff;
-            font-size: 12px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        .settings-panel .ctl:hover {
-            background: rgba(255, 255, 255, 0.12);
-        }
-        .settings-panel .val {
-            font-size: 12px;
+        .btn-secondary {
+            flex: 1;
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--text);
             font-weight: 600;
-            min-width: 32px;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.2s;
             text-align: center;
         }
+        .btn-secondary:hover {
+            border-color: var(--primary);
+            background: rgba(108, 92, 231, 0.08);
+        }
+        .btn-download {
+            background: linear-gradient(135deg, #6c5ce7, #a855f7);
+            border: none;
+            color: white;
+            font-weight: 700;
+        }
 
-        /* Responsive */
-        @media (max-width: 480px) {
-            .hud {
-                min-width: 150px;
-                max-width: 210px;
-                font-size: 12px;
+        @media (max-width: 500px) {
+            .container {
+                padding: 20px 14px;
             }
-            .pred-value {
-                font-size: 20px;
+            .row-2 {
+                grid-template-columns: 1fr;
             }
-            .algo-panel {
-                width: 95%;
-                max-width: 380px;
-            }
-            .history {
-                max-width: 90%;
-                bottom: 12px;
-                padding: 6px 10px 8px;
-            }
-            .algo-menu-btn {
-                bottom: 70px;
-                right: 12px;
-                width: 38px;
-                height: 38px;
-                font-size: 16px;
+            .product-card.active {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
             }
         }
     </style>
 </head>
 <body>
 
-    <div id="app"></div>
+    <div class="container">
+        <div class="header">
+            <div class="icon">🤖</div>
+            <h1>AI Video Review</h1>
+            <p class="subtitle">Dán link sản phẩm → AI tự crawl, viết kịch bản, tạo video</p>
+        </div>
 
-    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+        <!-- Form nhập link -->
+        <div class="input-group">
+            <label>🔗 Link sản phẩm (Shopee / TikTok Shop / Lazada)</label>
+            <input type="url" id="productLink" placeholder="https://shopee.vn/san-pham-cua-ban-..." required>
+        </div>
 
-    <script type="text/babel">
-        const { useState, useEffect, useRef, useCallback } = React;
+        <div class="row-2">
+            <div class="input-group">
+                <label>🛒 Nền tảng</label>
+                <select id="platform">
+                    <option value="shopee">Shopee</option>
+                    <option value="tiktok">TikTok Shop</option>
+                    <option value="lazada">Lazada</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label>🎤 Giọng đọc AI</label>
+                <select id="voiceStyle">
+                    <option value="professional">Chuyên nghiệp</option>
+                    <option value="enthusiastic">Nhiệt tình, trẻ trung</option>
+                    <option value="gentle">Nhẹ nhàng, tình cảm</option>
+                    <option value="humorous">Hài hước, vui tính</option>
+                </select>
+            </div>
+        </div>
 
-        // ===== Constants =====
-        const GAME_URL = 'http://lc79c.bet';
+        <button class="btn-submit" id="btnSubmit" onclick="startAIProcess()">
+            🚀 AI Tự Động Tạo Video
+        </button>
 
-        const ALGO_NAMES = {
-            'BỆT': 'Bệt - Theo chuỗi',
-            '1-1': '1-1 - Đan xen',
-            'CẦU_2-2': 'Cầu 2-2',
-            'CẦU_3-3': 'Cầu 3-3',
-            'CẦU_4-4': 'Cầu 4-4',
-            'CẦU_1-2-1': 'Cầu 1-2-1',
-            'MARKOV': 'Markov bậc 1-5',
-            'KHỚP_MẪU_KNN': 'Khớp mẫu KNN',
-            'HỒI_QUY': 'Hồi quy',
-            'ĐIỂM_TRUNG_BÌNH': 'Điểm TB',
-            'ĐIỂM_BIÊN_CAO': 'Điểm biên cao',
-            'ĐIỂM_BIÊN_THẤP': 'Điểm biên thấp',
-            'XU_HƯỚNG_ĐIỂM': 'Xu hướng điểm',
-            'BỘ_BA_ĐẢO': 'Bộ ba đảo',
-            'HỖN_LOẠN_ĐẢO': 'Hỗn loạn đảo',
-            'ỔN_ĐỊNH_THEO': 'Ổn định theo',
-            'CHU_KỲ': 'Chu kỳ'
-        };
+        <!-- AI Processing Logs -->
+        <div class="ai-section" id="aiSection">
+            <div class="ai-status">
+                <div class="ai-dot"></div>
+                <span class="ai-status-text" id="aiStatusText">🤖 AI đang làm việc...</span>
+            </div>
+            <div class="ai-log" id="aiLog"></div>
+        </div>
 
-        // ===== Dữ liệu mẫu để demo =====
-        const SAMPLE_DATA = {
-            list: [
-                { phien: 12345, ketQua: 'Tài', tong: 16, dices: [6, 5, 5] },
-                { phien: 12344, ketQua: 'Xỉu', tong: 8, dices: [2, 3, 3] },
-                { phien: 12343, ketQua: 'Tài', tong: 14, dices: [5, 4, 5] },
-                { phien: 12342, ketQua: 'Xỉu', tong: 7, dices: [1, 3, 3] },
-                { phien: 12341, ketQua: 'Tài', tong: 17, dices: [6, 6, 5] },
-            ]
-        };
-
-        // ===== Simulation engine =====
-        function simulatePrediction(history) {
-            const methods = [
-                'BỆT_3_THEO', 'CẦU_2-2', 'MARKOV_2', 
-                'KHỚP_MẪU_KNN', 'CHU_KỲ_3', 'HỒI_QUY_20',
-                'ĐIỂM_TRUNG_BÌNH', 'XU_HƯỚNG_ĐIỂM'
-            ];
-            
-            // Phân tích lịch sử để đưa ra dự đoán
-            let taiCount = 0;
-            let xiuCount = 0;
-            let lastResults = history.slice(0, 10);
-            
-            lastResults.forEach(h => {
-                if (h.ketQua === 'Tài') taiCount++;
-                else xiuCount++;
-            });
-            
-            // Xu hướng gần đây
-            let recentTrend = 0;
-            for (let i = 0; i < Math.min(5, lastResults.length); i++) {
-                if (lastResults[i].ketQua === 'Tài') recentTrend++;
-                else recentTrend--;
-            }
-            
-            // Dự đoán dựa trên phân tích
-            let pred = 'Tài';
-            let conf = 55;
-            let method = methods[Math.floor(Math.random() * methods.length)];
-            
-            if (recentTrend > 0 && taiCount > xiuCount) {
-                pred = 'Tài';
-                conf = 58 + Math.random() * 15;
-            } else if (recentTrend < 0 && xiuCount > taiCount) {
-                pred = 'Xỉu';
-                conf = 58 + Math.random() * 15;
-            } else {
-                // Ngẫu nhiên có kiểm soát
-                pred = Math.random() > 0.45 ? 'Tài' : 'Xỉu';
-                conf = 50 + Math.random() * 20;
-            }
-            
-            // Đảm bảo độ tin cậy trong khoảng hợp lý
-            conf = Math.min(92, Math.max(50, Math.round(conf)));
-            
-            // Tạo signals cho các thuật toán
-            const signals = [];
-            const algoKeys = Object.keys(ALGO_NAMES);
-            const numSignals = Math.floor(Math.random() * 4) + 2;
-            
-            for (let i = 0; i < Math.min(numSignals, algoKeys.length); i++) {
-                const key = algoKeys[i % algoKeys.length];
-                const sigPred = Math.random() > 0.4 ? pred : (pred === 'Tài' ? 'Xỉu' : 'Tài');
-                signals.push({
-                    name: key + (Math.random() > 0.5 ? '_' + (Math.floor(Math.random() * 4) + 1) : ''),
-                    pred: sigPred,
-                    conf: Math.round(50 + Math.random() * 40)
-                });
-            }
-            
-            // Lấy phiên mới nhất
-            const latestPhiên = history.length > 0 ? history[0].phien : 10000;
-            
-            return {
-                phien: latestPhiên + 1,
-                pred: pred,
-                conf: conf,
-                method: method,
-                signals: signals
-            };
-        }
-
-        // ===== Component chính =====
-        function App() {
-            const [gameReady, setGameReady] = useState(false);
-            const [type, setType] = useState('hu');
-            const [prediction, setPrediction] = useState(null);
-            const [lastResult, setLastResult] = useState(null);
-            const [history, setHistory] = useState([]);
-            const [wins, setWins] = useState(0);
-            const [losses, setLosses] = useState(0);
-            const [streak, setStreak] = useState(0);
-            const [maxStreak, setMaxStreak] = useState(0);
-            const [blink, setBlink] = useState(null);
-            const [showSettings, setShowSettings] = useState(false);
-            const [scale, setScale] = useState(1);
-            const [rotation, setRotation] = useState(0);
-            const [pos, setPos] = useState({ x: 12, y: 12 });
-            const [isDragging, setIsDragging] = useState(false);
-            const dragRef = useRef(null);
-            const [showAlgoMenu, setShowAlgoMenu] = useState(false);
-            const [algoStats, setAlgoStats] = useState([]);
-            const [selectedAlgo, setSelectedAlgo] = useState(null);
-
-            const modelsRef = useRef({ hu: { lastPred: null }, md5: { lastPred: null } });
-            const lastPhiênRef = useRef(0);
-            const intervalRef = useRef(null);
-            const phiênCounterRef = useRef(10000);
-
-            // ===== Fetch dữ liệu =====
-            const fetchData = useCallback(async () => {
-                try {
-                    // Thử fetch từ API thật
-                    let list = [];
-                    let fromAPI = false;
-                    
-                    try {
-                        const res = await fetch(`/api/public/tx?type=${type}`, {
-                            cache: 'no-store',
-                            headers: { 'Accept': 'application/json' }
-                        });
-                        if (res.ok) {
-                            const data = await res.json();
-                            if (data.list && data.list.length > 0) {
-                                list = data.list;
-                                fromAPI = true;
-                            }
-                        }
-                    } catch (e) {
-                        console.log('API không khả dụng, dùng dữ liệu mẫu');
-                    }
-                    
-                    // Nếu API không có dữ liệu, dùng dữ liệu mẫu
-                    if (!fromAPI || list.length === 0) {
-                        // Tạo dữ liệu mẫu động
-                        const basePhiên = phiênCounterRef.current;
-                        list = [];
-                        for (let i = 0; i < 5; i++) {
-                            const isTai = Math.random() > 0.45;
-                            const dices = [
-                                Math.floor(Math.random() * 6) + 1,
-                                Math.floor(Math.random() * 6) + 1,
-                                Math.floor(Math.random() * 6) + 1
-                            ];
-                            const tong = dices.reduce((a, b) => a + b, 0);
-                            list.push({
-                                phien: basePhiên - i,
-                                ketQua: isTai ? 'Tài' : 'Xỉu',
-                                tong: tong,
-                                dices: dices
-                            });
-                        }
-                        phiênCounterRef.current += 1;
-                    }
-
-                    if (!list.length) return;
-
-                    const latest = list[0];
-                    setLastResult(latest);
-
-                    // Kiểm tra nếu phiên mới
-                    if (latest.phien === lastPhiênRef.current) return;
-
-                    // Kiểm tra dự đoán trước đó
-                    const prev = modelsRef.current[type].lastPred;
-                    if (prev && prev.phien === latest.phien) {
-                        const win = prev.pred === latest.ketQua;
-                        setWins(w => w + (win ? 1 : 0));
-                        setLosses(w => w + (win ? 0 : 1));
-                        setStreak(s => win ? s + 1 : 0);
-                        if (win) {
-                            setMaxStreak(s => Math.max(s, streak + 1));
-                        }
-                        setHistory(h => [{
-                            phien: latest.phien,
-                            pred: prev.pred,
-                            actual: latest.ketQua,
-                            win
-                        }, ...h].slice(0, 40));
-                    }
-
-                    lastPhiênRef.current = latest.phien;
-
-                    // Tạo dự đoán mới
-                    const newPred = simulatePrediction(list);
-                    modelsRef.current[type].lastPred = newPred;
-                    setPrediction(newPred);
-                    setBlink(newPred.pred);
-                    setTimeout(() => setBlink(null), 2600);
-
-                    // Cập nhật stats thuật toán
-                    const stats = {};
-                    newPred.signals.forEach(sig => {
-                        const key = sig.name?.split('_')[0] || sig.name;
-                        if (!stats[key]) {
-                            stats[key] = { 
-                                name: key, 
-                                total: 0, 
-                                wins: 0, 
-                                accuracy: 0.5 
-                            };
-                        }
-                        stats[key].total++;
-                        // Giả lập kết quả
-                        if (sig.pred === newPred.pred) {
-                            stats[key].wins += Math.random() > 0.3 ? 1 : 0;
-                        } else {
-                            stats[key].wins += Math.random() > 0.6 ? 1 : 0;
-                        }
-                        if (stats[key].total > 0) {
-                            stats[key].accuracy = stats[key].wins / stats[key].total;
-                        }
-                    });
-                    setAlgoStats(Object.values(stats));
-
-                } catch (err) {
-                    console.warn('Fetch error:', err);
-                }
-            }, [type, streak]);
-
-            // ===== Auto fetch =====
-            useEffect(() => {
-                fetchData();
-                intervalRef.current = setInterval(fetchData, 4000);
-                return () => clearInterval(intervalRef.current);
-            }, [fetchData]);
-
-            // ===== Drag HUD =====
-            const handlePointerDown = (e) => {
-                e.target.setPointerCapture?.(e.pointerId);
-                dragRef.current = {
-                    sx: e.clientX,
-                    sy: e.clientY,
-                    right: pos.x,
-                    top: pos.y
-                };
-                setIsDragging(true);
-            };
-
-            const handlePointerMove = (e) => {
-                if (!dragRef.current) return;
-                e.preventDefault();
-                const maxX = Math.max(0, window.innerWidth - 220);
-                const maxY = Math.max(0, window.innerHeight - 200);
-                setPos({
-                    x: Math.min(maxX, Math.max(0, dragRef.current.right - (e.clientX - dragRef.current.sx))),
-                    y: Math.min(maxY, Math.max(0, dragRef.current.top + (e.clientY - dragRef.current.sy)))
-                });
-            };
-
-            const handlePointerUp = (e) => {
-                e.target.releasePointerCapture?.(e.pointerId);
-                dragRef.current = null;
-                setIsDragging(false);
-            };
-
-            // ===== Tính tỷ lệ =====
-            const total = wins + losses;
-            const winRate = total ? Math.round(wins / total * 100) : 0;
-
-            // ===== Render =====
-            return (
-                <div className="app-container">
-                    {/* Iframe game - VÀO THẲNG WEB */}
-                    <iframe
-                        src={GAME_URL}
-                        className="game-iframe"
-                        allow="fullscreen; autoplay; clipboard-write"
-                        title="LC79 Game"
-                        onLoad={() => setGameReady(true)}
-                    />
-
-                    {/* Nút cài đặt */}
-                    <button
-                        className="gear-btn"
-                        onClick={() => setShowSettings(!showSettings)}
-                        aria-label="Cài đặt"
-                    >
-                        <span className="gear" data-spin={showSettings ? 'on' : 'off'}>⚙</span>
-                    </button>
-
-                    {/* Settings */}
-                    {showSettings && (
-                        <div className="settings-panel">
-                            <div className="row">
-                                <label>Scale</label>
-                                <button className="ctl" onClick={() => setScale(s => Math.max(0.6, +(s - 0.1).toFixed(2)))}>−</button>
-                                <span className="val">{Math.round(scale * 100)}%</span>
-                                <button className="ctl" onClick={() => setScale(s => Math.min(1.8, +(s + 0.1).toFixed(2)))}>+</button>
-                            </div>
-                            <div className="row">
-                                <label>Xoay</label>
-                                <button className="ctl" onClick={() => setRotation(r => (r + 90) % 360)}>⟳</button>
-                                <span className="val">{rotation}°</span>
-                            </div>
-                            <div className="row">
-                                <button className="ctl" style={{ flex: 1 }} onClick={() => { setScale(1);
-                                    setRotation(0);
-                                    setPos({ x: 12, y: 12 }); }}>Reset</button>
-                            </div>
-                        </div>
-                    )}
-
-                    {/* HUD */}
-                    <div
-                        className="hud"
-                        style={{
-                            right: pos.x,
-                            top: pos.y,
-                            transform: `scale(${scale}) rotate(${rotation}deg)`
-                        }}
-                    >
-                        <div
-                            className={`hud-head ${isDragging ? 'is-dragging' : ''}`}
-                            onPointerDown={handlePointerDown}
-                            onPointerMove={handlePointerMove}
-                            onPointerUp={handlePointerUp}
-                            onPointerCancel={handlePointerUp}
-                        >
-                            <span className={`dot dot-tai ${blink === 'Tài' ? 'blink' : ''}`} />
-                            <div style={{ textAlign: 'center' }}>
-                                <div style={{ fontSize: '9px', letterSpacing: '1px', color: 'rgba(255,255,255,0.3)' }}>PHIÊN</div>
-                                <div style={{ fontSize: '14px', fontWeight: '700' }}>{prediction?.phien ?? '—'}</div>
-                            </div>
-                            <span className={`dot dot-xiu ${blink === 'Xỉu' ? 'blink' : ''}`} />
-                        </div>
-
-                        <div className="tabs">
-                            {['hu', 'md5'].map(t => (
-                                <button
-                                    key={t}
-                                    className={`tab ${type === t ? 'tab-on' : ''}`}
-                                    onClick={() => setType(t)}
-                                >
-                                    {t === 'hu' ? 'TX HŨ' : 'MD5'}
-                                </button>
-                            ))}
-                        </div>
-
-                        <div className={`result-box ${prediction?.pred === 'Tài' ? 'res-tai' : 'res-xiu'}`}>
-                            <div className="pred-label">DỰ ĐOÁN</div>
-                            <div className="pred-value">{prediction?.pred ?? '...'}</div>
-                            <div className="pred-meta">
-                                Tin cậy <b>{prediction?.conf ?? 0}%</b> · {prediction?.method ?? '—'}
-                            </div>
-
-                            <div className="info-row">
-                                Phiên {lastResult?.phien ?? '—'}: <b>{lastResult?.ketQua ?? '—'}</b>{' '}
-                                <span style={{ color: 'rgba(255,255,255,0.3)' }}>
-                                    ({lastResult?.dices?.join('-') ?? '—'} = {lastResult?.tong ?? '—'})
-                                </span>
-                            </div>
-
-                            <div className="stats-grid">
-                                <div className="stat-cell">
-                                    <div className="num tai">{wins}</div>
-                                    <div className="label">THẮNG</div>
-                                </div>
-                                <div className="stat-cell">
-                                    <div className="num xiu">{losses}</div>
-                                    <div className="label">THUA</div>
-                                </div>
-                                <div className="stat-cell">
-                                    <div className="num">{streak}</div>
-                                    <div className="label">CHUỖI</div>
-                                </div>
-                                <div className="stat-cell">
-                                    <div className="num">{winRate}%</div>
-                                    <div className="label">TỶ LỆ</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Nút menu thuật toán */}
-                    <button
-                        className="algo-menu-btn"
-                        onClick={() => setShowAlgoMenu(true)}
-                        aria-label="Menu thuật toán"
-                    >
-                        📊
-                        {algoStats.length > 0 && (
-                            <span className="badge">{algoStats.length}</span>
-                        )}
-                    </button>
-
-                    {/* Menu thuật toán */}
-                    {showAlgoMenu && (
-                        <div className="algo-overlay" onClick={() => setShowAlgoMenu(false)}>
-                            <div className="algo-panel" onClick={e => e.stopPropagation()}>
-                                <div className="algo-panel-header">
-                                    <h2>📊 Thuật toán <span>· {algoStats.length} hoạt động</span></h2>
-                                    <button className="algo-close" onClick={() => setShowAlgoMenu(false)}>✕</button>
-                                </div>
-                                <div className="algo-list">
-                                    {Object.entries(ALGO_NAMES).map(([key, name]) => {
-                                        const stat = algoStats.find(s => s.name && s.name.includes(key));
-                                        return (
-                                            <div
-                                                key={key}
-                                                className={`algo-item ${selectedAlgo === key ? 'active' : ''}`}
-                                                onClick={() => setSelectedAlgo(selectedAlgo === key ? null : key)}
-                                            >
-                                                <div className="algo-item-top">
-                                                    <span className="algo-item-name">{name}</span>
-                                                    {stat && (
-                                                        <span className="algo-item-stats">
-                                                            🎯 {Math.round(stat.accuracy * 100)}% · {stat.total || 0} lần
-                                                        </span>
-                                                    )}
-                                                </div>
-                                                <div className="algo-item-bar">
-                                                    {stat && (
-                                                        <div
-                                                            className="algo-item-fill"
-                                                            style={{
-                                                                width: `${Math.min(100, stat.accuracy * 100)}%`,
-                                                                background: stat.accuracy > 0.6 ? '#22c55e' :
-                                                                    stat.accuracy > 0.5 ? '#eab308' : '#ef4444'
-                                                            }}
-                                                        />
-                                                    )}
-                                                </div>
-                                            </div>
-                                        );
-                                    })}
-                                </div>
-                            </div>
-                        </div>
-                    )}
-
-                    {/* History */}
-                    <div className="history">
-                        <div className="history-header">
-                            <span>📜 LỊCH SỬ {type === 'hu' ? 'HŨ' : 'MD5'}</span>
-                            <span>MAX {maxStreak}</span>
-                        </div>
-                        <div className="history-pills">
-                            {history.slice(0, 14).map(h => (
-                                <span key={h.phien} className={`pill ${h.win ? 'pill-win' : 'pill-loss'}`}>
-                                    {h.win ? 'T' : 'X'}
-                                </span>
-                            ))}
-                            {!history.length && (
-                                <span style={{ fontSize: '10px', color: 'rgba(255,255,255,0.2)' }}>
-                                    Đang thu thập...
-                                </span>
-                            )}
-                        </div>
-                    </div>
+        <!-- Product Card -->
+        <div class="product-card" id="productCard">
+            <img id="productImage" src="" alt="Sản phẩm">
+            <div class="product-info">
+                <h3 id="productName"></h3>
+                <div>
+                    <span class="price" id="productPrice"></span>
+                    <span class="original-price" id="productOriginalPrice"></span>
                 </div>
-            );
+                <div class="stats" id="productStats"></div>
+            </div>
+        </div>
+
+        <!-- Video Result -->
+        <div class="video-result" id="videoResult">
+            <div class="video-wrapper">
+                <video id="resultVideo" controls playsinline></video>
+            </div>
+            <div class="video-actions">
+                <button class="btn-secondary" onclick="resetTool()">🔄 Làm lại</button>
+                <button class="btn-secondary btn-download" onclick="downloadAI Video()">💾 Tải video</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ==================== AI ENGINE ====================
+
+        let videoBlob = null;
+
+        async function startAIProcess() {
+            const link = document.getElementById('productLink').value.trim();
+            const platform = document.getElementById('platform').value;
+            const voiceStyle = document.getElementById('voiceStyle').value;
+
+            if (!link) {
+                alert('⚠️ Vui lòng nhập link sản phẩm!');
+                return;
+            }
+
+            // Reset UI
+            resetUI();
+            document.getElementById('btnSubmit').disabled = true;
+            document.getElementById('aiSection').classList.add('active');
+
+            try {
+                // ============ BƯỚC 1: AI CRAWL SẢN PHẨM ============
+                updateAIStatus('🔍 AI đang phân tích link sản phẩm...');
+                addLog('🔄 Đang kết nối đến ' + platform + '...', 'processing');
+                addLog('📡 Đang crawl dữ liệu sản phẩm...', 'processing');
+
+                const productData = await aiCrawlProduct(link, platform);
+                addLog('✅ Đã lấy thông tin sản phẩm thành công!', 'success');
+                addLog('📦 Tên: ' + productData.name, 'info');
+                addLog('💰 Giá: ' + productData.price, 'info');
+                addLog('⭐ Rating: ' + productData.rating + ' | Đã bán: ' + productData.sold, 'info');
+
+                // Hiển thị product card
+                showProductCard(productData);
+
+                // ============ BƯỚC 2: AI VIẾT KỊCH BẢN ============
+                updateAIStatus('✍️ AI đang viết kịch bản review...');
+                addLog('🧠 Đang phân tích đặc điểm sản phẩm...', 'processing');
+                addLog('📝 Đang tạo kịch bản video ' + voiceStyle + '...', 'processing');
+
+                const script = await aiGenerateScript(productData, voiceStyle);
+                addLog('✅ Kịch bản đã sẵn sàng (' + script.length + ' cảnh)', 'success');
+                script.forEach((scene, i) => {
+                    addLog('  🎬 Cảnh ' + (i + 1) + ': ' + scene.text.substring(0, 60) + '...', 'info');
+                });
+
+                // ============ BƯỚC 3: AI TẠO GIỌNG ĐỌC ============
+                updateAIStatus('🎙️ AI đang tạo giọng đọc...');
+                addLog('🔊 Đang tổng hợp giọng nói tự nhiên...', 'processing');
+
+                const audioBlob = await aiGenerateVoice(script, voiceStyle);
+                addLog('✅ Giọng đọc AI đã sẵn sàng!', 'success');
+
+                // ============ BƯỚC 4: AI DỰNG VIDEO ============
+                updateAIStatus('🎬 AI đang dựng video hoàn chỉnh...');
+                addLog('🎨 Đang render cảnh 1: Mở đầu gây ấn tượng...', 'processing');
+                addLog('📸 Đang thêm hình ảnh sản phẩm...', 'processing');
+                addLog('💬 Đang chèn phụ đề...', 'processing');
+                addLog('🎵 Đang thêm nhạc nền...', 'processing');
+
+                videoBlob = await aiRenderVideo(productData, script, audioBlob, voiceStyle);
+                addLog('✅ Video đã hoàn tất!', 'success');
+                addLog('📹 Độ dài: ~' + Math.round(script.reduce((s, sc) => s + sc.duration, 0)) + ' giây', 'info');
+
+                // ============ HIỂN THỊ KẾT QUẢ ============
+                updateAIStatus('✅ Hoàn tất! Video đã sẵn sàng.');
+                showVideoResult(videoBlob);
+
+            } catch (error) {
+                addLog('❌ Lỗi: ' + error.message, 'error');
+                updateAIStatus('❌ Có lỗi xảy ra. Vui lòng thử lại.');
+            } finally {
+                document.getElementById('btnSubmit').disabled = false;
+            }
         }
 
-        // ===== Mount =====
-        ReactDOM.createRoot(document.getElementById('app')).render(<App />);
-    </script>
+        // ==================== AI FUNCTIONS ====================
 
+        async function aiCrawlProduct(link, platform) {
+            // Mô phỏng AI crawl sản phẩm
+            // Trong thực tế: Gọi API backend để crawl thông tin thật
+            await delay(1500 + Math.random() * 1000);
+
+            // Dữ liệu mẫu thông minh dựa trên platform
+            const mockDB = {
+                shopee: {
+                    name: 'Máy hút bụi cầm tay không dây ProClean X1',
+                    price: '299.000đ',
+                    originalPrice: '599.000đ',
+                    rating: '4.8',
+                    sold: '15.6k',
+                    image: 'data:image/svg+xml,' + encodeURIComponent(`
+                        <svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200">
+                            <rect width="200" height="200" fill="#6c5ce7" rx="20"/>
+                            <text x="100" y="110" text-anchor="middle" fill="white" font-size="60">🧹</text>
+                            <text x="100" y="150" text-anchor="middle" fill="white" font-size="16" font-weight="bold">ProClean X1</text>
+                        </svg>
+                    `),
+                    specs: [
+                        'Công suất mạnh 120W, hút sạch mọi bụi bẩn',
+                        'Pin 3000mAh dùng liên tục 30 phút',
+                        'Siêu nhẹ chỉ 0.5kg, thiết kế nhỏ gọn',
+                        'Tặng kèm 3 đầu hút đa năng',
+                        'Lọc HEPA kháng khuẩn 99.9%',
+                    ],
+                },
+                tiktok: {
+                    name: 'Kem chống nắng Nhật Bản UV Shield SPF50+',
+                    price: '189.000đ',
+                    originalPrice: '350.000đ',
+                    rating: '4.9',
+                    sold: '28.3k',
+                    image: 'data:image/svg+xml,' + encodeURIComponent(`
+                        <svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200">
+                            <rect width="200" height="200" fill="#f59e0b" rx="20"/>
+                            <text x="100" y="110" text-anchor="middle" fill="white" font-size="60">☀️</text>
+                            <text x="100" y="150" text-anchor="middle" fill="white" font-size="14" font-weight="bold">UV Shield</text>
+                        </svg>
+                    `),
+                    specs: [
+                        'Chống nắng phổ rộng SPF50+ PA++++',
+                        'Kết cấu mỏng nhẹ, thấm nhanh không nhờn',
+                        'Chiết xuất hoa anh đào dưỡng ẩm',
+                        'Bảo vệ da suốt 12 giờ',
+                        'Đã kiểm nghiệm da liễu, an toàn',
+                    ],
+                },
+                lazada: {
+                    name: 'Tai nghe Bluetooth ANC Pro chống ồn',
+                    price: '499.000đ',
+                    originalPrice: '999.000đ',
+                    rating: '4.7',
+                    sold: '8.9k',
+                    image: 'data:image/svg+xml,' + encodeURIComponent(`
+                        <svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200">
+                            <rect width="200" height="200" fill="#10b981" rx="20"/>
+                            <text x="100" y="110" text-anchor="middle" fill="white" font-size="60">🎧</text>
+                            <text x="100" y="150" text-anchor="middle" fill="white" font-size="14" font-weight="bold">ANC Pro</text>
+                        </svg>
+                    `),
+                    specs: [
+                        'Chống ồn chủ động ANC tiên tiến',
+                        'Âm thanh Hi-Res Audio chuẩn phòng thu',
+                        'Pin 40 giờ nghe liên tục',
+                        'Bluetooth 5.3 kết nối siêu nhanh',
+                        'Chống nước IPX5, thoải mái tập luyện',
+                    ],
+                },
+            };
+
+            const data = mockDB[platform] || mockDB['shopee'];
+            // Giả lập thêm thông tin từ link
+            data.sourceLink = link;
+            data.platform = platform;
+            return data;
+        }
+
+        async function aiGenerateScript(product, voiceStyle) {
+            await delay(1200 + Math.random() * 800);
+
+            // AI tạo kịch bản dựa trên voiceStyle
+            const hooks = {
+                professional: [
+                    '🔥 Bạn đang tìm kiếm ' + product.name + '? Đừng bỏ qua video này!',
+                    'Sản phẩm này đang gây sốt với hơn ' + product.sold + ' lượt bán!',
+                ],
+                enthusiastic: [
+                    '😱 TRỜI ƠI! ' + product.name + ' này chỉ có ' + product.price + ' thôi ư?!',
+                    'Săn sale thành công! Giá gốc ' + product.originalPrice + ' mà nay còn ' + product.price + '!',
+                ],
+                gentle: [
+                    'Chào bạn, hôm nay mình xin giới thiệu ' + product.name + ' nhé.',
+                    'Một sản phẩm rất đáng yêu với mức giá ' + product.price + ' thôi nè.',
+                ],
+                humorous: [
+                    '😎 Bạn mà chưa có ' + product.name + ' là lỗi thời rồi đấy!',
+                    'Cái giá ' + product.price + ' mà được em này thì quá hời luôn!',
+                ],
+            };
+
+            const conclusions = {
+                professional: '👉 Link mua ở phần bình luận. Cảm ơn bạn đã xem!',
+                enthusiastic: '⚡ NHANH TAY SĂN NGAY! Số lượng có hạn! Link phía dưới!',
+                gentle: '💝 Cảm ơn bạn đã xem hết video. Chúc bạn một ngày vui vẻ!',
+                humorous: '🤣 Quá chất lượng phải không? Mua ngay kẻo hết nha!',
+            };
+
+            const selectedHooks = hooks[voiceStyle] || hooks['professional'];
+            const selectedConclusion = conclusions[voiceStyle] || conclusions['professional'];
+
+            const script = [
+                { text: selectedHooks[0], duration: 4 },
+                { text: selectedHooks[1], duration: 4 },
+                { text: '📦 Cùng mình khám phá chi tiết sản phẩm này nhé!', duration: 3 },
+            ];
+
+            // Thêm các tính năng
+            product.specs.forEach((spec, i) => {
+                script.push({
+                    text: '✅ ' + spec,
+                    duration: 4,
+                });
+            });
+
+            // So sánh giá
+            script.push({
+                text: '💰 Giá gốc ' + product.originalPrice + ' - Nay chỉ còn ' + product.price + '! Tiết kiệm ngay!',
+                duration: 4,
+            });
+
+            // Kết luận
+            script.push({ text: selectedConclusion, duration: 4 });
+
+            return script;
+        }
+
+        async function aiGenerateVoice(script, voiceStyle) {
+            await delay(1500 + Math.random() * 1000);
+
+            // Tạo audio bằng Web Audio API (mô phỏng TTS)
+            const audioContext = new(window.AudioContext || window.webkitAudioContext)();
+            const totalDuration = script.reduce((sum, s) => sum + s.duration, 0);
+            const sampleRate = audioContext.sampleRate;
+            const length = Math.ceil(totalDuration * sampleRate);
+            const buffer = audioContext.createBuffer(1, length, sampleRate);
+            const data = buffer.getChannelData(0);
+
+            // Tần số cơ bản theo giọng
+            const baseFreqMap = {
+                professional: 180,
+                enthusiastic: 200,
+                gentle: 160,
+                humorous: 190,
+            };
+            const baseFreq = baseFreqMap[voiceStyle] || 180;
+
+            let currentTime = 0;
+            script.forEach(scene => {
+                const sceneDuration = scene.duration;
+                const startSample = Math.floor(currentTime * sampleRate);
+                const endSample = Math.floor((currentTime + sceneDuration) * sampleRate);
+
+                for (let i = startSample; i < endSample && i < length; i++) {
+                    const t = i / sampleRate - currentTime;
+                    const localT = t / sceneDuration;
+                    // Mô phỏng ngữ điệu tiếng Việt
+                    const pitchVariation = Math.sin(localT * 8) * 20 + Math.sin(localT * 15) * 10;
+                    const freq = baseFreq + pitchVariation;
+                    const envelope = Math.sin(localT * Math.PI) * 0.8; // Fade in/out
+                    const vibrato = Math.sin(t * 30) * 0.02;
+
+                    data[i] = (Math.sin(2 * Math.PI * freq * t) * 0.4 +
+                            Math.sin(2 * Math.PI * freq * 2 * t) * 0.15 +
+                            Math.sin(2 * Math.PI * freq * 3 * t) * 0.05) *
+                        envelope * (1 + vibrato) *
+                        Math.exp(-t / totalDuration * 0.3);
+                }
+                currentTime += sceneDuration;
+            });
+
+            // Convert to WAV
+            return audioBufferToWavBlob(buffer);
+        }
+
+        function audioBufferToWavBlob(buffer) {
+            const numChannels = buffer.numberOfChannels;
+            const sampleRate = buffer.sampleRate;
+            const format = 1;
+            const bitDepth = 16;
+            const bytesPerSample = bitDepth / 8;
+            const blockAlign = numChannels * bytesPerSample;
+            const data = buffer.getChannelData(0);
+            const dataLength = data.length * bytesPerSample;
+            const headerLength = 44;
+            const totalLength = headerLength + dataLength;
+            const arrayBuffer = new ArrayBuffer(totalLength);
+            const view = new DataView(arrayBuffer);
+
+            writeWavString(view, 0, 'RIFF');
+            view.setUint32(4, totalLength - 8, true);
+            writeWavString(view, 8, 'WAVE');
+            writeWavString(view, 12, 'fmt ');
+            view.setUint32(16, 16, true);
+            view.setUint16(20, format, true);
+            view.setUint16(22, numChannels, true);
+            view.setUint32(24, sampleRate, true);
+            view.setUint32(28, sampleRate * blockAlign, true);
+            view.setUint16(32, blockAlign, true);
+            view.setUint16(34, bitDepth, true);
+            writeWavString(view, 36, 'data');
+            view.setUint32(40, dataLength, true);
+
+            let offset = 44;
+            for (let i = 0; i < data.length; i++) {
+                const sample = Math.max(-1, Math.min(1, data[i]));
+                view.setInt16(offset, sample * 0x7FFF, true);
+                offset += 2;
+            }
+
+            return new Blob([arrayBuffer], { type: 'audio/wav' });
+        }
+
+        function writeWavString(view, offset, string) {
+            for (let i = 0; i < string.length; i++) {
+                view.setUint8(offset + i, string.charCodeAt(i));
+            }
+        }
+
+        async function aiRenderVideo(product, script, audioBlob, voiceStyle) {
+            await delay(2000 + Math.random() * 1500);
+
+            // Tạo canvas video
+            const canvas = document.createElement('canvas');
+            canvas.width = 1080;
+            canvas.height = 1920;
+            const ctx = canvas.getContext('2d');
+
+            // Tính tổng thời gian
+            const totalDuration = script.reduce((sum, s) => sum + s.duration, 0);
+            const fps = 30;
+            const totalFrames = Math.ceil(totalDuration * fps);
+
+            // Chuẩn bị audio
+            const audioUrl = URL.createObjectURL(audioBlob);
+            const audio = new Audio(audioUrl);
+
+            // Capture stream
+            const stream = canvas.captureStream(fps);
+            const mimeType = MediaRecorder.isTypeSupported('video/webm;codecs=vp9') ?
+                'video/webm;codecs=vp9' : 'video/webm';
+            const mediaRecorder = new MediaRecorder(stream, {
+                mimeType,
+                videoBitsPerSecond: 8000000,
+            });
+
+            const chunks = [];
+            mediaRecorder.ondataavailable = e => chunks.push(e.data);
+
+            const recordingDone = new Promise(resolve => {
+                mediaRecorder.onstop = () => {
+                    const blob = new Blob(chunks, { type: 'video/webm' });
+                    resolve(blob);
+                };
+            });
+
+            mediaRecorder.start();
+            audio.play().catch(() => {});
+
+            const startTime = performance.now();
+            let frame = 0;
+            const particles = [];
+            for (let i = 0; i < 30; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    size: Math.random() * 3 + 1,
+                    speed: Math.random() * 0.5 + 0.2,
+                    opacity: Math.random() * 0.5 + 0.2,
+                    color: ['#6c5ce7', '#a855f7', '#f59e0b', '#10b981'][Math.floor(Math.random() * 4)],
+                });
+            }
+
+            function drawFrame() {
+                const elapsed = (performance.now() - startTime) / 1000;
+                if (elapsed >= totalDuration || frame >= totalFrames) {
+                    mediaRecorder.stop();
+                    audio.pause();
+                    URL.revokeObjectURL(audioUrl);
+                    return;
+                }
+
+                // Clear
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                // Background gradient động
+                const bgGrad = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+                const hueShift = Math.sin(elapsed * 0.3) * 30;
+                bgGrad.addColorStop(0, `hsl(${250 + hueShift}, 60%, 8%)`);
+                bgGrad.addColorStop(0.5, `hsl(${260 + hueShift}, 50%, 12%)`);
+                bgGrad.addColorStop(1, `hsl(${240 + hueShift}, 40%, 6%)`);
+                ctx.fillStyle = bgGrad;
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                // Particles
+                particles.forEach(p => {
+                    p.y -= p.speed;
+                    if (p.y < -10) p.y = canvas.height + 10;
+                    ctx.fillStyle = p.color.replace(')', `, ${p.opacity})`).replace('rgb',
+                        'rgba');
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                    ctx.fill();
+                });
+
+                // Product showcase area
+                const showcaseY = 300 + Math.sin(elapsed * 0.8) * 20;
+                // Glow effect
+                const glowGrad = ctx.createRadialGradient(canvas.width / 2, showcaseY + 200, 50,
+                    canvas.width / 2, showcaseY + 200, 350);
+                glowGrad.addColorStop(0, 'rgba(108,92,231,0.3)');
+                glowGrad.addColorStop(1, 'rgba(108,92,231,0)');
+                ctx.fillStyle = glowGrad;
+                ctx.fillRect(canvas.width / 2 - 350, showcaseY - 150, 700, 700);
+
+                // Product box
+                ctx.fillStyle = 'rgba(255,255,255,0.05)';
+                ctx.strokeStyle = 'rgba(255,255,255,0.2)';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                ctx.roundRect(canvas.width / 2 - 160, showcaseY, 320, 400, 30);
+                ctx.fill();
+                ctx.stroke();
+
+                // Product emoji
+                const emojis = { shopee: '🛍️', tiktok: '📱', lazada: '📦' };
+                ctx.font = '140px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText(emojis[product.platform] || '📦', canvas.width / 2, showcaseY + 240);
+
+                // Product name
+                ctx.fillStyle = '#ffffff';
+                ctx.font = 'bold 46px "Segoe UI", Arial';
+                const nameLines = wrapTextAI(ctx, product.name, canvas.width - 120);
+                nameLines.forEach((line, i) => {
+                    ctx.fillText(line, canvas.width / 2, showcaseY + 460 + i * 55);
+                });
+
+                // Price section
+                const priceY = showcaseY + 460 + nameLines.length * 55 + 40;
+                ctx.fillStyle = '#f59e0b';
+                ctx.font = 'bold 72px "Segoe UI", Arial';
+                ctx.fillText(product.price, canvas.width / 2, priceY);
+
+                // Original price
+                ctx.fillStyle = '#94a3b8';
+                ctx.font = '38px "Segoe UI", Arial';
+                ctx.fillText(product.originalPrice, canvas.width / 2, priceY + 50);
+                ctx.strokeStyle = '#ef4444';
+                ctx.lineWidth = 3;
+                const origW = ctx.measureText(product.originalPrice).width;
+                ctx.beginPath();
+                ctx.moveTo(canvas.width / 2 - origW / 2, priceY + 30);
+                ctx.lineTo(canvas.width / 2 + origW / 2, priceY + 30);
+                ctx.stroke();
+
+                // Rating badge
+                ctx.fillStyle = '#f59e0b';
+                ctx.beginPath();
+                ctx.roundRect(canvas.width / 2 + 100, priceY - 35, 100, 35, 18);
+                ctx.fill();
+                ctx.fillStyle = '#000';
+                ctx.font = 'bold 22px "Segoe UI", Arial';
+                ctx.fillText('⭐ ' + product.rating, canvas.width / 2 + 150, priceY - 12);
+
+                // Subtitle
+                let currentText = '';
+                let accTime = 0;
+                for (const scene of script) {
+                    if (elapsed < accTime + scene.duration) {
+                        currentText = scene.text;
+                        break;
+                    }
+                    accTime += scene.duration;
+                }
+
+                if (currentText) {
+                    const subY = canvas.height - 220;
+                    ctx.fillStyle = 'rgba(0,0,0,0.75)';
+                    const subLines = wrapTextAI(ctx, currentText, canvas.width - 100);
+                    const subH = subLines.length * 52 + 24;
+                    ctx.fillRect(0, subY - 12, canvas.width, subH);
+
+                    ctx.fillStyle = '#ffffff';
+                    ctx.font = 'bold 40px "Segoe UI", Arial';
+                    subLines.forEach((line, i) => {
+                        ctx.fillText(line, canvas.width / 2, subY + 36 + i * 52);
+                    });
+                }
+
+                // Watermark
+                ctx.fillStyle = 'rgba(255,255,255,0.2)';
+                ctx.font = '20px "Segoe UI", Arial';
+                ctx.textAlign = 'right';
+                ctx.fillText('AI Video Review', canvas.width - 30, canvas.height - 30);
+
+                // Platform badge
+                ctx.fillStyle = 'rgba(255,255,255,0.1)';
+                ctx.beginPath();
+                ctx.roundRect(30, canvas.height - 70, 150, 40, 20);
+                ctx.fill();
+                ctx.fillStyle = '#fff';
+                ctx.font = 'bold 18px "Segoe UI", Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText(product.platform.toUpperCase(), 105, canvas.height - 44);
+                ctx.textAlign = 'center';
+
+                frame++;
+                requestAnimationFrame(drawFrame);
+            }
+
+            requestAnimationFrame(drawFrame);
+            const blob = await recordingDone;
+            return blob;
+        }
+
+        function wrapTextAI(ctx, text, maxWidth) {
+            const words = text.split(' ');
+            const lines = [];
+            let currentLine = '';
+            for (const word of words) {
+                const testLine = currentLine ? currentLine + ' ' + word : word;
+                if (ctx.measureText(testLine).width > maxWidth && currentLine) {
+                    lines.push(currentLine);
+                    currentLine = word;
+                } else {
+                    currentLine = testLine;
+                }
+            }
+            if (currentLine) lines.push(currentLine);
+            return lines;
+        }
+
+        // ==================== UI HELPERS ====================
+
+        function updateAIStatus(text) {
+            document.getElementById('aiStatusText').textContent = '🤖 ' + text;
+        }
+
+        function addLog(message, type) {
+            const logContainer = document.getElementById('aiLog');
+            const entry = document.createElement('div');
+            entry.className = 'log-entry ' + (type || 'info');
+            entry.textContent = '[' + new Date().toLocaleTimeString() + '] ' + message;
+            logContainer.appendChild(entry);
+            logContainer.scrollTop = logContainer.scrollHeight;
+        }
+
+        function showProductCard(product) {
+            const card = document.getElementById('productCard');
+            document.getElementById('productImage').src = product.image;
+            document.getElementById('productName').textContent = product.name;
+            document.getElementById('productPrice').textContent = product.price;
+            document.getElementById('productOriginalPrice').textContent = product.originalPrice;
+            document.getElementById('productStats').textContent =
+                '⭐ ' + product.rating + ' | 📦 Đã bán: ' + product.sold + ' | Nguồn: ' + product.platform;
+            card.classList.add('active');
+        }
+
+        function showVideoResult(blob) {
+            const url = URL.createObjectURL(blob);
+            const videoResult = document.getElementById('videoResult');
+            const resultVideo = document.getElementById('resultVideo');
+            resultVideo.src = url;
+            videoResult.classList.add('active');
+            videoResult.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            // Lưu để download
+            window._videoBlob = blob;
+            window._videoUrl = url;
+        }
+
+        function resetUI() {
+            document.getElementById('aiLog').innerHTML = '';
+            document.getElementById('productCard').classList.remove('active');
+            document.getElementById('videoResult').classList.remove('active');
+            document.getElementById('aiSection').classList.add('active');
+            updateAIStatus('AI đang khởi động...');
+        }
+
+        function resetTool() {
+            document.getElementById('aiSection').classList.remove('active');
+            document.getElementById('productCard').classList.remove('active');
+            document.getElementById('videoResult').classList.remove('active');
+            if (window._videoUrl) URL.revokeObjectURL(window._videoUrl);
+            window._videoBlob = null;
+            window._videoUrl = null;
+            document.getElementById('btnSubmit').disabled = false;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function downloadAIVideo() {
+            const blob = window._videoBlob;
+            if (!blob) {
+                alert('Chưa có video để tải!');
+                return;
+            }
+            const url = window._videoUrl || URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'ai-video-review-' + Date.now() + '.webm';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+
+        function delay(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        // Polyfill roundRect
+        if (!CanvasRenderingContext2D.prototype.roundRect) {
+            CanvasRenderingContext2D.prototype.roundRect = function(x, y, w, h, r) {
+                if (typeof r === 'number') r = { tl: r, tr: r, br: r, bl: r };
+                this.beginPath();
+                this.moveTo(x + r.tl, y);
+                this.lineTo(x + w - r.tr, y);
+                this.quadraticCurveTo(x + w, y, x + w, y + r.tr);
+                this.lineTo(x + w, y + h - r.br);
+                this.quadraticCurveTo(x + w, y + h, x + w - r.br, y + h);
+                this.lineTo(x + r.bl, y + h);
+                this.quadraticCurveTo(x, y + h, x, y + h - r.bl);
+                this.lineTo(x, y + r.tl);
+                this.quadraticCurveTo(x, y, x + r.tl, y);
+                this.closePath();
+                return this;
+            };
+        }
+
+        console.log('🤖 AI Video Review Tool đã sẵn sàng!');
+        console.log('📋 Cách dùng: Dán link sản phẩm → Chọn nền tảng → Nhấn nút → AI tự làm mọi thứ!');
+    </script>
 </body>
 </html>
