@@ -3,1025 +3,342 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Tự Động Tạo Video Review Sản Phẩm</title>
+    <title>Tool Tạo Video AI - Phong Cảnh & Avatar Dẫn Chuyện</title>
     <style>
-        :root {
-            --bg: #0a0a12;
-            --card: #13132b;
-            --primary: #6c5ce7;
-            --secondary: #a855f7;
-            --accent: #f59e0b;
-            --text: #e2e8f0;
-            --text-secondary: #94a3b8;
-            --border: #1e1e3a;
-            --success: #10b981;
-            --danger: #ef4444;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            min-height: 100vh;
-            padding: 20px;
-            background-image:
-                radial-gradient(ellipse at 20% 50%, rgba(108, 92, 231, 0.08) 0%, transparent 60%),
-                radial-gradient(ellipse at 80% 50%, rgba(168, 85, 247, 0.06) 0%, transparent 60%);
-        }
-
-        .container {
-            max-width: 750px;
-            margin: 0 auto;
-            background: var(--card);
-            border-radius: 24px;
-            padding: 32px 28px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 0 1px var(--border);
-            border: 1px solid #1e1e3a;
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 28px;
-        }
-        .header .icon {
-            font-size: 48px;
-            margin-bottom: 8px;
-        }
-        .header h1 {
-            font-size: 26px;
-            font-weight: 800;
-            letter-spacing: -0.5px;
-            background: linear-gradient(135deg, #6c5ce7, #a855f7, #f59e0b);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        .header .subtitle {
-            font-size: 14px;
-            color: var(--text-secondary);
-            margin-top: 4px;
-        }
-
-        .input-group {
-            margin-bottom: 16px;
-        }
-        .input-group label {
-            display: block;
-            font-weight: 600;
-            font-size: 13px;
-            color: var(--text-secondary);
-            margin-bottom: 6px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        input[type="url"],
-        select {
-            width: 100%;
-            padding: 14px 16px;
-            background: #0a0a1a;
-            border: 2px solid var(--border);
-            border-radius: 14px;
-            color: var(--text);
-            font-size: 15px;
-            font-family: inherit;
-            transition: all 0.3s;
-            outline: none;
-        }
-        input[type="url"]:focus,
-        select:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 4px rgba(108, 92, 231, 0.15);
-        }
-        select {
-            cursor: pointer;
-            appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 14px center;
-        }
-
-        .row-2 {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-        }
-
-        .btn-submit {
-            width: 100%;
-            padding: 16px;
-            background: linear-gradient(135deg, #6c5ce7, #a855f7);
-            color: white;
-            border: none;
-            border-radius: 14px;
-            font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
-            letter-spacing: 0.5px;
-            transition: all 0.3s;
-            font-family: inherit;
-            box-shadow: 0 8px 24px rgba(108, 92, 231, 0.35);
-            margin-top: 8px;
-        }
-        .btn-submit:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 32px rgba(108, 92, 231, 0.5);
-        }
-        .btn-submit:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        /* AI Processing Section */
-        .ai-section {
-            display: none;
-            margin-top: 24px;
-            padding: 20px;
-            background: #0a0a1a;
-            border-radius: 16px;
-            border: 1px solid var(--border);
-            animation: fadeIn 0.4s ease;
-        }
-        .ai-section.active {
-            display: block;
-        }
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .ai-status {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 16px;
-            padding: 12px 16px;
-            background: rgba(108, 92, 231, 0.1);
-            border-radius: 10px;
-            border: 1px solid rgba(108, 92, 231, 0.3);
-        }
-        .ai-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: var(--primary);
-            animation: pulse-dot 1.5s infinite;
-        }
-        @keyframes pulse-dot {
-            0%,
-            100% {
-                box-shadow: 0 0 0 0 rgba(108, 92, 231, 0.6);
-            }
-            50% {
-                box-shadow: 0 0 0 12px rgba(108, 92, 231, 0);
-            }
-        }
-        .ai-status-text {
-            font-weight: 600;
-            font-size: 14px;
-        }
-
-        .ai-log {
-            font-size: 12px;
-            color: var(--text-secondary);
-            font-family: 'Courier New', monospace;
-            max-height: 200px;
-            overflow-y: auto;
-            padding: 10px;
-            background: #050510;
-            border-radius: 8px;
-            line-height: 1.8;
-        }
-        .ai-log .log-entry {
-            padding: 3px 0;
-            border-bottom: 1px solid #1a1a2e;
-        }
-        .ai-log .log-entry.success {
-            color: #10b981;
-        }
-        .ai-log .log-entry.processing {
-            color: #f59e0b;
-        }
-        .ai-log .log-entry.info {
-            color: #6c5ce7;
-        }
-
-        /* Product Info Card */
-        .product-card {
-            display: none;
-            margin-top: 16px;
-            padding: 16px;
-            background: #0a0a1a;
-            border-radius: 14px;
-            border: 1px solid var(--border);
-            gap: 14px;
-        }
-        .product-card.active {
-            display: flex;
-            align-items: flex-start;
-        }
-        .product-card img {
-            width: 100px;
-            height: 100px;
-            border-radius: 10px;
-            object-fit: cover;
-            border: 2px solid var(--border);
-            flex-shrink: 0;
-        }
-        .product-info h3 {
-            font-size: 15px;
-            font-weight: 700;
-            margin-bottom: 6px;
-            color: #fff;
-        }
-        .product-info .price {
-            font-size: 20px;
-            font-weight: 800;
-            color: #f59e0b;
-        }
-        .product-info .original-price {
-            font-size: 13px;
-            color: #64748b;
-            text-decoration: line-through;
-            margin-left: 8px;
-        }
-        .product-info .stats {
-            font-size: 12px;
-            color: var(--text-secondary);
-            margin-top: 4px;
-        }
-
-        /* Video Result */
-        .video-result {
-            display: none;
-            margin-top: 20px;
-            animation: fadeIn 0.5s ease;
-        }
-        .video-result.active {
-            display: block;
-        }
-        .video-wrapper {
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
-            border: 2px solid var(--border);
-            aspect-ratio: 9/16;
-            background: #000;
-            position: relative;
-        }
-        .video-wrapper video {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-        }
-        .video-actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 12px;
-        }
-        .btn-secondary {
-            flex: 1;
-            padding: 12px;
-            border-radius: 10px;
-            border: 1px solid var(--border);
-            background: transparent;
-            color: var(--text);
-            font-weight: 600;
-            cursor: pointer;
-            font-family: inherit;
-            transition: all 0.2s;
-            text-align: center;
-        }
-        .btn-secondary:hover {
-            border-color: var(--primary);
-            background: rgba(108, 92, 231, 0.08);
-        }
-        .btn-download {
-            background: linear-gradient(135deg, #6c5ce7, #a855f7);
-            border: none;
-            color: white;
-            font-weight: 700;
-        }
-
-        @media (max-width: 500px) {
-            .container {
-                padding: 20px 14px;
-            }
-            .row-2 {
-                grid-template-columns: 1fr;
-            }
-            .product-card.active {
-                flex-direction: column;
-                align-items: center;
-                text-align: center;
-            }
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, sans-serif; }
+        body { background-color: #090d16; color: #f1f5f9; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
+        .container { display: flex; flex-wrap: wrap; gap: 25px; background: #111827; padding: 25px; border-radius: 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.7); max-width: 1000px; width: 100%; border: 1px solid #1f2937; }
+        .form-section { flex: 1.2; min-width: 320px; display: flex; flex-direction: column; gap: 14px; }
+        .preview-section { flex: 0.8; min-width: 300px; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #030712; padding: 20px; border-radius: 16px; border: 1px solid #1f2937; }
+        
+        h2 { color: #38bdf8; font-size: 1.4rem; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+        .input-group { display: flex; flex-direction: column; gap: 5px; }
+        label { font-size: 0.85rem; color: #9ca3af; font-weight: 600; text-transform: uppercase; }
+        input[type="text"], textarea, select { width: 100%; padding: 11px; border-radius: 8px; border: 1px solid #374151; background: #1f2937; color: #fff; font-size: 0.95rem; outline: none; }
+        
+        .row { display: flex; gap: 10px; }
+        .btn-ai { background: linear-gradient(135deg, #a855f7, #6366f1); color: white; border: none; padding: 10px 14px; border-radius: 8px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+        .btn-primary { background: linear-gradient(135deg, #0284c7, #2563eb); color: white; border: none; padding: 14px; border-radius: 10px; font-weight: 700; font-size: 1rem; cursor: pointer; margin-top: 5px; }
+        .btn-primary:disabled { background: #4b5563; cursor: not-allowed; }
+        
+        canvas { border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.9); background: #000; width: 100%; max-width: 310px; aspect-ratio: 9/16; }
+        #downloadBtn { background: #10b981; color: white; border: none; padding: 12px; border-radius: 10px; font-weight: bold; margin-top: 15px; cursor: pointer; display: none; width: 100%; max-width: 310px; text-align: center; }
+        .status { font-size: 0.85rem; color: #f59e0b; font-weight: 600; min-height: 20px; text-align: center; }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <div class="header">
-            <div class="icon">🤖</div>
-            <h1>AI Video Review</h1>
-            <p class="subtitle">Dán link sản phẩm → AI tự crawl, viết kịch bản, tạo video</p>
-        </div>
+<div class="container">
+    <!-- CỘT CẤU HÌNH -->
+    <div class="form-section">
+        <h2>🎬 AI Video Creator Pro</h2>
 
-        <!-- Form nhập link -->
         <div class="input-group">
-            <label>🔗 Link sản phẩm (Shopee / TikTok Shop / Lazada)</label>
-            <input type="url" id="productLink" placeholder="https://shopee.vn/san-pham-cua-ban-..." required>
+            <label>1. Tên Sản Phẩm:</label>
+            <div class="row">
+                <input type="text" id="productName" placeholder="VD: Nước Hoa Cao Cấp Versailles" value="Nước Hoa Cao Cấp Versailles">
+                <button class="btn-ai" onclick="generateAIScript()">🤖 Viết Mô Tả AI</button>
+            </div>
         </div>
 
-        <div class="row-2">
-            <div class="input-group">
-                <label>🛒 Nền tảng</label>
-                <select id="platform">
-                    <option value="shopee">Shopee</option>
-                    <option value="tiktok">TikTok Shop</option>
-                    <option value="lazada">Lazada</option>
+        <div class="input-group">
+            <label>2. Tải Ảnh Sản Phẩm:</label>
+            <input type="file" id="productImgInput" accept="image/*" onchange="loadProductImg(event)">
+        </div>
+
+        <div class="row">
+            <div class="input-group" style="flex:1;">
+                <label>3. Phong Cảnh Nền Video:</label>
+                <select id="bgType" onchange="redrawCanvas()">
+                    <option value="studio">🎙️ Studio Review Đẳng Cấp</option>
+                    <option value="room">🛋️ Phòng Khách Hiện Đại</option>
+                    <option value="cyber">🌆 Thành Phố Cyber Neon</option>
+                    <option value="nature">🌿 Cảnh Thiên Nhiên Tươi Mát</option>
                 </select>
             </div>
-            <div class="input-group">
-                <label>🎤 Giọng đọc AI</label>
-                <select id="voiceStyle">
-                    <option value="professional">Chuyên nghiệp</option>
-                    <option value="enthusiastic">Nhiệt tình, trẻ trung</option>
-                    <option value="gentle">Nhẹ nhàng, tình cảm</option>
-                    <option value="humorous">Hài hước, vui tính</option>
+            <div class="input-group" style="flex:1;">
+                <label>4. Người AI Dẫn Chuyện:</label>
+                <select id="avatarType" onchange="redrawCanvas()">
+                    <option value="female">👧 MC Nữ Reviewer (Trẻ Trung)</option>
+                    <option value="male">👦 MC Nam Công Sở (Lịch Lãm)</option>
+                    <option value="robot">🤖 Robot AI Thông Minh</option>
                 </select>
             </div>
         </div>
 
-        <button class="btn-submit" id="btnSubmit" onclick="startAIProcess()">
-            🚀 AI Tự Động Tạo Video
-        </button>
-
-        <!-- AI Processing Logs -->
-        <div class="ai-section" id="aiSection">
-            <div class="ai-status">
-                <div class="ai-dot"></div>
-                <span class="ai-status-text" id="aiStatusText">🤖 AI đang làm việc...</span>
-            </div>
-            <div class="ai-log" id="aiLog"></div>
+        <div class="input-group">
+            <label>5. Kịch Bản & Giọng Đọc:</label>
+            <textarea id="scriptText" rows="4" oninput="redrawCanvas()">Nước hoa Versailles mang hương thơm sang trọng, lưu hương lên đến 12 giờ. Mùi hương cuốn hút, giúp bạn luôn tự tin nổi bật mọi lúc mọi nơi. Mua ngay hôm nay để nhận ưu đãi 30%!</textarea>
         </div>
 
-        <!-- Product Card -->
-        <div class="product-card" id="productCard">
-            <img id="productImage" src="" alt="Sản phẩm">
-            <div class="product-info">
-                <h3 id="productName"></h3>
-                <div>
-                    <span class="price" id="productPrice"></span>
-                    <span class="original-price" id="productOriginalPrice"></span>
-                </div>
-                <div class="stats" id="productStats"></div>
-            </div>
-        </div>
-
-        <!-- Video Result -->
-        <div class="video-result" id="videoResult">
-            <div class="video-wrapper">
-                <video id="resultVideo" controls playsinline></video>
-            </div>
-            <div class="video-actions">
-                <button class="btn-secondary" onclick="resetTool()">🔄 Làm lại</button>
-                <button class="btn-secondary btn-download" onclick="downloadAI Video()">💾 Tải video</button>
-            </div>
-        </div>
+        <button class="btn-primary" id="renderBtn" onclick="startRenderProcess()">⚡ TẠO VIDEO AI PHONG CẢNH & AVATAR</button>
+        <div class="status" id="statusMsg"></div>
     </div>
 
-    <script>
-        // ==================== AI ENGINE ====================
+    <!-- CỘT PREVIEW -->
+    <div class="preview-section">
+        <canvas id="videoCanvas" width="360" height="640"></canvas>
+        <button id="downloadBtn" onclick="downloadVideo()">📥 TẢI VIDEO VỀ MÁY (.WEBM)</button>
+    </div>
+</div>
 
-        let videoBlob = null;
+<script>
+    const canvas = document.getElementById('videoCanvas');
+    const ctx = canvas.getContext('2d');
+    let productImg = null;
+    let mediaRecorder;
+    let recordedChunks = [];
+    let recordedBlobUrl = null;
+    let isSpeaking = false;
+    let speakFrame = 0;
 
-        async function startAIProcess() {
-            const link = document.getElementById('productLink').value.trim();
-            const platform = document.getElementById('platform').value;
-            const voiceStyle = document.getElementById('voiceStyle').value;
+    // Khởi tạo Canvas ban đầu
+    redrawCanvas();
 
-            if (!link) {
-                alert('⚠️ Vui lòng nhập link sản phẩm!');
-                return;
-            }
-
-            // Reset UI
-            resetUI();
-            document.getElementById('btnSubmit').disabled = true;
-            document.getElementById('aiSection').classList.add('active');
-
-            try {
-                // ============ BƯỚC 1: AI CRAWL SẢN PHẨM ============
-                updateAIStatus('🔍 AI đang phân tích link sản phẩm...');
-                addLog('🔄 Đang kết nối đến ' + platform + '...', 'processing');
-                addLog('📡 Đang crawl dữ liệu sản phẩm...', 'processing');
-
-                const productData = await aiCrawlProduct(link, platform);
-                addLog('✅ Đã lấy thông tin sản phẩm thành công!', 'success');
-                addLog('📦 Tên: ' + productData.name, 'info');
-                addLog('💰 Giá: ' + productData.price, 'info');
-                addLog('⭐ Rating: ' + productData.rating + ' | Đã bán: ' + productData.sold, 'info');
-
-                // Hiển thị product card
-                showProductCard(productData);
-
-                // ============ BƯỚC 2: AI VIẾT KỊCH BẢN ============
-                updateAIStatus('✍️ AI đang viết kịch bản review...');
-                addLog('🧠 Đang phân tích đặc điểm sản phẩm...', 'processing');
-                addLog('📝 Đang tạo kịch bản video ' + voiceStyle + '...', 'processing');
-
-                const script = await aiGenerateScript(productData, voiceStyle);
-                addLog('✅ Kịch bản đã sẵn sàng (' + script.length + ' cảnh)', 'success');
-                script.forEach((scene, i) => {
-                    addLog('  🎬 Cảnh ' + (i + 1) + ': ' + scene.text.substring(0, 60) + '...', 'info');
-                });
-
-                // ============ BƯỚC 3: AI TẠO GIỌNG ĐỌC ============
-                updateAIStatus('🎙️ AI đang tạo giọng đọc...');
-                addLog('🔊 Đang tổng hợp giọng nói tự nhiên...', 'processing');
-
-                const audioBlob = await aiGenerateVoice(script, voiceStyle);
-                addLog('✅ Giọng đọc AI đã sẵn sàng!', 'success');
-
-                // ============ BƯỚC 4: AI DỰNG VIDEO ============
-                updateAIStatus('🎬 AI đang dựng video hoàn chỉnh...');
-                addLog('🎨 Đang render cảnh 1: Mở đầu gây ấn tượng...', 'processing');
-                addLog('📸 Đang thêm hình ảnh sản phẩm...', 'processing');
-                addLog('💬 Đang chèn phụ đề...', 'processing');
-                addLog('🎵 Đang thêm nhạc nền...', 'processing');
-
-                videoBlob = await aiRenderVideo(productData, script, audioBlob, voiceStyle);
-                addLog('✅ Video đã hoàn tất!', 'success');
-                addLog('📹 Độ dài: ~' + Math.round(script.reduce((s, sc) => s + sc.duration, 0)) + ' giây', 'info');
-
-                // ============ HIỂN THỊ KẾT QUẢ ============
-                updateAIStatus('✅ Hoàn tất! Video đã sẵn sàng.');
-                showVideoResult(videoBlob);
-
-            } catch (error) {
-                addLog('❌ Lỗi: ' + error.message, 'error');
-                updateAIStatus('❌ Có lỗi xảy ra. Vui lòng thử lại.');
-            } finally {
-                document.getElementById('btnSubmit').disabled = false;
-            }
+    function loadProductImg(e) {
+        if (e.target.files[0]) {
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                productImg = new Image();
+                productImg.onload = () => redrawCanvas();
+                productImg.src = event.target.result;
+            };
+            reader.readAsDataURL(e.target.files[0]);
         }
+    }
 
-        // ==================== AI FUNCTIONS ====================
-
-        async function aiCrawlProduct(link, platform) {
-            // Mô phỏng AI crawl sản phẩm
-            // Trong thực tế: Gọi API backend để crawl thông tin thật
-            await delay(1500 + Math.random() * 1000);
-
-            // Dữ liệu mẫu thông minh dựa trên platform
-            const mockDB = {
-                shopee: {
-                    name: 'Máy hút bụi cầm tay không dây ProClean X1',
-                    price: '299.000đ',
-                    originalPrice: '599.000đ',
-                    rating: '4.8',
-                    sold: '15.6k',
-                    image: 'data:image/svg+xml,' + encodeURIComponent(`
-                        <svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200">
-                            <rect width="200" height="200" fill="#6c5ce7" rx="20"/>
-                            <text x="100" y="110" text-anchor="middle" fill="white" font-size="60">🧹</text>
-                            <text x="100" y="150" text-anchor="middle" fill="white" font-size="16" font-weight="bold">ProClean X1</text>
-                        </svg>
-                    `),
-                    specs: [
-                        'Công suất mạnh 120W, hút sạch mọi bụi bẩn',
-                        'Pin 3000mAh dùng liên tục 30 phút',
-                        'Siêu nhẹ chỉ 0.5kg, thiết kế nhỏ gọn',
-                        'Tặng kèm 3 đầu hút đa năng',
-                        'Lọc HEPA kháng khuẩn 99.9%',
-                    ],
-                },
-                tiktok: {
-                    name: 'Kem chống nắng Nhật Bản UV Shield SPF50+',
-                    price: '189.000đ',
-                    originalPrice: '350.000đ',
-                    rating: '4.9',
-                    sold: '28.3k',
-                    image: 'data:image/svg+xml,' + encodeURIComponent(`
-                        <svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200">
-                            <rect width="200" height="200" fill="#f59e0b" rx="20"/>
-                            <text x="100" y="110" text-anchor="middle" fill="white" font-size="60">☀️</text>
-                            <text x="100" y="150" text-anchor="middle" fill="white" font-size="14" font-weight="bold">UV Shield</text>
-                        </svg>
-                    `),
-                    specs: [
-                        'Chống nắng phổ rộng SPF50+ PA++++',
-                        'Kết cấu mỏng nhẹ, thấm nhanh không nhờn',
-                        'Chiết xuất hoa anh đào dưỡng ẩm',
-                        'Bảo vệ da suốt 12 giờ',
-                        'Đã kiểm nghiệm da liễu, an toàn',
-                    ],
-                },
-                lazada: {
-                    name: 'Tai nghe Bluetooth ANC Pro chống ồn',
-                    price: '499.000đ',
-                    originalPrice: '999.000đ',
-                    rating: '4.7',
-                    sold: '8.9k',
-                    image: 'data:image/svg+xml,' + encodeURIComponent(`
-                        <svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200">
-                            <rect width="200" height="200" fill="#10b981" rx="20"/>
-                            <text x="100" y="110" text-anchor="middle" fill="white" font-size="60">🎧</text>
-                            <text x="100" y="150" text-anchor="middle" fill="white" font-size="14" font-weight="bold">ANC Pro</text>
-                        </svg>
-                    `),
-                    specs: [
-                        'Chống ồn chủ động ANC tiên tiến',
-                        'Âm thanh Hi-Res Audio chuẩn phòng thu',
-                        'Pin 40 giờ nghe liên tục',
-                        'Bluetooth 5.3 kết nối siêu nhanh',
-                        'Chống nước IPX5, thoải mái tập luyện',
-                    ],
-                },
-            };
-
-            const data = mockDB[platform] || mockDB['shopee'];
-            // Giả lập thêm thông tin từ link
-            data.sourceLink = link;
-            data.platform = platform;
-            return data;
-        }
-
-        async function aiGenerateScript(product, voiceStyle) {
-            await delay(1200 + Math.random() * 800);
-
-            // AI tạo kịch bản dựa trên voiceStyle
-            const hooks = {
-                professional: [
-                    '🔥 Bạn đang tìm kiếm ' + product.name + '? Đừng bỏ qua video này!',
-                    'Sản phẩm này đang gây sốt với hơn ' + product.sold + ' lượt bán!',
-                ],
-                enthusiastic: [
-                    '😱 TRỜI ƠI! ' + product.name + ' này chỉ có ' + product.price + ' thôi ư?!',
-                    'Săn sale thành công! Giá gốc ' + product.originalPrice + ' mà nay còn ' + product.price + '!',
-                ],
-                gentle: [
-                    'Chào bạn, hôm nay mình xin giới thiệu ' + product.name + ' nhé.',
-                    'Một sản phẩm rất đáng yêu với mức giá ' + product.price + ' thôi nè.',
-                ],
-                humorous: [
-                    '😎 Bạn mà chưa có ' + product.name + ' là lỗi thời rồi đấy!',
-                    'Cái giá ' + product.price + ' mà được em này thì quá hời luôn!',
-                ],
-            };
-
-            const conclusions = {
-                professional: '👉 Link mua ở phần bình luận. Cảm ơn bạn đã xem!',
-                enthusiastic: '⚡ NHANH TAY SĂN NGAY! Số lượng có hạn! Link phía dưới!',
-                gentle: '💝 Cảm ơn bạn đã xem hết video. Chúc bạn một ngày vui vẻ!',
-                humorous: '🤣 Quá chất lượng phải không? Mua ngay kẻo hết nha!',
-            };
-
-            const selectedHooks = hooks[voiceStyle] || hooks['professional'];
-            const selectedConclusion = conclusions[voiceStyle] || conclusions['professional'];
-
-            const script = [
-                { text: selectedHooks[0], duration: 4 },
-                { text: selectedHooks[1], duration: 4 },
-                { text: '📦 Cùng mình khám phá chi tiết sản phẩm này nhé!', duration: 3 },
+    function generateAIScript() {
+        const name = document.getElementById('productName').value.trim();
+        if (!name) return alert("Vui lòng nhập tên sản phẩm!");
+        
+        document.getElementById('statusMsg').innerText = "🤖 AI đang soạn kịch bản...";
+        setTimeout(() => {
+            const scripts = [
+                `Siêu phẩm ${name} đã chính thức cập bến! Thiết kế sang trọng, công dụng vượt trội cùng mức giá siêu hời. Trải nghiệm thực tế cực kỳ hài lòng, bấm vào mua ngay hôm nay nhé!`,
+                `Gợi ý món đồ không thể thiếu cho bạn chính là ${name}. Chất lượng cao cấp, độ bền ấn tượng và rất dễ sử dụng. Nhận ngay ưu đãi hấp dẫn khi đặt hàng hôm nay!`,
+                `Đánh giá chân thực ${name} sau khi dùng thử. Sản phẩm vượt ngoài mong đợi, mang lại sự tiện lợi tối đa. Đừng bỏ lỡ chương trình khuyến mãi đặc biệt nhé!`
             ];
+            document.getElementById('scriptText').value = scripts[Math.floor(Math.random() * scripts.length)];
+            document.getElementById('statusMsg').innerText = "✅ Đã tạo kịch bản!";
+            redrawCanvas();
+        }, 500);
+    }
 
-            // Thêm các tính năng
-            product.specs.forEach((spec, i) => {
-                script.push({
-                    text: '✅ ' + spec,
-                    duration: 4,
-                });
-            });
+    // VẼ PHONG CẢNH NỀN
+    function drawBackground(type) {
+        if (type === 'studio') {
+            let grad = ctx.createRadialGradient(180, 200, 20, 180, 320, 350);
+            grad.addColorStop(0, '#3b82f6'); grad.addColorStop(0.5, '#1e3a8a'); grad.addColorStop(1, '#0f172a');
+            ctx.fillStyle = grad; ctx.fillRect(0, 0, 360, 640);
+            ctx.fillStyle = "rgba(255,255,255,0.05)";
+            ctx.fillRect(0, 420, 360, 220); // Bàn Studio
+        } else if (type === 'room') {
+            let grad = ctx.createLinearGradient(0, 0, 0, 640);
+            grad.addColorStop(0, '#7c2d12'); grad.addColorStop(0.6, '#1c1917'); grad.addColorStop(1, '#0c0a09');
+            ctx.fillStyle = grad; ctx.fillRect(0, 0, 360, 640);
+        } else if (type === 'cyber') {
+            let grad = ctx.createLinearGradient(0, 0, 0, 640);
+            grad.addColorStop(0, '#581c87'); grad.addColorStop(0.5, '#831843'); grad.addColorStop(1, '#09090b');
+            ctx.fillStyle = grad; ctx.fillRect(0, 0, 360, 640);
+        } else { // nature
+            let grad = ctx.createLinearGradient(0, 0, 0, 640);
+            grad.addColorStop(0, '#064e3b'); grad.addColorStop(0.6, '#022c22'); grad.addColorStop(1, '#052e16');
+            ctx.fillStyle = grad; ctx.fillRect(0, 0, 360, 640);
+        }
+    }
 
-            // So sánh giá
-            script.push({
-                text: '💰 Giá gốc ' + product.originalPrice + ' - Nay chỉ còn ' + product.price + '! Tiết kiệm ngay!',
-                duration: 4,
-            });
+    // VẼ NGƯỜI AI DẪN CHUYỆN (AVATAR CÓ CỬ ĐỘNG NHÉP MIỆNG)
+    function drawAIAvatar(type, x, y, speaking) {
+        ctx.save();
+        ctx.translate(x, y);
 
-            // Kết luận
-            script.push({ text: selectedConclusion, duration: 4 });
+        // Khung Avatar
+        ctx.beginPath();
+        ctx.arc(0, 0, 45, 0, Math.PI * 2);
+        ctx.fillStyle = "#1e293b";
+        ctx.fill();
+        ctx.lineWidth = 3;
+        ctx.strokeStyle = speaking ? "#38bdf8" : "#64748b";
+        ctx.stroke();
 
-            return script;
+        // Vẽ khuôn mặt / Nhân vật
+        if (type === 'robot') {
+            ctx.fillStyle = "#0284c7"; // Đầu Robot
+            ctx.fillRect(-22, -22, 44, 38);
+            ctx.fillStyle = "#38bdf8"; // Mắt
+            ctx.fillRect(-14, -12, 8, 8); ctx.fillRect(6, -12, 8, 8);
+            // Miệng Robot cử động
+            ctx.fillStyle = speaking ? "#f59e0b" : "#ffffff";
+            let mouthH = speaking ? (4 + Math.sin(speakFrame) * 4) : 2;
+            ctx.fillRect(-10, 8, 20, mouthH);
+        } else {
+            // Tóc / Khuôn mặt người
+            ctx.fillStyle = "#fde047"; // Mặt
+            ctx.beginPath(); ctx.arc(0, 0, 24, 0, Math.PI * 2); ctx.fill();
+            
+            ctx.fillStyle = type === 'female' ? "#854d0e" : "#1e1b4b"; // Tóc
+            ctx.beginPath(); ctx.arc(0, -6, 26, Math.PI, 0); ctx.fill();
+
+            // Mắt
+            ctx.fillStyle = "#0f172a";
+            ctx.beginPath(); ctx.arc(-8, -4, 3, 0, Math.PI*2); ctx.arc(8, -4, 3, 0, Math.PI*2); ctx.fill();
+
+            // Miệng nhép theo giọng đọc
+            ctx.fillStyle = "#e11d48";
+            ctx.beginPath();
+            let mouthR = speaking ? (3 + Math.abs(Math.sin(speakFrame) * 5)) : 2;
+            ctx.arc(0, 8, mouthR, 0, Math.PI * 2);
+            ctx.fill();
         }
 
-        async function aiGenerateVoice(script, voiceStyle) {
-            await delay(1500 + Math.random() * 1000);
+        ctx.restore();
+    }
 
-            // Tạo audio bằng Web Audio API (mô phỏng TTS)
-            const audioContext = new(window.AudioContext || window.webkitAudioContext)();
-            const totalDuration = script.reduce((sum, s) => sum + s.duration, 0);
-            const sampleRate = audioContext.sampleRate;
-            const length = Math.ceil(totalDuration * sampleRate);
-            const buffer = audioContext.createBuffer(1, length, sampleRate);
-            const data = buffer.getChannelData(0);
+    // VẼ TOÀN BỘ FRAME CANVAS
+    function redrawCanvas() {
+        const title = document.getElementById('productName').value || "SẢN PHẨM";
+        const script = document.getElementById('scriptText').value || "";
+        const bgType = document.getElementById('bgType').value;
+        const avatarType = document.getElementById('avatarType').value;
 
-            // Tần số cơ bản theo giọng
-            const baseFreqMap = {
-                professional: 180,
-                enthusiastic: 200,
-                gentle: 160,
-                humorous: 190,
-            };
-            const baseFreq = baseFreqMap[voiceStyle] || 180;
+        // 1. Phong cảnh nền
+        drawBackground(bgType);
 
-            let currentTime = 0;
-            script.forEach(scene => {
-                const sceneDuration = scene.duration;
-                const startSample = Math.floor(currentTime * sampleRate);
-                const endSample = Math.floor((currentTime + sceneDuration) * sampleRate);
+        // 2. Tiêu đề
+        ctx.fillStyle = "#f59e0b";
+        ctx.font = "bold 16px Arial";
+        ctx.textAlign = "center";
+        ctx.fillText("🔥 SIÊU PHẨM HOT REVIEW 🔥", 180, 45);
 
-                for (let i = startSample; i < endSample && i < length; i++) {
-                    const t = i / sampleRate - currentTime;
-                    const localT = t / sceneDuration;
-                    // Mô phỏng ngữ điệu tiếng Việt
-                    const pitchVariation = Math.sin(localT * 8) * 20 + Math.sin(localT * 15) * 10;
-                    const freq = baseFreq + pitchVariation;
-                    const envelope = Math.sin(localT * Math.PI) * 0.8; // Fade in/out
-                    const vibrato = Math.sin(t * 30) * 0.02;
+        ctx.fillStyle = "#ffffff";
+        ctx.font = "bold 18px Arial";
+        wrapText(ctx, title.toUpperCase(), 180, 75, 320, 22);
 
-                    data[i] = (Math.sin(2 * Math.PI * freq * t) * 0.4 +
-                            Math.sin(2 * Math.PI * freq * 2 * t) * 0.15 +
-                            Math.sin(2 * Math.PI * freq * 3 * t) * 0.05) *
-                        envelope * (1 + vibrato) *
-                        Math.exp(-t / totalDuration * 0.3);
-                }
-                currentTime += sceneDuration;
-            });
+        // 3. Khung Ảnh Sản Phẩm Chân Thật
+        ctx.fillStyle = "rgba(0,0,0,0.5)";
+        ctx.roundRect(25, 115, 310, 250, 16);
+        ctx.fill();
+        ctx.strokeStyle = "#38bdf8"; ctx.lineWidth = 2; ctx.stroke();
 
-            // Convert to WAV
-            return audioBufferToWavBlob(buffer);
+        if (productImg) {
+            ctx.save();
+            ctx.beginPath(); ctx.roundRect(30, 120, 300, 240, 12); ctx.clip();
+            ctx.drawImage(productImg, 30, 120, 300, 240);
+            ctx.restore();
+        } else {
+            ctx.fillStyle = "#94a3b8";
+            ctx.font = "14px Arial";
+            ctx.fillText("📷 (Bấm tải ảnh SP để hiển thị)", 180, 240);
         }
 
-        function audioBufferToWavBlob(buffer) {
-            const numChannels = buffer.numberOfChannels;
-            const sampleRate = buffer.sampleRate;
-            const format = 1;
-            const bitDepth = 16;
-            const bytesPerSample = bitDepth / 8;
-            const blockAlign = numChannels * bytesPerSample;
-            const data = buffer.getChannelData(0);
-            const dataLength = data.length * bytesPerSample;
-            const headerLength = 44;
-            const totalLength = headerLength + dataLength;
-            const arrayBuffer = new ArrayBuffer(totalLength);
-            const view = new DataView(arrayBuffer);
+        // 4. Người AI Dẫn Chuyện (Avatar ở góc dưới bên trái)
+        drawAIAvatar(avatarType, 65, 425, isSpeaking);
 
-            writeWavString(view, 0, 'RIFF');
-            view.setUint32(4, totalLength - 8, true);
-            writeWavString(view, 8, 'WAVE');
-            writeWavString(view, 12, 'fmt ');
-            view.setUint32(16, 16, true);
-            view.setUint16(20, format, true);
-            view.setUint16(22, numChannels, true);
-            view.setUint32(24, sampleRate, true);
-            view.setUint32(28, sampleRate * blockAlign, true);
-            view.setUint16(32, blockAlign, true);
-            view.setUint16(34, bitDepth, true);
-            writeWavString(view, 36, 'data');
-            view.setUint32(40, dataLength, true);
+        // Label MC AI
+        ctx.fillStyle = "#38bdf8";
+        ctx.font = "bold 13px Arial";
+        ctx.textAlign = "left";
+        ctx.fillText("🎙️ MC AI Reviewer:", 120, 415);
 
-            let offset = 44;
-            for (let i = 0; i < data.length; i++) {
-                const sample = Math.max(-1, Math.min(1, data[i]));
-                view.setInt16(offset, sample * 0x7FFF, true);
-                offset += 2;
-            }
+        // 5. Khung kịch bản / Phụ đề
+        ctx.fillStyle = "rgba(15, 23, 42, 0.85)";
+        ctx.roundRect(20, 480, 320, 140, 12);
+        ctx.fill();
 
-            return new Blob([arrayBuffer], { type: 'audio/wav' });
-        }
+        ctx.fillStyle = "#ffffff";
+        ctx.font = "14px Arial";
+        ctx.textAlign = "center";
+        wrapText(ctx, script, 180, 510, 290, 20);
+    }
 
-        function writeWavString(view, offset, string) {
-            for (let i = 0; i < string.length; i++) {
-                view.setUint8(offset + i, string.charCodeAt(i));
-            }
-        }
+    // TIẾN HÀNH TẠO VIDEO & GIỌNG NÓI
+    async function startRenderProcess() {
+        const script = document.getElementById('scriptText').value;
+        const renderBtn = document.getElementById('renderBtn');
+        const statusMsg = document.getElementById('statusMsg');
+        const downloadBtn = document.getElementById('downloadBtn');
 
-        async function aiRenderVideo(product, script, audioBlob, voiceStyle) {
-            await delay(2000 + Math.random() * 1500);
+        if (!script) return alert("Vui lòng nhập kịch bản!");
 
-            // Tạo canvas video
-            const canvas = document.createElement('canvas');
-            canvas.width = 1080;
-            canvas.height = 1920;
-            const ctx = canvas.getContext('2d');
+        renderBtn.disabled = true;
+        downloadBtn.style.display = 'none';
+        statusMsg.innerText = "🎙️ Đang ghi hình & MC AI đọc kịch bản...";
 
-            // Tính tổng thời gian
-            const totalDuration = script.reduce((sum, s) => sum + s.duration, 0);
-            const fps = 30;
-            const totalFrames = Math.ceil(totalDuration * fps);
+        const stream = canvas.captureStream(30);
+        recordedChunks = [];
+        mediaRecorder = new MediaRecorder(stream, { mimeType: 'video/webm' });
+        mediaRecorder.ondataavailable = e => { if (e.data.size > 0) recordedChunks.push(e.data); };
+        mediaRecorder.onstop = exportVideoFile;
+        mediaRecorder.start();
 
-            // Chuẩn bị audio
-            const audioUrl = URL.createObjectURL(audioBlob);
-            const audio = new Audio(audioUrl);
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(script);
+        utterance.lang = 'vi-VN';
+        utterance.rate = 1.0;
 
-            // Capture stream
-            const stream = canvas.captureStream(fps);
-            const mimeType = MediaRecorder.isTypeSupported('video/webm;codecs=vp9') ?
-                'video/webm;codecs=vp9' : 'video/webm';
-            const mediaRecorder = new MediaRecorder(stream, {
-                mimeType,
-                videoBitsPerSecond: 8000000,
-            });
+        const voices = window.speechSynthesis.getVoices();
+        const viVoice = voices.find(v => v.lang.includes('vi'));
+        if (viVoice) utterance.voice = viVoice;
 
-            const chunks = [];
-            mediaRecorder.ondataavailable = e => chunks.push(e.data);
+        isSpeaking = true;
+        speakFrame = 0;
+        const animInterval = setInterval(() => {
+            speakFrame += 0.3;
+            redrawCanvas();
+        }, 50);
 
-            const recordingDone = new Promise(resolve => {
-                mediaRecorder.onstop = () => {
-                    const blob = new Blob(chunks, { type: 'video/webm' });
-                    resolve(blob);
-                };
-            });
+        utterance.onend = () => {
+            clearInterval(animInterval);
+            isSpeaking = false;
+            redrawCanvas();
+            setTimeout(() => {
+                mediaRecorder.stop();
+                renderBtn.disabled = false;
+                statusMsg.innerText = "✅ Hoàn tất! Video đã sẵn sàng tải xuống.";
+            }, 500);
+        };
 
-            mediaRecorder.start();
-            audio.play().catch(() => {});
+        window.speechSynthesis.speak(utterance);
+    }
 
-            const startTime = performance.now();
-            let frame = 0;
-            const particles = [];
-            for (let i = 0; i < 30; i++) {
-                particles.push({
-                    x: Math.random() * canvas.width,
-                    y: Math.random() * canvas.height,
-                    size: Math.random() * 3 + 1,
-                    speed: Math.random() * 0.5 + 0.2,
-                    opacity: Math.random() * 0.5 + 0.2,
-                    color: ['#6c5ce7', '#a855f7', '#f59e0b', '#10b981'][Math.floor(Math.random() * 4)],
-                });
-            }
+    function exportVideoFile() {
+        const blob = new Blob(recordedChunks, { type: 'video/webm' });
+        recordedBlobUrl = URL.createObjectURL(blob);
+        document.getElementById('downloadBtn').style.display = 'block';
+    }
 
-            function drawFrame() {
-                const elapsed = (performance.now() - startTime) / 1000;
-                if (elapsed >= totalDuration || frame >= totalFrames) {
-                    mediaRecorder.stop();
-                    audio.pause();
-                    URL.revokeObjectURL(audioUrl);
-                    return;
-                }
-
-                // Clear
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-                // Background gradient động
-                const bgGrad = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-                const hueShift = Math.sin(elapsed * 0.3) * 30;
-                bgGrad.addColorStop(0, `hsl(${250 + hueShift}, 60%, 8%)`);
-                bgGrad.addColorStop(0.5, `hsl(${260 + hueShift}, 50%, 12%)`);
-                bgGrad.addColorStop(1, `hsl(${240 + hueShift}, 40%, 6%)`);
-                ctx.fillStyle = bgGrad;
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-                // Particles
-                particles.forEach(p => {
-                    p.y -= p.speed;
-                    if (p.y < -10) p.y = canvas.height + 10;
-                    ctx.fillStyle = p.color.replace(')', `, ${p.opacity})`).replace('rgb',
-                        'rgba');
-                    ctx.beginPath();
-                    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-                    ctx.fill();
-                });
-
-                // Product showcase area
-                const showcaseY = 300 + Math.sin(elapsed * 0.8) * 20;
-                // Glow effect
-                const glowGrad = ctx.createRadialGradient(canvas.width / 2, showcaseY + 200, 50,
-                    canvas.width / 2, showcaseY + 200, 350);
-                glowGrad.addColorStop(0, 'rgba(108,92,231,0.3)');
-                glowGrad.addColorStop(1, 'rgba(108,92,231,0)');
-                ctx.fillStyle = glowGrad;
-                ctx.fillRect(canvas.width / 2 - 350, showcaseY - 150, 700, 700);
-
-                // Product box
-                ctx.fillStyle = 'rgba(255,255,255,0.05)';
-                ctx.strokeStyle = 'rgba(255,255,255,0.2)';
-                ctx.lineWidth = 3;
-                ctx.beginPath();
-                ctx.roundRect(canvas.width / 2 - 160, showcaseY, 320, 400, 30);
-                ctx.fill();
-                ctx.stroke();
-
-                // Product emoji
-                const emojis = { shopee: '🛍️', tiktok: '📱', lazada: '📦' };
-                ctx.font = '140px Arial';
-                ctx.textAlign = 'center';
-                ctx.fillText(emojis[product.platform] || '📦', canvas.width / 2, showcaseY + 240);
-
-                // Product name
-                ctx.fillStyle = '#ffffff';
-                ctx.font = 'bold 46px "Segoe UI", Arial';
-                const nameLines = wrapTextAI(ctx, product.name, canvas.width - 120);
-                nameLines.forEach((line, i) => {
-                    ctx.fillText(line, canvas.width / 2, showcaseY + 460 + i * 55);
-                });
-
-                // Price section
-                const priceY = showcaseY + 460 + nameLines.length * 55 + 40;
-                ctx.fillStyle = '#f59e0b';
-                ctx.font = 'bold 72px "Segoe UI", Arial';
-                ctx.fillText(product.price, canvas.width / 2, priceY);
-
-                // Original price
-                ctx.fillStyle = '#94a3b8';
-                ctx.font = '38px "Segoe UI", Arial';
-                ctx.fillText(product.originalPrice, canvas.width / 2, priceY + 50);
-                ctx.strokeStyle = '#ef4444';
-                ctx.lineWidth = 3;
-                const origW = ctx.measureText(product.originalPrice).width;
-                ctx.beginPath();
-                ctx.moveTo(canvas.width / 2 - origW / 2, priceY + 30);
-                ctx.lineTo(canvas.width / 2 + origW / 2, priceY + 30);
-                ctx.stroke();
-
-                // Rating badge
-                ctx.fillStyle = '#f59e0b';
-                ctx.beginPath();
-                ctx.roundRect(canvas.width / 2 + 100, priceY - 35, 100, 35, 18);
-                ctx.fill();
-                ctx.fillStyle = '#000';
-                ctx.font = 'bold 22px "Segoe UI", Arial';
-                ctx.fillText('⭐ ' + product.rating, canvas.width / 2 + 150, priceY - 12);
-
-                // Subtitle
-                let currentText = '';
-                let accTime = 0;
-                for (const scene of script) {
-                    if (elapsed < accTime + scene.duration) {
-                        currentText = scene.text;
-                        break;
-                    }
-                    accTime += scene.duration;
-                }
-
-                if (currentText) {
-                    const subY = canvas.height - 220;
-                    ctx.fillStyle = 'rgba(0,0,0,0.75)';
-                    const subLines = wrapTextAI(ctx, currentText, canvas.width - 100);
-                    const subH = subLines.length * 52 + 24;
-                    ctx.fillRect(0, subY - 12, canvas.width, subH);
-
-                    ctx.fillStyle = '#ffffff';
-                    ctx.font = 'bold 40px "Segoe UI", Arial';
-                    subLines.forEach((line, i) => {
-                        ctx.fillText(line, canvas.width / 2, subY + 36 + i * 52);
-                    });
-                }
-
-                // Watermark
-                ctx.fillStyle = 'rgba(255,255,255,0.2)';
-                ctx.font = '20px "Segoe UI", Arial';
-                ctx.textAlign = 'right';
-                ctx.fillText('AI Video Review', canvas.width - 30, canvas.height - 30);
-
-                // Platform badge
-                ctx.fillStyle = 'rgba(255,255,255,0.1)';
-                ctx.beginPath();
-                ctx.roundRect(30, canvas.height - 70, 150, 40, 20);
-                ctx.fill();
-                ctx.fillStyle = '#fff';
-                ctx.font = 'bold 18px "Segoe UI", Arial';
-                ctx.textAlign = 'center';
-                ctx.fillText(product.platform.toUpperCase(), 105, canvas.height - 44);
-                ctx.textAlign = 'center';
-
-                frame++;
-                requestAnimationFrame(drawFrame);
-            }
-
-            requestAnimationFrame(drawFrame);
-            const blob = await recordingDone;
-            return blob;
-        }
-
-        function wrapTextAI(ctx, text, maxWidth) {
-            const words = text.split(' ');
-            const lines = [];
-            let currentLine = '';
-            for (const word of words) {
-                const testLine = currentLine ? currentLine + ' ' + word : word;
-                if (ctx.measureText(testLine).width > maxWidth && currentLine) {
-                    lines.push(currentLine);
-                    currentLine = word;
-                } else {
-                    currentLine = testLine;
-                }
-            }
-            if (currentLine) lines.push(currentLine);
-            return lines;
-        }
-
-        // ==================== UI HELPERS ====================
-
-        function updateAIStatus(text) {
-            document.getElementById('aiStatusText').textContent = '🤖 ' + text;
-        }
-
-        function addLog(message, type) {
-            const logContainer = document.getElementById('aiLog');
-            const entry = document.createElement('div');
-            entry.className = 'log-entry ' + (type || 'info');
-            entry.textContent = '[' + new Date().toLocaleTimeString() + '] ' + message;
-            logContainer.appendChild(entry);
-            logContainer.scrollTop = logContainer.scrollHeight;
-        }
-
-        function showProductCard(product) {
-            const card = document.getElementById('productCard');
-            document.getElementById('productImage').src = product.image;
-            document.getElementById('productName').textContent = product.name;
-            document.getElementById('productPrice').textContent = product.price;
-            document.getElementById('productOriginalPrice').textContent = product.originalPrice;
-            document.getElementById('productStats').textContent =
-                '⭐ ' + product.rating + ' | 📦 Đã bán: ' + product.sold + ' | Nguồn: ' + product.platform;
-            card.classList.add('active');
-        }
-
-        function showVideoResult(blob) {
-            const url = URL.createObjectURL(blob);
-            const videoResult = document.getElementById('videoResult');
-            const resultVideo = document.getElementById('resultVideo');
-            resultVideo.src = url;
-            videoResult.classList.add('active');
-            videoResult.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            // Lưu để download
-            window._videoBlob = blob;
-            window._videoUrl = url;
-        }
-
-        function resetUI() {
-            document.getElementById('aiLog').innerHTML = '';
-            document.getElementById('productCard').classList.remove('active');
-            document.getElementById('videoResult').classList.remove('active');
-            document.getElementById('aiSection').classList.add('active');
-            updateAIStatus('AI đang khởi động...');
-        }
-
-        function resetTool() {
-            document.getElementById('aiSection').classList.remove('active');
-            document.getElementById('productCard').classList.remove('active');
-            document.getElementById('videoResult').classList.remove('active');
-            if (window._videoUrl) URL.revokeObjectURL(window._videoUrl);
-            window._videoBlob = null;
-            window._videoUrl = null;
-            document.getElementById('btnSubmit').disabled = false;
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        function downloadAIVideo() {
-            const blob = window._videoBlob;
-            if (!blob) {
-                alert('Chưa có video để tải!');
-                return;
-            }
-            const url = window._videoUrl || URL.createObjectURL(blob);
+    function downloadVideo() {
+        if (recordedBlobUrl) {
             const a = document.createElement('a');
-            a.href = url;
-            a.download = 'ai-video-review-' + Date.now() + '.webm';
-            document.body.appendChild(a);
+            a.href = recordedBlobUrl;
+            a.download = `review-ai-${Date.now()}.webm`;
             a.click();
-            document.body.removeChild(a);
         }
+    }
 
-        function delay(ms) {
-            return new Promise(resolve => setTimeout(resolve, ms));
+    function wrapText(context, text, x, y, maxWidth, lineHeight) {
+        if (!text) return;
+        const words = text.split(' ');
+        let line = '';
+        for(let n = 0; n < words.length; n++) {
+            let testLine = line + words[n] + ' ';
+            if (context.measureText(testLine).width > maxWidth && n > 0) {
+                context.fillText(line, x, y);
+                line = words[n] + ' ';
+                y += lineHeight;
+            } else { line = testLine; }
         }
+        context.fillText(line, x, y);
+    }
 
-        // Polyfill roundRect
-        if (!CanvasRenderingContext2D.prototype.roundRect) {
-            CanvasRenderingContext2D.prototype.roundRect = function(x, y, w, h, r) {
-                if (typeof r === 'number') r = { tl: r, tr: r, br: r, bl: r };
-                this.beginPath();
-                this.moveTo(x + r.tl, y);
-                this.lineTo(x + w - r.tr, y);
-                this.quadraticCurveTo(x + w, y, x + w, y + r.tr);
-                this.lineTo(x + w, y + h - r.br);
-                this.quadraticCurveTo(x + w, y + h, x + w - r.br, y + h);
-                this.lineTo(x + r.bl, y + h);
-                this.quadraticCurveTo(x, y + h, x, y + h - r.bl);
-                this.lineTo(x, y + r.tl);
-                this.quadraticCurveTo(x, y, x + r.tl, y);
-                this.closePath();
-                return this;
-            };
-        }
-
-        console.log('🤖 AI Video Review Tool đã sẵn sàng!');
-        console.log('📋 Cách dùng: Dán link sản phẩm → Chọn nền tảng → Nhấn nút → AI tự làm mọi thứ!');
-    </script>
+    if (!ctx.roundRect) {
+        ctx.roundRect = function(x, y, w, h, r) {
+            this.beginPath(); this.moveTo(x+r, y);
+            this.arcTo(x+w, y, x+w, y+h, r); this.arcTo(x+w, y+h, x, y+h, r);
+            this.arcTo(x, y+h, x, y, r); this.arcTo(x, y, x+w, y, r);
+            this.closePath(); return this;
+        };
+    }
+</script>
 </body>
 </html>
