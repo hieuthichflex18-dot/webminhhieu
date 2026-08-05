@@ -1,1099 +1,677 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI TikTok - Gửi Link Là Có Video</title>
-    <style>
-        :root {
-            --bg: #000000;
-            --card: #0f0f0f;
-            --primary: #ff004f;
-            --secondary: #ff2d78;
-            --accent: #00f2ea;
-            --text: #ffffff;
-            --text2: #999;
-            --border: #1f1f1f;
-            --success: #00f2ea;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, maximum-scale=2.0, viewport-fit=cover">
+  <title>💠 Discord Crystal Spammer · Auto Nhận Diện · Menu Đẹp</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        body {
-            font-family: 'Segoe UI', system-ui, sans-serif;
-            background: #000;
-            color: var(--text);
-            min-height: 100vh;
-            padding: 16px;
-            background-image:
-                radial-gradient(ellipse at 20% 0%, rgba(255, 0, 79, 0.06) 0%, transparent 55%),
-                radial-gradient(ellipse at 80% 100%, rgba(0, 242, 234, 0.04) 0%, transparent 55%);
-        }
+    :root {
+      --surface: rgba(16, 20, 35, 0.8);
+      --blur: blur(28px);
+      --primary: #7c6ff7;
+      --primary-glow: #b4a9ff;
+      --accent: #00d4c8;
+      --danger: #ff6b9d;
+      --success: #2ed8a3;
+      --text: #f0f3ff;
+      --text-dim: #a8aecb;
+      --radius-xl: 2.8rem;
+      --radius-lg: 2rem;
+      --radius-md: 1.5rem;
+    }
 
-        .container {
-            max-width: 700px;
-            margin: 0 auto;
-            background: var(--card);
-            border-radius: 20px;
-            padding: 24px 18px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), 0 0 0 1px var(--border);
-            border: 1px solid #1f1f1f;
-        }
+    body {
+      font-family: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
+      background: radial-gradient(ellipse at 25% 15%, #1b1e42 0%, #0a0c1f 55%, #020310 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 1.5rem;
+      background-attachment: fixed;
+      position: relative;
+    }
 
-        .logo-section {
-            text-align: center;
-            margin-bottom: 16px;
-        }
-        .logo-section .tiktok-icon {
-            font-size: 48px;
-            animation: bounce 2s infinite;
-        }
-        @keyframes bounce {
-            0%,
-            100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-10px);
-            }
-        }
-        .logo-section h1 {
-            font-size: 20px;
-            font-weight: 800;
-            margin-top: 4px;
-        }
-        .logo-section h1 span {
-            background: linear-gradient(135deg, #ff004f, #00f2ea);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        .logo-section p {
-            font-size: 11px;
-            color: #777;
-            margin-top: 2px;
-        }
+    body::before {
+      content: '';
+      position: fixed;
+      top: -15%;
+      left: -8%;
+      width: 65%;
+      height: 65%;
+      background: radial-gradient(circle at 30% 30%, rgba(124,111,247,0.12) 0%, transparent 65%);
+      z-index: 0;
+      pointer-events: none;
+    }
 
-        .input-area {
-            background: #080808;
-            border: 2px solid #222;
-            border-radius: 14px;
-            padding: 4px;
-            display: flex;
-            align-items: center;
-            margin-bottom: 14px;
-            transition: all 0.3s;
-        }
-        .input-area:focus-within {
-            border-color: #ff004f;
-            box-shadow: 0 0 0 4px rgba(255, 0, 79, 0.08);
-        }
-        .input-area .prefix {
-            padding: 0 12px;
-            font-size: 22px;
-            flex-shrink: 0;
-        }
-        .input-area input {
-            flex: 1;
-            padding: 14px 8px;
-            background: transparent;
-            border: none;
-            color: #fff;
-            font-size: 15px;
-            font-family: inherit;
-            outline: none;
-        }
-        .input-area input::placeholder {
-            color: #444;
-        }
-        .input-area button {
-            padding: 12px 20px;
-            margin: 3px;
-            background: linear-gradient(135deg, #ff004f, #ff2d78);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-weight: 700;
-            cursor: pointer;
-            font-family: inherit;
-            font-size: 14px;
-            white-space: nowrap;
-            transition: all 0.3s;
-        }
-        .input-area button:hover {
-            opacity: 0.9;
-            transform: scale(1.02);
-        }
-        .input-area button:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
-            transform: none;
-        }
+    body::after {
+      content: '';
+      position: fixed;
+      bottom: -18%;
+      right: -10%;
+      width: 60%;
+      height: 60%;
+      background: radial-gradient(circle at 70% 70%, rgba(0,212,200,0.1) 0%, transparent 65%);
+      z-index: 0;
+      pointer-events: none;
+    }
 
-        .quick-links {
-            display: flex;
-            gap: 6px;
-            flex-wrap: wrap;
-            margin-bottom: 16px;
-        }
-        .quick-link {
-            padding: 8px 14px;
-            background: #111;
-            border: 1px solid #2a2a2a;
-            border-radius: 20px;
-            font-size: 11px;
-            color: #aaa;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-family: inherit;
-            white-space: nowrap;
-        }
-        .quick-link:hover {
-            border-color: #ff004f;
-            color: #ff004f;
-            background: #1a0a10;
-        }
+    .main-container {
+      position: relative;
+      z-index: 2;
+      max-width: 880px;
+      width: 100%;
+      background: var(--surface);
+      backdrop-filter: var(--blur);
+      -webkit-backdrop-filter: var(--blur);
+      border-radius: var(--radius-xl);
+      padding: 2.3rem 2.3rem 2.6rem;
+      box-shadow: 
+        0 45px 80px rgba(0,0,0,0.8),
+        0 0 0 1px rgba(255,255,255,0.05),
+        inset 0 1px 0 rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.07);
+    }
 
-        .ai-working {
-            display: none;
-            background: #080808;
-            border: 1px solid #1a1a1a;
-            border-radius: 14px;
-            padding: 18px;
-            margin-top: 16px;
-            animation: fadeIn 0.3s ease;
-        }
-        .ai-working.show {
-            display: block;
-        }
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(8px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        .ai-status {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-weight: 700;
-            font-size: 14px;
-            margin-bottom: 12px;
-        }
-        .ai-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: #ff004f;
-            animation: pulse-dot 1.5s infinite;
-        }
-        @keyframes pulse-dot {
-            0%,
-            100% {
-                box-shadow: 0 0 0 0 rgba(255, 0, 79, 0.7);
-            }
-            50% {
-                box-shadow: 0 0 0 14px rgba(255, 0, 79, 0);
-            }
-        }
-        .ai-log {
-            font-size: 11px;
-            font-family: 'Courier New', monospace;
-            max-height: 160px;
-            overflow-y: auto;
-            padding: 10px;
-            background: #030303;
-            border-radius: 8px;
-            line-height: 1.8;
-        }
-        .log-p {
-            color: #ffaa00;
-        }
-        .log-s {
-            color: #00f2ea;
-        }
-        .log-i {
-            color: #8888ff;
-        }
-        .log-e {
-            color: #ff004f;
-        }
+    /* HEADER + PROFILE */
+    .header-section {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 18px;
+      margin-bottom: 2.2rem;
+    }
 
-        .product-found {
-            display: none;
-            margin-top: 14px;
-            padding: 14px;
-            background: #080808;
-            border: 1px solid #1f1f1f;
-            border-radius: 12px;
-            gap: 14px;
-            animation: fadeIn 0.3s ease;
-        }
-        .product-found.show {
-            display: flex;
-            align-items: center;
-        }
-        .product-found .pf-img {
-            width: 110px;
-            height: 110px;
-            border-radius: 12px;
-            overflow: hidden;
-            flex-shrink: 0;
-            border: 2px solid #222;
-            background: #020202;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .product-found .pf-img img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        .product-found .pf-info h4 {
-            font-size: 15px;
-            font-weight: 700;
-            margin-bottom: 4px;
-        }
-        .product-found .pf-price {
-            font-size: 22px;
-            font-weight: 800;
-            color: #ff004f;
-        }
-        .product-found .pf-old {
-            font-size: 13px;
-            color: #555;
-            text-decoration: line-through;
-            margin-left: 6px;
-        }
-        .product-found .pf-meta {
-            font-size: 11px;
-            color: #777;
-            margin-top: 3px;
-        }
+    .logo-area {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
 
-        .video-done {
-            display: none;
-            margin-top: 16px;
-            animation: fadeIn 0.4s ease;
-        }
-        .video-done.show {
-            display: block;
-        }
-        .video-box {
-            border-radius: 14px;
-            overflow: hidden;
-            border: 2px solid #222;
-            aspect-ratio: 9/16;
-            background: #000;
-            max-height: 550px;
-            margin: 0 auto;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7);
-        }
-        .video-box video {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-        }
-        .video-btns {
-            display: flex;
-            gap: 8px;
-            margin-top: 10px;
-        }
-        .video-btns button {
-            flex: 1;
-            padding: 12px;
-            border-radius: 10px;
-            border: 1px solid #333;
-            background: transparent;
-            color: #fff;
-            font-weight: 600;
-            cursor: pointer;
-            font-family: inherit;
-            font-size: 13px;
-            transition: all 0.2s;
-        }
-        .video-btns button:hover {
-            border-color: #ff004f;
-            background: rgba(255, 0, 79, 0.04);
-        }
-        .video-btns button.dl {
-            background: linear-gradient(135deg, #ff004f, #ff2d78);
-            border: none;
-            color: #fff;
-            font-weight: 700;
-        }
-        .video-btns button.dl:hover {
-            opacity: 0.9;
-        }
+    .logo-emoji {
+      font-size: 2.5rem;
+      filter: drop-shadow(0 0 14px #7c6ff7);
+    }
 
-        @media (max-width: 480px) {
-            .container {
-                padding: 16px 10px;
-            }
-            .input-area {
-                flex-wrap: wrap;
-            }
-            .input-area input {
-                min-width: 100%;
-                order: -1;
-            }
-            .input-area button {
-                width: 100%;
-                margin: 4px;
-            }
-            .product-found.show {
-                flex-direction: column;
-                text-align: center;
-            }
-        }
-    </style>
+    h1 {
+      font-weight: 700;
+      font-size: 1.9rem;
+      letter-spacing: -0.4px;
+      background: linear-gradient(to right, #eef3ff, #c6cdff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .profile-card {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      background: rgba(12, 15, 28, 0.7);
+      backdrop-filter: blur(14px);
+      padding: 0.6rem 1.2rem 0.6rem 0.8rem;
+      border-radius: 4rem;
+      border: 1px solid rgba(255,255,255,0.1);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+    }
+
+    .avatar-wrapper {
+      position: relative;
+    }
+
+    .avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: #2b2f4a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      background-size: cover;
+      background-position: center;
+      box-shadow: 0 0 12px rgba(124,111,247,0.6);
+      border: 2px solid #7c6ff7;
+      overflow: hidden;
+    }
+
+    .online-dot {
+      position: absolute;
+      bottom: 2px;
+      right: 2px;
+      width: 13px;
+      height: 13px;
+      background: #666;
+      border-radius: 50%;
+      border: 2px solid #0f1225;
+    }
+
+    .user-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .username-display {
+      font-weight: 700;
+      font-size: 1rem;
+      color: white;
+      letter-spacing: 0.2px;
+    }
+
+    .tag-display {
+      font-size: 0.75rem;
+      color: #a0a7d0;
+    }
+
+    /* TOKEN ROW */
+    .token-row {
+      background: rgba(8, 11, 20, 0.7);
+      border-radius: 3rem;
+      padding: 0.9rem 1.3rem;
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      border: 1px solid rgba(255,255,255,0.07);
+    }
+
+    .token-row label {
+      font-weight: 600;
+      color: #c0c8f0;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .token-input {
+      flex: 2;
+      min-width: 210px;
+      background: #050816;
+      border: 1px solid #353d60;
+      border-radius: 2.5rem;
+      padding: 0.7rem 1.3rem;
+      color: #f0f4ff;
+      outline: none;
+      font-size: 0.9rem;
+      transition: 0.25s;
+    }
+
+    .token-input:focus {
+      border-color: #7c6ff7;
+      box-shadow: 0 0 16px #7c6ff750;
+    }
+
+    .btn-save {
+      background: #7c6ff7;
+      border: none;
+      color: white;
+      font-weight: 650;
+      padding: 0.7rem 1.8rem;
+      border-radius: 2.5rem;
+      cursor: pointer;
+      transition: 0.25s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 8px 18px #7c6ff750;
+      letter-spacing: 0.3px;
+    }
+
+    .btn-save:hover {
+      background: #6658e0;
+      box-shadow: 0 10px 22px #7c6ff780;
+    }
+
+    /* TABS MENU */
+    .tabs-nav {
+      display: flex;
+      gap: 6px;
+      background: #0b0f1e;
+      padding: 6px;
+      border-radius: 3.5rem;
+      width: fit-content;
+      margin-bottom: 2rem;
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .tab-btn {
+      background: transparent;
+      border: none;
+      color: #878ec9;
+      font-weight: 600;
+      padding: 0.6rem 2rem;
+      border-radius: 3rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-size: 0.9rem;
+      letter-spacing: 0.2px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .tab-btn.active {
+      background: #7c6ff7;
+      color: white;
+      box-shadow: 0 12px 22px #7c6ff760;
+    }
+
+    .tab-content {
+      display: none;
+      animation: fadeSlide 0.28s cubic-bezier(0.2,0.9,0.4,1);
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    @keyframes fadeSlide {
+      from { opacity: 0.4; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* SPAM CARD */
+    .spam-card {
+      background: rgba(20, 25, 44, 0.65);
+      backdrop-filter: blur(14px);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      border: 1px solid rgba(255,255,255,0.05);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    textarea {
+      width: 100%;
+      background: #0a0e1d;
+      border: 1px solid #323a59;
+      border-radius: var(--radius-md);
+      padding: 0.9rem 1.1rem;
+      color: #f2f6ff;
+      font-size: 0.95rem;
+      resize: vertical;
+      outline: none;
+      font-family: inherit;
+    }
+
+    textarea:focus {
+      border-color: #7c6ff7;
+      box-shadow: 0 0 12px #7c6ff740;
+    }
+
+    .control-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .input-pill {
+      background: #0b0f1f;
+      border: 1px solid #394066;
+      border-radius: 2.8rem;
+      padding: 0.6rem 1.2rem;
+      color: white;
+      outline: none;
+      width: 140px;
+    }
+
+    .input-pill:focus {
+      border-color: #7c6ff7;
+    }
+
+    .btn {
+      border: none;
+      color: white;
+      padding: 0.65rem 1.5rem;
+      border-radius: 2.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .btn-primary {
+      background: #7c6ff7;
+      box-shadow: 0 6px 16px #7c6ff750;
+    }
+
+    .btn-primary:hover { background: #6858e6; }
+
+    .btn-stop {
+      background: #ff6b9d;
+      box-shadow: 0 4px 14px #ff6b9d60;
+    }
+
+    .stats-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #0d1126;
+      padding: 0.5rem 1.1rem;
+      border-radius: 2rem;
+      font-size: 0.85rem;
+      color: #cdd2f0;
+    }
+
+    .badge-counter {
+      background: #2b2f50;
+      padding: 3px 14px;
+      border-radius: 20px;
+      font-weight: 700;
+      color: #ffd78b;
+    }
+
+    hr {
+      border-color: #272d46;
+      margin: 20px 0 12px;
+    }
+
+    .tip-text {
+      font-size: 0.8rem;
+      color: #8b91b8;
+    }
+  </style>
 </head>
 <body>
-
-    <div class="container">
-        <div class="logo-section">
-            <div class="tiktok-icon">🎵</div>
-            <h1>AI <span>TikTok Review</span></h1>
-            <p>Gửi link TikTok Shop → AI tự nhận diện sản phẩm → Tự làm video</p>
-        </div>
-
-        <!-- INPUT LINK -->
-        <div class="input-area" id="inputArea">
-            <span class="prefix">🔗</span>
-            <input type="url" id="tiktokLink" placeholder="Dán link sản phẩm TikTok Shop vào đây..." autofocus>
-            <button id="btnGo" onclick="handleLink()">🚀 Tự động làm</button>
-        </div>
-
-        <!-- Quick demo links -->
-        <div class="quick-links">
-            <button class="quick-link" onclick="useDemoLink('kemchongnang')">🧴 Kem chống nắng</button>
-            <button class="quick-link" onclick="useDemoLink('tainghe')">🎧 Tai nghe Bluetooth</button>
-            <button class="quick-link" onclick="useDemoLink('aokhoac')">🧥 Áo khoác</button>
-            <button class="quick-link" onclick="useDemoLink('sonmoi')">💄 Son môi</button>
-            <button class="quick-link" onclick="useDemoLink('denngu')">💡 Đèn ngủ</button>
-            <button class="quick-link" onclick="useDemoLink('tuiXach')">👜 Túi xách</button>
-        </div>
-
-        <!-- AI Processing -->
-        <div class="ai-working" id="aiWorking">
-            <div class="ai-status"><div class="ai-dot"></div><span id="aiStatus">🤖 AI đang nhận diện sản phẩm từ link...</span></div>
-            <div class="ai-log" id="aiLog"></div>
-        </div>
-
-        <!-- Product Found -->
-        <div class="product-found" id="productFound">
-            <div class="pf-img"><img id="pfImg" src="" alt="SP"></div>
-            <div class="pf-info">
-                <h4 id="pfName"></h4>
-                <span class="pf-price" id="pfPrice"></span>
-                <span class="pf-old" id="pfOld"></span>
-                <div class="pf-meta">⭐ <span id="pfRating"></span> | 🛒 <span id="pfSold"></span> | 🎵 TikTok Shop</div>
-            </div>
-        </div>
-
-        <!-- Video Result -->
-        <div class="video-done" id="videoDone">
-            <div class="video-box"><video id="resultVideo" controls playsinline></video></div>
-            <div class="video-btns">
-                <button onclick="resetAll()">🔄 Làm video khác</button>
-                <button class="dl" onclick="downloadVideo()">💾 Tải về máy</button>
-            </div>
-        </div>
+<div class="main-container">
+  <!-- HEADER + PROFILE -->
+  <div class="header-section">
+    <div class="logo-area">
+      <span class="logo-emoji">💠</span>
+      <h1>Crystal Spammer</h1>
     </div>
+    <div class="profile-card" id="profileCard">
+      <div class="avatar-wrapper">
+        <div class="avatar" id="avatarDisplay">🔮</div>
+        <div class="online-dot" id="onlineDot"></div>
+      </div>
+      <div class="user-info">
+        <span class="username-display" id="displayName">Chưa đăng nhập</span>
+        <span class="tag-display" id="displayTag"></span>
+      </div>
+    </div>
+  </div>
 
-    <script>
-        let currentBlob = null;
-        let currentUrl = null;
+  <!-- TOKEN ROW -->
+  <div class="token-row">
+    <label>🔐 Token</label>
+    <input type="password" id="discordToken" class="token-input" placeholder="Dán token Discord..." autocomplete="off">
+    <button id="saveTokenBtn" class="btn-save">💾 Lưu & Nhận diện</button>
+  </div>
 
-        // ==================== HANDLE LINK ====================
-        async function handleLink() {
-            const link = document.getElementById('tiktokLink').value.trim();
-            if (!link) {
-                alert('⚠️ Vui lòng dán link sản phẩm TikTok Shop!');
-                return;
-            }
-            if (!link.includes('tiktok.com')) {
-                alert('⚠️ Link phải chứa "tiktok.com" mới hợp lệ!');
-                return;
-            }
-            await processLink(link);
+  <!-- TABS MENU -->
+  <div class="tabs-nav">
+    <button class="tab-btn active" data-tab="tab1"><span>📌</span> Tab 1</button>
+    <button class="tab-btn" data-tab="tab2"><span>💬</span> Tab 2</button>
+    <button class="tab-btn" data-tab="tab3"><span>⚡</span> Tab 3</button>
+  </div>
+
+  <!-- TAB 1 -->
+  <div id="tab1" class="tab-content active">
+    <div class="spam-card">
+      <label style="font-weight:600;">📝 Nội dung spam</label>
+      <textarea id="msg1" rows="3" placeholder="Nhập tin nhắn...">✨ Hello từ tab 1</textarea>
+      <div class="control-row">
+        <input type="text" id="targetId1" class="input-pill" placeholder="Channel ID" value="">
+        <input type="number" id="delay1" class="input-pill" placeholder="Delay ms" value="700" min="400" step="50">
+        <button class="btn btn-primary" id="startSpam1">▶ Chạy</button>
+        <button class="btn btn-stop" id="stopSpam1">⏹️ Dừng</button>
+      </div>
+      <div class="stats-bar">
+        <span id="status1">⏸️ Chưa bắt đầu</span>
+        <span>📨 <span class="badge-counter" id="counter1">0</span></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 2 -->
+  <div id="tab2" class="tab-content">
+    <div class="spam-card">
+      <label style="font-weight:600;">💬 Nội dung tab 2</label>
+      <textarea id="msg2" rows="3" placeholder="Spam nội dung khác...">🚀 Tab 2 speed</textarea>
+      <div class="control-row">
+        <input type="text" id="targetId2" class="input-pill" placeholder="Channel ID" value="">
+        <input type="number" id="delay2" class="input-pill" placeholder="Delay ms" value="800" min="400">
+        <button class="btn btn-primary" id="startSpam2">▶ Chạy</button>
+        <button class="btn btn-stop" id="stopSpam2">⏹️ Dừng</button>
+      </div>
+      <div class="stats-bar">
+        <span id="status2">⏸️ Sẵn sàng</span>
+        <span>📨 <span class="badge-counter" id="counter2">0</span></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 3 -->
+  <div id="tab3" class="tab-content">
+    <div class="spam-card">
+      <label style="font-weight:600;">⚡ Tab 3 siêu tốc</label>
+      <textarea id="msg3" rows="3" placeholder="Nội dung...">🔥 Spam cực nhanh</textarea>
+      <div class="control-row">
+        <input type="text" id="targetId3" class="input-pill" placeholder="Channel ID" value="">
+        <input type="number" id="delay3" class="input-pill" placeholder="Delay ms" value="600" min="400">
+        <button class="btn btn-primary" id="startSpam3">▶ Chạy</button>
+        <button class="btn btn-stop" id="stopSpam3">⏹️ Dừng</button>
+      </div>
+      <div class="stats-bar">
+        <span id="status3">⏸️ Chưa kích hoạt</span>
+        <span>📨 <span class="badge-counter" id="counter3">0</span></span>
+      </div>
+    </div>
+  </div>
+
+  <hr>
+  <div class="tip-text">
+    💡 <strong>Tự động nhận diện:</strong> Dán token → Lưu, tool sẽ lấy avatar + tên ngay. Token không cần dấu ngoặc kép.
+  </div>
+</div>
+
+<script>
+  (function() {
+    // ---------- STORAGE ----------
+    const TOKEN_KEY = 'crystal_spammer_token';
+    const tokenInput = document.getElementById('discordToken');
+    const saveBtn = document.getElementById('saveTokenBtn');
+    const avatarEl = document.getElementById('avatarDisplay');
+    const displayNameEl = document.getElementById('displayName');
+    const displayTagEl = document.getElementById('displayTag');
+    const onlineDot = document.getElementById('onlineDot');
+
+    // Xử lý token: tự động loại bỏ dấu ngoặc kép nếu có
+    function cleanToken(rawToken) {
+      let cleaned = rawToken.trim();
+      // Loại bỏ dấu " ở đầu và cuối
+      if (cleaned.startsWith('"') && cleaned.endsWith('"')) {
+        cleaned = cleaned.slice(1, -1).trim();
+      }
+      return cleaned;
+    }
+
+    function loadToken() {
+      const saved = localStorage.getItem(TOKEN_KEY);
+      if (saved) {
+        const clean = cleanToken(saved);
+        tokenInput.value = clean;
+        fetchUserProfile(clean);
+      }
+    }
+    loadToken();
+
+    // Auto nhận diện tài khoản từ token
+    async function fetchUserProfile(token) {
+      if (!token) {
+        setDefaultAvatar();
+        return;
+      }
+      try {
+        const res = await fetch('https://discord.com/api/v10/users/@me', {
+          headers: { 'Authorization': token }
+        });
+        if (!res.ok) throw new Error('Token không hợp lệ');
+        const user = await res.json();
+        updateProfileUI(user);
+        // Lưu token sạch nếu chưa lưu
+        if (!localStorage.getItem(TOKEN_KEY)) {
+          localStorage.setItem(TOKEN_KEY, token);
         }
+      } catch (e) {
+        console.warn('Không lấy được profile:', e);
+        setDefaultAvatar();
+      }
+    }
 
-        function useDemoLink(productKey) {
-            const demoLinks = {
-                kemchongnang: 'https://www.tiktok.com/@shop/product/kem-chong-nang-spf50-123456789',
-                tainghe: 'https://www.tiktok.com/@shop/product/tai-nghe-bluetooth-pro-987654321',
-                aokhoac: 'https://www.tiktok.com/@shop/product/ao-khoac-gio-unisex-456789123',
-                sonmoi: 'https://www.tiktok.com/@shop/product/son-kem-li-12-mau-789123456',
-                denngu: 'https://www.tiktok.com/@shop/product/den-ngu-cam-ung-321654987',
-                tuiXach: 'https://www.tiktok.com/@shop/product/tui-tote-canvas-654987321',
-            };
-            document.getElementById('tiktokLink').value = demoLinks[productKey] || '';
-            processLink(demoLinks[productKey]);
+    function updateProfileUI(user) {
+      const avatarHash = user.avatar;
+      const userId = user.id;
+      const username = user.global_name || user.username || 'Người dùng';
+      const discriminator = user.discriminator === '0' ? '' : `#${user.discriminator}`;
+
+      displayNameEl.textContent = username;
+      displayTagEl.textContent = discriminator || `@${user.username}`;
+
+      if (avatarHash) {
+        const avatarUrl = `https://cdn.discordapp.com/avatars/${userId}/${avatarHash}.png?size=64`;
+        avatarEl.style.backgroundImage = `url(${avatarUrl})`;
+        avatarEl.style.backgroundSize = 'cover';
+        avatarEl.textContent = '';
+      } else {
+        avatarEl.style.backgroundImage = '';
+        avatarEl.textContent = '🔮';
+      }
+      onlineDot.style.background = '#2ed8a3';
+    }
+
+    function setDefaultAvatar() {
+      avatarEl.style.backgroundImage = '';
+      avatarEl.textContent = '🔮';
+      displayNameEl.textContent = 'Chưa đăng nhập';
+      displayTagEl.textContent = '';
+      onlineDot.style.background = '#666';
+    }
+
+    saveBtn.addEventListener('click', async () => {
+      const rawToken = tokenInput.value;
+      const token = cleanToken(rawToken);
+      if (!token) { alert('Nhập token!'); return; }
+      tokenInput.value = token;
+      localStorage.setItem(TOKEN_KEY, token);
+      await fetchUserProfile(token);
+    });
+
+    // Tự động nhận diện khi blur
+    tokenInput.addEventListener('blur', () => {
+      const token = cleanToken(tokenInput.value);
+      if (token) {
+        tokenInput.value = token;
+        fetchUserProfile(token);
+      }
+    });
+
+    // ---------- TABS ----------
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById(btn.dataset.tab).classList.add('active');
+      });
+    });
+
+    // ---------- SPAM ENGINE ----------
+    const state = {
+      tab1: { interval: null, count: 0, retry: 0 },
+      tab2: { interval: null, count: 0, retry: 0 },
+      tab3: { interval: null, count: 0, retry: 0 }
+    };
+
+    function getToken() {
+      return cleanToken(tokenInput.value);
+    }
+
+    async function sendMsg(channelId, content, token) {
+      const res = await fetch(`https://discord.com/api/v10/channels/${channelId}/messages`, {
+        method: 'POST',
+        headers: { 'Authorization': token, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ content })
+      });
+      if (res.status === 429) {
+        const d = await res.json();
+        throw { rateLimit: true, retryAfter: (d.retry_after || 1.5) * 1000 };
+      }
+      if (!res.ok) throw new Error((await res.json().catch(()=>({})).message) || `Lỗi ${res.status}`);
+    }
+
+    function updateTabUI(tab, status, count) {
+      document.getElementById(`status${tab}`).textContent = status;
+      document.getElementById(`counter${tab}`).textContent = count;
+    }
+
+    function stop(tab) {
+      if (state[tab].interval) clearInterval(state[tab].interval);
+      state[tab].interval = null;
+    }
+
+    async function cycle(tab) {
+      const s = state[tab];
+      const num = tab.replace('tab','');
+      const msg = document.getElementById(`msg${num}`).value.trim();
+      const ch = document.getElementById(`targetId${num}`).value.trim();
+      const token = getToken();
+      if (!token || !ch || !msg) { stop(tab); updateTabUI(num, '❌ Thiếu token/channel/nội dung', s.count); return; }
+      if (s.retry > Date.now()) {
+        updateTabUI(num, `⏳ Chờ rate limit...`, s.count);
+        return;
+      }
+      try {
+        await sendMsg(ch, msg, token);
+        s.count++;
+        updateTabUI(num, `✅ Đã gửi (${new Date().toLocaleTimeString()})`, s.count);
+      } catch(e) {
+        if (e.rateLimit) {
+          s.retry = Date.now() + e.retryAfter + 200;
+          updateTabUI(num, `⛔ Rate limit ${Math.round(e.retryAfter/1000)}s`, s.count);
+        } else {
+          updateTabUI(num, `❌ ${e.message}`, s.count);
+          if (e.message.includes('401')) stop(tab);
         }
+      }
+    }
 
-        async function processLink(link) {
-            resetAll();
-            document.getElementById('btnGo').disabled = true;
-            document.getElementById('aiWorking').classList.add('show');
-            const linkHash = hashString(link);
+    function start(tab) {
+      const num = tab.replace('tab','');
+      if (!getToken()) { alert('Cần token!'); return; }
+      stop(tab);
+      const delay = Math.max(400, parseInt(document.getElementById(`delay${num}`).value)||700);
+      state[tab].retry = 0;
+      cycle(tab);
+      state[tab].interval = setInterval(() => cycle(tab), delay);
+    }
 
-            try {
-                // === BƯỚC 1: AI NHẬN DIỆN SẢN PHẨM TỪ LINK ===
-                updateStatus('🔍 AI đang phân tích link TikTok, nhận diện sản phẩm...');
-                addLog('🎵 Đọc link TikTok: ' + link.substring(0, 50) + '...', 'p');
-                addLog('🤖 AI đang xác định loại sản phẩm...', 'p');
-                addLog('📡 Đang trích xuất thông tin từ link...', 'p');
+    document.getElementById('startSpam1').onclick = ()=> start('tab1');
+    document.getElementById('stopSpam1').onclick = ()=> stop('tab1');
+    document.getElementById('startSpam2').onclick = ()=> start('tab2');
+    document.getElementById('stopSpam2').onclick = ()=> stop('tab2');
+    document.getElementById('startSpam3').onclick = ()=> start('tab3');
+    document.getElementById('stopSpam3').onclick = ()=> stop('tab3');
 
-                const product = await aiRecognizeProduct(link, linkHash);
-                addLog('✅ Nhận diện thành công: ' + product.name, 's');
-                addLog('🏷️ Danh mục: ' + product.categoryName, 'i');
-                addLog('💰 Giá: ' + product.price + ' | Gốc: ' + product.originalPrice, 'i');
-                addLog('⭐ Rating: ' + product.rating + ' | Đã bán: ' + product.soldText, 'i');
-                addLog('🖼️ Đã tải ' + product.images.length + ' ảnh sản phẩm thực tế', 's');
-                showProductCard(product);
-
-                // === BƯỚC 2: AI VIẾT KỊCH BẢN TIKTOK ===
-                updateStatus('✍️ AI đang viết kịch bản TikTok viral...');
-                addLog('🧠 Phân tích đặc điểm nổi bật của sản phẩm...', 'p');
-                addLog('📝 Viết script chuẩn format TikTok...', 'p');
-
-                const script = await aiWriteScript(product, linkHash);
-                addLog('✅ Script xong: ' + script.length + ' phân đoạn', 's');
-                script.forEach(s => addLog('  💬 ' + s.text.substring(0, 50) + '...', 'i'));
-
-                // === BƯỚC 3: AI TẠO GIỌNG ĐỌC ===
-                updateStatus('🎙️ AI đang tạo giọng đọc tự nhiên...');
-                addLog('🔊 Tổng hợp giọng nói tiếng Việt...', 'p');
-
-                const audioBlob = await aiGenerateVoice(script, linkHash);
-                addLog('✅ Giọng đọc hoàn tất!', 's');
-
-                // === BƯỚC 4: AI DỰNG VIDEO ===
-                updateStatus('🎬 AI đang dựng video TikTok...');
-                addLog('🎨 Vẽ nhân vật AI đang review...', 'p');
-                addLog('🖼️ Chèn ảnh sản phẩm từ link...', 'p');
-                addLog('💬 Thêm phụ đề tự động...', 'p');
-                addLog('✨ Hiệu ứng TikTok trending...', 'p');
-
-                currentBlob = await aiRenderVideo(product, script, audioBlob, linkHash);
-                addLog('✅ Video TikTok hoàn tất! 30 giây - 9:16', 's');
-                updateStatus('✅ Xong! Video đã sẵn sàng bên dưới ⬇️');
-                showVideo(currentBlob);
-
-            } catch (e) {
-                addLog('❌ Lỗi: ' + e.message, 'e');
-                updateStatus('❌ Có lỗi. Vui lòng thử link khác!');
-            } finally {
-                document.getElementById('btnGo').disabled = false;
-            }
-        }
-
-        // ==================== AI: NHẬN DIỆN SẢN PHẨM ====================
-        async function aiRecognizeProduct(link, hash) {
-            await sleep(1500 + Math.random() * 1000);
-
-            // AI phân tích link để xác định loại sản phẩm
-            const linkLower = link.toLowerCase();
-            let category, categoryName, emoji, priceBase, priceMax, names, specs;
-
-            if (linkLower.includes('kem') || linkLower.includes('chong-nang') || linkLower.includes('son') || linkLower
-                .includes('my-pham') || linkLower.includes('duong-da') || hash % 7 === 0) {
-                category = 'beauty';
-                categoryName = 'Làm đẹp';
-                emoji = '💄';
-                priceBase = 89000;
-                priceMax = 399000;
-                names = ['Kem Chống Nắng UV SPF50+', 'Son Kem Lì 12H', 'Mặt Nạ Collagen', 'Serum Vitamin C', 'Phấn Nước Cushion',
-                    'Sữa Rửa Mặt Dưỡng Ẩm'
-                ];
-                specs = ['Chống nắng phổ rộng SPF50+', 'Không gây nhờn rít', 'Dưỡng ẩm suốt 12h', 'Chiết xuất thiên nhiên',
-                    'Đã kiểm nghiệm da liễu'
-                ];
-            } else if (linkLower.includes('tai-nghe') || linkLower.includes('loa') || linkLower.includes('sạc') || linkLower
-                .includes('dien-thoai') || hash % 7 === 1) {
-                category = 'tech';
-                categoryName = 'Công nghệ';
-                emoji = '🎧';
-                priceBase = 149000;
-                priceMax = 799000;
-                names = ['Tai Nghe Bluetooth 5.3', 'Loa Bluetooth Mini', 'Sạc Dự Phòng 20000mAh', 'Ốp Điện Thoại Chống Sốc',
-                    'Đèn LED TikTok', 'Cáp Sạc Nhanh 100W'
-                ];
-                specs = ['Bluetooth 5.3 ổn định', 'Pin 40 giờ siêu bền', 'Chống nước IPX7', 'Kết nối nhanh 0.1s',
-                    'Bảo hành 12 tháng'
-                ];
-            } else if (linkLower.includes('ao') || linkLower.includes('quan') || linkLower.includes('giay') || linkLower
-                .includes('tui') || linkLower.includes('thoi-trang') || hash % 7 === 2) {
-                category = 'fashion';
-                categoryName = 'Thời trang';
-                emoji = '👗';
-                priceBase = 129000;
-                priceMax = 549000;
-                names = ['Áo Croptop Hot Trend', 'Quần Ống Rộng GenZ', 'Túi Tote Canvas', 'Giày Sneaker Unisex', 'Áo Khoác Gió Siêu Nhẹ',
-                    'Set Đồ Thể Thao'
-                ];
-                specs = ['Form rộng thoải mái', 'Cotton 100% cao cấp', 'Size S-XXL đầy đủ', 'Không nhăn không xù',
-                    'Giặt máy thoải mái'
-                ];
-            } else if (linkLower.includes('den') || linkLower.includes('trang-tri') || linkLower.includes('nha') || linkLower
-                .includes('bep') || hash % 7 === 3) {
-                category = 'home';
-                categoryName = 'Nhà cửa';
-                emoji = '🏠';
-                priceBase = 99000;
-                priceMax = 499000;
-                names = ['Đèn Ngủ Cảm Ứng', 'Kệ Treo Tường Decor', 'Thảm Trải Sàn Lông Mịn', 'Bộ Chăn Ga Microfiber',
-                    'Nến Thơm Handmade', 'Bình Giữ Nhiệt 1L'
-                ];
-                specs = ['Tiết kiệm điện 80%', 'Dễ dàng lắp đặt', 'Chất liệu cao cấp bền đẹp', 'Thiết kế tối giản hiện đại',
-                    'Bảo hành 2 năm'
-                ];
-            } else if (linkLower.includes('snack') || linkLower.includes('tra-sua') || linkLower.includes('mi') || linkLower
-                .includes('banh') || hash % 7 === 4) {
-                category = 'food';
-                categoryName = 'Ăn uống';
-                emoji = '🍜';
-                priceBase = 35000;
-                priceMax = 199000;
-                names = ['Trà Sữa Gói Instant', 'Snack Khoai Tây Hàn Quốc', 'Cà Phê Sữa Đá Gói', 'Bánh Tráng Trộn Sẵn',
-                    'Mì Cay Hàn Quốc 7 Cấp', 'Kẹo Dẻo Trái Cây'
-                ];
-                specs = ['Hương vị chuẩn Hàn', 'Nguyên liệu tự nhiên', 'Không chất bảo quản', 'Pha chế siêu nhanh',
-                    'Hot TikTok triệu view'
-                ];
-            } else if (linkLower.includes('the-thao') || linkLower.includes('yoga') || linkLower.includes('gym') || hash % 7 ===
-                5) {
-                category = 'sports';
-                categoryName = 'Thể thao';
-                emoji = '⚽';
-                priceBase = 99000;
-                priceMax = 449000;
-                names = ['Thảm Yoga Cao Cấp', 'Bình Nước Thể Thao', 'Dây Nhảy Đếm Calo', 'Găng Tay Tập Gym', 'Balo Chống Nước',
-                    'Quần Áo Tập Gym'
-                ];
-                specs = ['Chất liệu co giãn 4 chiều', 'Thoát mồ hôi nhanh', 'Siêu nhẹ chỉ 200g', 'Thiết kế ergonomic',
-                    'Phù hợp mọi cường độ'
-                ];
-            } else {
-                category = 'other';
-                categoryName = 'Sản phẩm hot';
-                emoji = '🔥';
-                priceBase = 79000;
-                priceMax = 399000;
-                names = ['Sản Phẩm Hot TikTok', 'Đồ Dùng Thông Minh', 'Phụ Kiện Siêu Xinh', 'Quà Tặng Độc Đáo',
-                    'Gadget Tiện Ích', 'Đồ Chơi Sáng Tạo'
-                ];
-                specs = ['Thiết kế độc đáo', 'Chất lượng tuyệt vời', 'Giá siêu hời', 'Đang hot trên TikTok', 'Mua ngay kẻo hết'];
-            }
-
-            const nameIdx = Math.abs(hash * 3) % names.length;
-            const baseP = priceBase + (Math.abs(hash * 5) % (priceMax - priceBase));
-            const discount = [25, 30, 35, 40, 45, 50, 55, 60, 65, 70][Math.abs(hash * 7) % 10];
-            const origP = Math.round(baseP * 100 / (100 - discount) / 1000) * 1000;
-
-            // Tạo ảnh sản phẩm ĐA DẠNG cho từng sản phẩm
-            const images = [];
-            const colorSets = [
-                ['#ff004f', '#ff6b81'],
-                ['#00f2ea', '#00b894'],
-                ['#ffa502', '#ff6348'],
-                ['#7bed9f', '#2ed573'],
-                ['#70a1ff', '#5352ed'],
-                ['#a855f7', '#6c5ce7'],
-                ['#fdcb6e', '#e17055'],
-                ['#ff9ff3', '#f368e0'],
-            ];
-            const colors = colorSets[Math.abs(hash * 11) % colorSets.length];
-
-            for (let i = 0; i < 5; i++) {
-                const c = document.createElement('canvas');
-                c.width = 400;
-                c.height = 400;
-                const ctx = c.getContext('2d');
-
-                const g = ctx.createLinearGradient(0, 0, 400, 400);
-                g.addColorStop(0, colors[0]);
-                g.addColorStop(1, colors[1]);
-                ctx.fillStyle = g;
-                ctx.beginPath();
-                ctx.roundRect(10, 10, 380, 380, 24);
-                ctx.fill();
-
-                ctx.fillStyle = 'rgba(255,255,255,0.06)';
-                for (let j = 0; j < 8; j++) {
-                    ctx.beginPath();
-                    ctx.arc(50 + j * 45, 50 + i * 35, 16 + j * 3, 0, Math.PI * 2);
-                    ctx.fill();
-                }
-
-                ctx.fillStyle = 'white';
-                ctx.font = '90px Arial';
-                ctx.textAlign = 'center';
-                ctx.fillText(emoji, 200, 170);
-
-                ctx.font = 'bold 22px "Segoe UI", Arial';
-                ctx.fillText(names[nameIdx].substring(0, 20), 200, 260);
-
-                ctx.fillStyle = 'rgba(0,0,0,0.35)';
-                ctx.beginPath();
-                ctx.roundRect(110, 300, 180, 42, 20);
-                ctx.fill();
-                ctx.fillStyle = 'white';
-                ctx.font = 'bold 17px "Segoe UI", Arial';
-                ctx.fillText('🎵 TikTok Shop', 200, 327);
-
-                ctx.fillStyle = '#ff004f';
-                ctx.beginPath();
-                ctx.roundRect(285, 45, 85, 38, 17);
-                ctx.fill();
-                ctx.fillStyle = 'white';
-                ctx.font = 'bold 19px "Segoe UI", Arial';
-                ctx.fillText('-' + discount + '%', 327, 70);
-
-                images.push(c.toDataURL('image/jpeg', 0.85));
-            }
-
-            const rating = (4.1 + (Math.abs(hash * 13) % 9) / 10).toFixed(1);
-            const soldNum = (Math.abs(hash * 17) % 48000) + 2000;
-            const soldText = soldNum >= 1000 ? (soldNum / 1000).toFixed(1) + 'k' : soldNum.toString();
-
-            return {
-                name: names[nameIdx],
-                price: baseP.toLocaleString('vi-VN') + 'đ',
-                originalPrice: origP.toLocaleString('vi-VN') + 'đ',
-                discount,
-                rating,
-                sold: soldNum,
-                soldText,
-                images,
-                specs,
-                category,
-                categoryName,
-                emoji,
-            };
-        }
-
-        // ==================== AI: VIẾT KỊCH BẢN ====================
-        async function aiWriteScript(product, hash) {
-            await sleep(700 + Math.random() * 500);
-
-            const hookStyles = [
-                [`😱 Ê ê! Phát hiện ${product.name} HOT quá trời!`, `🔥 Giá chỉ ${product.price} thôi! Quá hời luôn!`],
-                [`💝 Cùng mình khám phá ${product.name} nha!`, `🌸 Sản phẩm siêu xinh, giá siêu yêu: ${product.price}!`],
-                [`⚡ VIRAL ALERT! ${product.name} đang gây bão TikTok!`, `💨 ${product.price} - MUA NGAY KẺO HẾT!`],
-                [`🤣 Không đùa đâu! ${product.name} này xịn thật sự!`, `😎 Đã bán ${product.soldText} - Rating ${product.rating}⭐`],
-            ];
-
-            const outroStyles = [
-                '🛒 LINK MUA Ở COMMENT! SỐ LƯỢNG CÓ HẠN! #TikTokShop',
-                '💝 Cảm ơn đã xem! Link sản phẩm mình để dưới cmt nha!',
-                '⚡ MUA NGAY! KHÔNG MUA LÀ HỐI TIẾC! #TikTokMadeMeBuyIt',
-                '🤣 OK mua đi! Link dưới comment! Chốt đơn thôi!',
-            ];
-
-            const styleIdx = Math.abs(hash * 19) % hookStyles.length;
-            const hooks = hookStyles[styleIdx];
-            const outro = outroStyles[styleIdx];
-
-            const script = [
-                { text: hooks[0], dur: 3.5 },
-                { text: hooks[1], dur: 3 },
-                { text: `📊 Đã bán ${product.soldText} | ⭐ ${product.rating} | ${product.categoryName} chính hãng`, dur: 3 },
-            ];
-
-            product.specs.slice(0, 3).forEach(spec => {
-                script.push({ text: '✅ ' + spec, dur: 3.5 });
-            });
-
-            script.push({
-                text: `💰 Giá gốc ${product.originalPrice} → Giảm ${product.discount}% còn ${product.price}!`,
-                dur: 3.5
-            });
-            script.push({ text: outro, dur: 4 });
-
-            return script;
-        }
-
-        // ==================== AI: GIỌNG ĐỌC ====================
-        async function aiGenerateVoice(script, hash) {
-            await sleep(1000 + Math.random() * 600);
-            const ctx = new(window.AudioContext || window.webkitAudioContext)();
-            const totalDur = script.reduce((s, sc) => s + sc.dur, 0);
-            const sr = ctx.sampleRate;
-            const len = Math.ceil(totalDur * sr);
-            const buf = ctx.createBuffer(1, len, sr);
-            const data = buf.getChannelData(0);
-            const baseF = 170 + (Math.abs(hash * 23) % 60);
-            let t = 0;
-            script.forEach(sc => {
-                const start = Math.floor(t * sr);
-                const end = Math.floor((t + sc.dur) * sr);
-                for (let i = start; i < end && i < len; i++) {
-                    const lt = (i / sr - t) / sc.dur;
-                    const pf = Math.sin(lt * 9) * 20 + Math.sin(lt * 17) * 10;
-                    const f = baseF + pf;
-                    const env = Math.sin(lt * Math.PI) * 0.7;
-                    data[i] = (Math.sin(2 * Math.PI * f * (i / sr - t)) * 0.4 + Math.sin(2 * Math.PI * f * 2 * (i / sr - t)) *
-                        0.12) * env;
-                }
-                t += sc.dur;
-            });
-            return audioBufToWav(buf);
-        }
-
-        function audioBufToWav(buf) {
-            const sr = buf.sampleRate;
-            const data = buf.getChannelData(0);
-            const len = data.length * 2;
-            const ab = new ArrayBuffer(44 + len);
-            const v = new DataView(ab);
-            writeStr(v, 0, 'RIFF');
-            v.setUint32(4, 36 + len, true);
-            writeStr(v, 8, 'WAVE');
-            writeStr(v, 12, 'fmt ');
-            v.setUint32(16, 16, true);
-            v.setUint16(20, 1, true);
-            v.setUint16(22, 1, true);
-            v.setUint32(24, sr, true);
-            v.setUint32(28, sr * 2, true);
-            v.setUint16(32, 2, true);
-            v.setUint16(34, 16, true);
-            writeStr(v, 36, 'data');
-            v.setUint32(40, len, true);
-            let o = 44;
-            for (let i = 0; i < data.length; i++) {
-                v.setInt16(o, Math.max(-1, Math.min(1, data[i])) * 0x7FFF, true);
-                o += 2;
-            }
-            return new Blob([ab], { type: 'audio/wav' });
-        }
-
-        function writeStr(v, o, s) { for (let i = 0; i < s.length; i++) v.setUint8(o + i, s.charCodeAt(i)); }
-
-        // ==================== AI: DỰNG VIDEO ====================
-        async function aiRenderVideo(product, script, audioBlob, hash) {
-            await sleep(1500 + Math.random() * 800);
-            const cv = document.createElement('canvas');
-            cv.width = 1080;
-            cv.height = 1920;
-            const ctx = cv.getContext('2d');
-            const totalDur = script.reduce((s, sc) => s + sc.dur, 0);
-            const fps = 30;
-
-            const audioUrl = URL.createObjectURL(audioBlob);
-            const audio = new Audio(audioUrl);
-            const stream = cv.captureStream(fps);
-            const mr = new MediaRecorder(stream, {
-                mimeType: MediaRecorder.isTypeSupported('video/webm;codecs=vp9') ? 'video/webm;codecs=vp9' :
-                    'video/webm',
-                videoBitsPerSecond: 8000000
-            });
-            const chunks = [];
-            mr.ondataavailable = e => chunks.push(e.data);
-            const done = new Promise(r => { mr.onstop = () => r(new Blob(chunks, { type: 'video/webm' })); });
-            mr.start();
-            audio.play().catch(() => {});
-
-            const imgs = await Promise.all(product.images.map(src => {
-                return new Promise(res => { const img = new Image();
-                    img.onload = () => res(img);
-                    img.onerror = () => res(null);
-                    img.src = src; });
-            })).then(arr => arr.filter(Boolean));
-
-            const st = performance.now();
-            const particles = Array.from({ length: 35 }, () => ({
-                x: Math.random() * cv.width,
-                y: Math.random() * cv.height,
-                s: Math.random() * 3 + 1,
-                sp: Math.random() * 0.5 + 0.15,
-                o: Math.random() * 0.45 + 0.1,
-                c: ['#ff004f', '#ff6b81', '#00f2ea', '#ffa502'][Math.floor(Math.random() * 4)],
-            }));
-
-            function draw() {
-                const el = (performance.now() - st) / 1000;
-                if (el >= totalDur) { mr.stop();
-                    audio.pause();
-                    URL.revokeObjectURL(audioUrl); return; }
-                ctx.clearRect(0, 0, cv.width, cv.height);
-
-                // BG
-                const bg = ctx.createLinearGradient(0, 0, cv.width, cv.height);
-                bg.addColorStop(0, '#0a0a0a');
-                bg.addColorStop(1, '#1a0a10');
-                ctx.fillStyle = bg;
-                ctx.fillRect(0, 0, cv.width, cv.height);
-
-                particles.forEach(p => { p.y -= p.sp; if (p.y < -10) { p.y = cv.height + 10;
-                        p.x = Math.random() * cv.width; } ctx.fillStyle = p.c.replace(')', `, ${p.o})`).replace(
-                        'rgb', 'rgba');
-                    ctx.beginPath();
-                    ctx.arc(p.x, p.y, p.s, 0, Math.PI * 2);
-                    ctx.fill(); });
-
-                // NHÂN VẬT AI
-                const ax = cv.width / 2,
-                    ay = 420 + Math.sin(el * 1.5) * 12;
-                const glow = ctx.createRadialGradient(ax, ay, 30, ax, ay, 140);
-                glow.addColorStop(0, 'rgba(255,0,79,0.3)');
-                glow.addColorStop(1, 'rgba(255,0,79,0)');
-                ctx.fillStyle = glow;
-                ctx.beginPath();
-                ctx.arc(ax, ay, 140, 0, Math.PI * 2);
-                ctx.fill();
-                // Head
-                ctx.fillStyle = '#ffe0c0';
-                ctx.beginPath();
-                ctx.arc(ax, ay - 55, 50, 0, Math.PI * 2);
-                ctx.fill();
-                ctx.strokeStyle = '#e8c8a0';
-                ctx.lineWidth = 3;
-                ctx.stroke();
-                // Hair
-                ctx.fillStyle = '#1a0a00';
-                ctx.beginPath();
-                ctx.arc(ax, ay - 68, 53, Math.PI, 0);
-                ctx.fill();
-                ctx.beginPath();
-                ctx.ellipse(ax, ay - 95, 44, 18, 0, 0, Math.PI * 2);
-                ctx.fill();
-                // Eyes
-                const ey = ay - 62;
-                ctx.fillStyle = '#fff';
-                ctx.beginPath();
-                ctx.ellipse(ax - 18, ey, 14, 16, 0, 0, Math.PI * 2);
-                ctx.fill();
-                ctx.beginPath();
-                ctx.ellipse(ax + 18, ey, 14, 16, 0, 0, Math.PI * 2);
-                ctx.fill();
-                ctx.fillStyle = '#111';
-                ctx.beginPath();
-                ctx.arc(ax - 16, ey + 2, 8, 0, Math.PI * 2);
-                ctx.fill();
-                ctx.beginPath();
-                ctx.arc(ax + 20, ey + 2, 8, 0, Math.PI * 2);
-                ctx.fill();
-                ctx.fillStyle = '#fff';
-                ctx.beginPath();
-                ctx.arc(ax - 20, ey - 4, 3, 0, Math.PI * 2);
-                ctx.fill();
-                ctx.beginPath();
-                ctx.arc(ax + 16, ey - 4, 3, 0, Math.PI * 2);
-                ctx.fill();
-                // Mouth
-                const mo = Math.abs(Math.sin(el * 9)) * 10;
-                ctx.fillStyle = '#e85d5d';
-                ctx.beginPath();
-                ctx.ellipse(ax, ey + 38, 12, 5 + mo, 0, 0, Math.PI * 2);
-                ctx.fill();
-                // Blush
-                ctx.fillStyle = 'rgba(255,130,130,0.3)';
-                ctx.beginPath();
-                ctx.ellipse(ax - 28, ey + 14, 12, 7, 0, 0, Math.PI * 2);
-                ctx.fill();
-                ctx.beginPath();
-                ctx.ellipse(ax + 28, ey + 14, 12, 7, 0, 0, Math.PI * 2);
-                ctx.fill();
-                // Body
-                ctx.fillStyle = '#ff004f';
-                ctx.beginPath();
-                ctx.roundRect(ax - 44, ay + 2, 88, 80, 16);
-                ctx.fill();
-                // Arms
-                const aw = Math.sin(el * 3) * 18;
-                ctx.strokeStyle = '#ffe0c0';
-                ctx.lineWidth = 16;
-                ctx.beginPath();
-                ctx.moveTo(ax - 40, ay + 10);
-                ctx.quadraticCurveTo(ax - 72, ay - 10 + aw, ax - 60, ay + 45 + aw);
-                ctx.stroke();
-                ctx.beginPath();
-                ctx.moveTo(ax + 40, ay + 10);
-                ctx.quadraticCurveTo(ax + 72, ay - 10 - aw, ax + 60, ay + 45 - aw);
-                ctx.stroke();
-
-                // PRODUCT IMAGE
-                const psy = ay + 130;
-                const imgIdx = Math.floor(el / (totalDur / (imgs.length || 1))) % (imgs.length || 1);
-                if (imgs[imgIdx]) {
-                    ctx.fillStyle = 'rgba(255,255,255,0.04)';
-                    ctx.strokeStyle = 'rgba(255,255,255,0.25)';
-                    ctx.lineWidth = 2;
-                    ctx.beginPath();
-                    ctx.roundRect(cv.width / 2 - 155, psy, 310, 310, 16);
-                    ctx.fill();
-                    ctx.stroke();
-                    ctx.save();
-                    ctx.beginPath();
-                    ctx.roundRect(cv.width / 2 - 146, psy + 9, 292, 292, 12);
-                    ctx.clip();
-                    ctx.drawImage(imgs[imgIdx], cv.width / 2 - 146, psy + 9, 292, 292);
-                    ctx.restore();
-                    ctx.fillStyle = 'rgba(0,0,0,0.6)';
-                    ctx.fillRect(cv.width / 2 - 146, psy + 255, 292, 46);
-                    ctx.fillStyle = '#fff';
-                    ctx.font = 'bold 20px "Segoe UI", Arial';
-                    ctx.textAlign = 'center';
-                    ctx.fillText('📸 Ảnh thật ' + (imgIdx + 1) + '/' + imgs.length, cv.width / 2, psy + 284);
-                }
-
-                // NAME & PRICE
-                const iy = psy + 340;
-                ctx.fillStyle = '#fff';
-                ctx.font = 'bold 38px "Segoe UI", Arial';
-                ctx.textAlign = 'center';
-                const nl = wrapT(ctx, product.name, cv.width - 80);
-                nl.forEach((l, i) => ctx.fillText(l, cv.width / 2, iy + i * 44));
-                const py = iy + nl.length * 44 + 16;
-                ctx.fillStyle = 'rgba(255,0,79,0.2)';
-                ctx.strokeStyle = '#ff004f';
-                ctx.lineWidth = 2;
-                ctx.beginPath();
-                ctx.roundRect(cv.width / 2 - 130, py - 8, 260, 54, 26);
-                ctx.fill();
-                ctx.stroke();
-                ctx.fillStyle = '#ff004f';
-                ctx.font = 'bold 42px "Segoe UI", Arial';
-                ctx.fillText(product.price, cv.width / 2, py + 30);
-                ctx.fillStyle = '#ff004f';
-                ctx.beginPath();
-                ctx.roundRect(cv.width / 2 + 90, py - 18, 75, 32, 16);
-                ctx.fill();
-                ctx.fillStyle = '#fff';
-                ctx.font = 'bold 18px "Segoe UI", Arial';
-                ctx.fillText('-' + product.discount + '%', cv.width / 2 + 127, py + 4);
-
-                // SUBTITLE
-                let txt = '';
-                let at = 0;
-                for (const sc of script) { if (el < at + sc.dur) { txt = sc.text; break; }
-                    at += sc.dur; }
-                if (txt) {
-                    const sy2 = cv.height - 170;
-                    ctx.fillStyle = 'rgba(0,0,0,0.8)';
-                    const sl = wrapT(ctx, txt, cv.width - 70);
-                    const sh = sl.length * 44 + 24;
-                    ctx.fillRect(0, sy2 - 12, cv.width, sh);
-                    ctx.fillStyle = '#fff';
-                    ctx.font = 'bold 34px "Segoe UI", Arial';
-                    ctx.textAlign = 'center';
-                    sl.forEach((l, i) => ctx.fillText(l, cv.width / 2, sy2 + 28 + i * 44));
-                }
-
-                // TIKTOK BADGE
-                ctx.fillStyle = 'rgba(255,255,255,0.1)';
-                ctx.beginPath();
-                ctx.roundRect(25, cv.height - 55, 130, 32, 16);
-                ctx.fill();
-                ctx.fillStyle = '#fff';
-                ctx.font = 'bold 15px "Segoe UI", Arial';
-                ctx.textAlign = 'center';
-                ctx.fillText('🎵 TikTok Shop', 90, cv.height - 34);
-
-                requestAnimationFrame(draw);
-            }
-            requestAnimationFrame(draw);
-            return await done;
-        }
-
-        function wrapT(ctx, text, maxW) {
-            const w = text.split(' ');
-            const l = [];
-            let c = '';
-            for (const x of w) { const t = c ? c + ' ' + x : x; if (ctx.measureText(t).width > maxW && c) { l.push(c);
-                    c = x; } else c = t; }
-            if (c) l.push(c);
-            return l;
-        }
-
-        // ==================== HELPERS ====================
-        function hashString(s) { let h = 0; for (let i = 0; i < s.length; i++) { h = ((h << 5) - h) + s.charCodeAt(i);
-                h |= 0; } return h; }
-
-        function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
-
-        function updateStatus(t) { document.getElementById('aiStatus').textContent = '🤖 ' + t; }
-
-        function addLog(m, type) {
-            const c = document.getElementById('aiLog');
-            const d = document.createElement('div');
-            d.className = 'log-' + (type || 'i');
-            d.textContent = '[' + new Date().toLocaleTimeString() + '] ' + m;
-            c.appendChild(d);
-            c.scrollTop = c.scrollHeight;
-        }
-
-        function showProductCard(p) {
-            document.getElementById('pfImg').src = p.images[0];
-            document.getElementById('pfName').textContent = p.name;
-            document.getElementById('pfPrice').textContent = p.price;
-            document.getElementById('pfOld').textContent = p.originalPrice;
-            document.getElementById('pfRating').textContent = p.rating;
-            document.getElementById('pfSold').textContent = p.soldText;
-            document.getElementById('productFound').classList.add('show');
-        }
-
-        function showVideo(blob) {
-            currentUrl = URL.createObjectURL(blob);
-            document.getElementById('resultVideo').src = currentUrl;
-            document.getElementById('videoDone').classList.add('show');
-            document.getElementById('videoDone').scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
-
-        function resetAll() {
-            document.getElementById('aiWorking').classList.remove('show');
-            document.getElementById('productFound').classList.remove('show');
-            document.getElementById('videoDone').classList.remove('show');
-            document.getElementById('aiLog').innerHTML = '';
-            if (currentUrl) URL.revokeObjectURL(currentUrl);
-            currentBlob = null;
-            currentUrl = null;
-        }
-
-        function downloadVideo() {
-            if (!currentBlob) return;
-            const a = document.createElement('a');
-            a.href = currentUrl || URL.createObjectURL(currentBlob);
-            a.download = 'tiktok-review-' + Date.now() + '.webm';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-        }
-
-        // Polyfill
-        if (!CanvasRenderingContext2D.prototype.roundRect) {
-            CanvasRenderingContext2D.prototype.roundRect = function(x, y, w, h, r) {
-                if (typeof r === 'number') r = { tl: r, tr: r, br: r, bl: r };
-                this.beginPath();
-                this.moveTo(x + r.tl, y);
-                this.lineTo(x + w - r.tr, y);
-                this.quadraticCurveTo(x + w, y, x + w, y + r.tr);
-                this.lineTo(x + w, y + h - r.br);
-                this.quadraticCurveTo(x + w, y + h, x + w - r.br, y + h);
-                this.lineTo(x + r.bl, y + h);
-                this.quadraticCurveTo(x, y + h, x, y + h - r.bl);
-                this.lineTo(x, y + r.tl);
-                this.quadraticCurveTo(x, y, x + r.tl, y);
-                this.closePath();
-                return this;
-            };
-        }
-
-        console.log('🎵 AI TikTok Review Tool đã sẵn sàng!');
-        console.log('📋 Cách dùng: Dán link TikTok Shop → Enter → AI tự làm hết!');
-        console.log('🔍 AI tự nhận diện sản phẩm từ nội dung link');
-        console.log('🖼️ Mỗi link khác nhau = sản phẩm khác nhau');
-    </script>
+    window.addEventListener('beforeunload', () => {
+      Object.keys(state).forEach(t => stop(t));
+    });
+  })();
+</script>
 </body>
 </html>
