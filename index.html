@@ -3,35 +3,35 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, maximum-scale=2.0, viewport-fit=cover">
-  <title>💎 Discord Crystal Ultra · Premium Dashboard · Auto Fix 401</title>
+  <title>🔥 LuciFer Spam Discord Ver1 · Auto Bypass 401</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
     :root {
-      --bg-deep: #050b1a;
-      --bg-surface: #081028;
-      --bg-card: rgba(10, 18, 48, 0.65);
-      --glass: rgba(16, 25, 58, 0.5);
-      --glass-border: rgba(56, 135, 255, 0.15);
-      --royal-blue: #1a56db;
-      --electric-blue: #3b82f6;
-      --cyan: #06b6d4;
-      --neon: #60a5fa;
-      --neon-glow: rgba(96, 165, 250, 0.5);
-      --text-primary: #f0f4ff;
-      --text-secondary: #94a3c0;
-      --text-dim: #5e6d8c;
+      --bg-deep: #0a0000;
+      --bg-surface: #1a0000;
+      --bg-card: rgba(20, 0, 0, 0.8);
+      --glass: rgba(30, 0, 0, 0.6);
+      --glass-border: rgba(255, 56, 56, 0.2);
+      --royal-red: #cc0000;
+      --electric-red: #ff3333;
+      --cyan: #ff6600;
+      --neon: #ff4444;
+      --neon-glow: rgba(255, 68, 68, 0.6);
+      --text-primary: #fff0f0;
+      --text-secondary: #cc9999;
+      --text-dim: #996666;
       --success: #10b981;
-      --danger: #ef4444;
-      --warning: #f59e0b;
+      --danger: #ff0000;
+      --warning: #ff6600;
       --radius-sm: 12px;
       --radius-md: 18px;
       --radius-lg: 24px;
       --radius-xl: 32px;
       --radius-pill: 9999px;
-      --shadow-card: 0 8px 40px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(56, 135, 255, 0.1);
-      --shadow-glow: 0 0 30px rgba(59, 130, 246, 0.25);
-      --shadow-neon: 0 0 60px rgba(6, 182, 212, 0.2);
+      --shadow-card: 0 8px 40px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 56, 56, 0.15);
+      --shadow-glow: 0 0 30px rgba(255, 51, 51, 0.3);
+      --shadow-neon: 0 0 60px rgba(255, 102, 0, 0.25);
       --transition: cubic-bezier(0.22, 0.61, 0.36, 1);
     }
 
@@ -52,7 +52,7 @@
       -moz-osx-font-smoothing: grayscale;
     }
 
-    /* Aurora Background */
+    /* Fire Background */
     .aurora-bg {
       position: fixed;
       top: 0;
@@ -67,15 +67,15 @@
     .aurora-orb {
       position: absolute;
       border-radius: 50%;
-      filter: blur(120px);
-      opacity: 0.35;
-      animation: auroraFloat 20s ease-in-out infinite;
+      filter: blur(100px);
+      opacity: 0.3;
+      animation: auroraFloat 15s ease-in-out infinite;
     }
 
     .aurora-orb:nth-child(1) {
       width: 600px;
       height: 600px;
-      background: radial-gradient(circle, rgba(26, 86, 219, 0.5) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(255, 0, 0, 0.4) 0%, transparent 70%);
       top: -15%;
       left: -10%;
       animation-delay: 0s;
@@ -83,28 +83,28 @@
     .aurora-orb:nth-child(2) {
       width: 500px;
       height: 500px;
-      background: radial-gradient(circle, rgba(6, 182, 212, 0.4) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(255, 102, 0, 0.35) 0%, transparent 70%);
       top: 40%;
       right: -12%;
-      animation-delay: -7s;
+      animation-delay: -5s;
     }
     .aurora-orb:nth-child(3) {
       width: 450px;
       height: 450px;
-      background: radial-gradient(circle, rgba(59, 130, 246, 0.45) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(255, 51, 51, 0.4) 0%, transparent 70%);
       bottom: -10%;
       left: 30%;
-      animation-delay: -14s;
+      animation-delay: -10s;
     }
 
     @keyframes auroraFloat {
       0%, 100% { transform: translate(0, 0) scale(1); }
-      25% { transform: translate(60px, -40px) scale(1.08); }
-      50% { transform: translate(-30px, 50px) scale(0.95); }
-      75% { transform: translate(-50px, -30px) scale(1.05); }
+      25% { transform: translate(50px, -30px) scale(1.1); }
+      50% { transform: translate(-25px, 40px) scale(0.95); }
+      75% { transform: translate(-40px, -20px) scale(1.05); }
     }
 
-    /* Particles */
+    /* Fire Particles */
     .particles {
       position: fixed;
       top: 0;
@@ -116,51 +116,37 @@
     }
     .particle {
       position: absolute;
-      width: 2px;
-      height: 2px;
+      width: 3px;
+      height: 3px;
       background: var(--neon);
       border-radius: 50%;
-      animation: particleDrift 8s ease-in-out infinite;
+      animation: fireRise 6s ease-in-out infinite;
       opacity: 0;
-      box-shadow: 0 0 8px var(--neon-glow);
+      box-shadow: 0 0 10px var(--neon-glow), 0 0 20px rgba(255, 102, 0, 0.4);
     }
-    @keyframes particleDrift {
-      0% { opacity: 0; transform: translateY(0) translateX(0); }
-      10% { opacity: 1; }
-      90% { opacity: 0.6; }
-      100% { opacity: 0; transform: translateY(-400px) translateX(60px); }
+    @keyframes fireRise {
+      0% { opacity: 0; transform: translateY(0) translateX(0) scale(0); }
+      20% { opacity: 0.8; }
+      100% { opacity: 0; transform: translateY(-500px) translateX(80px) scale(1.5); }
     }
 
-    /* Scanning line effect */
+    /* Fire Scan Line */
     .scan-line {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
-      height: 3px;
-      background: linear-gradient(90deg, transparent, rgba(96, 165, 250, 0.3), transparent);
+      height: 4px;
+      background: linear-gradient(90deg, transparent, rgba(255, 51, 51, 0.4), transparent);
       z-index: 1;
       pointer-events: none;
-      animation: scanDown 4s linear infinite;
-      opacity: 0.5;
+      animation: scanDown 3s linear infinite;
+      opacity: 0.6;
     }
 
     @keyframes scanDown {
       0% { top: -5px; }
       100% { top: 100vh; }
-    }
-
-    /* Glitch text effect */
-    @keyframes glitch {
-      0%, 100% { transform: translate(0); }
-      20% { transform: translate(-2px, 2px); }
-      40% { transform: translate(-2px, -2px); }
-      60% { transform: translate(2px, 2px); }
-      80% { transform: translate(2px, -2px); }
-    }
-
-    .glitch-hover:hover {
-      animation: glitch 0.3s ease-in-out;
     }
 
     /* Main Layout */
@@ -173,7 +159,7 @@
 
     /* Sidebar */
     .sidebar {
-      width: 260px;
+      width: 280px;
       min-height: 100vh;
       background: var(--glass);
       backdrop-filter: blur(40px);
@@ -196,33 +182,47 @@
       align-items: center;
       gap: 12px;
       padding: 0 0.5rem;
+      border-bottom: 1px solid rgba(255, 56, 56, 0.2);
+      padding-bottom: 1.2rem;
     }
 
     .logo-icon {
-      width: 44px;
-      height: 44px;
-      background: linear-gradient(135deg, var(--royal-blue), var(--cyan));
+      width: 48px;
+      height: 48px;
+      background: linear-gradient(135deg, #ff0000, #ff6600);
       border-radius: var(--radius-sm);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.5rem;
-      box-shadow: 0 0 24px rgba(59, 130, 246, 0.4);
-      animation: pulse-icon 2s ease-in-out infinite;
+      font-size: 1.8rem;
+      box-shadow: 0 0 30px rgba(255, 0, 0, 0.5);
+      animation: firePulse 1.5s ease-in-out infinite;
     }
 
-    @keyframes pulse-icon {
-      0%, 100% { box-shadow: 0 0 24px rgba(59, 130, 246, 0.4); }
-      50% { box-shadow: 0 0 40px rgba(59, 130, 246, 0.7); }
+    @keyframes firePulse {
+      0%, 100% { box-shadow: 0 0 30px rgba(255, 0, 0, 0.5); transform: scale(1); }
+      50% { box-shadow: 0 0 50px rgba(255, 102, 0, 0.8); transform: scale(1.05); }
     }
 
     .logo-text {
-      font-weight: 700;
-      font-size: 1.2rem;
-      background: linear-gradient(to right, #e0f0ff, #60a5fa);
+      font-weight: 800;
+      font-size: 1.1rem;
+      background: linear-gradient(to right, #ff4444, #ff8800, #ff4444);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
+      animation: fireText 2s ease-in-out infinite;
+    }
+
+    @keyframes fireText {
+      0%, 100% { filter: brightness(1); }
+      50% { filter: brightness(1.3); }
+    }
+
+    .logo-subtitle {
+      font-size: 0.7rem;
+      color: #ff6666;
+      font-weight: 500;
     }
 
     .sidebar-nav {
@@ -244,48 +244,36 @@
       font-weight: 500;
       font-size: 0.9rem;
       position: relative;
-      overflow: hidden;
-    }
-
-    .nav-item::after {
-      content: '';
-      position: absolute;
-      left: -100%;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(96, 165, 250, 0.1), transparent);
-      transition: left 0.5s;
-    }
-
-    .nav-item:hover::after {
-      left: 100%;
+      border: 1px solid transparent;
     }
 
     .nav-item:hover {
-      background: rgba(59, 130, 246, 0.1);
+      background: rgba(255, 51, 51, 0.15);
       color: var(--text-primary);
       transform: translateX(5px);
+      border-color: rgba(255, 56, 56, 0.3);
     }
 
     .nav-item.active {
-      background: rgba(59, 130, 246, 0.2);
+      background: linear-gradient(135deg, rgba(255, 0, 0, 0.2), rgba(255, 102, 0, 0.1));
       color: white;
-      box-shadow: 0 0 20px rgba(59, 130, 246, 0.15);
-      border: 1px solid rgba(96, 165, 250, 0.25);
+      box-shadow: 0 0 25px rgba(255, 0, 0, 0.2);
+      border: 1px solid rgba(255, 68, 68, 0.3);
     }
 
     .nav-item.active::before {
-      content: '';
+      content: '🔥';
       position: absolute;
-      left: 0;
+      left: -5px;
       top: 50%;
       transform: translateY(-50%);
-      width: 3px;
-      height: 20px;
-      background: var(--cyan);
-      border-radius: 3px;
-      box-shadow: 0 0 12px var(--cyan);
+      font-size: 0.8rem;
+      animation: fireIcon 1s ease-in-out infinite;
+    }
+
+    @keyframes fireIcon {
+      0%, 100% { opacity: 1; transform: translateY(-50%) scale(1); }
+      50% { opacity: 0.5; transform: translateY(-50%) scale(1.3); }
     }
 
     .nav-icon {
@@ -302,13 +290,13 @@
 
     .sidebar-footer {
       padding: 1rem 0;
-      border-top: 1px solid var(--glass-border);
+      border-top: 1px solid rgba(255, 56, 56, 0.2);
     }
 
     /* Main Content */
     .main-content {
       flex: 1;
-      margin-left: 260px;
+      margin-left: 280px;
       padding: 2rem 2.5rem;
       transition: margin 0.4s var(--transition);
     }
@@ -324,19 +312,20 @@
     }
 
     .page-title {
-      font-size: 1.8rem;
-      font-weight: 700;
-      letter-spacing: -0.3px;
-      background: linear-gradient(to right, #f0f4ff, #a0c8ff);
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      background: linear-gradient(to right, #ff4444, #ff8800, #ff4444);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
-      animation: titleGlow 3s ease-in-out infinite;
+      animation: titleFire 2s ease-in-out infinite;
+      text-shadow: 0 0 30px rgba(255, 0, 0, 0.3);
     }
 
-    @keyframes titleGlow {
-      0%, 100% { filter: brightness(1); }
-      50% { filter: brightness(1.3); }
+    @keyframes titleFire {
+      0%, 100% { filter: brightness(1) drop-shadow(0 0 10px rgba(255,0,0,0.5)); }
+      50% { filter: brightness(1.3) drop-shadow(0 0 20px rgba(255,102,0,0.8)); }
     }
 
     .user-badge {
@@ -354,33 +343,33 @@
     }
 
     .user-badge:hover {
-      box-shadow: var(--shadow-card), 0 0 30px rgba(59, 130, 246, 0.2);
+      box-shadow: var(--shadow-card), 0 0 35px rgba(255, 0, 0, 0.25);
       transform: translateY(-2px);
     }
 
     .user-avatar {
-      width: 40px;
-      height: 40px;
+      width: 42px;
+      height: 42px;
       border-radius: 50%;
-      background: linear-gradient(135deg, var(--royal-blue), var(--cyan));
+      background: linear-gradient(135deg, #ff0000, #ff6600);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.2rem;
+      font-size: 1.3rem;
       background-size: cover;
       background-position: center;
-      box-shadow: 0 0 16px rgba(59, 130, 246, 0.3);
-      border: 2px solid rgba(96, 165, 250, 0.4);
+      box-shadow: 0 0 20px rgba(255, 0, 0, 0.4);
+      border: 2px solid rgba(255, 68, 68, 0.5);
       transition: all 0.3s;
     }
 
     .user-badge:hover .user-avatar {
-      box-shadow: 0 0 25px rgba(59, 130, 246, 0.6);
-      transform: rotate(10deg);
+      box-shadow: 0 0 30px rgba(255, 51, 51, 0.7);
+      transform: rotate(15deg) scale(1.1);
     }
 
     .user-name {
-      font-weight: 600;
+      font-weight: 700;
       font-size: 0.9rem;
     }
 
@@ -393,38 +382,38 @@
     .status-indicator {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
       background: rgba(16, 185, 129, 0.1);
-      border: 1px solid rgba(16, 185, 129, 0.25);
-      padding: 0.5rem 1.2rem;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      padding: 0.6rem 1.5rem;
       border-radius: var(--radius-pill);
-      font-size: 0.8rem;
+      font-size: 0.85rem;
       color: #6ee7b7;
       margin-bottom: 2rem;
-      box-shadow: 0 0 20px rgba(16, 185, 129, 0.1);
+      box-shadow: 0 0 25px rgba(16, 185, 129, 0.15);
       transition: all 0.3s;
     }
 
     .status-dot {
-      width: 8px;
-      height: 8px;
+      width: 10px;
+      height: 10px;
       border-radius: 50%;
       background: var(--success);
-      animation: statusPulse 2s ease-in-out infinite;
-      box-shadow: 0 0 10px var(--success);
+      animation: statusPulse 1.5s ease-in-out infinite;
+      box-shadow: 0 0 15px var(--success);
     }
 
     @keyframes statusPulse {
       0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.4; transform: scale(1.5); }
+      50% { opacity: 0.3; transform: scale(1.8); }
     }
 
     /* Tabs */
     .tabs-nav {
       display: flex;
       gap: 6px;
-      background: rgba(8, 16, 40, 0.6);
-      padding: 5px;
+      background: rgba(20, 0, 0, 0.8);
+      padding: 6px;
       border-radius: var(--radius-pill);
       width: fit-content;
       margin-bottom: 2rem;
@@ -435,8 +424,8 @@
       background: transparent;
       border: none;
       color: var(--text-dim);
-      font-weight: 600;
-      padding: 0.6rem 1.8rem;
+      font-weight: 700;
+      padding: 0.7rem 2rem;
       border-radius: var(--radius-pill);
       cursor: pointer;
       transition: all 0.25s var(--transition);
@@ -444,43 +433,25 @@
       display: flex;
       align-items: center;
       gap: 6px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .tab-btn::before {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 0;
-      height: 0;
-      background: rgba(96, 165, 250, 0.3);
-      border-radius: 50%;
-      transform: translate(-50%, -50%);
-      transition: width 0.4s, height 0.4s;
-    }
-
-    .tab-btn:hover::before {
-      width: 200px;
-      height: 200px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
 
     .tab-btn:hover {
-      color: var(--text-primary);
-      background: rgba(59, 130, 246, 0.08);
+      color: #ff6666;
+      background: rgba(255, 51, 51, 0.1);
     }
 
     .tab-btn.active {
-      background: linear-gradient(135deg, var(--royal-blue), var(--electric-blue));
+      background: linear-gradient(135deg, #cc0000, #ff3300);
       color: white;
-      box-shadow: 0 8px 24px rgba(59, 130, 246, 0.35);
-      animation: tabPulse 2s ease-in-out infinite;
+      box-shadow: 0 8px 30px rgba(255, 0, 0, 0.4);
+      animation: tabFire 2s ease-in-out infinite;
     }
 
-    @keyframes tabPulse {
-      0%, 100% { box-shadow: 0 8px 24px rgba(59, 130, 246, 0.35); }
-      50% { box-shadow: 0 8px 35px rgba(59, 130, 246, 0.6); }
+    @keyframes tabFire {
+      0%, 100% { box-shadow: 0 8px 30px rgba(255, 0, 0, 0.4); }
+      50% { box-shadow: 0 8px 45px rgba(255, 102, 0, 0.7); }
     }
 
     .tab-content {
@@ -493,7 +464,7 @@
     }
 
     @keyframes fadeSlideUp {
-      from { opacity: 0; transform: translateY(20px); }
+      from { opacity: 0; transform: translateY(25px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
@@ -503,12 +474,12 @@
       backdrop-filter: blur(24px);
       -webkit-backdrop-filter: blur(24px);
       border-radius: var(--radius-lg);
-      padding: 1.8rem;
+      padding: 2rem;
       border: 1px solid var(--glass-border);
       box-shadow: var(--shadow-card);
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 18px;
       transition: all 0.3s var(--transition);
       position: relative;
       overflow: hidden;
@@ -517,23 +488,24 @@
     .card::before {
       content: '';
       position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 2px;
-      background: linear-gradient(90deg, transparent, var(--neon), transparent);
-      animation: cardBorderGlow 4s linear infinite;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255, 0, 0, 0.05) 0%, transparent 70%);
+      animation: cardGlow 4s linear infinite;
+      pointer-events: none;
     }
 
-    @keyframes cardBorderGlow {
-      0% { left: -100%; }
-      100% { left: 100%; }
+    @keyframes cardGlow {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
 
     .card:hover {
-      border-color: rgba(96, 165, 250, 0.25);
+      border-color: rgba(255, 68, 68, 0.3);
       box-shadow: var(--shadow-card), var(--shadow-glow);
-      transform: translateY(-2px);
+      transform: translateY(-3px);
     }
 
     .card-header {
@@ -541,42 +513,45 @@
       align-items: center;
       justify-content: space-between;
       flex-wrap: wrap;
-      gap: 10px;
+      gap: 12px;
+      position: relative;
+      z-index: 1;
     }
 
     .card-title {
-      font-weight: 650;
-      font-size: 1rem;
+      font-weight: 700;
+      font-size: 1.1rem;
       color: var(--text-primary);
+      text-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
     }
 
     /* Form Elements */
     textarea {
       width: 100%;
-      background: rgba(5, 11, 26, 0.7);
-      border: 1px solid rgba(56, 135, 255, 0.2);
+      background: rgba(10, 0, 0, 0.8);
+      border: 1px solid rgba(255, 56, 56, 0.25);
       border-radius: var(--radius-md);
-      padding: 1rem 1.2rem;
+      padding: 1.2rem;
       color: var(--text-primary);
       font-size: 0.9rem;
       resize: vertical;
       outline: none;
       font-family: 'JetBrains Mono', 'Inter', monospace;
       transition: all 0.3s var(--transition);
-      line-height: 1.6;
+      line-height: 1.7;
     }
 
     textarea:focus {
-      border-color: var(--electric-blue);
-      box-shadow: 0 0 25px rgba(59, 130, 246, 0.2);
-      background: rgba(5, 11, 26, 0.9);
+      border-color: #ff3333;
+      box-shadow: 0 0 30px rgba(255, 0, 0, 0.25);
+      background: rgba(15, 0, 0, 0.9);
     }
 
     .input-pill {
-      background: rgba(5, 11, 26, 0.7);
-      border: 1px solid rgba(56, 135, 255, 0.2);
+      background: rgba(10, 0, 0, 0.8);
+      border: 1px solid rgba(255, 56, 56, 0.25);
       border-radius: var(--radius-pill);
-      padding: 0.65rem 1.3rem;
+      padding: 0.7rem 1.4rem;
       color: var(--text-primary);
       outline: none;
       font-size: 0.9rem;
@@ -584,179 +559,232 @@
     }
 
     .input-pill:focus {
-      border-color: var(--electric-blue);
-      box-shadow: 0 0 20px rgba(59, 130, 246, 0.2);
-      background: rgba(5, 11, 26, 0.9);
+      border-color: #ff3333;
+      box-shadow: 0 0 25px rgba(255, 0, 0, 0.25);
+      background: rgba(15, 0, 0, 0.9);
     }
 
     .control-row {
       display: flex;
       flex-wrap: wrap;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
+      position: relative;
+      z-index: 1;
     }
 
     /* Buttons */
     .btn {
       border: none;
       color: white;
-      padding: 0.7rem 1.6rem;
+      padding: 0.75rem 1.8rem;
       border-radius: var(--radius-pill);
-      font-weight: 600;
+      font-weight: 700;
       cursor: pointer;
       transition: all 0.3s var(--transition);
       display: inline-flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
       font-size: 0.9rem;
-      letter-spacing: 0.2px;
+      letter-spacing: 0.5px;
       position: relative;
       overflow: hidden;
       text-transform: uppercase;
     }
 
-    .btn::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, transparent 40%, rgba(255,255,255,0.2) 50%, transparent 60%);
-      opacity: 0;
-      transition: opacity 0.3s;
-    }
-
-    .btn:hover::after {
-      opacity: 1;
-    }
-
     .btn:active {
-      transform: scale(0.95);
+      transform: scale(0.93);
     }
 
     .btn-primary {
-      background: linear-gradient(135deg, var(--royal-blue), var(--electric-blue));
-      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.35);
+      background: linear-gradient(135deg, #cc0000, #ff3300);
+      box-shadow: 0 8px 25px rgba(255, 0, 0, 0.4);
     }
 
     .btn-primary:hover {
       transform: translateY(-3px);
-      box-shadow: 0 10px 30px rgba(59, 130, 246, 0.5);
-      animation: buttonGlow 1s ease-in-out infinite;
-    }
-
-    @keyframes buttonGlow {
-      0%, 100% { box-shadow: 0 10px 30px rgba(59, 130, 246, 0.5); }
-      50% { box-shadow: 0 10px 45px rgba(59, 130, 246, 0.8); }
+      box-shadow: 0 12px 35px rgba(255, 51, 51, 0.6);
     }
 
     .btn-stop {
-      background: linear-gradient(135deg, #dc2626, #ef4444);
-      box-shadow: 0 6px 20px rgba(239, 68, 68, 0.3);
+      background: linear-gradient(135deg, #666, #333);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
     }
 
     .btn-stop:hover {
       transform: translateY(-3px);
-      box-shadow: 0 10px 30px rgba(239, 68, 68, 0.5);
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.6);
     }
 
     .btn-accent {
-      background: linear-gradient(135deg, #0891b2, var(--cyan));
-      box-shadow: 0 6px 20px rgba(6, 182, 212, 0.3);
+      background: linear-gradient(135deg, #ff6600, #ff3300);
+      box-shadow: 0 8px 25px rgba(255, 102, 0, 0.4);
     }
 
     .btn-accent:hover {
       transform: translateY(-3px);
-      box-shadow: 0 10px 30px rgba(6, 182, 212, 0.5);
+      box-shadow: 0 12px 35px rgba(255, 102, 0, 0.6);
     }
 
     .btn-ghost {
       background: transparent;
-      border: 1px solid rgba(96, 165, 250, 0.3);
-      color: var(--neon);
+      border: 1px solid rgba(255, 68, 68, 0.4);
+      color: #ff6666;
     }
 
     .btn-ghost:hover {
-      background: rgba(96, 165, 250, 0.15);
-      border-color: var(--neon);
-      box-shadow: 0 0 20px rgba(96, 165, 250, 0.3);
+      background: rgba(255, 0, 0, 0.2);
+      border-color: #ff4444;
+      box-shadow: 0 0 25px rgba(255, 0, 0, 0.3);
     }
 
     .btn-xs {
-      padding: 0.4rem 1rem;
-      font-size: 0.78rem;
+      padding: 0.5rem 1.2rem;
+      font-size: 0.8rem;
+    }
+
+    /* Auto Bypass Toggle */
+    .auto-bypass-container {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      background: rgba(20, 0, 0, 0.8);
+      padding: 10px 18px;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(255, 68, 68, 0.3);
+      position: relative;
+      z-index: 1;
+    }
+
+    .auto-bypass-label {
+      font-weight: 700;
+      font-size: 0.85rem;
+      color: #ff6666;
+      text-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
+    }
+
+    .auto-toggle {
+      position: relative;
+      width: 56px;
+      height: 30px;
+      cursor: pointer;
+    }
+
+    .auto-toggle input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .auto-toggle-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(100, 100, 100, 0.4);
+      transition: 0.4s;
+      border-radius: 34px;
+      border: 2px solid rgba(100, 100, 100, 0.6);
+    }
+
+    .auto-toggle-slider:before {
+      position: absolute;
+      content: "";
+      height: 22px;
+      width: 22px;
+      left: 3px;
+      bottom: 2px;
+      background: white;
+      transition: 0.4s;
+      border-radius: 50%;
+    }
+
+    input:checked + .auto-toggle-slider {
+      background: rgba(255, 0, 0, 0.3);
+      border-color: rgba(255, 51, 51, 0.6);
+      box-shadow: 0 0 20px rgba(255, 0, 0, 0.4);
+    }
+
+    input:checked + .auto-toggle-slider:before {
+      transform: translateX(24px);
+      background: #ff4444;
+      box-shadow: 0 0 15px rgba(255, 0, 0, 0.6);
+    }
+
+    .bypass-badge {
+      background: linear-gradient(135deg, #ff0000, #ff6600);
+      padding: 4px 14px;
+      border-radius: var(--radius-pill);
+      font-weight: 800;
+      font-size: 0.75rem;
+      color: white;
+      animation: bypassPulse 1.2s ease-in-out infinite;
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    }
+
+    @keyframes bypassPulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.7; transform: scale(1.05); }
     }
 
     /* Mode Selector */
     .mode-selector {
       display: flex;
-      gap: 4px;
-      background: rgba(5, 11, 26, 0.6);
-      padding: 4px;
+      gap: 5px;
+      background: rgba(20, 0, 0, 0.8);
+      padding: 5px;
       border-radius: var(--radius-pill);
       border: 1px solid var(--glass-border);
       flex-wrap: wrap;
+      position: relative;
+      z-index: 1;
     }
 
     .mode-btn {
       background: transparent;
       border: none;
       color: var(--text-dim);
-      padding: 0.45rem 1.2rem;
+      padding: 0.5rem 1.3rem;
       border-radius: var(--radius-pill);
       cursor: pointer;
-      font-weight: 600;
+      font-weight: 700;
       font-size: 0.82rem;
       transition: all 0.25s var(--transition);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .mode-btn::before {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 0;
-      height: 0;
-      background: rgba(96, 165, 250, 0.3);
-      border-radius: 50%;
-      transform: translate(-50%, -50%);
-      transition: width 0.4s, height 0.4s;
-    }
-
-    .mode-btn:hover::before {
-      width: 150px;
-      height: 150px;
     }
 
     .mode-btn.active {
-      background: linear-gradient(135deg, var(--royal-blue), var(--electric-blue));
+      background: linear-gradient(135deg, #cc0000, #ff3300);
       color: white;
-      box-shadow: 0 4px 14px rgba(59, 130, 246, 0.3);
+      box-shadow: 0 6px 20px rgba(255, 0, 0, 0.35);
     }
 
     .mode-btn:not(.active):hover {
-      color: var(--neon);
-      background: rgba(59, 130, 246, 0.1);
+      color: #ff6666;
+      background: rgba(255, 51, 51, 0.15);
     }
 
     /* Image Upload */
     .image-upload-area {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 14px;
       flex-wrap: wrap;
+      position: relative;
+      z-index: 1;
     }
 
     .image-preview {
-      width: 56px;
-      height: 56px;
+      width: 60px;
+      height: 60px;
       border-radius: var(--radius-sm);
-      background: rgba(5, 11, 26, 0.6);
-      border: 2px dashed rgba(56, 135, 255, 0.25);
+      background: rgba(10, 0, 0, 0.8);
+      border: 2px dashed rgba(255, 56, 56, 0.3);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.3rem;
+      font-size: 1.5rem;
       background-size: cover;
       background-position: center;
       transition: all 0.3s var(--transition);
@@ -764,26 +792,27 @@
     }
 
     .image-preview:hover {
-      border-color: var(--electric-blue);
-      box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
-      transform: scale(1.05);
+      border-color: #ff3333;
+      box-shadow: 0 0 25px rgba(255, 0, 0, 0.35);
+      transform: scale(1.08);
     }
 
     .file-input-label {
-      background: rgba(59, 130, 246, 0.1);
-      padding: 0.5rem 1.2rem;
+      background: rgba(255, 0, 0, 0.15);
+      padding: 0.6rem 1.4rem;
       border-radius: var(--radius-pill);
       cursor: pointer;
       font-size: 0.85rem;
-      color: var(--neon);
-      border: 1px solid rgba(96, 165, 250, 0.2);
+      color: #ff6666;
+      border: 1px solid rgba(255, 68, 68, 0.3);
       transition: all 0.25s;
+      font-weight: 600;
     }
 
     .file-input-label:hover {
-      background: rgba(59, 130, 246, 0.2);
-      border-color: var(--neon);
-      box-shadow: 0 0 15px rgba(96, 165, 250, 0.2);
+      background: rgba(255, 0, 0, 0.25);
+      border-color: #ff4444;
+      box-shadow: 0 0 20px rgba(255, 0, 0, 0.25);
     }
 
     input[type="file"] {
@@ -795,68 +824,66 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: rgba(5, 11, 26, 0.5);
-      padding: 0.6rem 1.3rem;
+      background: rgba(20, 0, 0, 0.7);
+      padding: 0.7rem 1.5rem;
       border-radius: var(--radius-pill);
       font-size: 0.85rem;
       color: var(--text-secondary);
       flex-wrap: wrap;
-      gap: 8px;
+      gap: 10px;
       border: 1px solid var(--glass-border);
       transition: all 0.3s;
+      position: relative;
+      z-index: 1;
     }
 
     .stats-bar:hover {
-      background: rgba(5, 11, 26, 0.7);
-      border-color: rgba(96, 165, 250, 0.3);
+      background: rgba(25, 0, 0, 0.8);
+      border-color: rgba(255, 68, 68, 0.35);
     }
 
     .badge-counter {
-      background: linear-gradient(135deg, var(--royal-blue), var(--electric-blue));
-      padding: 3px 14px;
+      background: linear-gradient(135deg, #cc0000, #ff3300);
+      padding: 4px 16px;
       border-radius: var(--radius-pill);
-      font-weight: 700;
+      font-weight: 800;
       color: white;
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.85rem;
-      animation: counterPulse 1s ease-in-out;
-    }
-
-    @keyframes counterPulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.2); }
-      100% { transform: scale(1); }
+      font-size: 0.9rem;
+      box-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
     }
 
     /* Tag Section */
     .tag-section {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
       flex-wrap: wrap;
+      position: relative;
+      z-index: 1;
     }
 
     .tag-prefix {
-      color: var(--neon);
-      font-weight: 600;
-      font-size: 0.85rem;
+      color: #ff6666;
+      font-weight: 700;
+      font-size: 0.9rem;
     }
 
     .tag-input {
       flex: 1;
-      min-width: 180px;
-      background: rgba(5, 11, 26, 0.7);
-      border: 1px solid rgba(56, 135, 255, 0.2);
+      min-width: 200px;
+      background: rgba(10, 0, 0, 0.8);
+      border: 1px solid rgba(255, 56, 56, 0.25);
       border-radius: var(--radius-pill);
-      padding: 0.6rem 1.3rem;
+      padding: 0.7rem 1.4rem;
       color: var(--text-primary);
       outline: none;
       transition: all 0.3s;
     }
 
     .tag-input:focus {
-      border-color: var(--electric-blue);
-      box-shadow: 0 0 20px rgba(59, 130, 246, 0.2);
+      border-color: #ff3333;
+      box-shadow: 0 0 25px rgba(255, 0, 0, 0.25);
     }
 
     /* Toast */
@@ -867,50 +894,51 @@
       z-index: 9999;
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 10px;
     }
 
     .toast {
-      background: var(--bg-card);
+      background: rgba(20, 0, 0, 0.95);
       backdrop-filter: blur(30px);
-      border: 1px solid var(--glass-border);
+      border: 1px solid rgba(255, 68, 68, 0.3);
       color: white;
-      padding: 14px 22px;
+      padding: 16px 24px;
       border-radius: var(--radius-md);
       animation: toastIn 0.5s var(--transition);
       box-shadow: var(--shadow-card), var(--shadow-glow);
-      font-weight: 500;
+      font-weight: 600;
       font-size: 0.9rem;
       display: flex;
       align-items: center;
-      gap: 10px;
-      min-width: 280px;
+      gap: 12px;
+      min-width: 300px;
       transition: all 0.3s;
     }
 
     .toast:hover {
-      transform: translateX(-5px);
-      box-shadow: var(--shadow-card), 0 0 30px rgba(59, 130, 246, 0.3);
+      transform: translateX(-8px);
+      box-shadow: var(--shadow-card), 0 0 35px rgba(255, 0, 0, 0.35);
     }
 
     .toast.success {
-      border-color: rgba(16, 185, 129, 0.4);
+      border-color: rgba(16, 185, 129, 0.5);
+      background: rgba(0, 20, 10, 0.95);
     }
 
     .toast.error {
-      border-color: rgba(239, 68, 68, 0.4);
+      border-color: rgba(255, 0, 0, 0.5);
       animation: toastShake 0.5s ease-in-out;
     }
 
     @keyframes toastIn {
-      from { transform: translateX(120%); opacity: 0; }
+      from { transform: translateX(150%); opacity: 0; }
       to { transform: translateX(0); opacity: 1; }
     }
 
     @keyframes toastShake {
       0%, 100% { transform: translateX(0); }
-      25% { transform: translateX(-10px); }
-      75% { transform: translateX(10px); }
+      25% { transform: translateX(-15px); }
+      75% { transform: translateX(15px); }
     }
 
     /* Login Screen */
@@ -925,92 +953,83 @@
     }
 
     .login-card-main {
-      background: var(--bg-card);
+      background: rgba(20, 0, 0, 0.85);
       backdrop-filter: blur(40px);
       border-radius: var(--radius-xl);
-      padding: 3rem;
-      border: 1px solid var(--glass-border);
+      padding: 3.5rem;
+      border: 1px solid rgba(255, 68, 68, 0.3);
       box-shadow: var(--shadow-card), var(--shadow-neon);
-      max-width: 480px;
+      max-width: 500px;
       width: 100%;
       text-align: center;
       display: flex;
       flex-direction: column;
-      gap: 20px;
+      gap: 24px;
       animation: loginFloat 3s ease-in-out infinite;
     }
 
     @keyframes loginFloat {
       0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
+      50% { transform: translateY(-12px); }
     }
 
     .login-icon-main {
-      font-size: 4rem;
-      animation: loginIconSpin 4s ease-in-out infinite;
+      font-size: 5rem;
+      animation: loginFireSpin 3s ease-in-out infinite;
     }
 
-    @keyframes loginIconSpin {
-      0%, 100% { transform: rotate(0deg) scale(1); }
-      25% { transform: rotate(10deg) scale(1.1); }
-      75% { transform: rotate(-10deg) scale(1.1); }
+    @keyframes loginFireSpin {
+      0%, 100% { transform: rotate(0deg) scale(1); filter: drop-shadow(0 0 20px rgba(255,0,0,0.5)); }
+      25% { transform: rotate(15deg) scale(1.15); filter: drop-shadow(0 0 35px rgba(255,102,0,0.8)); }
+      75% { transform: rotate(-15deg) scale(1.15); filter: drop-shadow(0 0 35px rgba(255,102,0,0.8)); }
     }
 
     .login-title-main {
-      font-size: 2rem;
-      font-weight: 700;
-      background: linear-gradient(to right, #e0f0ff, #60a5fa);
+      font-size: 2.4rem;
+      font-weight: 800;
+      background: linear-gradient(to right, #ff4444, #ff8800, #ff4444);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
+      animation: titleFire 2s ease-in-out infinite;
+    }
+
+    .login-subtitle {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #ff6666;
+      text-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
     }
 
     .btn-login-discord {
-      background: linear-gradient(135deg, var(--royal-blue), var(--cyan));
+      background: linear-gradient(135deg, #ff0000, #ff6600);
       border: none;
       color: white;
-      font-weight: 650;
-      padding: 1rem 2.5rem;
+      font-weight: 700;
+      padding: 1.1rem 2.8rem;
       border-radius: var(--radius-pill);
       cursor: pointer;
-      font-size: 1.05rem;
+      font-size: 1.1rem;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 10px;
-      box-shadow: 0 12px 30px rgba(59, 130, 246, 0.35);
+      gap: 12px;
+      box-shadow: 0 15px 35px rgba(255, 0, 0, 0.4);
       transition: all 0.3s var(--transition);
       width: 100%;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .btn-login-discord::after {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
-      transform: rotate(45deg);
-      transition: all 0.5s;
-    }
-
-    .btn-login-discord:hover::after {
-      left: 100%;
+      letter-spacing: 0.5px;
     }
 
     .btn-login-discord:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 18px 40px rgba(59, 130, 246, 0.5);
+      transform: translateY(-4px);
+      box-shadow: 0 20px 45px rgba(255, 51, 51, 0.6);
     }
 
     /* Responsive */
     @media (max-width: 1024px) {
       .sidebar {
         transform: translateX(-100%);
-        width: 280px;
+        width: 300px;
       }
       .sidebar.open {
         transform: translateX(0);
@@ -1046,22 +1065,22 @@
       top: 16px;
       left: 16px;
       z-index: 20;
-      width: 44px;
-      height: 44px;
-      background: var(--bg-card);
-      border: 1px solid var(--glass-border);
+      width: 48px;
+      height: 48px;
+      background: rgba(20, 0, 0, 0.9);
+      border: 1px solid rgba(255, 68, 68, 0.4);
       border-radius: var(--radius-sm);
       cursor: pointer;
       align-items: center;
       justify-content: center;
-      font-size: 1.4rem;
-      color: white;
+      font-size: 1.5rem;
+      color: #ff4444;
       backdrop-filter: blur(20px);
       transition: all 0.3s;
     }
 
     .mobile-menu-btn:hover {
-      box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+      box-shadow: 0 0 25px rgba(255, 0, 0, 0.4);
       transform: scale(1.1);
     }
 
@@ -1069,51 +1088,34 @@
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.6);
+      background: rgba(0,0,0,0.7);
       z-index: 9;
-      backdrop-filter: blur(2px);
+      backdrop-filter: blur(3px);
       transition: all 0.3s;
     }
 
     .sidebar-overlay.show {
       display: block;
     }
-
-    /* Ripple effect */
-    .ripple {
-      position: absolute;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.3);
-      transform: scale(0);
-      animation: rippleEffect 0.6s linear;
-      pointer-events: none;
-    }
-
-    @keyframes rippleEffect {
-      to {
-        transform: scale(4);
-        opacity: 0;
-      }
-    }
   </style>
 </head>
 <body>
 
-  <!-- Aurora Background -->
+  <!-- Fire Background -->
   <div class="aurora-bg">
     <div class="aurora-orb"></div>
     <div class="aurora-orb"></div>
     <div class="aurora-orb"></div>
   </div>
 
-  <!-- Scanning line -->
+  <!-- Fire Scan Line -->
   <div class="scan-line"></div>
 
-  <!-- Particles -->
+  <!-- Fire Particles -->
   <div class="particles" id="particles"></div>
 
   <!-- Mobile Menu -->
-  <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
+  <button class="mobile-menu-btn" id="mobileMenuBtn">🔥</button>
   <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
   <!-- Toast Container -->
@@ -1122,19 +1124,20 @@
   <!-- ============ LOGIN SCREEN ============ -->
   <div class="login-screen" id="loginScreen">
     <div class="login-card-main">
-      <div class="login-icon-main">💎</div>
-      <div class="login-title-main">Crystal Ultra</div>
-      <p style="color:#94a3c0; font-size:0.95rem;">Discord Spammer Premium · Auto Fix 401</p>
+      <div class="login-icon-main">🔥</div>
+      <div class="login-title-main">LuciFer Spam</div>
+      <div class="login-subtitle">Discord Ver1 · Auto Bypass 401</div>
+      <p style="color:#cc9999; font-size:0.9rem;">Spam không giới hạn · Tự động vượt 401</p>
       <button class="btn-login-discord" id="loginBtn">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
-        Đăng nhập với Token Discord
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+        Đăng nhập với Token
       </button>
-      <div style="display:flex; align-items:center; gap:10px; color:#5e6d8c; font-size:0.85rem;">
-        <span style="flex:1; height:1px; background:rgba(94,109,140,0.3);"></span>
+      <div style="display:flex; align-items:center; gap:12px; color:#996666; font-size:0.85rem;">
+        <span style="flex:1; height:1px; background:rgba(255,68,68,0.3);"></span>
         <span>hoặc</span>
-        <span style="flex:1; height:1px; background:rgba(94,109,140,0.3);"></span>
+        <span style="flex:1; height:1px; background:rgba(255,68,68,0.3);"></span>
       </div>
-      <div style="display:flex; gap:8px;">
+      <div style="display:flex; gap:10px;">
         <input type="password" id="directTokenInput" class="input-pill" placeholder="Dán token trực tiếp..." style="flex:1;">
         <button class="btn btn-accent" id="submitTokenBtn">➡️</button>
       </div>
@@ -1146,8 +1149,11 @@
     <!-- Sidebar -->
     <aside class="sidebar" id="sidebar">
       <div class="sidebar-logo">
-        <div class="logo-icon">💎</div>
-        <span class="logo-text">Crystal Ultra</span>
+        <div class="logo-icon">🔥</div>
+        <div>
+          <div class="logo-text">LuciFer Spam</div>
+          <div class="logo-subtitle">Discord Ver1</div>
+        </div>
       </div>
       <nav class="sidebar-nav">
         <div class="nav-item active" data-tab="tab1">
@@ -1161,6 +1167,14 @@
         </div>
       </nav>
       <div class="sidebar-footer">
+        <div class="auto-bypass-container" style="margin-bottom: 12px;">
+          <span class="auto-bypass-label">🛡️ Auto Bypass 401</span>
+          <label class="auto-toggle">
+            <input type="checkbox" id="autoBypassToggle" checked>
+            <span class="auto-toggle-slider"></span>
+          </label>
+          <span class="bypass-badge">ON</span>
+        </div>
         <button class="btn btn-ghost btn-xs" id="logoutBtn" style="width:100%;">🚪 Đăng xuất</button>
       </div>
     </aside>
@@ -1169,11 +1183,11 @@
     <main class="main-content">
       <!-- Topbar -->
       <div class="topbar">
-        <h1 class="page-title glitch-hover">Dashboard</h1>
+        <h1 class="page-title">LuciFer Dashboard</h1>
         <div class="user-badge">
-          <div class="user-avatar" id="avatarDisplay">🔮</div>
+          <div class="user-avatar" id="avatarDisplay">🔥</div>
           <div>
-            <div class="user-name" id="displayName">Người dùng</div>
+            <div class="user-name" id="displayName">LuciFer</div>
             <div class="user-tag" id="displayTag"></div>
           </div>
         </div>
@@ -1182,12 +1196,12 @@
       <!-- Status -->
       <div class="status-indicator" id="globalStatus">
         <span class="status-dot"></span>
-        <span id="globalStatusText">🟢 Token hợp lệ · Sẵn sàng</span>
+        <span id="globalStatusText">🟢 Token hợp lệ · Auto Bypass 401 Active</span>
       </div>
 
       <!-- Tabs -->
       <div class="tabs-nav" id="tabsNav">
-        <button class="tab-btn active" data-tab="tab1">📌 Tab 1</button>
+        <button class="tab-btn active" data-tab="tab1">🔥 Tab 1</button>
         <button class="tab-btn" data-tab="tab2">💬 Tab 2</button>
         <button class="tab-btn" data-tab="tab3">⚡ Tab 3</button>
       </div>
@@ -1198,29 +1212,29 @@
           <div class="card-header">
             <span class="card-title">⚙️ Cấu hình Tab 1</span>
             <div class="mode-selector" id="modeSelector1">
-              <button class="mode-btn active" data-mode="treongon">📝 Trẻo ngôn</button>
-              <button class="mode-btn" data-mode="nhaytag">🏷️ Nhảy tag</button>
+              <button class="mode-btn active" data-mode="treongon">📝 Treo ngôn</button>
+              <button class="mode-btn" data-mode="nhaytag">🏷️ Nhây Tag</button>
               <button class="mode-btn" data-mode="dongvatag">📋 Từng dòng + Tag</button>
             </div>
           </div>
-          <textarea id="msg1" rows="4" placeholder="Mỗi dòng là 1 tin nhắn (chế độ nhảy tag/từng dòng+tag) hoặc full nội dung (chế độ trẻo ngôn)">Dòng 1: Hello anh em ✨
-Dòng 2: Hôm nay thế nào? 🚀
-Dòng 3: Spam vui vẻ nha! 🔥</textarea>
+          <textarea id="msg1" rows="4" placeholder="Mỗi dòng là 1 tin nhắn...">Dòng 1: Hello anh em 🔥
+Dòng 2: LuciFer đã đến! 😈
+Dòng 3: Spam không giới hạn! 🚀</textarea>
           <div class="tag-section">
             <span class="tag-prefix">🏷️ Tag:</span>
             <input type="text" id="tagInput1" class="tag-input" placeholder="VD: <@123456789> hoặc @everyone">
           </div>
           <div class="image-upload-area">
-            <span style="color:#60a5fa; font-weight:600;">🖼️ Ảnh:</span>
+            <span style="color:#ff6666; font-weight:700;">🖼️ Ảnh:</span>
             <div class="image-preview" id="imgPreview1">📷</div>
             <label class="file-input-label" for="fileInput1">📁 Chọn ảnh</label>
             <input type="file" id="fileInput1" accept="image/*">
-            <span style="font-size:0.8rem; color:#5e6d8c;" id="imgName1">Chưa chọn</span>
+            <span style="font-size:0.8rem; color:#996666;" id="imgName1">Chưa chọn</span>
             <button class="btn btn-ghost btn-xs" id="removeImg1">✕ Xóa</button>
           </div>
           <div class="control-row">
-            <input type="text" id="targetId1" class="input-pill" placeholder="Channel ID" style="width:160px;">
-            <input type="number" id="delay1" class="input-pill" placeholder="Delay ms" value="800" min="400" style="width:130px;">
+            <input type="text" id="targetId1" class="input-pill" placeholder="Channel ID" style="width:170px;">
+            <input type="number" id="delay1" class="input-pill" placeholder="Delay ms" value="600" min="100" style="width:140px;">
             <button class="btn btn-primary" id="startSpam1">▶ Chạy</button>
             <button class="btn btn-stop" id="stopSpam1">⏹️ Dừng</button>
           </div>
@@ -1237,28 +1251,29 @@ Dòng 3: Spam vui vẻ nha! 🔥</textarea>
           <div class="card-header">
             <span class="card-title">⚙️ Cấu hình Tab 2</span>
             <div class="mode-selector" id="modeSelector2">
-              <button class="mode-btn active" data-mode="treongon">📝 Trẻo ngôn</button>
-              <button class="mode-btn" data-mode="nhaytag">🏷️ Nhảy tag</button>
+              <button class="mode-btn active" data-mode="treongon">📝 Treo ngôn</button>
+              <button class="mode-btn" data-mode="nhaytag">🏷️ Nhây Tag</button>
               <button class="mode-btn" data-mode="dongvatag">📋 Từng dòng + Tag</button>
             </div>
           </div>
           <textarea id="msg2" rows="4" placeholder="Mỗi dòng là 1 tin nhắn...">Tab 2 - Dòng 1 💬
-Tab 2 - Dòng 2 ⚡</textarea>
+Tab 2 - Dòng 2 ⚡
+LuciFer Spam Ver1 🔥</textarea>
           <div class="tag-section">
             <span class="tag-prefix">🏷️ Tag:</span>
             <input type="text" id="tagInput2" class="tag-input" placeholder="VD: <@123456789>">
           </div>
           <div class="image-upload-area">
-            <span style="color:#60a5fa; font-weight:600;">🖼️ Ảnh:</span>
+            <span style="color:#ff6666; font-weight:700;">🖼️ Ảnh:</span>
             <div class="image-preview" id="imgPreview2">📷</div>
             <label class="file-input-label" for="fileInput2">📁 Chọn ảnh</label>
             <input type="file" id="fileInput2" accept="image/*">
-            <span style="font-size:0.8rem; color:#5e6d8c;" id="imgName2">Chưa chọn</span>
+            <span style="font-size:0.8rem; color:#996666;" id="imgName2">Chưa chọn</span>
             <button class="btn btn-ghost btn-xs" id="removeImg2">✕ Xóa</button>
           </div>
           <div class="control-row">
-            <input type="text" id="targetId2" class="input-pill" placeholder="Channel ID" style="width:160px;">
-            <input type="number" id="delay2" class="input-pill" placeholder="Delay ms" value="800" min="400" style="width:130px;">
+            <input type="text" id="targetId2" class="input-pill" placeholder="Channel ID" style="width:170px;">
+            <input type="number" id="delay2" class="input-pill" placeholder="Delay ms" value="600" min="100" style="width:140px;">
             <button class="btn btn-primary" id="startSpam2">▶ Chạy</button>
             <button class="btn btn-stop" id="stopSpam2">⏹️ Dừng</button>
           </div>
@@ -1275,28 +1290,29 @@ Tab 2 - Dòng 2 ⚡</textarea>
           <div class="card-header">
             <span class="card-title">⚙️ Cấu hình Tab 3</span>
             <div class="mode-selector" id="modeSelector3">
-              <button class="mode-btn active" data-mode="treongon">📝 Trẻo ngôn</button>
-              <button class="mode-btn" data-mode="nhaytag">🏷️ Nhảy tag</button>
+              <button class="mode-btn active" data-mode="treongon">📝 Treo ngôn</button>
+              <button class="mode-btn" data-mode="nhaytag">🏷️ Nhây Tag</button>
               <button class="mode-btn" data-mode="dongvatag">📋 Từng dòng + Tag</button>
             </div>
           </div>
           <textarea id="msg3" rows="4" placeholder="Mỗi dòng là 1 tin nhắn...">Tab 3 - Siêu tốc 🔥
-Spam không ngừng! 🚀</textarea>
+LuciFer không giới hạn! 😈
+Spam xuyên màn đêm! 🚀</textarea>
           <div class="tag-section">
             <span class="tag-prefix">🏷️ Tag:</span>
             <input type="text" id="tagInput3" class="tag-input" placeholder="VD: <@123456789>">
           </div>
           <div class="image-upload-area">
-            <span style="color:#60a5fa; font-weight:600;">🖼️ Ảnh:</span>
+            <span style="color:#ff6666; font-weight:700;">🖼️ Ảnh:</span>
             <div class="image-preview" id="imgPreview3">📷</div>
             <label class="file-input-label" for="fileInput3">📁 Chọn ảnh</label>
             <input type="file" id="fileInput3" accept="image/*">
-            <span style="font-size:0.8rem; color:#5e6d8c;" id="imgName3">Chưa chọn</span>
+            <span style="font-size:0.8rem; color:#996666;" id="imgName3">Chưa chọn</span>
             <button class="btn btn-ghost btn-xs" id="removeImg3">✕ Xóa</button>
           </div>
           <div class="control-row">
-            <input type="text" id="targetId3" class="input-pill" placeholder="Channel ID" style="width:160px;">
-            <input type="number" id="delay3" class="input-pill" placeholder="Delay ms" value="600" min="400" style="width:130px;">
+            <input type="text" id="targetId3" class="input-pill" placeholder="Channel ID" style="width:170px;">
+            <input type="number" id="delay3" class="input-pill" placeholder="Delay ms" value="400" min="100" style="width:140px;">
             <button class="btn btn-primary" id="startSpam3">▶ Chạy</button>
             <button class="btn btn-stop" id="stopSpam3">⏹️ Dừng</button>
           </div>
@@ -1314,56 +1330,37 @@ Spam không ngừng! 🚀</textarea>
   (function() {
     // ============ PARTICLES ============
     const particlesContainer = document.getElementById('particles');
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < 60; i++) {
       const particle = document.createElement('div');
       particle.className = 'particle';
       particle.style.left = Math.random() * 100 + '%';
       particle.style.top = Math.random() * 100 + '%';
-      particle.style.animationDelay = Math.random() * 8 + 's';
-      particle.style.animationDuration = (6 + Math.random() * 10) + 's';
+      particle.style.animationDelay = Math.random() * 6 + 's';
+      particle.style.animationDuration = (4 + Math.random() * 8) + 's';
       particlesContainer.appendChild(particle);
     }
-
-    // ============ RIPPLE EFFECT ============
-    function createRipple(e, element) {
-      const ripple = document.createElement('span');
-      ripple.className = 'ripple';
-      const rect = element.getBoundingClientRect();
-      const size = Math.max(rect.width, rect.height);
-      ripple.style.width = ripple.style.height = size + 'px';
-      ripple.style.left = (e.clientX - rect.left - size / 2) + 'px';
-      ripple.style.top = (e.clientY - rect.top - size / 2) + 'px';
-      element.appendChild(ripple);
-      ripple.addEventListener('animationend', () => ripple.remove());
-    }
-
-    // Add ripple to buttons
-    document.querySelectorAll('.btn, .btn-login-discord, .mode-btn, .tab-btn, .nav-item').forEach(btn => {
-      btn.addEventListener('click', function(e) {
-        createRipple(e, this);
-      });
-    });
 
     // ============ TOAST ============
     function showToast(msg, type = 'info') {
       const container = document.getElementById('toastContainer');
       const toast = document.createElement('div');
       toast.className = `toast ${type}`;
-      toast.innerHTML = `<span>${type === 'success' ? '✅' : type === 'error' ? '❌' : 'ℹ️'}</span> ${msg}`;
+      toast.innerHTML = `<span>${type === 'success' ? '✅' : type === 'error' ? '❌' : '🔥'}</span> ${msg}`;
       container.appendChild(toast);
       setTimeout(() => {
         toast.style.opacity = '0';
-        toast.style.transform = 'translateX(120%)';
+        toast.style.transform = 'translateX(150%)';
         toast.style.transition = 'all 0.3s ease';
         setTimeout(() => toast.remove(), 300);
-      }, 3000);
+      }, 3500);
     }
 
     // ============ STORAGE ============
-    const TOKEN_KEY = 'crystal_ultra_token';
-    const USER_KEY = 'crystal_ultra_user';
+    const TOKEN_KEY = 'lucifer_spam_token';
+    const USER_KEY = 'lucifer_spam_user';
     let userToken = null;
     let userData = null;
+    let autoBypassEnabled = true;
 
     // ============ UI ELEMENTS ============
     const loginScreen = document.getElementById('loginScreen');
@@ -1372,6 +1369,24 @@ Spam không ngừng! 🚀</textarea>
     const displayNameEl = document.getElementById('displayName');
     const displayTagEl = document.getElementById('displayTag');
     const globalStatusText = document.getElementById('globalStatusText');
+    const autoBypassToggle = document.getElementById('autoBypassToggle');
+
+    // ============ AUTO BYPASS TOGGLE ============
+    autoBypassToggle.addEventListener('change', function() {
+      autoBypassEnabled = this.checked;
+      const badge = document.querySelector('.bypass-badge');
+      if (autoBypassEnabled) {
+        badge.textContent = 'ON';
+        badge.style.background = 'linear-gradient(135deg, #ff0000, #ff6600)';
+        globalStatusText.textContent = '🟢 Token hợp lệ · Auto Bypass 401 Active';
+        showToast('🛡️ Auto Bypass 401 đã BẬT - Sẽ tự động vượt lỗi 401!', 'success');
+      } else {
+        badge.textContent = 'OFF';
+        badge.style.background = 'linear-gradient(135deg, #666, #333)';
+        globalStatusText.textContent = '⚠️ Token hợp lệ · Auto Bypass 401 Disabled';
+        showToast('⚠️ Auto Bypass 401 đã TẮT - Sẽ dừng khi gặp lỗi 401!', 'error');
+      }
+    });
 
     // ============ AUTH ============
     function cleanToken(t) { return t.replace(/^"|"$/g, '').trim(); }
@@ -1392,15 +1407,24 @@ Spam không ngừng! 🚀</textarea>
       if (!userToken) return;
       const v = await validateToken(userToken);
       if (v.valid) {
-        globalStatusText.textContent = '🟢 Token hợp lệ · Sẵn sàng';
-        document.getElementById('globalStatus').style.borderColor = 'rgba(16,185,129,0.25)';
+        if (autoBypassEnabled) {
+          globalStatusText.textContent = '🟢 Token hợp lệ · Auto Bypass 401 Active';
+        } else {
+          globalStatusText.textContent = '🟢 Token hợp lệ · Auto Bypass 401 Disabled';
+        }
+        document.getElementById('globalStatus').style.borderColor = 'rgba(16,185,129,0.3)';
         document.getElementById('globalStatus').style.background = 'rgba(16,185,129,0.1)';
       } else if (v.status === 401) {
-        globalStatusText.textContent = '🔴 Token hết hạn (401) · Vui lòng đăng nhập lại';
-        document.getElementById('globalStatus').style.borderColor = 'rgba(239,68,68,0.25)';
-        document.getElementById('globalStatus').style.background = 'rgba(239,68,68,0.1)';
-        showToast('⚠️ Token bị 401! Đang thử re-validate...', 'error');
-        setTimeout(refreshTokenValidation, 5000);
+        if (autoBypassEnabled) {
+          globalStatusText.textContent = '🔄 Đang Auto Bypass 401...';
+          document.getElementById('globalStatus').style.borderColor = 'rgba(255,102,0,0.3)';
+          document.getElementById('globalStatus').style.background = 'rgba(255,102,0,0.1)';
+          showToast('🛡️ Phát hiện 401! Auto Bypass đang xử lý...', 'error');
+        } else {
+          globalStatusText.textContent = '🔴 Token hết hạn (401) · Vui lòng đăng nhập lại';
+          document.getElementById('globalStatus').style.borderColor = 'rgba(255,0,0,0.3)';
+          document.getElementById('globalStatus').style.background = 'rgba(255,0,0,0.1)';
+        }
       }
     }
 
@@ -1412,7 +1436,7 @@ Spam không ngừng! 🚀</textarea>
       updateProfileUI(user);
       showApp(true);
       showToast('✅ Đăng nhập thành công: ' + (user.global_name || user.username), 'success');
-      setInterval(refreshTokenValidation, 60000);
+      setInterval(refreshTokenValidation, 30000);
     }
 
     function clearAuth() {
@@ -1421,8 +1445,8 @@ Spam không ngừng! 🚀</textarea>
       localStorage.removeItem(TOKEN_KEY);
       localStorage.removeItem(USER_KEY);
       avatarEl.style.backgroundImage = '';
-      avatarEl.textContent = '🔮';
-      displayNameEl.textContent = 'Người dùng';
+      avatarEl.textContent = '🔥';
+      displayNameEl.textContent = 'LuciFer';
       displayTagEl.textContent = '';
       showApp(false);
       Object.keys(spamState).forEach(t => stop(t));
@@ -1436,7 +1460,7 @@ Spam không ngừng! 🚀</textarea>
     function updateProfileUI(user) {
       const hash = user.avatar;
       const uid = user.id;
-      const name = user.global_name || user.username || 'User';
+      const name = user.global_name || user.username || 'LuciFer';
       const disc = user.discriminator === '0' ? '' : '#' + user.discriminator;
       displayNameEl.textContent = name;
       displayTagEl.textContent = disc || '@' + user.username;
@@ -1473,19 +1497,19 @@ Spam không ngừng! 🚀</textarea>
     });
 
     async function handleToken(token) {
-      showToast('🔄 Đang xác thực token...', 'info');
+      showToast('🔥 Đang xác thực token...', 'info');
       const v = await validateToken(token);
       if (v.valid) {
         saveAuth(token, v.user);
       } else if (v.status === 401) {
-        showToast('❌ Token không hợp lệ (401)! Kiểm tra lại token hoặc lấy token mới.', 'error');
+        showToast('❌ Token không hợp lệ (401)! Kiểm tra lại token.', 'error');
       } else {
         showToast('❌ Lỗi kết nối hoặc token không hợp lệ!', 'error');
       }
     }
 
     document.getElementById('logoutBtn').addEventListener('click', () => {
-      if (confirm('Đăng xuất?')) clearAuth();
+      if (confirm('Đăng xuất khỏi LuciFer Spam?')) clearAuth();
     });
 
     // ============ MOBILE MENU ============
@@ -1559,17 +1583,16 @@ Spam không ngừng! 🚀</textarea>
         document.getElementById(`fileInput${i}`).value = '';
       });
       
-      // Click on preview to upload
       document.getElementById(`imgPreview${i}`).addEventListener('click', () => {
         document.getElementById(`fileInput${i}`).click();
       });
     }
 
-    // ============ SPAM ENGINE + AUTO FIX 401 ============
+    // ============ SPAM ENGINE + AUTO BYPASS 401 ============
     const spamState = {
-      tab1: { interval: null, count: 0, retry: 0, lineIndex: 0, consecutiveErrors: 0 },
-      tab2: { interval: null, count: 0, retry: 0, lineIndex: 0, consecutiveErrors: 0 },
-      tab3: { interval: null, count: 0, retry: 0, lineIndex: 0, consecutiveErrors: 0 }
+      tab1: { interval: null, count: 0, retry: 0, lineIndex: 0, consecutiveErrors: 0, bypassAttempts: 0 },
+      tab2: { interval: null, count: 0, retry: 0, lineIndex: 0, consecutiveErrors: 0, bypassAttempts: 0 },
+      tab3: { interval: null, count: 0, retry: 0, lineIndex: 0, consecutiveErrors: 0, bypassAttempts: 0 }
     };
 
     async function uploadImageToDiscord(channelId, token, file) {
@@ -1583,7 +1606,7 @@ Spam không ngừng! 🚀</textarea>
       if (r.status === 401) throw { type: 'auth_error', message: 'Token hết hạn (401)' };
       if (r.status === 429) {
         const d = await r.json();
-        throw { type: 'rateLimit', retryAfter: (d.retry_after || 1.5) * 1000 };
+        throw { type: 'rateLimit', retryAfter: (d.retry_after || 1) * 1000 };
       }
       if (!r.ok) throw new Error((await r.json().catch(() => ({}))).message || `HTTP ${r.status}`);
       return r.json();
@@ -1598,7 +1621,7 @@ Spam không ngừng! 🚀</textarea>
       if (r.status === 401) throw { type: 'auth_error', message: 'Token hết hạn (401)' };
       if (r.status === 429) {
         const d = await r.json();
-        throw { type: 'rateLimit', retryAfter: (d.retry_after || 1.5) * 1000 };
+        throw { type: 'rateLimit', retryAfter: (d.retry_after || 1) * 1000 };
       }
       if (!r.ok) throw new Error((await r.json().catch(() => ({}))).message || `HTTP ${r.status}`);
       return r.json();
@@ -1607,12 +1630,7 @@ Spam không ngừng! 🚀</textarea>
     function updateUI(tab, status, count, rl = '') {
       const n = tab.replace('tab', '');
       document.getElementById(`status${n}`).textContent = status;
-      const counterEl = document.getElementById(`counter${n}`);
-      counterEl.textContent = count;
-      // Animate counter
-      counterEl.style.animation = 'none';
-      counterEl.offsetHeight; // Trigger reflow
-      counterEl.style.animation = 'counterPulse 0.5s ease-in-out';
+      document.getElementById(`counter${n}`).textContent = count;
       document.getElementById(`rateLimit${n}`).textContent = rl;
     }
 
@@ -1620,6 +1638,52 @@ Spam không ngừng! 🚀</textarea>
       if (spamState[tab].interval) clearInterval(spamState[tab].interval);
       spamState[tab].interval = null;
       spamState[tab].consecutiveErrors = 0;
+      spamState[tab].bypassAttempts = 0;
+    }
+
+    async function handleAutoBypass(tab) {
+      const s = spamState[tab];
+      const n = tab.replace('tab', '');
+      
+      if (!autoBypassEnabled) {
+        stop(tab);
+        updateUI(tab, '❌ Token 401 - Đã dừng (Tắt Auto Bypass)', s.count);
+        showToast('❌ Token 401! Bật Auto Bypass để tự động vượt.', 'error');
+        globalStatusText.textContent = '🔴 Token hết hạn - Cần đăng nhập lại';
+        return false;
+      }
+
+      s.bypassAttempts++;
+      updateUI(tab, `🔄 Auto Bypass lần ${s.bypassAttempts}...`, s.count);
+      showToast(`🛡️ Auto Bypass 401 lần ${s.bypassAttempts}...`, 'error');
+
+      const v = await validateToken(userToken);
+      
+      if (v.valid) {
+        s.consecutiveErrors = 0;
+        s.bypassAttempts = 0;
+        updateUI(tab, '🟢 Bypass thành công! Tiếp tục spam...', s.count);
+        showToast('✅ Auto Bypass thành công! Token vẫn hoạt động.', 'success');
+        globalStatusText.textContent = '🟢 Token hợp lệ · Auto Bypass 401 Active';
+        document.getElementById('globalStatus').style.borderColor = 'rgba(16,185,129,0.3)';
+        document.getElementById('globalStatus').style.background = 'rgba(16,185,129,0.1)';
+        return true;
+      } else {
+        if (s.bypassAttempts >= 3) {
+          stop(tab);
+          updateUI(tab, '💀 Token đã chết - Không thể bypass', s.count);
+          showToast('💀 Token đã hết hạn hoàn toàn! Vui lòng đăng nhập lại.', 'error');
+          globalStatusText.textContent = '💀 Token đã chết - Cần token mới';
+          document.getElementById('globalStatus').style.borderColor = 'rgba(255,0,0,0.5)';
+          document.getElementById('globalStatus').style.background = 'rgba(255,0,0,0.2)';
+          return false;
+        }
+        
+        const delay = Math.min(s.bypassAttempts * 2000, 10000);
+        updateUI(tab, `⏳ Bypass lần ${s.bypassAttempts} - Chờ ${delay/1000}s...`, s.count);
+        await new Promise(resolve => setTimeout(resolve, delay));
+        return handleAutoBypass(tab);
+      }
     }
 
     async function cycle(tab) {
@@ -1643,17 +1707,14 @@ Spam không ngừng! 🚀</textarea>
         let messageContent = '';
         
         if (mode === 'treongon') {
-          // Gửi toàn bộ nội dung textarea
           messageContent = tag ? tag + ' ' + rawText : rawText;
         } else if (mode === 'nhaytag') {
-          // Gửi từng dòng, tag đứng trước mỗi dòng
           const lines = rawText.split('\n').filter(l => l.trim());
           if (lines.length === 0) { stop(tab); updateUI(tab, '❌ Không có dòng nào', s.count); return; }
           const selectedLine = lines[s.lineIndex % lines.length];
           messageContent = tag ? tag + ' ' + selectedLine : selectedLine;
           s.lineIndex++;
         } else if (mode === 'dongvatag') {
-          // Gửi từng dòng + tag ở cuối
           const lines = rawText.split('\n').filter(l => l.trim());
           if (lines.length === 0) { stop(tab); updateUI(tab, '❌ Không có dòng nào', s.count); return; }
           const selectedLine = lines[s.lineIndex % lines.length];
@@ -1666,38 +1727,30 @@ Spam không ngừng! 🚀</textarea>
 
         s.count++;
         s.consecutiveErrors = 0;
+        s.bypassAttempts = 0;
         
         let modeLabel = '';
         switch(mode) {
-          case 'treongon': modeLabel = 'Trẻo ngôn'; break;
-          case 'nhaytag': modeLabel = 'Nhảy tag'; break;
+          case 'treongon': modeLabel = 'Treo ngôn'; break;
+          case 'nhaytag': modeLabel = 'Nhây Tag'; break;
           case 'dongvatag': modeLabel = 'Từng dòng + Tag'; break;
         }
         
-        updateUI(tab, `✅ [${modeLabel}] Đã gửi (${new Date().toLocaleTimeString()})`, s.count);
+        updateUI(tab, `🔥 [${modeLabel}] Đã gửi #${s.count}`, s.count);
 
       } catch (e) {
         if (e.type === 'auth_error') {
-          s.consecutiveErrors++;
-          updateUI(tab, '🔴 Token 401 - Đang thử re-validate...', s.count);
-          showToast('⚠️ Phát hiện lỗi 401! Đang kiểm tra lại token...', 'error');
-          const v = await validateToken(userToken);
-          if (!v.valid) {
-            stop(tab);
-            updateUI(tab, '❌ Token đã hết hạn - Vui lòng đăng nhập lại', s.count);
-            showToast('❌ Token không thể phục hồi! Vui lòng đăng nhập lại.', 'error');
-            globalStatusText.textContent = '🔴 Token hết hạn - Cần đăng nhập lại';
-          } else {
-            updateUI(tab, '🟢 Token đã được re-validate', s.count);
-            showToast('✅ Token vẫn hợp lệ, tiếp tục spam...', 'success');
+          const bypassSuccess = await handleAutoBypass(tab);
+          if (!bypassSuccess) {
+            return;
           }
         } else if (e.type === 'rateLimit') {
-          s.retry = Date.now() + e.retryAfter + 200;
+          s.retry = Date.now() + e.retryAfter + 100;
           updateUI(tab, `⛔ Rate limit`, s.count, `⛔ ${Math.round(e.retryAfter / 1000)}s`);
         } else {
           s.consecutiveErrors++;
           updateUI(tab, `❌ ${e.message}`, s.count);
-          if (s.consecutiveErrors >= 5) {
+          if (s.consecutiveErrors >= 10) {
             stop(tab);
             showToast(`⚠️ Tab ${n} dừng do quá nhiều lỗi!`, 'error');
           }
@@ -1711,31 +1764,32 @@ Spam không ngừng! 🚀</textarea>
       const ch = document.getElementById(`targetId${n}`).value.trim();
       if (!ch) { showToast('❌ Nhập Channel ID!', 'error'); return; }
       stop(tab);
-      const d = Math.max(400, parseInt(document.getElementById(`delay${n}`).value) || 800);
+      const d = Math.max(100, parseInt(document.getElementById(`delay${n}`).value) || 600);
       document.getElementById(`delay${n}`).value = d;
       spamState[tab].retry = 0;
       spamState[tab].lineIndex = 0;
       spamState[tab].consecutiveErrors = 0;
+      spamState[tab].bypassAttempts = 0;
       
       let modeLabel = '';
       switch(getMode(n)) {
-        case 'treongon': modeLabel = 'Trẻo ngôn'; break;
-        case 'nhaytag': modeLabel = 'Nhảy tag'; break;
+        case 'treongon': modeLabel = 'Treo ngôn'; break;
+        case 'nhaytag': modeLabel = 'Nhây Tag'; break;
         case 'dongvatag': modeLabel = 'Từng dòng + Tag'; break;
       }
       
-      updateUI(tab, `🟢 [${modeLabel}] Đang spam (delay ${d}ms)`, spamState[tab].count);
+      updateUI(tab, `🔥 [${modeLabel}] Đang spam (${d}ms) | Auto Bypass: ${autoBypassEnabled ? 'ON' : 'OFF'}`, spamState[tab].count);
       cycle(tab);
       spamState[tab].interval = setInterval(() => cycle(tab), d);
-      showToast(`🚀 Tab ${n} bắt đầu! (${modeLabel})`, 'success');
+      showToast(`🚀 LuciFer Tab ${n} khởi động! (${modeLabel}) | Bypass: ${autoBypassEnabled ? '✅' : '❌'}`, 'success');
     }
 
     document.getElementById('startSpam1').onclick = () => start('tab1');
-    document.getElementById('stopSpam1').onclick = () => { stop('tab1'); updateUI('tab1', '⏹️ Dừng', spamState.tab1.count); };
+    document.getElementById('stopSpam1').onclick = () => { stop('tab1'); updateUI('tab1', '⏹️ Đã dừng', spamState.tab1.count); };
     document.getElementById('startSpam2').onclick = () => start('tab2');
-    document.getElementById('stopSpam2').onclick = () => { stop('tab2'); updateUI('tab2', '⏹️ Dừng', spamState.tab2.count); };
+    document.getElementById('stopSpam2').onclick = () => { stop('tab2'); updateUI('tab2', '⏹️ Đã dừng', spamState.tab2.count); };
     document.getElementById('startSpam3').onclick = () => start('tab3');
-    document.getElementById('stopSpam3').onclick = () => { stop('tab3'); updateUI('tab3', '⏹️ Dừng', spamState.tab3.count); };
+    document.getElementById('stopSpam3').onclick = () => { stop('tab3'); updateUI('tab3', '⏹️ Đã dừng', spamState.tab3.count); };
 
     window.addEventListener('beforeunload', () => { Object.keys(spamState).forEach(t => stop(t)); });
 
