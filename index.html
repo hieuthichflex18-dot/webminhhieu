@@ -633,7 +633,6 @@
       box-shadow: 0 0 16px rgba(59, 130, 246, 0.15);
     }
 
-    /* Tag và Treo buttons */
     .tag-options {
       display: flex;
       gap: 6px;
@@ -902,12 +901,8 @@
         <div class="card">
           <div class="card-header">
             <span class="card-title">⚙️ Cấu hình Tab 1</span>
-            <div class="mode-selector" id="modeSelector1">
-              <button class="mode-btn" data-mode="treongon">📝 Trẻo ngôn</button>
-              <button class="mode-btn active" data-mode="nhaytag">🏷️ Nhảy tag</button>
-            </div>
           </div>
-          <textarea id="msg1" rows="3" placeholder="Mỗi dòng là 1 tin nhắn (chế độ nhảy tag)">Dòng 1: Hello anh em ✨
+          <textarea id="msg1" rows="3" placeholder="Nội dung tin nhắn...">Dòng 1: Hello anh em ✨
 Dòng 2: Hôm nay thế nào? 🚀
 Dòng 3: Spam vui vẻ nha! 🔥</textarea>
           
@@ -929,8 +924,8 @@ Dòng 3: Spam vui vẻ nha! 🔥</textarea>
           <div class="tag-section">
             <span class="tag-prefix">📌 Chế độ tác vụ:</span>
             <div class="tag-options" id="treoOptions1">
-              <button class="tag-option-btn active" data-treo="treongon">Treo Ngọn (Lập Đoạn Văn)</button>
-              <button class="tag-option-btn" data-treo="nhaytag">Nhảy Tag (Lập Từng Dòng)</button>
+              <button class="tag-option-btn active" data-treo="treongon">Treo Ngôn (Lập Đoạn Văn)</button>
+              <button class="tag-option-btn" data-treo="nhaytag">NhayTag (Lập Từng Dòng)</button>
             </div>
           </div>
 
@@ -961,12 +956,8 @@ Dòng 3: Spam vui vẻ nha! 🔥</textarea>
         <div class="card">
           <div class="card-header">
             <span class="card-title">⚙️ Cấu hình Tab 2</span>
-            <div class="mode-selector" id="modeSelector2">
-              <button class="mode-btn" data-mode="treongon">📝 Trẻo ngôn</button>
-              <button class="mode-btn active" data-mode="nhaytag">🏷️ Nhảy tag</button>
-            </div>
           </div>
-          <textarea id="msg2" rows="3" placeholder="Mỗi dòng là 1 tin nhắn (chế độ nhảy tag)">Tab 2 - Dòng 1 💬
+          <textarea id="msg2" rows="3" placeholder="Nội dung tin nhắn...">Tab 2 - Dòng 1 💬
 Tab 2 - Dòng 2 ⚡
 Tab 2 - Dòng 3 🎯</textarea>
           
@@ -986,8 +977,8 @@ Tab 2 - Dòng 3 🎯</textarea>
           <div class="tag-section">
             <span class="tag-prefix">📌 Chế độ tác vụ:</span>
             <div class="tag-options" id="treoOptions2">
-              <button class="tag-option-btn active" data-treo="treongon">Treo Ngọn (Lập Đoạn Văn)</button>
-              <button class="tag-option-btn" data-treo="nhaytag">Nhảy Tag (Lập Từng Dòng)</button>
+              <button class="tag-option-btn active" data-treo="treongon">Treo Ngôn (Lập Đoạn Văn)</button>
+              <button class="tag-option-btn" data-treo="nhaytag">NhayTag (Lập Từng Dòng)</button>
             </div>
           </div>
 
@@ -1018,12 +1009,8 @@ Tab 2 - Dòng 3 🎯</textarea>
         <div class="card">
           <div class="card-header">
             <span class="card-title">⚙️ Cấu hình Tab 3</span>
-            <div class="mode-selector" id="modeSelector3">
-              <button class="mode-btn" data-mode="treongon">📝 Trẻo ngôn</button>
-              <button class="mode-btn active" data-mode="nhaytag">🏷️ Nhảy tag</button>
-            </div>
           </div>
-          <textarea id="msg3" rows="3" placeholder="Mỗi dòng là 1 tin nhắn (chế độ nhảy tag)">Tab 3 - Siêu tốc 🔥
+          <textarea id="msg3" rows="3" placeholder="Nội dung tin nhắn...">Tab 3 - Siêu tốc 🔥
 Spam không ngừng! 🚀
 Dòng cuối cùng 🎯</textarea>
           
@@ -1043,8 +1030,8 @@ Dòng cuối cùng 🎯</textarea>
           <div class="tag-section">
             <span class="tag-prefix">📌 Chế độ tác vụ:</span>
             <div class="tag-options" id="treoOptions3">
-              <button class="tag-option-btn active" data-treo="treongon">Treo Ngọn (Lập Đoạn Văn)</button>
-              <button class="tag-option-btn" data-treo="nhaytag">Nhảy Tag (Lập Từng Dòng)</button>
+              <button class="tag-option-btn active" data-treo="treongon">Treo Ngôn (Lập Đoạn Văn)</button>
+              <button class="tag-option-btn" data-treo="nhaytag">NhayTag (Lập Từng Dòng)</button>
             </div>
           </div>
 
@@ -1242,39 +1229,23 @@ Dòng cuối cùng 🎯</textarea>
         btn.addEventListener('click', () => switchTab(btn.dataset.tab));
       });
 
-      // ============ MODE SELECTORS ============
-      for (let i = 1; i <= 3; i++) {
-        const selector = document.getElementById(`modeSelector${i}`);
-        selector.addEventListener('click', (e) => {
-          if (e.target.classList.contains('mode-btn')) {
-            selector.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
-            e.target.classList.add('active');
-          }
-        });
-      }
-
-      function getMode(tabNum) {
-        const selector = document.getElementById(`modeSelector${tabNum}`);
-        const active = selector.querySelector('.mode-btn.active');
-        return active ? active.dataset.mode : 'treongon';
-      }
-
       // ============ TAG OPTIONS ============
       for (let i = 1; i <= 3; i++) {
         const tagOptions = document.getElementById(`tagOptions${i}`);
-        tagOptions.addEventListener('click', (e) => {
-          if (e.target.classList.contains('tag-option-btn')) {
-            tagOptions.querySelectorAll('.tag-option-btn').forEach(b => b.classList.remove('active'));
-            e.target.classList.add('active');
-            // Show/hide custom tag input
-            const customContainer = document.getElementById(`customTagContainer${i}`);
-            if (e.target.dataset.tag === 'custom') {
-              customContainer.style.display = 'block';
-            } else {
-              customContainer.style.display = 'none';
+        if (tagOptions) {
+          tagOptions.addEventListener('click', (e) => {
+            if (e.target.classList.contains('tag-option-btn')) {
+              tagOptions.querySelectorAll('.tag-option-btn').forEach(b => b.classList.remove('active'));
+              e.target.classList.add('active');
+              const customContainer = document.getElementById(`customTagContainer${i}`);
+              if (e.target.dataset.tag === 'custom') {
+                customContainer.style.display = 'block';
+              } else {
+                customContainer.style.display = 'none';
+              }
             }
-          }
-        });
+          });
+        }
       }
 
       function getTag(tabNum) {
@@ -1295,12 +1266,14 @@ Dòng cuối cùng 🎯</textarea>
       // ============ TREO OPTIONS ============
       for (let i = 1; i <= 3; i++) {
         const treoOptions = document.getElementById(`treoOptions${i}`);
-        treoOptions.addEventListener('click', (e) => {
-          if (e.target.classList.contains('tag-option-btn')) {
-            treoOptions.querySelectorAll('.tag-option-btn').forEach(b => b.classList.remove('active'));
-            e.target.classList.add('active');
-          }
-        });
+        if (treoOptions) {
+          treoOptions.addEventListener('click', (e) => {
+            if (e.target.classList.contains('tag-option-btn')) {
+              treoOptions.querySelectorAll('.tag-option-btn').forEach(b => b.classList.remove('active'));
+              e.target.classList.add('active');
+            }
+          });
+        }
       }
 
       function getTreoMode(tabNum) {
@@ -1313,26 +1286,32 @@ Dòng cuối cùng 🎯</textarea>
       const imageData = {};
       for (let i = 1; i <= 3; i++) {
         imageData[i] = { file: null, dataUrl: null };
-        document.getElementById(`fileInput${i}`).addEventListener('change', function(e) {
-          const file = e.target.files[0];
-          if (!file) return;
-          const reader = new FileReader();
-          reader.onload = function(ev) {
-            imageData[i].dataUrl = ev.target.result;
-            imageData[i].file = file;
-            document.getElementById(`imgPreview${i}`).style.backgroundImage = `url(${ev.target.result})`;
-            document.getElementById(`imgPreview${i}`).textContent = '';
-            document.getElementById(`imgName${i}`).textContent = file.name;
-          };
-          reader.readAsDataURL(file);
-        });
-        document.getElementById(`removeImg${i}`).addEventListener('click', () => {
-          imageData[i] = { file: null, dataUrl: null };
-          document.getElementById(`imgPreview${i}`).style.backgroundImage = '';
-          document.getElementById(`imgPreview${i}`).textContent = '📷';
-          document.getElementById(`imgName${i}`).textContent = 'Chưa chọn';
-          document.getElementById(`fileInput${i}`).value = '';
-        });
+        const fileInput = document.getElementById(`fileInput${i}`);
+        if (fileInput) {
+          fileInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(ev) {
+              imageData[i].dataUrl = ev.target.result;
+              imageData[i].file = file;
+              document.getElementById(`imgPreview${i}`).style.backgroundImage = `url(${ev.target.result})`;
+              document.getElementById(`imgPreview${i}`).textContent = '';
+              document.getElementById(`imgName${i}`).textContent = file.name;
+            };
+            reader.readAsDataURL(file);
+          });
+        }
+        const removeBtn = document.getElementById(`removeImg${i}`);
+        if (removeBtn) {
+          removeBtn.addEventListener('click', () => {
+            imageData[i] = { file: null, dataUrl: null };
+            document.getElementById(`imgPreview${i}`).style.backgroundImage = '';
+            document.getElementById(`imgPreview${i}`).textContent = '📷';
+            document.getElementById(`imgName${i}`).textContent = 'Chưa chọn';
+            document.getElementById(`fileInput${i}`).value = '';
+          });
+        }
       }
 
       // ============ SPAM ENGINE ============
@@ -1464,7 +1443,7 @@ Dòng cuối cùng 🎯</textarea>
 
           s.count++;
           s.consecutiveErrors = 0;
-          const modeLabel = mode === 'treongon' ? 'Trẻo ngôn' : 'Nhảy tag';
+          const modeLabel = mode === 'treongon' ? 'Treo Ngôn' : 'NhayTag';
           updateUI(tab, `✅ [${modeLabel}] Đã gửi`, s.count);
 
         } catch (e) {
@@ -1511,7 +1490,7 @@ Dòng cuối cùng 🎯</textarea>
         spamState[tab].retry = 0;
         spamState[tab].lineIndex = 0;
         spamState[tab].consecutiveErrors = 0;
-        const modeLabel = getTreoMode(n) === 'treongon' ? 'Trẻo ngôn' : 'Nhảy tag';
+        const modeLabel = getTreoMode(n) === 'treongon' ? 'Treo Ngôn' : 'NhayTag';
         updateUI(tab, `🟢 [${modeLabel}] Đang spam`, spamState[tab].count);
         cycle(tab);
         spamState[tab].interval = setInterval(() => cycle(tab), d);
