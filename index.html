@@ -510,6 +510,7 @@
     }
 
     .btn-xs { padding: 0.35rem 0.9rem; font-size: 0.75rem; }
+    .btn-sm { padding: 0.4rem 1rem; font-size: 0.8rem; }
 
     .mode-selector {
       display: flex;
@@ -630,6 +631,37 @@
     .tag-input:focus {
       border-color: var(--electric-blue);
       box-shadow: 0 0 16px rgba(59, 130, 246, 0.15);
+    }
+
+    /* Tag và Treo buttons */
+    .tag-options {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .tag-option-btn {
+      background: rgba(5, 11, 26, 0.6);
+      border: 1px solid rgba(56, 135, 255, 0.2);
+      color: var(--text-secondary);
+      padding: 0.3rem 0.9rem;
+      border-radius: var(--radius-pill);
+      cursor: pointer;
+      font-size: 0.75rem;
+      font-weight: 600;
+      transition: all 0.25s var(--transition);
+    }
+
+    .tag-option-btn:hover {
+      border-color: var(--neon);
+      color: var(--text-primary);
+    }
+
+    .tag-option-btn.active {
+      background: linear-gradient(135deg, var(--royal-blue), var(--electric-blue));
+      border-color: var(--electric-blue);
+      color: white;
+      box-shadow: 0 4px 14px rgba(59, 130, 246, 0.3);
     }
 
     .toast-container {
@@ -773,6 +805,8 @@
       .stat-label { font-size: 0.65rem; }
       .tabs-nav { flex-wrap: wrap; width: 100%; border-radius: var(--radius-md); }
       .tab-btn { flex: 1; justify-content: center; padding: 0.4rem 0.8rem; font-size: 0.75rem; }
+      .tag-options { width: 100%; }
+      .tag-option-btn { flex: 1; text-align: center; }
     }
   </style>
 </head>
@@ -876,10 +910,30 @@
           <textarea id="msg1" rows="3" placeholder="Mỗi dòng là 1 tin nhắn (chế độ nhảy tag)">Dòng 1: Hello anh em ✨
 Dòng 2: Hôm nay thế nào? 🚀
 Dòng 3: Spam vui vẻ nha! 🔥</textarea>
+          
+          <!-- Tag Options Buttons -->
           <div class="tag-section">
-            <span class="tag-prefix">🏷️ Tag:</span>
-            <input type="text" id="tagInput1" class="tag-input" placeholder="VD: @everyone">
+            <span class="tag-prefix">🏷️ Cấu hình Tag:</span>
+            <div class="tag-options" id="tagOptions1">
+              <button class="tag-option-btn active" data-tag="khongtag">Không Tag</button>
+              <button class="tag-option-btn" data-tag="everyone">@everyone</button>
+              <button class="tag-option-btn" data-tag="here">@here</button>
+              <button class="tag-option-btn" data-tag="custom">Custom</button>
+            </div>
           </div>
+          <div id="customTagContainer1" style="display:none;">
+            <input type="text" id="customTagInput1" class="tag-input" placeholder="Nhập tag tùy chỉnh...">
+          </div>
+
+          <!-- Treo Options Buttons -->
+          <div class="tag-section">
+            <span class="tag-prefix">📌 Chế độ tác vụ:</span>
+            <div class="tag-options" id="treoOptions1">
+              <button class="tag-option-btn active" data-treo="treongon">Treo Ngọn (Lập Đoạn Văn)</button>
+              <button class="tag-option-btn" data-treo="nhaytag">Nhảy Tag (Lập Từng Dòng)</button>
+            </div>
+          </div>
+
           <div class="image-upload-area">
             <span style="color:#60a5fa; font-weight:600;">🖼️ Ảnh:</span>
             <div class="image-preview" id="imgPreview1">📷</div>
@@ -915,10 +969,28 @@ Dòng 3: Spam vui vẻ nha! 🔥</textarea>
           <textarea id="msg2" rows="3" placeholder="Mỗi dòng là 1 tin nhắn (chế độ nhảy tag)">Tab 2 - Dòng 1 💬
 Tab 2 - Dòng 2 ⚡
 Tab 2 - Dòng 3 🎯</textarea>
+          
           <div class="tag-section">
-            <span class="tag-prefix">🏷️ Tag:</span>
-            <input type="text" id="tagInput2" class="tag-input" placeholder="VD: @everyone">
+            <span class="tag-prefix">🏷️ Cấu hình Tag:</span>
+            <div class="tag-options" id="tagOptions2">
+              <button class="tag-option-btn active" data-tag="khongtag">Không Tag</button>
+              <button class="tag-option-btn" data-tag="everyone">@everyone</button>
+              <button class="tag-option-btn" data-tag="here">@here</button>
+              <button class="tag-option-btn" data-tag="custom">Custom</button>
+            </div>
           </div>
+          <div id="customTagContainer2" style="display:none;">
+            <input type="text" id="customTagInput2" class="tag-input" placeholder="Nhập tag tùy chỉnh...">
+          </div>
+
+          <div class="tag-section">
+            <span class="tag-prefix">📌 Chế độ tác vụ:</span>
+            <div class="tag-options" id="treoOptions2">
+              <button class="tag-option-btn active" data-treo="treongon">Treo Ngọn (Lập Đoạn Văn)</button>
+              <button class="tag-option-btn" data-treo="nhaytag">Nhảy Tag (Lập Từng Dòng)</button>
+            </div>
+          </div>
+
           <div class="image-upload-area">
             <span style="color:#60a5fa; font-weight:600;">🖼️ Ảnh:</span>
             <div class="image-preview" id="imgPreview2">📷</div>
@@ -954,10 +1026,28 @@ Tab 2 - Dòng 3 🎯</textarea>
           <textarea id="msg3" rows="3" placeholder="Mỗi dòng là 1 tin nhắn (chế độ nhảy tag)">Tab 3 - Siêu tốc 🔥
 Spam không ngừng! 🚀
 Dòng cuối cùng 🎯</textarea>
+          
           <div class="tag-section">
-            <span class="tag-prefix">🏷️ Tag:</span>
-            <input type="text" id="tagInput3" class="tag-input" placeholder="VD: @everyone">
+            <span class="tag-prefix">🏷️ Cấu hình Tag:</span>
+            <div class="tag-options" id="tagOptions3">
+              <button class="tag-option-btn active" data-tag="khongtag">Không Tag</button>
+              <button class="tag-option-btn" data-tag="everyone">@everyone</button>
+              <button class="tag-option-btn" data-tag="here">@here</button>
+              <button class="tag-option-btn" data-tag="custom">Custom</button>
+            </div>
           </div>
+          <div id="customTagContainer3" style="display:none;">
+            <input type="text" id="customTagInput3" class="tag-input" placeholder="Nhập tag tùy chỉnh...">
+          </div>
+
+          <div class="tag-section">
+            <span class="tag-prefix">📌 Chế độ tác vụ:</span>
+            <div class="tag-options" id="treoOptions3">
+              <button class="tag-option-btn active" data-treo="treongon">Treo Ngọn (Lập Đoạn Văn)</button>
+              <button class="tag-option-btn" data-treo="nhaytag">Nhảy Tag (Lập Từng Dòng)</button>
+            </div>
+          </div>
+
           <div class="image-upload-area">
             <span style="color:#60a5fa; font-weight:600;">🖼️ Ảnh:</span>
             <div class="image-preview" id="imgPreview3">📷</div>
@@ -1169,6 +1259,56 @@ Dòng cuối cùng 🎯</textarea>
         return active ? active.dataset.mode : 'treongon';
       }
 
+      // ============ TAG OPTIONS ============
+      for (let i = 1; i <= 3; i++) {
+        const tagOptions = document.getElementById(`tagOptions${i}`);
+        tagOptions.addEventListener('click', (e) => {
+          if (e.target.classList.contains('tag-option-btn')) {
+            tagOptions.querySelectorAll('.tag-option-btn').forEach(b => b.classList.remove('active'));
+            e.target.classList.add('active');
+            // Show/hide custom tag input
+            const customContainer = document.getElementById(`customTagContainer${i}`);
+            if (e.target.dataset.tag === 'custom') {
+              customContainer.style.display = 'block';
+            } else {
+              customContainer.style.display = 'none';
+            }
+          }
+        });
+      }
+
+      function getTag(tabNum) {
+        const tagOptions = document.getElementById(`tagOptions${tabNum}`);
+        const active = tagOptions.querySelector('.tag-option-btn.active');
+        const tagType = active ? active.dataset.tag : 'khongtag';
+        
+        if (tagType === 'khongtag') return '';
+        if (tagType === 'everyone') return '@everyone';
+        if (tagType === 'here') return '@here';
+        if (tagType === 'custom') {
+          const customInput = document.getElementById(`customTagInput${tabNum}`);
+          return customInput.value.trim() || '';
+        }
+        return '';
+      }
+
+      // ============ TREO OPTIONS ============
+      for (let i = 1; i <= 3; i++) {
+        const treoOptions = document.getElementById(`treoOptions${i}`);
+        treoOptions.addEventListener('click', (e) => {
+          if (e.target.classList.contains('tag-option-btn')) {
+            treoOptions.querySelectorAll('.tag-option-btn').forEach(b => b.classList.remove('active'));
+            e.target.classList.add('active');
+          }
+        });
+      }
+
+      function getTreoMode(tabNum) {
+        const treoOptions = document.getElementById(`treoOptions${tabNum}`);
+        const active = treoOptions.querySelector('.tag-option-btn.active');
+        return active ? active.dataset.treo : 'treongon';
+      }
+
       // ============ IMAGE HANDLING ============
       const imageData = {};
       for (let i = 1; i <= 3; i++) {
@@ -1204,15 +1344,12 @@ Dòng cuối cùng 🎯</textarea>
 
       let totalSent = 0;
       let totalErrors = 0;
-      let isAnyRunning = false;
 
       function updateTotalStats() {
         totalSentEl.textContent = totalSent;
         totalErrorsEl.textContent = totalErrors;
         const running = Object.values(spamState).some(s => s.interval !== null);
-        isAnyRunning = running;
         trangThaiEl.textContent = running ? '🟢 Đang Chạy' : '⏸️ Đang Dừng';
-        // Cập nhật màu sắc cho trạng thái
         if (running) {
           trangThaiEl.style.background = 'linear-gradient(135deg, #10b981, #059669)';
           trangThaiEl.style.webkitBackgroundClip = 'text';
@@ -1263,7 +1400,6 @@ Dòng cuối cùng 🎯</textarea>
         document.getElementById(`status${n}`).textContent = status;
         document.getElementById(`counter${n}`).textContent = count;
         document.getElementById(`rateLimit${n}`).textContent = rl;
-        // Cập nhật tổng
         let total = 0;
         for (const key of ['tab1', 'tab2', 'tab3']) {
           total += spamState[key].count;
@@ -1286,8 +1422,8 @@ Dòng cuối cùng 🎯</textarea>
         const n = tab.replace('tab', '');
         const rawText = document.getElementById(`msg${n}`).value.trim();
         const ch = document.getElementById(`targetId${n}`).value.trim();
-        const tag = document.getElementById(`tagInput${n}`).value.trim();
-        const mode = getMode(n);
+        const tag = getTag(n);
+        const mode = getTreoMode(n);
         const img = imageData[n];
 
         if (!userToken) { stop(tab); updateUI(tab, '❌ Chưa đăng nhập', s.count); return; }
@@ -1301,39 +1437,31 @@ Dòng cuối cùng 🎯</textarea>
         try {
           let messageContent = '';
           
-          // Xử lý theo chế độ
           if (mode === 'treongon') {
-            // Chế độ Trẻo ngôn: gửi toàn bộ nội dung
             messageContent = rawText;
           } else {
-            // Chế độ Nhảy tag: gửi từng dòng
             const lines = rawText.split('\n').filter(line => line.trim() !== '');
             if (lines.length === 0) {
               stop(tab);
               updateUI(tab, '❌ Không có dòng nào để gửi', s.count);
               return;
             }
-            // Lấy dòng hiện tại theo index
             messageContent = lines[s.lineIndex % lines.length];
-            s.lineIndex++; // Tăng index cho lần gửi tiếp theo
+            s.lineIndex++;
           }
 
-          // Thêm tag nếu có
           if (tag) {
             messageContent = tag + ' ' + messageContent;
           }
 
-          // Gửi ảnh nếu có
           if (img.file) {
             await uploadImage(ch, userToken, img.file);
           }
           
-          // Gửi tin nhắn
           if (messageContent) {
             await sendText(ch, messageContent, userToken);
           }
 
-          // Cập nhật thành công
           s.count++;
           s.consecutiveErrors = 0;
           const modeLabel = mode === 'treongon' ? 'Trẻo ngôn' : 'Nhảy tag';
@@ -1383,11 +1511,9 @@ Dòng cuối cùng 🎯</textarea>
         spamState[tab].retry = 0;
         spamState[tab].lineIndex = 0;
         spamState[tab].consecutiveErrors = 0;
-        const modeLabel = getMode(n) === 'treongon' ? 'Trẻo ngôn' : 'Nhảy tag';
+        const modeLabel = getTreoMode(n) === 'treongon' ? 'Trẻo ngôn' : 'Nhảy tag';
         updateUI(tab, `🟢 [${modeLabel}] Đang spam`, spamState[tab].count);
-        // Chạy lần đầu
         cycle(tab);
-        // Thiết lập interval
         spamState[tab].interval = setInterval(() => cycle(tab), d);
         showToast(`🚀 Tab ${n} bắt đầu! (${modeLabel})`, 'success');
         updateTotalStats();
