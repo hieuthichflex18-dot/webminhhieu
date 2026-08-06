@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, maximum-scale=2.0, viewport-fit=cover">
-  <title>💎 Discord Crystal Ultra · Premium Dashboard</title>
+  <title>💎 Discord Crystal Ultra · Premium Dashboard · Auto Fix 401</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
@@ -35,21 +35,30 @@
       --transition: cubic-bezier(0.22, 0.61, 0.36, 1);
     }
 
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
     body {
       font-family: 'Inter', system-ui, -apple-system, sans-serif;
       background: var(--bg-deep);
       min-height: 100vh;
       overflow-x: hidden;
+      position: relative;
       color: var(--text-primary);
       -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
+    /* Aurora Background */
     .aurora-bg {
       position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       z-index: 0;
       pointer-events: none;
       overflow: hidden;
@@ -64,21 +73,27 @@
     }
 
     .aurora-orb:nth-child(1) {
-      width: 600px; height: 600px;
+      width: 600px;
+      height: 600px;
       background: radial-gradient(circle, rgba(26, 86, 219, 0.5) 0%, transparent 70%);
-      top: -15%; left: -10%;
+      top: -15%;
+      left: -10%;
       animation-delay: 0s;
     }
     .aurora-orb:nth-child(2) {
-      width: 500px; height: 500px;
+      width: 500px;
+      height: 500px;
       background: radial-gradient(circle, rgba(6, 182, 212, 0.4) 0%, transparent 70%);
-      top: 40%; right: -12%;
+      top: 40%;
+      right: -12%;
       animation-delay: -7s;
     }
     .aurora-orb:nth-child(3) {
-      width: 450px; height: 450px;
+      width: 450px;
+      height: 450px;
       background: radial-gradient(circle, rgba(59, 130, 246, 0.45) 0%, transparent 70%);
-      bottom: -10%; left: 30%;
+      bottom: -10%;
+      left: 30%;
       animation-delay: -14s;
     }
 
@@ -89,6 +104,66 @@
       75% { transform: translate(-50px, -30px) scale(1.05); }
     }
 
+    /* Particles */
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+    .particle {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: var(--neon);
+      border-radius: 50%;
+      animation: particleDrift 8s ease-in-out infinite;
+      opacity: 0;
+      box-shadow: 0 0 8px var(--neon-glow);
+    }
+    @keyframes particleDrift {
+      0% { opacity: 0; transform: translateY(0) translateX(0); }
+      10% { opacity: 1; }
+      90% { opacity: 0.6; }
+      100% { opacity: 0; transform: translateY(-400px) translateX(60px); }
+    }
+
+    /* Scanning line effect */
+    .scan-line {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, rgba(96, 165, 250, 0.3), transparent);
+      z-index: 1;
+      pointer-events: none;
+      animation: scanDown 4s linear infinite;
+      opacity: 0.5;
+    }
+
+    @keyframes scanDown {
+      0% { top: -5px; }
+      100% { top: 100vh; }
+    }
+
+    /* Glitch text effect */
+    @keyframes glitch {
+      0%, 100% { transform: translate(0); }
+      20% { transform: translate(-2px, 2px); }
+      40% { transform: translate(-2px, -2px); }
+      60% { transform: translate(2px, 2px); }
+      80% { transform: translate(2px, -2px); }
+    }
+
+    .glitch-hover:hover {
+      animation: glitch 0.3s ease-in-out;
+    }
+
+    /* Main Layout */
     .app-layout {
       position: relative;
       z-index: 1;
@@ -96,6 +171,7 @@
       min-height: 100vh;
     }
 
+    /* Sidebar */
     .sidebar {
       width: 260px;
       min-height: 100vh;
@@ -108,7 +184,9 @@
       flex-direction: column;
       gap: 2rem;
       position: fixed;
-      top: 0; left: 0; bottom: 0;
+      top: 0;
+      left: 0;
+      bottom: 0;
       z-index: 10;
       transition: transform 0.4s var(--transition);
     }
@@ -121,7 +199,8 @@
     }
 
     .logo-icon {
-      width: 44px; height: 44px;
+      width: 44px;
+      height: 44px;
       background: linear-gradient(135deg, var(--royal-blue), var(--cyan));
       border-radius: var(--radius-sm);
       display: flex;
@@ -129,6 +208,12 @@
       justify-content: center;
       font-size: 1.5rem;
       box-shadow: 0 0 24px rgba(59, 130, 246, 0.4);
+      animation: pulse-icon 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse-icon {
+      0%, 100% { box-shadow: 0 0 24px rgba(59, 130, 246, 0.4); }
+      50% { box-shadow: 0 0 40px rgba(59, 130, 246, 0.7); }
     }
 
     .logo-text {
@@ -159,9 +244,30 @@
       font-weight: 500;
       font-size: 0.9rem;
       position: relative;
+      overflow: hidden;
     }
 
-    .nav-item:hover { background: rgba(59, 130, 246, 0.1); color: var(--text-primary); }
+    .nav-item::after {
+      content: '';
+      position: absolute;
+      left: -100%;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(96, 165, 250, 0.1), transparent);
+      transition: left 0.5s;
+    }
+
+    .nav-item:hover::after {
+      left: 100%;
+    }
+
+    .nav-item:hover {
+      background: rgba(59, 130, 246, 0.1);
+      color: var(--text-primary);
+      transform: translateX(5px);
+    }
+
     .nav-item.active {
       background: rgba(59, 130, 246, 0.2);
       color: white;
@@ -182,35 +288,55 @@
       box-shadow: 0 0 12px var(--cyan);
     }
 
-    .nav-icon { width: 20px; height: 20px; opacity: 0.7; }
-    .nav-item.active .nav-icon { opacity: 1; }
+    .nav-icon {
+      width: 20px;
+      height: 20px;
+      opacity: 0.7;
+      transition: all 0.3s;
+    }
 
-    .sidebar-footer { padding: 1rem 0; border-top: 1px solid var(--glass-border); }
+    .nav-item.active .nav-icon {
+      opacity: 1;
+      transform: scale(1.2);
+    }
 
+    .sidebar-footer {
+      padding: 1rem 0;
+      border-top: 1px solid var(--glass-border);
+    }
+
+    /* Main Content */
     .main-content {
       flex: 1;
       margin-left: 260px;
-      padding: 1.5rem 2rem;
+      padding: 2rem 2.5rem;
       transition: margin 0.4s var(--transition);
     }
 
+    /* Topbar */
     .topbar {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 1.5rem;
+      margin-bottom: 2.5rem;
       flex-wrap: wrap;
       gap: 16px;
     }
 
     .page-title {
-      font-size: 1.6rem;
+      font-size: 1.8rem;
       font-weight: 700;
       letter-spacing: -0.3px;
       background: linear-gradient(to right, #f0f4ff, #a0c8ff);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
+      animation: titleGlow 3s ease-in-out infinite;
+    }
+
+    @keyframes titleGlow {
+      0%, 100% { filter: brightness(1); }
+      50% { filter: brightness(1.3); }
     }
 
     .user-badge {
@@ -219,85 +345,51 @@
       gap: 12px;
       background: var(--bg-card);
       backdrop-filter: blur(20px);
-      padding: 0.4rem 1.2rem 0.4rem 0.6rem;
+      padding: 0.5rem 1.2rem 0.5rem 0.6rem;
       border-radius: var(--radius-pill);
       border: 1px solid var(--glass-border);
       box-shadow: var(--shadow-card);
+      transition: all 0.3s;
+      cursor: pointer;
+    }
+
+    .user-badge:hover {
+      box-shadow: var(--shadow-card), 0 0 30px rgba(59, 130, 246, 0.2);
+      transform: translateY(-2px);
     }
 
     .user-avatar {
-      width: 38px; height: 38px;
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
       background: linear-gradient(135deg, var(--royal-blue), var(--cyan));
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.1rem;
+      font-size: 1.2rem;
       background-size: cover;
       background-position: center;
       box-shadow: 0 0 16px rgba(59, 130, 246, 0.3);
       border: 2px solid rgba(96, 165, 250, 0.4);
+      transition: all 0.3s;
     }
 
-    .user-name { font-weight: 600; font-size: 0.9rem; }
-    .user-tag { font-size: 0.75rem; color: var(--text-dim); }
-
-    .stats-banner {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-      margin-bottom: 1.5rem;
+    .user-badge:hover .user-avatar {
+      box-shadow: 0 0 25px rgba(59, 130, 246, 0.6);
+      transform: rotate(10deg);
     }
 
-    .stat-item {
-      background: var(--bg-card);
-      backdrop-filter: blur(20px);
-      border-radius: var(--radius-md);
-      padding: 1rem 1.2rem;
-      border: 1px solid var(--glass-border);
-      box-shadow: var(--shadow-card);
-      text-align: center;
-      transition: all 0.3s var(--transition);
+    .user-name {
+      font-weight: 600;
+      font-size: 0.9rem;
     }
 
-    .stat-item:hover {
-      border-color: rgba(96, 165, 250, 0.25);
-      box-shadow: var(--shadow-card), var(--shadow-glow);
+    .user-tag {
+      font-size: 0.75rem;
+      color: var(--text-dim);
     }
 
-    .stat-number {
-      font-size: 2.2rem;
-      font-weight: 800;
-      font-family: 'JetBrains Mono', monospace;
-      background: linear-gradient(135deg, #e0f0ff, #60a5fa);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      line-height: 1.2;
-    }
-
-    .stat-label {
-      font-size: 0.8rem;
-      color: var(--text-secondary);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-top: 4px;
-    }
-
-    .stat-item.warning .stat-number {
-      background: linear-gradient(135deg, #f59e0b, #f97316);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .stat-item.danger .stat-number {
-      background: linear-gradient(135deg, #ef4444, #dc2626);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
+    /* Status Bar */
     .status-indicator {
       display: flex;
       align-items: center;
@@ -308,13 +400,14 @@
       border-radius: var(--radius-pill);
       font-size: 0.8rem;
       color: #6ee7b7;
-      margin-bottom: 1.5rem;
+      margin-bottom: 2rem;
       box-shadow: 0 0 20px rgba(16, 185, 129, 0.1);
-      width: fit-content;
+      transition: all 0.3s;
     }
 
     .status-dot {
-      width: 8px; height: 8px;
+      width: 8px;
+      height: 8px;
       border-radius: 50%;
       background: var(--success);
       animation: statusPulse 2s ease-in-out infinite;
@@ -322,10 +415,11 @@
     }
 
     @keyframes statusPulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.4; }
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(1.5); }
     }
 
+    /* Tabs */
     .tabs-nav {
       display: flex;
       gap: 6px;
@@ -333,7 +427,7 @@
       padding: 5px;
       border-radius: var(--radius-pill);
       width: fit-content;
-      margin-bottom: 1.5rem;
+      margin-bottom: 2rem;
       border: 1px solid var(--glass-border);
     }
 
@@ -342,48 +436,104 @@
       border: none;
       color: var(--text-dim);
       font-weight: 600;
-      padding: 0.5rem 1.6rem;
+      padding: 0.6rem 1.8rem;
       border-radius: var(--radius-pill);
       cursor: pointer;
       transition: all 0.25s var(--transition);
-      font-size: 0.85rem;
+      font-size: 0.9rem;
       display: flex;
       align-items: center;
       gap: 6px;
+      position: relative;
+      overflow: hidden;
     }
 
-    .tab-btn:hover { color: var(--text-primary); background: rgba(59, 130, 246, 0.08); }
+    .tab-btn::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      background: rgba(96, 165, 250, 0.3);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      transition: width 0.4s, height 0.4s;
+    }
+
+    .tab-btn:hover::before {
+      width: 200px;
+      height: 200px;
+    }
+
+    .tab-btn:hover {
+      color: var(--text-primary);
+      background: rgba(59, 130, 246, 0.08);
+    }
+
     .tab-btn.active {
       background: linear-gradient(135deg, var(--royal-blue), var(--electric-blue));
       color: white;
       box-shadow: 0 8px 24px rgba(59, 130, 246, 0.35);
+      animation: tabPulse 2s ease-in-out infinite;
     }
 
-    .tab-content { display: none; animation: fadeSlideUp 0.35s var(--transition); }
-    .tab-content.active { display: block; }
+    @keyframes tabPulse {
+      0%, 100% { box-shadow: 0 8px 24px rgba(59, 130, 246, 0.35); }
+      50% { box-shadow: 0 8px 35px rgba(59, 130, 246, 0.6); }
+    }
+
+    .tab-content {
+      display: none;
+      animation: fadeSlideUp 0.5s var(--transition);
+    }
+
+    .tab-content.active {
+      display: block;
+    }
 
     @keyframes fadeSlideUp {
-      from { opacity: 0; transform: translateY(12px); }
+      from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
+    /* Card */
     .card {
       background: var(--bg-card);
       backdrop-filter: blur(24px);
       -webkit-backdrop-filter: blur(24px);
       border-radius: var(--radius-lg);
-      padding: 1.6rem;
+      padding: 1.8rem;
       border: 1px solid var(--glass-border);
       box-shadow: var(--shadow-card);
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      gap: 16px;
       transition: all 0.3s var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--neon), transparent);
+      animation: cardBorderGlow 4s linear infinite;
+    }
+
+    @keyframes cardBorderGlow {
+      0% { left: -100%; }
+      100% { left: 100%; }
     }
 
     .card:hover {
       border-color: rgba(96, 165, 250, 0.25);
       box-shadow: var(--shadow-card), var(--shadow-glow);
+      transform: translateY(-2px);
     }
 
     .card-header {
@@ -394,14 +544,19 @@
       gap: 10px;
     }
 
-    .card-title { font-weight: 650; font-size: 1rem; color: var(--text-primary); }
+    .card-title {
+      font-weight: 650;
+      font-size: 1rem;
+      color: var(--text-primary);
+    }
 
+    /* Form Elements */
     textarea {
       width: 100%;
       background: rgba(5, 11, 26, 0.7);
       border: 1px solid rgba(56, 135, 255, 0.2);
       border-radius: var(--radius-md);
-      padding: 0.9rem 1.1rem;
+      padding: 1rem 1.2rem;
       color: var(--text-primary);
       font-size: 0.9rem;
       resize: vertical;
@@ -409,28 +564,29 @@
       font-family: 'JetBrains Mono', 'Inter', monospace;
       transition: all 0.3s var(--transition);
       line-height: 1.6;
-      min-height: 80px;
     }
 
     textarea:focus {
       border-color: var(--electric-blue);
-      box-shadow: 0 0 20px rgba(59, 130, 246, 0.15);
+      box-shadow: 0 0 25px rgba(59, 130, 246, 0.2);
+      background: rgba(5, 11, 26, 0.9);
     }
 
     .input-pill {
       background: rgba(5, 11, 26, 0.7);
       border: 1px solid rgba(56, 135, 255, 0.2);
       border-radius: var(--radius-pill);
-      padding: 0.6rem 1.2rem;
+      padding: 0.65rem 1.3rem;
       color: var(--text-primary);
       outline: none;
-      font-size: 0.85rem;
+      font-size: 0.9rem;
       transition: all 0.3s var(--transition);
     }
 
     .input-pill:focus {
       border-color: var(--electric-blue);
-      box-shadow: 0 0 16px rgba(59, 130, 246, 0.15);
+      box-shadow: 0 0 20px rgba(59, 130, 246, 0.2);
+      background: rgba(5, 11, 26, 0.9);
     }
 
     .control-row {
@@ -440,33 +596,41 @@
       gap: 10px;
     }
 
+    /* Buttons */
     .btn {
       border: none;
       color: white;
-      padding: 0.6rem 1.4rem;
+      padding: 0.7rem 1.6rem;
       border-radius: var(--radius-pill);
       font-weight: 600;
       cursor: pointer;
-      transition: all 0.25s var(--transition);
+      transition: all 0.3s var(--transition);
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      font-size: 0.85rem;
+      font-size: 0.9rem;
       letter-spacing: 0.2px;
       position: relative;
       overflow: hidden;
+      text-transform: uppercase;
     }
 
     .btn::after {
       content: '';
       position: absolute;
       inset: 0;
-      background: linear-gradient(135deg, transparent 40%, rgba(255,255,255,0.1) 50%, transparent 60%);
+      background: linear-gradient(135deg, transparent 40%, rgba(255,255,255,0.2) 50%, transparent 60%);
       opacity: 0;
       transition: opacity 0.3s;
     }
 
-    .btn:hover::after { opacity: 1; }
+    .btn:hover::after {
+      opacity: 1;
+    }
+
+    .btn:active {
+      transform: scale(0.95);
+    }
 
     .btn-primary {
       background: linear-gradient(135deg, var(--royal-blue), var(--electric-blue));
@@ -474,8 +638,14 @@
     }
 
     .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 28px rgba(59, 130, 246, 0.5);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(59, 130, 246, 0.5);
+      animation: buttonGlow 1s ease-in-out infinite;
+    }
+
+    @keyframes buttonGlow {
+      0%, 100% { box-shadow: 0 10px 30px rgba(59, 130, 246, 0.5); }
+      50% { box-shadow: 0 10px 45px rgba(59, 130, 246, 0.8); }
     }
 
     .btn-stop {
@@ -484,8 +654,8 @@
     }
 
     .btn-stop:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 28px rgba(239, 68, 68, 0.45);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(239, 68, 68, 0.5);
     }
 
     .btn-accent {
@@ -494,8 +664,8 @@
     }
 
     .btn-accent:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 28px rgba(6, 182, 212, 0.45);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(6, 182, 212, 0.5);
     }
 
     .btn-ghost {
@@ -505,13 +675,17 @@
     }
 
     .btn-ghost:hover {
-      background: rgba(96, 165, 250, 0.1);
+      background: rgba(96, 165, 250, 0.15);
       border-color: var(--neon);
+      box-shadow: 0 0 20px rgba(96, 165, 250, 0.3);
     }
 
-    .btn-xs { padding: 0.35rem 0.9rem; font-size: 0.75rem; }
-    .btn-sm { padding: 0.4rem 1rem; font-size: 0.8rem; }
+    .btn-xs {
+      padding: 0.4rem 1rem;
+      font-size: 0.78rem;
+    }
 
+    /* Mode Selector */
     .mode-selector {
       display: flex;
       gap: 4px;
@@ -519,18 +693,39 @@
       padding: 4px;
       border-radius: var(--radius-pill);
       border: 1px solid var(--glass-border);
+      flex-wrap: wrap;
     }
 
     .mode-btn {
       background: transparent;
       border: none;
       color: var(--text-dim);
-      padding: 0.4rem 1rem;
+      padding: 0.45rem 1.2rem;
       border-radius: var(--radius-pill);
       cursor: pointer;
       font-weight: 600;
-      font-size: 0.78rem;
+      font-size: 0.82rem;
       transition: all 0.25s var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .mode-btn::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      background: rgba(96, 165, 250, 0.3);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      transition: width 0.4s, height 0.4s;
+    }
+
+    .mode-btn:hover::before {
+      width: 150px;
+      height: 150px;
     }
 
     .mode-btn.active {
@@ -539,38 +734,47 @@
       box-shadow: 0 4px 14px rgba(59, 130, 246, 0.3);
     }
 
+    .mode-btn:not(.active):hover {
+      color: var(--neon);
+      background: rgba(59, 130, 246, 0.1);
+    }
+
+    /* Image Upload */
     .image-upload-area {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
       flex-wrap: wrap;
     }
 
     .image-preview {
-      width: 48px; height: 48px;
+      width: 56px;
+      height: 56px;
       border-radius: var(--radius-sm);
       background: rgba(5, 11, 26, 0.6);
       border: 2px dashed rgba(56, 135, 255, 0.25);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.2rem;
+      font-size: 1.3rem;
       background-size: cover;
       background-position: center;
       transition: all 0.3s var(--transition);
+      cursor: pointer;
     }
 
     .image-preview:hover {
       border-color: var(--electric-blue);
-      box-shadow: 0 0 16px rgba(59, 130, 246, 0.2);
+      box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+      transform: scale(1.05);
     }
 
     .file-input-label {
       background: rgba(59, 130, 246, 0.1);
-      padding: 0.4rem 1rem;
+      padding: 0.5rem 1.2rem;
       border-radius: var(--radius-pill);
       cursor: pointer;
-      font-size: 0.8rem;
+      font-size: 0.85rem;
       color: var(--neon);
       border: 1px solid rgba(96, 165, 250, 0.2);
       transition: all 0.25s;
@@ -579,34 +783,52 @@
     .file-input-label:hover {
       background: rgba(59, 130, 246, 0.2);
       border-color: var(--neon);
+      box-shadow: 0 0 15px rgba(96, 165, 250, 0.2);
     }
 
-    input[type="file"] { display: none; }
+    input[type="file"] {
+      display: none;
+    }
 
+    /* Stats */
     .stats-bar {
       display: flex;
       justify-content: space-between;
       align-items: center;
       background: rgba(5, 11, 26, 0.5);
-      padding: 0.5rem 1.2rem;
+      padding: 0.6rem 1.3rem;
       border-radius: var(--radius-pill);
-      font-size: 0.8rem;
+      font-size: 0.85rem;
       color: var(--text-secondary);
       flex-wrap: wrap;
       gap: 8px;
       border: 1px solid var(--glass-border);
+      transition: all 0.3s;
+    }
+
+    .stats-bar:hover {
+      background: rgba(5, 11, 26, 0.7);
+      border-color: rgba(96, 165, 250, 0.3);
     }
 
     .badge-counter {
       background: linear-gradient(135deg, var(--royal-blue), var(--electric-blue));
-      padding: 2px 12px;
+      padding: 3px 14px;
       border-radius: var(--radius-pill);
       font-weight: 700;
       color: white;
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.8rem;
+      font-size: 0.85rem;
+      animation: counterPulse 1s ease-in-out;
     }
 
+    @keyframes counterPulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+      100% { transform: scale(1); }
+    }
+
+    /* Tag Section */
     .tag-section {
       display: flex;
       align-items: center;
@@ -614,58 +836,34 @@
       flex-wrap: wrap;
     }
 
-    .tag-prefix { color: var(--neon); font-weight: 600; font-size: 0.85rem; }
+    .tag-prefix {
+      color: var(--neon);
+      font-weight: 600;
+      font-size: 0.85rem;
+    }
 
     .tag-input {
       flex: 1;
-      min-width: 160px;
+      min-width: 180px;
       background: rgba(5, 11, 26, 0.7);
       border: 1px solid rgba(56, 135, 255, 0.2);
       border-radius: var(--radius-pill);
-      padding: 0.5rem 1.2rem;
+      padding: 0.6rem 1.3rem;
       color: var(--text-primary);
       outline: none;
-      font-size: 0.85rem;
+      transition: all 0.3s;
     }
 
     .tag-input:focus {
       border-color: var(--electric-blue);
-      box-shadow: 0 0 16px rgba(59, 130, 246, 0.15);
+      box-shadow: 0 0 20px rgba(59, 130, 246, 0.2);
     }
 
-    .tag-options {
-      display: flex;
-      gap: 6px;
-      flex-wrap: wrap;
-    }
-
-    .tag-option-btn {
-      background: rgba(5, 11, 26, 0.6);
-      border: 1px solid rgba(56, 135, 255, 0.2);
-      color: var(--text-secondary);
-      padding: 0.3rem 0.9rem;
-      border-radius: var(--radius-pill);
-      cursor: pointer;
-      font-size: 0.75rem;
-      font-weight: 600;
-      transition: all 0.25s var(--transition);
-    }
-
-    .tag-option-btn:hover {
-      border-color: var(--neon);
-      color: var(--text-primary);
-    }
-
-    .tag-option-btn.active {
-      background: linear-gradient(135deg, var(--royal-blue), var(--electric-blue));
-      border-color: var(--electric-blue);
-      color: white;
-      box-shadow: 0 4px 14px rgba(59, 130, 246, 0.3);
-    }
-
+    /* Toast */
     .toast-container {
       position: fixed;
-      top: 20px; right: 20px;
+      top: 20px;
+      right: 20px;
       z-index: 9999;
       display: flex;
       flex-direction: column;
@@ -677,26 +875,45 @@
       backdrop-filter: blur(30px);
       border: 1px solid var(--glass-border);
       color: white;
-      padding: 12px 20px;
+      padding: 14px 22px;
       border-radius: var(--radius-md);
-      animation: toastIn 0.4s var(--transition);
+      animation: toastIn 0.5s var(--transition);
       box-shadow: var(--shadow-card), var(--shadow-glow);
       font-weight: 500;
-      font-size: 0.85rem;
+      font-size: 0.9rem;
       display: flex;
       align-items: center;
       gap: 10px;
-      min-width: 260px;
+      min-width: 280px;
+      transition: all 0.3s;
     }
 
-    .toast.success { border-color: rgba(16, 185, 129, 0.4); }
-    .toast.error { border-color: rgba(239, 68, 68, 0.4); }
+    .toast:hover {
+      transform: translateX(-5px);
+      box-shadow: var(--shadow-card), 0 0 30px rgba(59, 130, 246, 0.3);
+    }
+
+    .toast.success {
+      border-color: rgba(16, 185, 129, 0.4);
+    }
+
+    .toast.error {
+      border-color: rgba(239, 68, 68, 0.4);
+      animation: toastShake 0.5s ease-in-out;
+    }
 
     @keyframes toastIn {
       from { transform: translateX(120%); opacity: 0; }
       to { transform: translateX(0); opacity: 1; }
     }
 
+    @keyframes toastShake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-10px); }
+      75% { transform: translateX(10px); }
+    }
+
+    /* Login Screen */
     .login-screen {
       display: flex;
       align-items: center;
@@ -711,22 +928,36 @@
       background: var(--bg-card);
       backdrop-filter: blur(40px);
       border-radius: var(--radius-xl);
-      padding: 2.5rem;
+      padding: 3rem;
       border: 1px solid var(--glass-border);
       box-shadow: var(--shadow-card), var(--shadow-neon);
-      max-width: 440px;
+      max-width: 480px;
       width: 100%;
       text-align: center;
       display: flex;
       flex-direction: column;
-      gap: 18px;
+      gap: 20px;
+      animation: loginFloat 3s ease-in-out infinite;
     }
 
-    .login-icon-main { font-size: 3.5rem; animation: float 3s ease-in-out infinite; }
-    @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+    @keyframes loginFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .login-icon-main {
+      font-size: 4rem;
+      animation: loginIconSpin 4s ease-in-out infinite;
+    }
+
+    @keyframes loginIconSpin {
+      0%, 100% { transform: rotate(0deg) scale(1); }
+      25% { transform: rotate(10deg) scale(1.1); }
+      75% { transform: rotate(-10deg) scale(1.1); }
+    }
 
     .login-title-main {
-      font-size: 1.8rem;
+      font-size: 2rem;
       font-weight: 700;
       background: linear-gradient(to right, #e0f0ff, #60a5fa);
       -webkit-background-clip: text;
@@ -739,10 +970,10 @@
       border: none;
       color: white;
       font-weight: 650;
-      padding: 0.9rem 2rem;
+      padding: 1rem 2.5rem;
       border-radius: var(--radius-pill);
       cursor: pointer;
-      font-size: 1rem;
+      font-size: 1.05rem;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -750,6 +981,24 @@
       box-shadow: 0 12px 30px rgba(59, 130, 246, 0.35);
       transition: all 0.3s var(--transition);
       width: 100%;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-login-discord::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+      transform: rotate(45deg);
+      transition: all 0.5s;
+    }
+
+    .btn-login-discord:hover::after {
+      left: 100%;
     }
 
     .btn-login-discord:hover {
@@ -757,21 +1006,63 @@
       box-shadow: 0 18px 40px rgba(59, 130, 246, 0.5);
     }
 
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .sidebar {
+        transform: translateX(-100%);
+        width: 280px;
+      }
+      .sidebar.open {
+        transform: translateX(0);
+      }
+      .main-content {
+        margin-left: 0;
+        padding: 1.5rem;
+      }
+      .mobile-menu-btn {
+        display: flex !important;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .main-content {
+        padding: 1rem;
+      }
+      .topbar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .control-row {
+        flex-direction: column;
+      }
+      .input-pill {
+        width: 100%;
+      }
+    }
+
     .mobile-menu-btn {
       display: none;
       position: fixed;
-      top: 14px; left: 14px;
+      top: 16px;
+      left: 16px;
       z-index: 20;
-      width: 42px; height: 42px;
+      width: 44px;
+      height: 44px;
       background: var(--bg-card);
       border: 1px solid var(--glass-border);
       border-radius: var(--radius-sm);
       cursor: pointer;
       align-items: center;
       justify-content: center;
-      font-size: 1.3rem;
+      font-size: 1.4rem;
       color: white;
       backdrop-filter: blur(20px);
+      transition: all 0.3s;
+    }
+
+    .mobile-menu-btn:hover {
+      box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+      transform: scale(1.1);
     }
 
     .sidebar-overlay {
@@ -780,87 +1071,105 @@
       inset: 0;
       background: rgba(0,0,0,0.6);
       z-index: 9;
+      backdrop-filter: blur(2px);
+      transition: all 0.3s;
     }
 
-    .sidebar-overlay.show { display: block; }
-
-    @media (max-width: 1024px) {
-      .sidebar { transform: translateX(-100%); width: 280px; }
-      .sidebar.open { transform: translateX(0); }
-      .main-content { margin-left: 0; padding: 1.2rem; }
-      .mobile-menu-btn { display: flex !important; }
-      .stats-banner { grid-template-columns: repeat(3, 1fr); gap: 8px; }
-      .stat-number { font-size: 1.6rem; }
+    .sidebar-overlay.show {
+      display: block;
     }
 
-    @media (max-width: 640px) {
-      .main-content { padding: 0.8rem; }
-      .topbar { flex-direction: column; align-items: flex-start; }
-      .control-row { flex-direction: column; align-items: stretch; }
-      .input-pill { width: 100%; }
-      .stats-banner { grid-template-columns: repeat(3, 1fr); gap: 6px; }
-      .stat-item { padding: 0.7rem 0.6rem; }
-      .stat-number { font-size: 1.3rem; }
-      .stat-label { font-size: 0.65rem; }
-      .tabs-nav { flex-wrap: wrap; width: 100%; border-radius: var(--radius-md); }
-      .tab-btn { flex: 1; justify-content: center; padding: 0.4rem 0.8rem; font-size: 0.75rem; }
-      .tag-options { width: 100%; }
-      .tag-option-btn { flex: 1; text-align: center; }
+    /* Ripple effect */
+    .ripple {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.3);
+      transform: scale(0);
+      animation: rippleEffect 0.6s linear;
+      pointer-events: none;
+    }
+
+    @keyframes rippleEffect {
+      to {
+        transform: scale(4);
+        opacity: 0;
+      }
     }
   </style>
 </head>
 <body>
 
+  <!-- Aurora Background -->
   <div class="aurora-bg">
     <div class="aurora-orb"></div>
     <div class="aurora-orb"></div>
     <div class="aurora-orb"></div>
   </div>
 
+  <!-- Scanning line -->
+  <div class="scan-line"></div>
+
+  <!-- Particles -->
+  <div class="particles" id="particles"></div>
+
+  <!-- Mobile Menu -->
+  <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <!-- Toast Container -->
   <div class="toast-container" id="toastContainer"></div>
 
-  <!-- LOGIN SCREEN -->
+  <!-- ============ LOGIN SCREEN ============ -->
   <div class="login-screen" id="loginScreen">
     <div class="login-card-main">
       <div class="login-icon-main">💎</div>
       <div class="login-title-main">Crystal Ultra</div>
-      <p style="color:#94a3c0; font-size:0.9rem;">Discord Spammer Premium</p>
+      <p style="color:#94a3c0; font-size:0.95rem;">Discord Spammer Premium · Auto Fix 401</p>
       <button class="btn-login-discord" id="loginBtn">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
-        Đăng nhập với Token
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+        Đăng nhập với Token Discord
       </button>
-      <div style="display:flex; align-items:center; gap:10px; color:#5e6d8c; font-size:0.8rem;">
+      <div style="display:flex; align-items:center; gap:10px; color:#5e6d8c; font-size:0.85rem;">
         <span style="flex:1; height:1px; background:rgba(94,109,140,0.3);"></span>
         <span>hoặc</span>
         <span style="flex:1; height:1px; background:rgba(94,109,140,0.3);"></span>
       </div>
       <div style="display:flex; gap:8px;">
-        <input type="password" id="directTokenInput" class="input-pill" placeholder="Dán token..." style="flex:1;">
+        <input type="password" id="directTokenInput" class="input-pill" placeholder="Dán token trực tiếp..." style="flex:1;">
         <button class="btn btn-accent" id="submitTokenBtn">➡️</button>
       </div>
     </div>
   </div>
 
-  <!-- APP -->
+  <!-- ============ APP LAYOUT ============ -->
   <div class="app-layout" id="appLayout" style="display:none;">
+    <!-- Sidebar -->
     <aside class="sidebar" id="sidebar">
       <div class="sidebar-logo">
         <div class="logo-icon">💎</div>
         <span class="logo-text">Crystal Ultra</span>
       </div>
       <nav class="sidebar-nav">
-        <div class="nav-item active" data-tab="tab1"><span class="nav-icon">📌</span> Tab 1</div>
-        <div class="nav-item" data-tab="tab2"><span class="nav-icon">💬</span> Tab 2</div>
-        <div class="nav-item" data-tab="tab3"><span class="nav-icon">⚡</span> Tab 3</div>
+        <div class="nav-item active" data-tab="tab1">
+          <span class="nav-icon">📌</span> Tab 1
+        </div>
+        <div class="nav-item" data-tab="tab2">
+          <span class="nav-icon">💬</span> Tab 2
+        </div>
+        <div class="nav-item" data-tab="tab3">
+          <span class="nav-icon">⚡</span> Tab 3
+        </div>
       </nav>
       <div class="sidebar-footer">
         <button class="btn btn-ghost btn-xs" id="logoutBtn" style="width:100%;">🚪 Đăng xuất</button>
       </div>
     </aside>
 
+    <!-- Main Content -->
     <main class="main-content">
+      <!-- Topbar -->
       <div class="topbar">
-        <h1 class="page-title">Dashboard</h1>
+        <h1 class="page-title glitch-hover">Dashboard</h1>
         <div class="user-badge">
           <div class="user-avatar" id="avatarDisplay">🔮</div>
           <div>
@@ -870,76 +1179,48 @@
         </div>
       </div>
 
-      <div class="stats-banner">
-        <div class="stat-item">
-          <div class="stat-number" id="totalSent">0</div>
-          <div class="stat-label">📨 Tổng đã gửi</div>
-        </div>
-        <div class="stat-item warning">
-          <div class="stat-number" id="totalErrors">0</div>
-          <div class="stat-label">⚠️ Lỗi / Limit</div>
-        </div>
-        <div class="stat-item danger">
-          <div class="stat-number" id="trangThai">Đang Dừng</div>
-          <div class="stat-label">📊 Trạng thái</div>
-        </div>
-      </div>
-
+      <!-- Status -->
       <div class="status-indicator" id="globalStatus">
         <span class="status-dot"></span>
         <span id="globalStatusText">🟢 Token hợp lệ · Sẵn sàng</span>
       </div>
 
+      <!-- Tabs -->
       <div class="tabs-nav" id="tabsNav">
         <button class="tab-btn active" data-tab="tab1">📌 Tab 1</button>
         <button class="tab-btn" data-tab="tab2">💬 Tab 2</button>
         <button class="tab-btn" data-tab="tab3">⚡ Tab 3</button>
       </div>
 
-      <!-- TAB 1 -->
+      <!-- TAB CONTENTS -->
       <div id="tab1" class="tab-content active">
         <div class="card">
           <div class="card-header">
             <span class="card-title">⚙️ Cấu hình Tab 1</span>
+            <div class="mode-selector" id="modeSelector1">
+              <button class="mode-btn active" data-mode="treongon">📝 Trẻo ngôn</button>
+              <button class="mode-btn" data-mode="nhaytag">🏷️ Nhảy tag</button>
+              <button class="mode-btn" data-mode="dongvatag">📋 Từng dòng + Tag</button>
+            </div>
           </div>
-          <textarea id="msg1" rows="3" placeholder="Nội dung tin nhắn...">Dòng 1: Hello anh em ✨
+          <textarea id="msg1" rows="4" placeholder="Mỗi dòng là 1 tin nhắn (chế độ nhảy tag/từng dòng+tag) hoặc full nội dung (chế độ trẻo ngôn)">Dòng 1: Hello anh em ✨
 Dòng 2: Hôm nay thế nào? 🚀
 Dòng 3: Spam vui vẻ nha! 🔥</textarea>
-          
-          <!-- Tag Options Buttons -->
           <div class="tag-section">
-            <span class="tag-prefix">🏷️ Cấu hình Tag:</span>
-            <div class="tag-options" id="tagOptions1">
-              <button class="tag-option-btn active" data-tag="khongtag">Không Tag</button>
-              <button class="tag-option-btn" data-tag="everyone">@everyone</button>
-              <button class="tag-option-btn" data-tag="here">@here</button>
-              <button class="tag-option-btn" data-tag="custom">Custom</button>
-            </div>
+            <span class="tag-prefix">🏷️ Tag:</span>
+            <input type="text" id="tagInput1" class="tag-input" placeholder="VD: <@123456789> hoặc @everyone">
           </div>
-          <div id="customTagContainer1" style="display:none;">
-            <input type="text" id="customTagInput1" class="tag-input" placeholder="Nhập tag tùy chỉnh...">
-          </div>
-
-          <!-- Treo Options Buttons -->
-          <div class="tag-section">
-            <span class="tag-prefix">📌 Chế độ tác vụ:</span>
-            <div class="tag-options" id="treoOptions1">
-              <button class="tag-option-btn active" data-treo="treongon">Treo Ngôn (Lập Đoạn Văn)</button>
-              <button class="tag-option-btn" data-treo="nhaytag">NhayTag (Lập Từng Dòng)</button>
-            </div>
-          </div>
-
           <div class="image-upload-area">
             <span style="color:#60a5fa; font-weight:600;">🖼️ Ảnh:</span>
             <div class="image-preview" id="imgPreview1">📷</div>
             <label class="file-input-label" for="fileInput1">📁 Chọn ảnh</label>
             <input type="file" id="fileInput1" accept="image/*">
-            <span style="font-size:0.75rem; color:#5e6d8c;" id="imgName1">Chưa chọn</span>
-            <button class="btn btn-ghost btn-xs" id="removeImg1">✕</button>
+            <span style="font-size:0.8rem; color:#5e6d8c;" id="imgName1">Chưa chọn</span>
+            <button class="btn btn-ghost btn-xs" id="removeImg1">✕ Xóa</button>
           </div>
           <div class="control-row">
-            <input type="text" id="targetId1" class="input-pill" placeholder="Channel ID" style="width:150px;">
-            <input type="number" id="delay1" class="input-pill" placeholder="Delay ms" value="800" min="400" style="width:120px;">
+            <input type="text" id="targetId1" class="input-pill" placeholder="Channel ID" style="width:160px;">
+            <input type="number" id="delay1" class="input-pill" placeholder="Delay ms" value="800" min="400" style="width:130px;">
             <button class="btn btn-primary" id="startSpam1">▶ Chạy</button>
             <button class="btn btn-stop" id="stopSpam1">⏹️ Dừng</button>
           </div>
@@ -951,48 +1232,33 @@ Dòng 3: Spam vui vẻ nha! 🔥</textarea>
         </div>
       </div>
 
-      <!-- TAB 2 -->
       <div id="tab2" class="tab-content">
         <div class="card">
           <div class="card-header">
             <span class="card-title">⚙️ Cấu hình Tab 2</span>
-          </div>
-          <textarea id="msg2" rows="3" placeholder="Nội dung tin nhắn...">Tab 2 - Dòng 1 💬
-Tab 2 - Dòng 2 ⚡
-Tab 2 - Dòng 3 🎯</textarea>
-          
-          <div class="tag-section">
-            <span class="tag-prefix">🏷️ Cấu hình Tag:</span>
-            <div class="tag-options" id="tagOptions2">
-              <button class="tag-option-btn active" data-tag="khongtag">Không Tag</button>
-              <button class="tag-option-btn" data-tag="everyone">@everyone</button>
-              <button class="tag-option-btn" data-tag="here">@here</button>
-              <button class="tag-option-btn" data-tag="custom">Custom</button>
+            <div class="mode-selector" id="modeSelector2">
+              <button class="mode-btn active" data-mode="treongon">📝 Trẻo ngôn</button>
+              <button class="mode-btn" data-mode="nhaytag">🏷️ Nhảy tag</button>
+              <button class="mode-btn" data-mode="dongvatag">📋 Từng dòng + Tag</button>
             </div>
           </div>
-          <div id="customTagContainer2" style="display:none;">
-            <input type="text" id="customTagInput2" class="tag-input" placeholder="Nhập tag tùy chỉnh...">
-          </div>
-
+          <textarea id="msg2" rows="4" placeholder="Mỗi dòng là 1 tin nhắn...">Tab 2 - Dòng 1 💬
+Tab 2 - Dòng 2 ⚡</textarea>
           <div class="tag-section">
-            <span class="tag-prefix">📌 Chế độ tác vụ:</span>
-            <div class="tag-options" id="treoOptions2">
-              <button class="tag-option-btn active" data-treo="treongon">Treo Ngôn (Lập Đoạn Văn)</button>
-              <button class="tag-option-btn" data-treo="nhaytag">NhayTag (Lập Từng Dòng)</button>
-            </div>
+            <span class="tag-prefix">🏷️ Tag:</span>
+            <input type="text" id="tagInput2" class="tag-input" placeholder="VD: <@123456789>">
           </div>
-
           <div class="image-upload-area">
             <span style="color:#60a5fa; font-weight:600;">🖼️ Ảnh:</span>
             <div class="image-preview" id="imgPreview2">📷</div>
             <label class="file-input-label" for="fileInput2">📁 Chọn ảnh</label>
             <input type="file" id="fileInput2" accept="image/*">
-            <span style="font-size:0.75rem; color:#5e6d8c;" id="imgName2">Chưa chọn</span>
-            <button class="btn btn-ghost btn-xs" id="removeImg2">✕</button>
+            <span style="font-size:0.8rem; color:#5e6d8c;" id="imgName2">Chưa chọn</span>
+            <button class="btn btn-ghost btn-xs" id="removeImg2">✕ Xóa</button>
           </div>
           <div class="control-row">
-            <input type="text" id="targetId2" class="input-pill" placeholder="Channel ID" style="width:150px;">
-            <input type="number" id="delay2" class="input-pill" placeholder="Delay ms" value="800" min="400" style="width:120px;">
+            <input type="text" id="targetId2" class="input-pill" placeholder="Channel ID" style="width:160px;">
+            <input type="number" id="delay2" class="input-pill" placeholder="Delay ms" value="800" min="400" style="width:130px;">
             <button class="btn btn-primary" id="startSpam2">▶ Chạy</button>
             <button class="btn btn-stop" id="stopSpam2">⏹️ Dừng</button>
           </div>
@@ -1004,48 +1270,33 @@ Tab 2 - Dòng 3 🎯</textarea>
         </div>
       </div>
 
-      <!-- TAB 3 -->
       <div id="tab3" class="tab-content">
         <div class="card">
           <div class="card-header">
             <span class="card-title">⚙️ Cấu hình Tab 3</span>
-          </div>
-          <textarea id="msg3" rows="3" placeholder="Nội dung tin nhắn...">Tab 3 - Siêu tốc 🔥
-Spam không ngừng! 🚀
-Dòng cuối cùng 🎯</textarea>
-          
-          <div class="tag-section">
-            <span class="tag-prefix">🏷️ Cấu hình Tag:</span>
-            <div class="tag-options" id="tagOptions3">
-              <button class="tag-option-btn active" data-tag="khongtag">Không Tag</button>
-              <button class="tag-option-btn" data-tag="everyone">@everyone</button>
-              <button class="tag-option-btn" data-tag="here">@here</button>
-              <button class="tag-option-btn" data-tag="custom">Custom</button>
+            <div class="mode-selector" id="modeSelector3">
+              <button class="mode-btn active" data-mode="treongon">📝 Trẻo ngôn</button>
+              <button class="mode-btn" data-mode="nhaytag">🏷️ Nhảy tag</button>
+              <button class="mode-btn" data-mode="dongvatag">📋 Từng dòng + Tag</button>
             </div>
           </div>
-          <div id="customTagContainer3" style="display:none;">
-            <input type="text" id="customTagInput3" class="tag-input" placeholder="Nhập tag tùy chỉnh...">
-          </div>
-
+          <textarea id="msg3" rows="4" placeholder="Mỗi dòng là 1 tin nhắn...">Tab 3 - Siêu tốc 🔥
+Spam không ngừng! 🚀</textarea>
           <div class="tag-section">
-            <span class="tag-prefix">📌 Chế độ tác vụ:</span>
-            <div class="tag-options" id="treoOptions3">
-              <button class="tag-option-btn active" data-treo="treongon">Treo Ngôn (Lập Đoạn Văn)</button>
-              <button class="tag-option-btn" data-treo="nhaytag">NhayTag (Lập Từng Dòng)</button>
-            </div>
+            <span class="tag-prefix">🏷️ Tag:</span>
+            <input type="text" id="tagInput3" class="tag-input" placeholder="VD: <@123456789>">
           </div>
-
           <div class="image-upload-area">
             <span style="color:#60a5fa; font-weight:600;">🖼️ Ảnh:</span>
             <div class="image-preview" id="imgPreview3">📷</div>
             <label class="file-input-label" for="fileInput3">📁 Chọn ảnh</label>
             <input type="file" id="fileInput3" accept="image/*">
-            <span style="font-size:0.75rem; color:#5e6d8c;" id="imgName3">Chưa chọn</span>
-            <button class="btn btn-ghost btn-xs" id="removeImg3">✕</button>
+            <span style="font-size:0.8rem; color:#5e6d8c;" id="imgName3">Chưa chọn</span>
+            <button class="btn btn-ghost btn-xs" id="removeImg3">✕ Xóa</button>
           </div>
           <div class="control-row">
-            <input type="text" id="targetId3" class="input-pill" placeholder="Channel ID" style="width:150px;">
-            <input type="number" id="delay3" class="input-pill" placeholder="Delay ms" value="600" min="400" style="width:120px;">
+            <input type="text" id="targetId3" class="input-pill" placeholder="Channel ID" style="width:160px;">
+            <input type="number" id="delay3" class="input-pill" placeholder="Delay ms" value="600" min="400" style="width:130px;">
             <button class="btn btn-primary" id="startSpam3">▶ Chạy</button>
             <button class="btn btn-stop" id="stopSpam3">⏹️ Dừng</button>
           </div>
@@ -1059,459 +1310,437 @@ Dòng cuối cùng 🎯</textarea>
     </main>
   </div>
 
-  <script>
-    (function() {
-      // ============ TOAST ============
-      function showToast(msg, type = 'info') {
-        const container = document.getElementById('toastContainer');
-        const toast = document.createElement('div');
-        toast.className = `toast ${type}`;
-        toast.innerHTML = `<span>${type === 'success' ? '✅' : type === 'error' ? '❌' : 'ℹ️'}</span> ${msg}`;
-        container.appendChild(toast);
-        setTimeout(() => {
-          toast.style.opacity = '0';
-          toast.style.transform = 'translateX(120%)';
-          toast.style.transition = 'all 0.3s ease';
-          setTimeout(() => toast.remove(), 300);
-        }, 3000);
+<script>
+  (function() {
+    // ============ PARTICLES ============
+    const particlesContainer = document.getElementById('particles');
+    for (let i = 0; i < 50; i++) {
+      const particle = document.createElement('div');
+      particle.className = 'particle';
+      particle.style.left = Math.random() * 100 + '%';
+      particle.style.top = Math.random() * 100 + '%';
+      particle.style.animationDelay = Math.random() * 8 + 's';
+      particle.style.animationDuration = (6 + Math.random() * 10) + 's';
+      particlesContainer.appendChild(particle);
+    }
+
+    // ============ RIPPLE EFFECT ============
+    function createRipple(e, element) {
+      const ripple = document.createElement('span');
+      ripple.className = 'ripple';
+      const rect = element.getBoundingClientRect();
+      const size = Math.max(rect.width, rect.height);
+      ripple.style.width = ripple.style.height = size + 'px';
+      ripple.style.left = (e.clientX - rect.left - size / 2) + 'px';
+      ripple.style.top = (e.clientY - rect.top - size / 2) + 'px';
+      element.appendChild(ripple);
+      ripple.addEventListener('animationend', () => ripple.remove());
+    }
+
+    // Add ripple to buttons
+    document.querySelectorAll('.btn, .btn-login-discord, .mode-btn, .tab-btn, .nav-item').forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        createRipple(e, this);
+      });
+    });
+
+    // ============ TOAST ============
+    function showToast(msg, type = 'info') {
+      const container = document.getElementById('toastContainer');
+      const toast = document.createElement('div');
+      toast.className = `toast ${type}`;
+      toast.innerHTML = `<span>${type === 'success' ? '✅' : type === 'error' ? '❌' : 'ℹ️'}</span> ${msg}`;
+      container.appendChild(toast);
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateX(120%)';
+        toast.style.transition = 'all 0.3s ease';
+        setTimeout(() => toast.remove(), 300);
+      }, 3000);
+    }
+
+    // ============ STORAGE ============
+    const TOKEN_KEY = 'crystal_ultra_token';
+    const USER_KEY = 'crystal_ultra_user';
+    let userToken = null;
+    let userData = null;
+
+    // ============ UI ELEMENTS ============
+    const loginScreen = document.getElementById('loginScreen');
+    const appLayout = document.getElementById('appLayout');
+    const avatarEl = document.getElementById('avatarDisplay');
+    const displayNameEl = document.getElementById('displayName');
+    const displayTagEl = document.getElementById('displayTag');
+    const globalStatusText = document.getElementById('globalStatusText');
+
+    // ============ AUTH ============
+    function cleanToken(t) { return t.replace(/^"|"$/g, '').trim(); }
+
+    async function validateToken(token) {
+      try {
+        const r = await fetch('https://discord.com/api/v10/users/@me', {
+          headers: { 'Authorization': token }
+        });
+        if (r.ok) return { valid: true, user: await r.json() };
+        return { valid: false, status: r.status };
+      } catch (e) {
+        return { valid: false, error: e.message };
       }
+    }
 
-      // ============ STORAGE ============
-      const TOKEN_KEY = 'crystal_ultra_token';
-      const USER_KEY = 'crystal_ultra_user';
-      let userToken = null;
-      let userData = null;
-
-      // ============ UI ============
-      const loginScreen = document.getElementById('loginScreen');
-      const appLayout = document.getElementById('appLayout');
-      const avatarEl = document.getElementById('avatarDisplay');
-      const displayNameEl = document.getElementById('displayName');
-      const displayTagEl = document.getElementById('displayTag');
-      const globalStatusText = document.getElementById('globalStatusText');
-      const totalSentEl = document.getElementById('totalSent');
-      const totalErrorsEl = document.getElementById('totalErrors');
-      const trangThaiEl = document.getElementById('trangThai');
-
-      // ============ AUTH ============
-      function cleanToken(t) { return t.replace(/^"|"$/g, '').trim(); }
-
-      async function validateToken(token) {
-        try {
-          const r = await fetch('https://discord.com/api/v10/users/@me', {
-            headers: { 'Authorization': token }
-          });
-          if (r.ok) return { valid: true, user: await r.json() };
-          return { valid: false, status: r.status };
-        } catch (e) {
-          return { valid: false, error: e.message };
-        }
+    async function refreshTokenValidation() {
+      if (!userToken) return;
+      const v = await validateToken(userToken);
+      if (v.valid) {
+        globalStatusText.textContent = '🟢 Token hợp lệ · Sẵn sàng';
+        document.getElementById('globalStatus').style.borderColor = 'rgba(16,185,129,0.25)';
+        document.getElementById('globalStatus').style.background = 'rgba(16,185,129,0.1)';
+      } else if (v.status === 401) {
+        globalStatusText.textContent = '🔴 Token hết hạn (401) · Vui lòng đăng nhập lại';
+        document.getElementById('globalStatus').style.borderColor = 'rgba(239,68,68,0.25)';
+        document.getElementById('globalStatus').style.background = 'rgba(239,68,68,0.1)';
+        showToast('⚠️ Token bị 401! Đang thử re-validate...', 'error');
+        setTimeout(refreshTokenValidation, 5000);
       }
+    }
 
-      function saveAuth(token, user) {
-        userToken = token;
-        userData = user;
-        localStorage.setItem(TOKEN_KEY, token);
-        localStorage.setItem(USER_KEY, JSON.stringify(user));
-        updateProfileUI(user);
-        showApp(true);
-        showToast('✅ Đăng nhập thành công: ' + (user.global_name || user.username), 'success');
-        setInterval(refreshTokenValidation, 60000);
+    function saveAuth(token, user) {
+      userToken = token;
+      userData = user;
+      localStorage.setItem(TOKEN_KEY, token);
+      localStorage.setItem(USER_KEY, JSON.stringify(user));
+      updateProfileUI(user);
+      showApp(true);
+      showToast('✅ Đăng nhập thành công: ' + (user.global_name || user.username), 'success');
+      setInterval(refreshTokenValidation, 60000);
+    }
+
+    function clearAuth() {
+      userToken = null;
+      userData = null;
+      localStorage.removeItem(TOKEN_KEY);
+      localStorage.removeItem(USER_KEY);
+      avatarEl.style.backgroundImage = '';
+      avatarEl.textContent = '🔮';
+      displayNameEl.textContent = 'Người dùng';
+      displayTagEl.textContent = '';
+      showApp(false);
+      Object.keys(spamState).forEach(t => stop(t));
+    }
+
+    function showApp(show) {
+      loginScreen.style.display = show ? 'none' : 'flex';
+      appLayout.style.display = show ? 'flex' : 'none';
+    }
+
+    function updateProfileUI(user) {
+      const hash = user.avatar;
+      const uid = user.id;
+      const name = user.global_name || user.username || 'User';
+      const disc = user.discriminator === '0' ? '' : '#' + user.discriminator;
+      displayNameEl.textContent = name;
+      displayTagEl.textContent = disc || '@' + user.username;
+      if (hash) {
+        avatarEl.style.backgroundImage = `url(https://cdn.discordapp.com/avatars/${uid}/${hash}.png?size=64)`;
+        avatarEl.style.backgroundSize = 'cover';
+        avatarEl.textContent = '';
       }
+    }
 
-      function clearAuth() {
-        userToken = null;
-        userData = null;
-        localStorage.removeItem(TOKEN_KEY);
-        localStorage.removeItem(USER_KEY);
-        avatarEl.style.backgroundImage = '';
-        avatarEl.textContent = '🔮';
-        displayNameEl.textContent = 'Người dùng';
-        displayTagEl.textContent = '';
-        showApp(false);
-        Object.keys(spamState).forEach(t => stop(t));
-        updateTotalStats();
-      }
-
-      function showApp(show) {
-        loginScreen.style.display = show ? 'none' : 'flex';
-        appLayout.style.display = show ? 'flex' : 'none';
-      }
-
-      function updateProfileUI(user) {
-        const hash = user.avatar;
-        const uid = user.id;
-        const name = user.global_name || user.username || 'User';
-        const disc = user.discriminator === '0' ? '' : '#' + user.discriminator;
-        displayNameEl.textContent = name;
-        displayTagEl.textContent = disc || '@' + user.username;
-        if (hash) {
-          avatarEl.style.backgroundImage = `url(https://cdn.discordapp.com/avatars/${uid}/${hash}.png?size=64)`;
-          avatarEl.style.backgroundSize = 'cover';
-          avatarEl.textContent = '';
-        }
-      }
-
-      async function refreshTokenValidation() {
-        if (!userToken) return;
-        const v = await validateToken(userToken);
+    async function initAuth() {
+      const saved = localStorage.getItem(TOKEN_KEY);
+      if (saved) {
+        const v = await validateToken(saved);
         if (v.valid) {
-          globalStatusText.textContent = '🟢 Token hợp lệ · Sẵn sàng';
-          document.getElementById('globalStatus').style.borderColor = 'rgba(16,185,129,0.25)';
-          document.getElementById('globalStatus').style.background = 'rgba(16,185,129,0.1)';
-        } else if (v.status === 401) {
-          globalStatusText.textContent = '🔴 Token hết hạn (401) · Vui lòng đăng nhập lại';
-          document.getElementById('globalStatus').style.borderColor = 'rgba(239,68,68,0.25)';
-          document.getElementById('globalStatus').style.background = 'rgba(239,68,68,0.1)';
-          showToast('⚠️ Token bị 401!', 'error');
-        }
-      }
-
-      async function initAuth() {
-        const saved = localStorage.getItem(TOKEN_KEY);
-        if (saved) {
-          const v = await validateToken(saved);
-          if (v.valid) { saveAuth(saved, v.user); return; }
-          else { clearAuth(); }
-        }
-        showApp(false);
-      }
-
-      // ============ LOGIN ============
-      document.getElementById('loginBtn').addEventListener('click', () => {
-        const token = prompt('🔐 Dán token Discord:');
-        if (token && token.trim()) handleToken(cleanToken(token));
-      });
-
-      document.getElementById('submitTokenBtn').addEventListener('click', () => {
-        const t = document.getElementById('directTokenInput').value;
-        if (t.trim()) handleToken(cleanToken(t));
-      });
-
-      async function handleToken(token) {
-        showToast('🔄 Đang xác thực token...', 'info');
-        const v = await validateToken(token);
-        if (v.valid) saveAuth(token, v.user);
-        else if (v.status === 401) showToast('❌ Token không hợp lệ (401)!', 'error');
-        else showToast('❌ Token không hợp lệ!', 'error');
-      }
-
-      document.getElementById('logoutBtn').addEventListener('click', () => {
-        if (confirm('Đăng xuất?')) clearAuth();
-      });
-
-      // ============ MOBILE MENU ============
-      const sidebar = document.getElementById('sidebar');
-      const overlay = document.getElementById('sidebarOverlay');
-      document.getElementById('mobileMenuBtn').addEventListener('click', () => {
-        sidebar.classList.toggle('open');
-        overlay.classList.toggle('show');
-      });
-      overlay.addEventListener('click', () => {
-        sidebar.classList.remove('open');
-        overlay.classList.remove('show');
-      });
-
-      // ============ TABS ============
-      function switchTab(tabId) {
-        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-        document.getElementById(tabId).classList.add('active');
-        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-        document.querySelector(`.nav-item[data-tab="${tabId}"]`)?.classList.add('active');
-        document.querySelectorAll('#tabsNav .tab-btn').forEach(b => b.classList.remove('active'));
-        document.querySelector(`#tabsNav .tab-btn[data-tab="${tabId}"]`)?.classList.add('active');
-      }
-
-      document.querySelectorAll('.nav-item').forEach(item => {
-        item.addEventListener('click', () => switchTab(item.dataset.tab));
-      });
-      document.querySelectorAll('#tabsNav .tab-btn').forEach(btn => {
-        btn.addEventListener('click', () => switchTab(btn.dataset.tab));
-      });
-
-      // ============ TAG OPTIONS ============
-      for (let i = 1; i <= 3; i++) {
-        const tagOptions = document.getElementById(`tagOptions${i}`);
-        if (tagOptions) {
-          tagOptions.addEventListener('click', (e) => {
-            if (e.target.classList.contains('tag-option-btn')) {
-              tagOptions.querySelectorAll('.tag-option-btn').forEach(b => b.classList.remove('active'));
-              e.target.classList.add('active');
-              const customContainer = document.getElementById(`customTagContainer${i}`);
-              if (e.target.dataset.tag === 'custom') {
-                customContainer.style.display = 'block';
-              } else {
-                customContainer.style.display = 'none';
-              }
-            }
-          });
-        }
-      }
-
-      function getTag(tabNum) {
-        const tagOptions = document.getElementById(`tagOptions${tabNum}`);
-        const active = tagOptions.querySelector('.tag-option-btn.active');
-        const tagType = active ? active.dataset.tag : 'khongtag';
-        
-        if (tagType === 'khongtag') return '';
-        if (tagType === 'everyone') return '@everyone';
-        if (tagType === 'here') return '@here';
-        if (tagType === 'custom') {
-          const customInput = document.getElementById(`customTagInput${tabNum}`);
-          return customInput.value.trim() || '';
-        }
-        return '';
-      }
-
-      // ============ TREO OPTIONS ============
-      for (let i = 1; i <= 3; i++) {
-        const treoOptions = document.getElementById(`treoOptions${i}`);
-        if (treoOptions) {
-          treoOptions.addEventListener('click', (e) => {
-            if (e.target.classList.contains('tag-option-btn')) {
-              treoOptions.querySelectorAll('.tag-option-btn').forEach(b => b.classList.remove('active'));
-              e.target.classList.add('active');
-            }
-          });
-        }
-      }
-
-      function getTreoMode(tabNum) {
-        const treoOptions = document.getElementById(`treoOptions${tabNum}`);
-        const active = treoOptions.querySelector('.tag-option-btn.active');
-        return active ? active.dataset.treo : 'treongon';
-      }
-
-      // ============ IMAGE HANDLING ============
-      const imageData = {};
-      for (let i = 1; i <= 3; i++) {
-        imageData[i] = { file: null, dataUrl: null };
-        const fileInput = document.getElementById(`fileInput${i}`);
-        if (fileInput) {
-          fileInput.addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (!file) return;
-            const reader = new FileReader();
-            reader.onload = function(ev) {
-              imageData[i].dataUrl = ev.target.result;
-              imageData[i].file = file;
-              document.getElementById(`imgPreview${i}`).style.backgroundImage = `url(${ev.target.result})`;
-              document.getElementById(`imgPreview${i}`).textContent = '';
-              document.getElementById(`imgName${i}`).textContent = file.name;
-            };
-            reader.readAsDataURL(file);
-          });
-        }
-        const removeBtn = document.getElementById(`removeImg${i}`);
-        if (removeBtn) {
-          removeBtn.addEventListener('click', () => {
-            imageData[i] = { file: null, dataUrl: null };
-            document.getElementById(`imgPreview${i}`).style.backgroundImage = '';
-            document.getElementById(`imgPreview${i}`).textContent = '📷';
-            document.getElementById(`imgName${i}`).textContent = 'Chưa chọn';
-            document.getElementById(`fileInput${i}`).value = '';
-          });
-        }
-      }
-
-      // ============ SPAM ENGINE ============
-      const spamState = {
-        tab1: { interval: null, count: 0, retry: 0, lineIndex: 0, consecutiveErrors: 0 },
-        tab2: { interval: null, count: 0, retry: 0, lineIndex: 0, consecutiveErrors: 0 },
-        tab3: { interval: null, count: 0, retry: 0, lineIndex: 0, consecutiveErrors: 0 }
-      };
-
-      let totalSent = 0;
-      let totalErrors = 0;
-
-      function updateTotalStats() {
-        totalSentEl.textContent = totalSent;
-        totalErrorsEl.textContent = totalErrors;
-        const running = Object.values(spamState).some(s => s.interval !== null);
-        trangThaiEl.textContent = running ? '🟢 Đang Chạy' : '⏸️ Đang Dừng';
-        if (running) {
-          trangThaiEl.style.background = 'linear-gradient(135deg, #10b981, #059669)';
-          trangThaiEl.style.webkitBackgroundClip = 'text';
-          trangThaiEl.style.webkitTextFillColor = 'transparent';
-          trangThaiEl.style.backgroundClip = 'text';
-        } else {
-          trangThaiEl.style.background = 'linear-gradient(135deg, #ef4444, #dc2626)';
-          trangThaiEl.style.webkitBackgroundClip = 'text';
-          trangThaiEl.style.webkitTextFillColor = 'transparent';
-          trangThaiEl.style.backgroundClip = 'text';
-        }
-      }
-
-      async function uploadImage(channelId, token, file) {
-        const formData = new FormData();
-        formData.append('file', file);
-        const r = await fetch(`https://discord.com/api/v10/channels/${channelId}/messages`, {
-          method: 'POST',
-          headers: { 'Authorization': token },
-          body: formData
-        });
-        if (r.status === 401) throw { type: 'auth_error', message: 'Token hết hạn (401)' };
-        if (r.status === 429) {
-          const d = await r.json();
-          throw { type: 'rateLimit', retryAfter: (d.retry_after || 1.5) * 1000 };
-        }
-        if (!r.ok) throw new Error((await r.json().catch(() => ({}))).message || `HTTP ${r.status}`);
-        return r.json();
-      }
-
-      async function sendText(channelId, content, token) {
-        const r = await fetch(`https://discord.com/api/v10/channels/${channelId}/messages`, {
-          method: 'POST',
-          headers: { 'Authorization': token, 'Content-Type': 'application/json' },
-          body: JSON.stringify({ content })
-        });
-        if (r.status === 401) throw { type: 'auth_error', message: 'Token hết hạn (401)' };
-        if (r.status === 429) {
-          const d = await r.json();
-          throw { type: 'rateLimit', retryAfter: (d.retry_after || 1.5) * 1000 };
-        }
-        if (!r.ok) throw new Error((await r.json().catch(() => ({}))).message || `HTTP ${r.status}`);
-        return r.json();
-      }
-
-      function updateUI(tab, status, count, rl = '') {
-        const n = tab.replace('tab', '');
-        document.getElementById(`status${n}`).textContent = status;
-        document.getElementById(`counter${n}`).textContent = count;
-        document.getElementById(`rateLimit${n}`).textContent = rl;
-        let total = 0;
-        for (const key of ['tab1', 'tab2', 'tab3']) {
-          total += spamState[key].count;
-        }
-        totalSent = total;
-        updateTotalStats();
-      }
-
-      function stop(tab) {
-        if (spamState[tab].interval) {
-          clearInterval(spamState[tab].interval);
-          spamState[tab].interval = null;
-        }
-        spamState[tab].consecutiveErrors = 0;
-        updateTotalStats();
-      }
-
-      async function cycle(tab) {
-        const s = spamState[tab];
-        const n = tab.replace('tab', '');
-        const rawText = document.getElementById(`msg${n}`).value.trim();
-        const ch = document.getElementById(`targetId${n}`).value.trim();
-        const tag = getTag(n);
-        const mode = getTreoMode(n);
-        const img = imageData[n];
-
-        if (!userToken) { stop(tab); updateUI(tab, '❌ Chưa đăng nhập', s.count); return; }
-        if (!ch) { stop(tab); updateUI(tab, '❌ Chưa có Channel ID', s.count); return; }
-        if (!rawText) { stop(tab); updateUI(tab, '❌ Nội dung trống', s.count); return; }
-        if (s.retry > Date.now()) {
-          updateUI(tab, `⏳ Rate limit...`, s.count, `⛔ ${Math.ceil((s.retry - Date.now()) / 1000)}s`);
+          saveAuth(saved, v.user);
           return;
+        } else {
+          clearAuth();
+        }
+      }
+      showApp(false);
+    }
+
+    // ============ LOGIN EVENTS ============
+    document.getElementById('loginBtn').addEventListener('click', () => {
+      const token = prompt('🔐 Dán token Discord:\n\n(Lấy token: F12 → Console → dán lệnh lấy token)');
+      if (token && token.trim()) handleToken(cleanToken(token));
+    });
+
+    document.getElementById('submitTokenBtn').addEventListener('click', () => {
+      const t = document.getElementById('directTokenInput').value;
+      if (t.trim()) handleToken(cleanToken(t));
+    });
+
+    async function handleToken(token) {
+      showToast('🔄 Đang xác thực token...', 'info');
+      const v = await validateToken(token);
+      if (v.valid) {
+        saveAuth(token, v.user);
+      } else if (v.status === 401) {
+        showToast('❌ Token không hợp lệ (401)! Kiểm tra lại token hoặc lấy token mới.', 'error');
+      } else {
+        showToast('❌ Lỗi kết nối hoặc token không hợp lệ!', 'error');
+      }
+    }
+
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+      if (confirm('Đăng xuất?')) clearAuth();
+    });
+
+    // ============ MOBILE MENU ============
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('sidebarOverlay');
+    document.getElementById('mobileMenuBtn').addEventListener('click', () => {
+      sidebar.classList.toggle('open');
+      overlay.classList.toggle('show');
+    });
+    overlay.addEventListener('click', () => {
+      sidebar.classList.remove('open');
+      overlay.classList.remove('show');
+    });
+
+    // ============ TABS ============
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+      document.getElementById(tabId).classList.add('active');
+      document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+      document.querySelector(`.nav-item[data-tab="${tabId}"]`)?.classList.add('active');
+      document.querySelectorAll('#tabsNav .tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelector(`#tabsNav .tab-btn[data-tab="${tabId}"]`)?.classList.add('active');
+    }
+
+    document.querySelectorAll('.nav-item').forEach(item => {
+      item.addEventListener('click', () => switchTab(item.dataset.tab));
+    });
+    document.querySelectorAll('#tabsNav .tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => switchTab(btn.dataset.tab));
+    });
+
+    // ============ MODE SELECTORS ============
+    for (let i = 1; i <= 3; i++) {
+      const selector = document.getElementById(`modeSelector${i}`);
+      selector.addEventListener('click', (e) => {
+        if (e.target.classList.contains('mode-btn')) {
+          selector.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+          e.target.classList.add('active');
+        }
+      });
+    }
+
+    function getMode(tabNum) {
+      const selector = document.getElementById(`modeSelector${tabNum}`);
+      const active = selector.querySelector('.mode-btn.active');
+      return active ? active.dataset.mode : 'treongon';
+    }
+
+    // ============ IMAGE HANDLING ============
+    const imageData = {};
+    for (let i = 1; i <= 3; i++) {
+      imageData[i] = { file: null, dataUrl: null };
+      document.getElementById(`fileInput${i}`).addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = function(ev) {
+          imageData[i].dataUrl = ev.target.result;
+          imageData[i].file = file;
+          document.getElementById(`imgPreview${i}`).style.backgroundImage = `url(${ev.target.result})`;
+          document.getElementById(`imgPreview${i}`).textContent = '';
+          document.getElementById(`imgName${i}`).textContent = file.name;
+        };
+        reader.readAsDataURL(file);
+      });
+      document.getElementById(`removeImg${i}`).addEventListener('click', () => {
+        imageData[i] = { file: null, dataUrl: null };
+        document.getElementById(`imgPreview${i}`).style.backgroundImage = '';
+        document.getElementById(`imgPreview${i}`).textContent = '📷';
+        document.getElementById(`imgName${i}`).textContent = 'Chưa chọn';
+        document.getElementById(`fileInput${i}`).value = '';
+      });
+      
+      // Click on preview to upload
+      document.getElementById(`imgPreview${i}`).addEventListener('click', () => {
+        document.getElementById(`fileInput${i}`).click();
+      });
+    }
+
+    // ============ SPAM ENGINE + AUTO FIX 401 ============
+    const spamState = {
+      tab1: { interval: null, count: 0, retry: 0, lineIndex: 0, consecutiveErrors: 0 },
+      tab2: { interval: null, count: 0, retry: 0, lineIndex: 0, consecutiveErrors: 0 },
+      tab3: { interval: null, count: 0, retry: 0, lineIndex: 0, consecutiveErrors: 0 }
+    };
+
+    async function uploadImageToDiscord(channelId, token, file) {
+      const formData = new FormData();
+      formData.append('file', file);
+      const r = await fetch(`https://discord.com/api/v10/channels/${channelId}/messages`, {
+        method: 'POST',
+        headers: { 'Authorization': token },
+        body: formData
+      });
+      if (r.status === 401) throw { type: 'auth_error', message: 'Token hết hạn (401)' };
+      if (r.status === 429) {
+        const d = await r.json();
+        throw { type: 'rateLimit', retryAfter: (d.retry_after || 1.5) * 1000 };
+      }
+      if (!r.ok) throw new Error((await r.json().catch(() => ({}))).message || `HTTP ${r.status}`);
+      return r.json();
+    }
+
+    async function sendTextMessage(channelId, content, token) {
+      const r = await fetch(`https://discord.com/api/v10/channels/${channelId}/messages`, {
+        method: 'POST',
+        headers: { 'Authorization': token, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ content })
+      });
+      if (r.status === 401) throw { type: 'auth_error', message: 'Token hết hạn (401)' };
+      if (r.status === 429) {
+        const d = await r.json();
+        throw { type: 'rateLimit', retryAfter: (d.retry_after || 1.5) * 1000 };
+      }
+      if (!r.ok) throw new Error((await r.json().catch(() => ({}))).message || `HTTP ${r.status}`);
+      return r.json();
+    }
+
+    function updateUI(tab, status, count, rl = '') {
+      const n = tab.replace('tab', '');
+      document.getElementById(`status${n}`).textContent = status;
+      const counterEl = document.getElementById(`counter${n}`);
+      counterEl.textContent = count;
+      // Animate counter
+      counterEl.style.animation = 'none';
+      counterEl.offsetHeight; // Trigger reflow
+      counterEl.style.animation = 'counterPulse 0.5s ease-in-out';
+      document.getElementById(`rateLimit${n}`).textContent = rl;
+    }
+
+    function stop(tab) {
+      if (spamState[tab].interval) clearInterval(spamState[tab].interval);
+      spamState[tab].interval = null;
+      spamState[tab].consecutiveErrors = 0;
+    }
+
+    async function cycle(tab) {
+      const s = spamState[tab];
+      const n = tab.replace('tab', '');
+      const rawText = document.getElementById(`msg${n}`).value.trim();
+      const ch = document.getElementById(`targetId${n}`).value.trim();
+      const tag = document.getElementById(`tagInput${n}`).value.trim();
+      const mode = getMode(n);
+      const img = imageData[n];
+
+      if (!userToken) { stop(tab); updateUI(tab, '❌ Chưa đăng nhập', s.count); return; }
+      if (!ch) { stop(tab); updateUI(tab, '❌ Chưa có Channel ID', s.count); return; }
+      if (!rawText) { stop(tab); updateUI(tab, '❌ Nội dung trống', s.count); return; }
+      if (s.retry > Date.now()) {
+        updateUI(tab, `⏳ Rate limit...`, s.count, `⛔ ${Math.ceil((s.retry - Date.now()) / 1000)}s`);
+        return;
+      }
+
+      try {
+        let messageContent = '';
+        
+        if (mode === 'treongon') {
+          // Gửi toàn bộ nội dung textarea
+          messageContent = tag ? tag + ' ' + rawText : rawText;
+        } else if (mode === 'nhaytag') {
+          // Gửi từng dòng, tag đứng trước mỗi dòng
+          const lines = rawText.split('\n').filter(l => l.trim());
+          if (lines.length === 0) { stop(tab); updateUI(tab, '❌ Không có dòng nào', s.count); return; }
+          const selectedLine = lines[s.lineIndex % lines.length];
+          messageContent = tag ? tag + ' ' + selectedLine : selectedLine;
+          s.lineIndex++;
+        } else if (mode === 'dongvatag') {
+          // Gửi từng dòng + tag ở cuối
+          const lines = rawText.split('\n').filter(l => l.trim());
+          if (lines.length === 0) { stop(tab); updateUI(tab, '❌ Không có dòng nào', s.count); return; }
+          const selectedLine = lines[s.lineIndex % lines.length];
+          messageContent = tag ? selectedLine + ' ' + tag : selectedLine;
+          s.lineIndex++;
         }
 
-        try {
-          let messageContent = '';
-          
-          if (mode === 'treongon') {
-            messageContent = rawText;
+        if (img.file) await uploadImageToDiscord(ch, userToken, img.file);
+        if (messageContent) await sendTextMessage(ch, messageContent, userToken);
+
+        s.count++;
+        s.consecutiveErrors = 0;
+        
+        let modeLabel = '';
+        switch(mode) {
+          case 'treongon': modeLabel = 'Trẻo ngôn'; break;
+          case 'nhaytag': modeLabel = 'Nhảy tag'; break;
+          case 'dongvatag': modeLabel = 'Từng dòng + Tag'; break;
+        }
+        
+        updateUI(tab, `✅ [${modeLabel}] Đã gửi (${new Date().toLocaleTimeString()})`, s.count);
+
+      } catch (e) {
+        if (e.type === 'auth_error') {
+          s.consecutiveErrors++;
+          updateUI(tab, '🔴 Token 401 - Đang thử re-validate...', s.count);
+          showToast('⚠️ Phát hiện lỗi 401! Đang kiểm tra lại token...', 'error');
+          const v = await validateToken(userToken);
+          if (!v.valid) {
+            stop(tab);
+            updateUI(tab, '❌ Token đã hết hạn - Vui lòng đăng nhập lại', s.count);
+            showToast('❌ Token không thể phục hồi! Vui lòng đăng nhập lại.', 'error');
+            globalStatusText.textContent = '🔴 Token hết hạn - Cần đăng nhập lại';
           } else {
-            const lines = rawText.split('\n').filter(line => line.trim() !== '');
-            if (lines.length === 0) {
-              stop(tab);
-              updateUI(tab, '❌ Không có dòng nào để gửi', s.count);
-              return;
-            }
-            messageContent = lines[s.lineIndex % lines.length];
-            s.lineIndex++;
+            updateUI(tab, '🟢 Token đã được re-validate', s.count);
+            showToast('✅ Token vẫn hợp lệ, tiếp tục spam...', 'success');
           }
-
-          if (tag) {
-            messageContent = tag + ' ' + messageContent;
-          }
-
-          if (img.file) {
-            await uploadImage(ch, userToken, img.file);
-          }
-          
-          if (messageContent) {
-            await sendText(ch, messageContent, userToken);
-          }
-
-          s.count++;
-          s.consecutiveErrors = 0;
-          const modeLabel = mode === 'treongon' ? 'Treo Ngôn' : 'NhayTag';
-          updateUI(tab, `✅ [${modeLabel}] Đã gửi`, s.count);
-
-        } catch (e) {
-          if (e.type === 'auth_error') {
-            s.consecutiveErrors++;
-            updateUI(tab, '🔴 Token 401', s.count);
-            totalErrors++;
-            updateTotalStats();
-            showToast('⚠️ Lỗi 401! Kiểm tra token.', 'error');
-            const v = await validateToken(userToken);
-            if (!v.valid) {
-              stop(tab);
-              updateUI(tab, '❌ Token hết hạn', s.count);
-              globalStatusText.textContent = '🔴 Token hết hạn';
-            } else {
-              updateUI(tab, '🟢 Token OK', s.count);
-            }
-          } else if (e.type === 'rateLimit') {
-            s.retry = Date.now() + e.retryAfter + 200;
-            updateUI(tab, `⛔ Rate limit`, s.count, `⛔ ${Math.round(e.retryAfter / 1000)}s`);
-            totalErrors++;
-            updateTotalStats();
-          } else {
-            s.consecutiveErrors++;
-            totalErrors++;
-            updateTotalStats();
-            updateUI(tab, `❌ ${e.message}`, s.count);
-            if (s.consecutiveErrors >= 5) {
-              stop(tab);
-              showToast(`⚠️ Tab ${n} dừng do quá nhiều lỗi!`, 'error');
-            }
+        } else if (e.type === 'rateLimit') {
+          s.retry = Date.now() + e.retryAfter + 200;
+          updateUI(tab, `⛔ Rate limit`, s.count, `⛔ ${Math.round(e.retryAfter / 1000)}s`);
+        } else {
+          s.consecutiveErrors++;
+          updateUI(tab, `❌ ${e.message}`, s.count);
+          if (s.consecutiveErrors >= 5) {
+            stop(tab);
+            showToast(`⚠️ Tab ${n} dừng do quá nhiều lỗi!`, 'error');
           }
         }
       }
+    }
 
-      function start(tab) {
-        const n = tab.replace('tab', '');
-        if (!userToken) { showToast('❌ Đăng nhập trước!', 'error'); return; }
-        const ch = document.getElementById(`targetId${n}`).value.trim();
-        if (!ch) { showToast('❌ Nhập Channel ID!', 'error'); return; }
-        stop(tab);
-        const d = Math.max(400, parseInt(document.getElementById(`delay${n}`).value) || 800);
-        document.getElementById(`delay${n}`).value = d;
-        spamState[tab].retry = 0;
-        spamState[tab].lineIndex = 0;
-        spamState[tab].consecutiveErrors = 0;
-        const modeLabel = getTreoMode(n) === 'treongon' ? 'Treo Ngôn' : 'NhayTag';
-        updateUI(tab, `🟢 [${modeLabel}] Đang spam`, spamState[tab].count);
-        cycle(tab);
-        spamState[tab].interval = setInterval(() => cycle(tab), d);
-        showToast(`🚀 Tab ${n} bắt đầu! (${modeLabel})`, 'success');
-        updateTotalStats();
+    function start(tab) {
+      const n = tab.replace('tab', '');
+      if (!userToken) { showToast('❌ Đăng nhập trước!', 'error'); return; }
+      const ch = document.getElementById(`targetId${n}`).value.trim();
+      if (!ch) { showToast('❌ Nhập Channel ID!', 'error'); return; }
+      stop(tab);
+      const d = Math.max(400, parseInt(document.getElementById(`delay${n}`).value) || 800);
+      document.getElementById(`delay${n}`).value = d;
+      spamState[tab].retry = 0;
+      spamState[tab].lineIndex = 0;
+      spamState[tab].consecutiveErrors = 0;
+      
+      let modeLabel = '';
+      switch(getMode(n)) {
+        case 'treongon': modeLabel = 'Trẻo ngôn'; break;
+        case 'nhaytag': modeLabel = 'Nhảy tag'; break;
+        case 'dongvatag': modeLabel = 'Từng dòng + Tag'; break;
       }
+      
+      updateUI(tab, `🟢 [${modeLabel}] Đang spam (delay ${d}ms)`, spamState[tab].count);
+      cycle(tab);
+      spamState[tab].interval = setInterval(() => cycle(tab), d);
+      showToast(`🚀 Tab ${n} bắt đầu! (${modeLabel})`, 'success');
+    }
 
-      // ============ EVENT BINDINGS ============
-      document.getElementById('startSpam1').onclick = () => start('tab1');
-      document.getElementById('stopSpam1').onclick = () => { stop('tab1'); updateUI('tab1', '⏹️ Dừng', spamState.tab1.count); updateTotalStats(); };
-      document.getElementById('startSpam2').onclick = () => start('tab2');
-      document.getElementById('stopSpam2').onclick = () => { stop('tab2'); updateUI('tab2', '⏹️ Dừng', spamState.tab2.count); updateTotalStats(); };
-      document.getElementById('startSpam3').onclick = () => start('tab3');
-      document.getElementById('stopSpam3').onclick = () => { stop('tab3'); updateUI('tab3', '⏹️ Dừng', spamState.tab3.count); updateTotalStats(); };
+    document.getElementById('startSpam1').onclick = () => start('tab1');
+    document.getElementById('stopSpam1').onclick = () => { stop('tab1'); updateUI('tab1', '⏹️ Dừng', spamState.tab1.count); };
+    document.getElementById('startSpam2').onclick = () => start('tab2');
+    document.getElementById('stopSpam2').onclick = () => { stop('tab2'); updateUI('tab2', '⏹️ Dừng', spamState.tab2.count); };
+    document.getElementById('startSpam3').onclick = () => start('tab3');
+    document.getElementById('stopSpam3').onclick = () => { stop('tab3'); updateUI('tab3', '⏹️ Dừng', spamState.tab3.count); };
 
-      window.addEventListener('beforeunload', () => { Object.keys(spamState).forEach(t => stop(t)); });
+    window.addEventListener('beforeunload', () => { Object.keys(spamState).forEach(t => stop(t)); });
 
-      // ============ INIT ============
-      initAuth();
-      updateTotalStats();
-    })();
-  </script>
+    initAuth();
+  })();
+</script>
 </body>
 </html>
