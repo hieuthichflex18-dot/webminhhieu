@@ -1,702 +1,1015 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Tool By Minh hỉu</title>
-<style>
-  :root {
-    --bg: #0a0a0f;
-    --card: rgba(20, 20, 30, 0.85);
-    --gold: #ffd700;
-    --orange: #ff8c00;
-    --red: #ff2d55;
-    --purple: #af52de;
-    --blue: #0a84ff;
-    --green: #30d158;
-    --text: #f5f5f7;
-    --muted: #8e8e93;
-    --border: rgba(255,255,255,0.08);
-  }
-  * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    overflow-x: hidden;
-    background-image:
-      radial-gradient(ellipse at 20% 0%, rgba(255,140,0,0.12) 0%, transparent 50%),
-      radial-gradient(ellipse at 80% 100%, rgba(175,82,222,0.1) 0%, transparent 50%);
-  }
-  .container {
-    max-width: 480px;
-    margin: 0 auto;
-    padding: 12px 14px 40px;
-  }
-  /* HEADER */
-  .header {
-    text-align: center;
-    padding: 16px 0 8px;
-  }
-  .header h1 {
-    font-size: 1.15rem;
-    font-weight: 700;
-    letter-spacing: 1px;
-    background: linear-gradient(90deg, #ffd700, #ff8c00, #af52de);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-  .header p { font-size: 0.75rem; color: var(--muted); margin-top: 4px; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title id="page-title">Tài Xỉu Md5</title>
+    <style>
+        /* ===== TOOL VỚI NỀN TỐI – GIAO DIỆN XANH DƯƠNG NEON ===== */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            background-image: url('image_11.png');
+            background-size: 100% 100%;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
 
-  /* PLATFORM SELECT */
-  .platform-row {
-    display: flex;
-    gap: 10px;
-    margin: 14px 0;
-  }
-  .plat-btn {
-    flex: 1;
-    background: var(--card);
-    border: 1.5px solid var(--border);
-    border-radius: 16px;
-    padding: 12px 8px;
-    cursor: pointer;
-    transition: all 0.25s ease;
-    backdrop-filter: blur(12px);
-    text-align: center;
-  }
-  .plat-btn img {
-    height: 52px;
-    width: auto;
-    object-fit: contain;
-    display: block;
-    margin: 0 auto 6px;
-    filter: drop-shadow(0 2px 6px rgba(0,0,0,0.4));
-  }
-  .plat-btn span {
-    font-size: 0.8rem;
-    font-weight: 600;
-    color: var(--muted);
-  }
-  .plat-btn.active {
-    border-color: var(--gold);
-    box-shadow: 0 0 20px rgba(255,215,0,0.25), inset 0 0 20px rgba(255,215,0,0.05);
-    transform: translateY(-2px);
-  }
-  .plat-btn.active span { color: var(--gold); }
-  .plat-btn[data-plat="lc79"].active {
-    border-color: var(--purple);
-    box-shadow: 0 0 20px rgba(175,82,222,0.3), inset 0 0 20px rgba(175,82,222,0.06);
-  }
-  .plat-btn[data-plat="lc79"].active span { color: #d4a5ff; }
+        .toast {
+            background: rgba(0, 20, 40, 0.85);
+            color: #00e5ff;
+            padding: 10px 16px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 500;
+            font-size: 13px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.8);
+            width: 320px;
+            box-sizing: border-box;
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-160px);
+            text-align: center;
+            line-height: 1.4;
+            backdrop-filter: blur(5px);
+            z-index: 1001;
+            transition: opacity 0.3s ease;
+            border: 1px solid rgba(0, 229, 255, 0.2);
+        }
 
-  /* MODE TABS */
-  .mode-tabs {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 14px;
-  }
-  .mode-btn {
-    flex: 1;
-    padding: 10px 0;
-    border-radius: 12px;
-    border: 1px solid var(--border);
-    background: rgba(255,255,255,0.03);
-    color: var(--muted);
-    font-size: 0.85rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-  .mode-btn.active {
-    background: linear-gradient(135deg, rgba(255,140,0,0.25), rgba(255,215,0,0.15));
-    border-color: var(--orange);
-    color: var(--gold);
-    box-shadow: 0 0 12px rgba(255,140,0,0.2);
-  }
-  .mode-btn.lc.active {
-    background: linear-gradient(135deg, rgba(175,82,222,0.3), rgba(255,45,85,0.15));
-    border-color: var(--purple);
-    color: #e0b0ff;
-    box-shadow: 0 0 12px rgba(175,82,222,0.25);
-  }
+        .widget-wrapper {
+            position: relative;
+            z-index: 1000;
+            transition: transform 0.2s ease;
+            transform-origin: center center;
+        }
 
-  /* MAIN CARD */
-  .card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 18px 16px;
-    backdrop-filter: blur(16px);
-    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
-    margin-bottom: 14px;
-  }
-  .phien-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 16px;
-  }
-  .phien-label { font-size: 0.75rem; color: var(--muted); }
-  .phien-num {
-    font-size: 1.35rem;
-    font-weight: 800;
-    letter-spacing: 0.5px;
-    font-variant-numeric: tabular-nums;
-  }
-  .status-dot {
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    background: var(--green);
-    display: inline-block;
-    margin-right: 6px;
-    box-shadow: 0 0 8px var(--green);
-    animation: pulse 1.5s infinite;
-  }
-  @keyframes pulse {
-    0%,100% { opacity:1; }
-    50% { opacity:0.4; }
-  }
+        .widget {
+            background: #0a0e17;
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 20px;
+            width: 320px;
+            box-shadow: 0 12px 24px rgba(0,0,0,0.9), 0 0 30px rgba(0, 180, 255, 0.05);
+            box-sizing: border-box;
+            border: 1px solid rgba(0, 180, 255, 0.25);
+            position: relative;
+        }
 
-  /* RESULT + PREDICT */
-  .result-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    margin-bottom: 14px;
-  }
-  .box {
-    background: rgba(255,255,255,0.03);
-    border-radius: 14px;
-    padding: 14px 10px;
-    text-align: center;
-    border: 1px solid var(--border);
-  }
-  .box .label { font-size: 0.7rem; color: var(--muted); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
-  .box .value {
-    font-size: 1.4rem;
-    font-weight: 800;
-    letter-spacing: 1px;
-  }
-  .box.tai .value { color: #ff453a; text-shadow: 0 0 12px rgba(255,69,58,0.5); }
-  .box.xiu .value { color: #64d2ff; text-shadow: 0 0 12px rgba(100,210,255,0.5); }
-  .box.predict {
-    grid-column: 1 / -1;
-    background: linear-gradient(135deg, rgba(255,215,0,0.08), rgba(255,140,0,0.05));
-    border-color: rgba(255,215,0,0.25);
-  }
-  .box.predict .value {
-    font-size: 1.8rem;
-    background: linear-gradient(90deg, #ffd700, #ff9500);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    text-shadow: none;
-  }
-  .box.predict.xiu-p .value {
-    background: linear-gradient(90deg, #64d2ff, #0a84ff);
-    -webkit-background-clip: text;
-  }
+        .close-btn {
+            position: absolute;
+            top: 12px;
+            right: 14px;
+            background: transparent;
+            border: none;
+            color: #00b4ff;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            padding: 0;
+            line-height: 1;
+            opacity: 0.6;
+            transition: 0.2s;
+        }
+        .close-btn:hover {
+            opacity: 1;
+            color: #00e5ff;
+        }
 
-  /* CONF + INFO */
-  .info-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-top: 4px;
-  }
-  .chip {
-    font-size: 0.72rem;
-    padding: 5px 10px;
-    border-radius: 20px;
-    background: rgba(255,255,255,0.05);
-    border: 1px solid var(--border);
-    color: var(--muted);
-  }
-  .chip.high { color: var(--green); border-color: rgba(48,209,88,0.3); background: rgba(48,209,88,0.1); }
-  .chip.med { color: var(--gold); border-color: rgba(255,215,0,0.3); background: rgba(255,215,0,0.08); }
-  .chip.low { color: var(--muted); }
+        .control-panel {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0, 180, 255, 0.08);
+            padding: 6px 12px;
+            border-radius: 10px;
+            margin-bottom: 12px;
+            border: 1px solid rgba(0, 180, 255, 0.15);
+            font-size: 12px;
+            color: #80d4ff;
+        }
 
-  .explain {
-    margin-top: 12px;
-    font-size: 0.8rem;
-    color: #c7c7cc;
-    line-height: 1.45;
-    padding: 10px 12px;
-    background: rgba(0,0,0,0.25);
-    border-radius: 12px;
-    border-left: 3px solid var(--orange);
-  }
+        .control-group {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
 
-  /* DICES */
-  .dices {
-    display: flex;
-    justify-content: center;
-    gap: 8px;
-    margin: 10px 0 4px;
-  }
-  .dice {
-    width: 36px; height: 36px;
-    background: linear-gradient(145deg, #fff, #e0e0e0);
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 800;
-    font-size: 1.1rem;
-    color: #222;
-    box-shadow: 0 3px 8px rgba(0,0,0,0.3);
-  }
+        .control-btn {
+            background: rgba(0, 180, 255, 0.12);
+            border: 1px solid rgba(0, 180, 255, 0.2);
+            color: #80d4ff;
+            width: 26px;
+            height: 26px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
 
-  /* CONTROLS */
-  .controls {
-    display: flex;
-    gap: 10px;
-    margin-top: 16px;
-  }
-  .btn {
-    flex: 1;
-    padding: 13px 0;
-    border: none;
-    border-radius: 14px;
-    font-size: 0.9rem;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.2s;
-    letter-spacing: 0.3px;
-  }
-  .btn-refresh {
-    background: linear-gradient(135deg, #ff9500, #ff6b00);
-    color: #fff;
-    box-shadow: 0 4px 16px rgba(255,149,0,0.35);
-  }
-  .btn-refresh:active { transform: scale(0.97); }
-  .btn-auto {
-    background: rgba(255,255,255,0.06);
-    color: var(--text);
-    border: 1px solid var(--border);
-  }
-  .btn-auto.on {
-    background: linear-gradient(135deg, rgba(48,209,88,0.25), rgba(48,209,88,0.1));
-    border-color: var(--green);
-    color: var(--green);
-    box-shadow: 0 0 14px rgba(48,209,88,0.25);
-  }
+        .control-btn:hover {
+            background: rgba(0, 180, 255, 0.3);
+            border-color: #00b4ff;
+            box-shadow: 0 0 12px rgba(0, 180, 255, 0.2);
+            color: #fff;
+        }
 
-  /* HISTORY STRIP (simple pattern only) */
-  .pattern-strip {
-    margin-top: 12px;
-    overflow-x: auto;
-    white-space: nowrap;
-    padding: 8px 0;
-    -webkit-overflow-scrolling: touch;
-  }
-  .pattern-strip::-webkit-scrollbar { height: 3px; }
-  .pattern-strip::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 3px; }
-  .p-item {
-    display: inline-flex;
-    width: 22px; height: 22px;
-    border-radius: 5px;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.65rem;
-    font-weight: 700;
-    margin-right: 3px;
-  }
-  .p-item.T { background: rgba(255,69,58,0.25); color: #ff6961; }
-  .p-item.X { background: rgba(100,210,255,0.2); color: #64d2ff; }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #a0c4e0;
+            font-size: 13px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(0, 180, 255, 0.1);
+            user-select: none;
+            text-align: center;
+            line-height: 1.4;
+            flex-wrap: wrap;
+        }
 
-  .footer {
-    text-align: center;
-    font-size: 0.65rem;
-    color: var(--muted);
-    margin-top: 18px;
-    opacity: 0.7;
-  }
-  .loading {
-    text-align: center;
-    padding: 30px;
-    color: var(--muted);
-    font-size: 0.9rem;
-  }
-  .spinner {
-    width: 28px; height: 28px;
-    border: 3px solid rgba(255,255,255,0.1);
-    border-top-color: var(--gold);
-    border-radius: 50%;
-    animation: spin 0.7s linear infinite;
-    margin: 0 auto 10px;
-  }
-  @keyframes spin { to { transform: rotate(360deg); } }
-  .error-box {
-    background: rgba(255,45,85,0.12);
-    border: 1px solid rgba(255,45,85,0.3);
-    color: #ff6b81;
-    padding: 12px;
-    border-radius: 12px;
-    font-size: 0.8rem;
-    text-align: center;
-  }
-</style>
+        .header div {
+            width: 100%;
+        }
+
+        /* Hiển thị thời gian key */
+        .key-info {
+            font-size: 11px;
+            color: #7799bb;
+            margin-top: 4px;
+        }
+        .key-info span {
+            color: #00b4ff;
+        }
+
+        .input-section {
+            margin-bottom: 12px;
+        }
+        .input-section input {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            border: 1px solid rgba(0, 180, 255, 0.2);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: #fff;
+            border-radius: 6px;
+            font-size: 14px;
+            margin-bottom: 6px;
+            transition: 0.2s;
+        }
+        .input-section input:focus {
+            border-color: #00b4ff;
+            box-shadow: 0 0 12px rgba(0, 180, 255, 0.15);
+            outline: none;
+        }
+        .input-section input::placeholder {
+            color: #6688aa;
+        }
+        .input-msg {
+            font-size: 11px;
+            font-weight: 500;
+            min-height: 16px;
+        }
+        .error { color: #ff6b6b; }
+        .success { color: #69db7c; }
+
+        .main-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .circles {
+            display: flex;
+            gap: 12px;
+        }
+        .circle {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            opacity: 0.3;
+        }
+
+        .circle.left-circle {
+            background: linear-gradient(135deg, #8b0000, #ff4444);
+        }
+        .circle.right-circle {
+            background: linear-gradient(135deg, #00008b, #4444ff);
+        }
+
+        @keyframes blink-effect {
+            0% { opacity: 1; transform: scale(1.15); box-shadow: 0 0 20px rgba(0, 180, 255, 0.4); }
+            50% { opacity: 0.5; transform: scale(1); box-shadow: none; }
+            100% { opacity: 1; transform: scale(1.15); box-shadow: 0 0 20px rgba(0, 180, 255, 0.4); }
+        }
+
+        .circle.active {
+            animation: blink-effect 1s infinite;
+            opacity: 1;
+        }
+
+        .prediction {
+            text-align: right;
+        }
+        .prediction-result {
+            font-size: 32px;
+            font-weight: 700;
+            color: #00b4ff;
+            margin: 4px 0;
+            text-shadow: 0 0 20px rgba(0, 180, 255, 0.3);
+        }
+        .prediction-percent {
+            font-size: 18px;
+            color: #80d4ff;
+            font-weight: 500;
+            opacity: 0.9;
+        }
+
+        .action-container {
+            display: flex;
+            gap: 10px;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .big-action-btn {
+            flex: 1;
+            padding: 12px;
+            background: linear-gradient(135deg, #003366, #001a33);
+            color: #00b4ff;
+            border: 1px solid #00b4ff;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            text-align: center;
+        }
+        .big-action-btn:hover {
+            background: linear-gradient(135deg, #00b4ff, #0088cc);
+            color: #fff;
+            border-color: #00e5ff;
+            box-shadow: 0 0 20px rgba(0, 180, 255, 0.3);
+        }
+
+        .exit-action-btn {
+            flex: 1;
+            padding: 12px;
+            background: rgba(255,255,255,0.02);
+            color: #8899aa;
+            border: 1px solid #445566;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+            text-align: center;
+        }
+        .exit-action-btn:hover {
+            background: rgba(255,255,255,0.06);
+            color: #c0d0e0;
+            border-color: #6688aa;
+        }
+
+        .social-container {
+            display: flex;
+            gap: 10px;
+            width: 100%;
+        }
+
+        .social-btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: bold;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            transition: opacity 0.3s;
+        }
+        .social-btn:hover {
+            opacity: 0.85;
+        }
+        .telegram-btn {
+            background: #0088cc;
+            color: #fff;
+        }
+
+        .vip-toggle-btn {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            margin-top: -27px;
+            margin-left: -50px;
+            background: #0a0e17;
+            color: #00b4ff;
+            border: 2px solid #00b4ff;
+            padding: 14px 28px;
+            border-radius: 30px;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: move;
+            display: none;
+            z-index: 1002;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.9), 0 0 30px rgba(0, 180, 255, 0.1);
+            letter-spacing: 2px;
+            user-select: none;
+            touch-action: none;
+            transition: 0.3s;
+        }
+        .vip-toggle-btn:hover {
+            box-shadow: 0 0 40px rgba(0, 180, 255, 0.2);
+        }
+
+        /* ===== OVERLAY LOGIN ===== */
+        #login-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(12px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s;
+        }
+        #login-overlay.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        .login-box {
+            background: #0a0e17;
+            backdrop-filter: blur(20px);
+            border-radius: 40px;
+            padding: 40px 30px;
+            width: 90%;
+            max-width: 400px;
+            border: 1px solid rgba(0, 180, 255, 0.2);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.9), 0 0 40px rgba(0, 180, 255, 0.03);
+            text-align: center;
+        }
+        .login-box h2 {
+            color: #00b4ff;
+            font-weight: 600;
+            font-size: 24px;
+            margin-bottom: 8px;
+            text-shadow: 0 0 20px rgba(0, 180, 255, 0.1);
+        }
+        .login-box p {
+            color: #7799bb;
+            font-size: 14px;
+            margin-bottom: 24px;
+        }
+        .login-box input {
+            width: 100%;
+            padding: 14px 18px;
+            background: #1a2233;
+            border: 1px solid #334455;
+            border-radius: 30px;
+            font-size: 16px;
+            color: #fff;
+            outline: none;
+            transition: 0.2s;
+            margin-bottom: 16px;
+        }
+        .login-box input:focus {
+            border-color: #00b4ff;
+            box-shadow: 0 0 0 4px rgba(0, 180, 255, 0.1);
+        }
+        .login-box input::placeholder {
+            color: #556677;
+        }
+        .login-box .login-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #00b4ff, #0088cc);
+            border: none;
+            border-radius: 40px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #fff;
+            cursor: pointer;
+            transition: 0.25s;
+            box-shadow: 0 8px 24px rgba(0, 180, 255, 0.2);
+        }
+        .login-box .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 32px rgba(0, 180, 255, 0.4);
+        }
+        .login-box .login-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .login-box .login-msg {
+            margin-top: 12px;
+            font-size: 14px;
+            min-height: 20px;
+            color: #ff6b6b;
+        }
+        .login-box .login-msg.success {
+            color: #69db7c;
+        }
+
+        /* Checkbox lưu key – nhỏ gọn */
+        .save-key-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 6px;
+            margin-bottom: 14px;
+            color: #7799bb;
+            font-size: 13px;
+            cursor: pointer;
+        }
+        .save-key-wrapper input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            accent-color: #00b4ff;
+            cursor: pointer;
+            background: #1a2233;
+            border: 1px solid #334455;
+            border-radius: 3px;
+        }
+
+        /* ===== WELCOME SCREEN ===== */
+        #welcome-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(8px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            flex-direction: column;
+            transition: opacity 0.5s;
+        }
+        #welcome-screen.show {
+            display: flex;
+        }
+        #welcome-screen .welcome-box {
+            text-align: center;
+            padding: 40px;
+        }
+        #welcome-screen .welcome-box h1 {
+            font-size: 42px;
+            font-weight: 700;
+            color: #00e5ff;
+            text-shadow: 0 0 30px rgba(0, 229, 255, 0.3);
+            letter-spacing: 2px;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+        .marquee-text {
+            display: inline-block;
+            animation: marquee 8s linear infinite;
+        }
+        @keyframes marquee {
+            0% { transform: translateX(100%); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateX(-100%); opacity: 0; }
+        }
+        #welcome-screen .welcome-box .sub {
+            color: #aac0d0;
+            font-size: 18px;
+            margin-top: 16px;
+        }
+        .spinner {
+            margin-top: 20px;
+            width: 40px;
+            height: 40px;
+            border: 4px solid #2a3a4a;
+            border-top: 4px solid #00e5ff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
 </head>
 <body>
-<div class="container">
-  <div class="header">
-    <h1>SUN.WIN × LC79 TOOL</h1>
-    <p>Tài Xỉu · Sicbo · MD5 · Hũ</p>
-  </div>
 
-  <!-- Platform -->
-  <div class="platform-row">
-    <div class="plat-btn active" data-plat="sunwin" onclick="selectPlat('sunwin')">
-      <img id="logo-sun" alt="SunWin">
-      <span>SUN.WIN</span>
-    </div>
-    <div class="plat-btn" data-plat="lc79" onclick="selectPlat('lc79')">
-      <img id="logo-lc" alt="LC79">
-      <span>LC79</span>
-    </div>
-  </div>
+    <!-- ===== OVERLAY NHẬP KEY ===== -->
+    <div id="login-overlay">
+        <div class="login-box">
+            <h2>🔐 Xác thực</h2>
+            <p>Nhập key của bạn để sử dụng tool</p>
+            <input type="text" id="login-key-input" placeholder="Nhập key ..." autocomplete="off">
 
-  <!-- Modes -->
-  <div class="mode-tabs" id="modeTabs">
-    <button class="mode-btn active" data-mode="tx" onclick="selectMode('tx')">Tài Xỉu</button>
-    <button class="mode-btn" data-mode="sicbo" onclick="selectMode('sicbo')">Sicbo</button>
-  </div>
+            <!-- Checkbox lưu key (nhỏ) -->
+            <div class="save-key-wrapper">
+                <input type="checkbox" id="save-key-checkbox">
+                <label for="save-key-checkbox">Lưu key</label>
+            </div>
 
-  <!-- Main Card -->
-  <div class="card" id="mainCard">
-    <div class="loading" id="loading">
-      <div class="spinner"></div>
-      Đang tải dữ liệu...
-    </div>
-    <div id="content" style="display:none"></div>
-  </div>
-
-  <!-- Controls -->
-  <div class="controls">
-    <button class="btn btn-refresh" onclick="fetchData(true)">↻ Làm mới</button>
-    <button class="btn btn-auto" id="btnAuto" onclick="toggleAuto()">▶ Tự động</button>
-  </div>
-
-  <div class="footer">Tool dự đoán · Chỉ mang tính tham khảo</div>
-</div>
-
-<script>
-// ========== LOGOS ==========
-const SUN_B64 = "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";
-const LC_B64 = "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";
-document.getElementById('logo-sun').src = 'data:image/jpeg;base64,' + SUN_B64;
-document.getElementById('logo-lc').src = 'data:image/jpeg;base64,' + LC_B64;
-
-// ========== STATE ==========
-let platform = 'sunwin'; // sunwin | lc79
-let mode = 'tx';         // tx | sicbo | md5 | hu
-let autoTimer = null;
-let isAuto = false;
-let lastPhien = null;
-
-// ========== APIs ==========
-const APIS = {
-  sunwin_tx: () => `https://sunlaymaynkx.hacksieucap.pro/ttsunver2?t=${Date.now()}`,
-  sunwin_sicbo: 'https://sunwinsicbo.hacksieucap.pro/sicbosunwin/ai',
-  lc79_md5: 'https://wtxmd52.tele68.com/v1/txmd5/sessions?cp=R&cl=R&pf=web&at=5bd771bd28adc628097d99d6ecf80c62',
-  lc79_hu: 'https://wtx.tele68.com/v1/tx/sessions?cp=R&cl=R&pf=web&at=5bd771bd28adc628097d99d6ecf80c62'
-};
-
-// ========== UI SELECT ==========
-function selectPlat(p) {
-  platform = p;
-  document.querySelectorAll('.plat-btn').forEach(b => b.classList.toggle('active', b.dataset.plat === p));
-  const tabs = document.getElementById('modeTabs');
-  if (p === 'sunwin') {
-    tabs.innerHTML = `
-      <button class="mode-btn active" data-mode="tx" onclick="selectMode('tx')">Tài Xỉu</button>
-      <button class="mode-btn" data-mode="sicbo" onclick="selectMode('sicbo')">Sicbo</button>`;
-    mode = 'tx';
-  } else {
-    tabs.innerHTML = `
-      <button class="mode-btn lc active" data-mode="md5" onclick="selectMode('md5')">MD5</button>
-      <button class="mode-btn lc" data-mode="hu" onclick="selectMode('hu')">Hũ</button>`;
-    mode = 'md5';
-  }
-  fetchData(true);
-}
-
-function selectMode(m) {
-  mode = m;
-  document.querySelectorAll('.mode-btn').forEach(b => {
-    b.classList.toggle('active', b.dataset.mode === m);
-    if (platform === 'lc79') b.classList.add('lc');
-  });
-  fetchData(true);
-}
-
-// ========== FETCH ==========
-async function fetchData(manual = false) {
-  const loading = document.getElementById('loading');
-  const content = document.getElementById('content');
-  if (manual) {
-    loading.style.display = 'block';
-    content.style.display = 'none';
-  }
-
-  try {
-    let url;
-    if (platform === 'sunwin') {
-      url = mode === 'tx' ? APIS.sunwin_tx() : APIS.sunwin_sicbo;
-    } else {
-      url = mode === 'md5' ? APIS.lc79_md5 : APIS.lc79_hu;
-    }
-
-    const res = await fetch(url, { cache: 'no-store' });
-    if (!res.ok) throw new Error('HTTP ' + res.status);
-    const data = await res.json();
-
-    if (platform === 'sunwin') {
-      renderSunWin(data);
-    } else {
-      renderLC79(data);
-    }
-    loading.style.display = 'none';
-    content.style.display = 'block';
-  } catch (err) {
-    loading.style.display = 'none';
-    content.style.display = 'block';
-    content.innerHTML = `<div class="error-box">Lỗi kết nối API<br><small>${err.message}</small><br>Thử lại sau vài giây</div>`;
-  }
-}
-
-// ========== RENDER SUNWIN ==========
-function renderSunWin(data) {
-  let phien, pred, ketQua, conf, explain, pattern = '';
-
-  if (mode === 'tx') {
-    phien = data.phien || data.phien_dudoan || '—';
-    pred = (data.du_doan_van_sau || data.du_doan || '—').toUpperCase();
-    ketQua = (data.ket_qua_hien_tai || '—').toUpperCase();
-    conf = data.do_tin_cay || (data.ty_le_thanh_cong ? data.ty_le_thanh_cong : '—');
-    explain = data.giai_thich_chi_tiet || data.giai_thich || data.he_thong || '';
-    if (data.pattern_recent_20) pattern = data.pattern_recent_20;
-    else if (data.pattern_recent_50) pattern = data.pattern_recent_50.slice(-20);
-  } else {
-    // sicbo
-    phien = data.phien || '—';
-    pred = (data.du_doan || '—').toUpperCase();
-    ketQua = (data.ket_qua || '—').toUpperCase();
-    conf = data.confidence != null ? data.confidence + '%' : '—';
-    explain = data.mode || '';
-    if (data.past_vi) pattern = data.past_vi;
-  }
-
-  const isXiu = pred.includes('XỈU') || pred.includes('XIU') || pred === 'X';
-  const isTai = pred.includes('TÀI') || pred.includes('TAI') || pred === 'T';
-  const predClass = isXiu ? 'xiu-p' : '';
-
-  const kqClass = (ketQua.includes('XỈU') || ketQua.includes('XIU')) ? 'xiu' : 'tai';
-
-  let confChip = 'med';
-  if (typeof conf === 'string' && (conf.includes('cao') || conf.includes('Rất'))) confChip = 'high';
-  if (typeof conf === 'number' && conf >= 60) confChip = 'high';
-  if (typeof conf === 'number' && conf < 40) confChip = 'low';
-
-  let html = `
-    <div class="phien-row">
-      <div>
-        <div class="phien-label"><span class="status-dot"></span>Phiên hiện tại</div>
-        <div class="phien-num">#${phien}</div>
-      </div>
-      <div style="text-align:right">
-        <div class="phien-label">Phiên dự đoán</div>
-        <div class="phien-num" style="font-size:1.1rem;color:var(--gold)">#${Number(phien) + 1 || '—'}</div>
-      </div>
+            <button class="login-btn" id="login-btn">Xác nhận</button>
+            <div class="login-msg" id="login-msg"></div>
+        </div>
     </div>
 
-    <div class="result-grid">
-      <div class="box ${kqClass}">
-        <div class="label">Kết quả gần nhất</div>
-        <div class="value">${ketQua}</div>
-      </div>
-      <div class="box">
-        <div class="label">Độ tin cậy</div>
-        <div class="value" style="font-size:1.15rem;color:var(--gold)">${conf}</div>
-      </div>
-      <div class="box predict ${predClass}">
-        <div class="label">Dự đoán phiên sau</div>
-        <div class="value">${pred}</div>
-      </div>
-    </div>
-  `;
-
-  if (explain) {
-    html += `<div class="explain">${explain}</div>`;
-  }
-
-  if (pattern) {
-    html += `<div class="pattern-strip">`;
-    // if string of T/X
-    if (typeof pattern === 'string' && /^[TX]+$/i.test(pattern.replace(/,/g,''))) {
-      const arr = pattern.replace(/,/g,'').split('');
-      arr.forEach(c => {
-        html += `<span class="p-item ${c.toUpperCase()}">${c.toUpperCase()}</span>`;
-      });
-    } else if (typeof pattern === 'string') {
-      // numbers like past_vi
-      pattern.split(',').forEach(n => {
-        const num = parseInt(n);
-        const cls = (num >= 11) ? 'T' : 'X';
-        html += `<span class="p-item ${cls}">${n.trim()}</span>`;
-      });
-    }
-    html += `</div>`;
-  }
-
-  document.getElementById('content').innerHTML = html;
-  lastPhien = phien;
-}
-
-// ========== RENDER LC79 ==========
-function renderLC79(data) {
-  const list = data.list || [];
-  if (!list.length) {
-    document.getElementById('content').innerHTML = `<div class="error-box">Không có dữ liệu phiên</div>`;
-    return;
-  }
-
-  // list newest first
-  const latest = list[0];
-  const phien = latest.id;
-  const ketQua = latest.resultTruyenThong === 'TAI' ? 'TÀI' : 'XỈU';
-  const dices = latest.dices || [];
-  const point = latest.point;
-
-  // Build pattern string (newest first → reverse for display left=old)
-  const results = list.slice(0, 40).map(x => x.resultTruyenThong === 'TAI' ? 'T' : 'X');
-  const predObj = predictFromHistory(results);
-
-  const pred = predObj.pred;
-  const isXiu = pred === 'XỈU';
-  const conf = predObj.conf;
-  const confChip = conf >= 70 ? 'high' : conf >= 50 ? 'med' : 'low';
-
-  let html = `
-    <div class="phien-row">
-      <div>
-        <div class="phien-label"><span class="status-dot"></span>Phiên hiện tại</div>
-        <div class="phien-num">#${phien}</div>
-      </div>
-      <div style="text-align:right">
-        <div class="phien-label">Phiên dự đoán</div>
-        <div class="phien-num" style="font-size:1.1rem;color:#d4a5ff">#${phien + 1}</div>
-      </div>
+    <!-- ===== BẢNG CHÀO MỪNG ===== -->
+    <div id="welcome-screen">
+        <div class="welcome-box">
+            <h1><span class="marquee-text">🎉 Chào mừng đến với TOOL VIP 🎉</span></h1>
+            <div class="sub">Đang tải công cụ dự đoán ...</div>
+            <div class="spinner"></div>
+        </div>
     </div>
 
-    <div class="dices">
-      ${dices.map(d => `<div class="dice">${d}</div>`).join('')}
-      <div style="align-self:center;margin-left:6px;font-size:0.85rem;color:var(--muted)">= ${point}</div>
+    <!-- ===== TOOL CHÍNH ===== -->
+    <div class="toast" id="txt-toast">Chào Mừng Khách ViP Đến Với TOOL Lc79b.bet</div>
+
+    <button class="vip-toggle-btn" id="vip-btn">ViP</button>
+
+    <div class="widget-wrapper" id="widget-wrapper" style="display: none;">
+        <div class="widget" id="tool-widget">
+            <button class="close-btn" id="close-widget-btn">&times;</button>
+
+            <div class="control-panel">
+                <div class="control-group">
+                    <span>Xoay:</span>
+                    <button class="control-btn" id="rotate-left-btn" title="Xoay trái">↺</button>
+                    <button class="control-btn" id="rotate-right-btn" title="Xoay phải">↻</button>
+                </div>
+                <div class="control-group">
+                    <span>Cỡ:</span>
+                    <button class="control-btn" id="zoom-out-btn" title="Thu nhỏ">-</button>
+                    <button class="control-btn" id="zoom-in-btn" title="Phóng to">+</button>
+                </div>
+            </div>
+
+            <div class="header">
+                <div>
+                    <span id="header-author" style="color: #7799bb; display: block; font-weight: bold; font-size: 12px;">Tool Tx MD5 Van Vinh</span>
+                    <strong id="header-title" style="color: #00b4ff; font-size: 14px; display: block; margin-top: 2px; font-weight: bold; text-shadow: 0 0 10px rgba(0,180,255,0.1);">Tài Xỉu MD5</strong>
+                    <span id="header-contact" style="color: #557799; display: block; font-size: 12px; margin-top: 2px; font-weight: bold;">Tele : @vanvinhdzvailoz</span>
+                    <!-- Hiển thị thông tin key -->
+                    <div class="key-info" id="key-info-display">Key: <span id="current-key-display">Chưa có</span> | Hết hạn: <span id="current-expiry-display">--</span></div>
+                </div>
+            </div>
+
+            <div class="input-section">
+                <input type="text" id="code-input" placeholder="Dán mã phiên (32 ký tự)...">
+                <div class="input-msg error" id="input-msg">Chưa nhập đủ 32 ký tự!</div>
+            </div>
+
+            <div class="main-content">
+                <div class="circles">
+                    <div class="circle left-circle" id="circle-tai"></div>
+                    <div class="circle right-circle" id="circle-xiu"></div>
+                </div>
+                <div class="prediction">
+                    <div class="prediction-result" id="result">-</div>
+                    <div class="prediction-percent" id="percent">--%</div>
+                </div>
+            </div>
+
+            <div class="action-container">
+                <button class="big-action-btn" id="start-btn">BẮT ĐẦU</button>
+                <button class="exit-action-btn" id="exit-btn">TẮT</button>
+            </div>
+
+            <div class="social-container">
+                <a href="https://t.me/vanvinh10" id="telegram-link" class="social-btn telegram-btn">Telegram</a>
+            </div>
+        </div>
     </div>
 
-    <div class="result-grid">
-      <div class="box ${ketQua === 'TÀI' ? 'tai' : 'xiu'}">
-        <div class="label">Kết quả gần nhất</div>
-        <div class="value">${ketQua}</div>
-      </div>
-      <div class="box">
-        <div class="label">Độ tin cậy</div>
-        <div class="value" style="font-size:1.15rem;color:#d4a5ff">${conf}%</div>
-      </div>
-      <div class="box predict ${isXiu ? 'xiu-p' : ''}">
-        <div class="label">Dự đoán phiên sau</div>
-        <div class="value">${pred}</div>
-      </div>
-    </div>
+    <script>
+        // ===== CẤU HÌNH MOCKAPI =====
+        const MOCKAPI_PROJECT_KEY = "YOUR_MOCKAPI_API_KEY_HERE";
+        const MOCKAPI_URL = "https://6a8301e0cb486d2434032817.mockapi.io/chanboaydethgngheo/v1/apikeytooltx";
 
-    <div class="info-row">
-      <span class="chip ${confChip}">Streak: ${predObj.streak} ${predObj.last}</span>
-      <span class="chip">${mode === 'md5' ? 'MD5' : 'Hũ'} · ${list.length} phiên</span>
-    </div>
-  `;
+        // ===== DOM LOGIN =====
+        const overlay = document.getElementById('login-overlay');
+        const loginInput = document.getElementById('login-key-input');
+        const loginBtn = document.getElementById('login-btn');
+        const loginMsg = document.getElementById('login-msg');
+        const saveKeyCheckbox = document.getElementById('save-key-checkbox');
 
-  // pattern strip (oldest left → newest right)
-  const show = results.slice(0, 30).reverse();
-  html += `<div class="pattern-strip">`;
-  show.forEach(c => {
-    html += `<span class="p-item ${c}">${c}</span>`;
-  });
-  html += `</div>`;
+        // ===== DOM WELCOME =====
+        const welcomeScreen = document.getElementById('welcome-screen');
 
-  document.getElementById('content').innerHTML = html;
-  lastPhien = phien;
-}
+        // ===== DOM TOOL =====
+        const widgetWrapper = document.getElementById('widget-wrapper');
+        const toast = document.getElementById('txt-toast');
+        const keyInfoDisplay = document.getElementById('key-info-display');
+        const currentKeyDisplay = document.getElementById('current-key-display');
+        const currentExpiryDisplay = document.getElementById('current-expiry-display');
 
-// ========== SIMPLE PREDICTOR FOR LC79 ==========
-function predictFromHistory(results) {
-  // results: newest first, 'T' or 'X'
-  if (results.length < 3) return { pred: 'TÀI', conf: 50, streak: 0, last: '?' };
+        // ===== BIẾN TOÀN CỤC LƯU THÔNG TIN KEY =====
+        let currentUserKey = null;
+        let currentUserExpiry = null;
 
-  let streak = 1;
-  for (let i = 1; i < results.length; i++) {
-    if (results[i] === results[0]) streak++;
-    else break;
-  }
-  const last = results[0];
+        // ===== LƯU KEY VÀO LOCALSTORAGE =====
+        function saveKeyToStorage(key) {
+            if (!key) return;
+            localStorage.setItem('saved_tool_key', key);
+            showToastMsg('✅ Đã lưu key!', false);
+        }
 
-  // count last 12
-  const last12 = results.slice(0, 12);
-  const tCount = last12.filter(r => r === 'T').length;
-  const xCount = last12.length - tCount;
+        function getSavedKey() {
+            return localStorage.getItem('saved_tool_key') || '';
+        }
 
-  let pred, conf;
+        function showToastMsg(msg, isError = false) {
+            loginMsg.textContent = msg;
+            loginMsg.className = isError ? 'login-msg' : 'login-msg success';
+        }
 
-  if (streak >= 5) {
-    // break long streak
-    pred = last === 'T' ? 'XỈU' : 'TÀI';
-    conf = Math.min(82, 55 + streak * 5);
-  } else if (streak >= 3) {
-    // follow medium streak
-    pred = last === 'T' ? 'TÀI' : 'XỈU';
-    conf = 55 + streak * 6;
-  } else if (streak === 2) {
-    // slight follow
-    pred = last === 'T' ? 'TÀI' : 'XỈU';
-    conf = 58;
-  } else {
-    // mean reversion on imbalance
-    if (tCount >= 8) {
-      pred = 'XỈU';
-      conf = 62;
-    } else if (xCount >= 8) {
-      pred = 'TÀI';
-      conf = 62;
-    } else {
-      // slight opposite of last
-      pred = last === 'T' ? 'XỈU' : 'TÀI';
-      conf = 52;
-    }
-  }
+        // ===== HIỂN THỊ THÔNG TIN KEY TRONG TOOL =====
+        function updateKeyInfoDisplay(key, expiry) {
+            if (key) {
+                currentKeyDisplay.textContent = key.slice(0, 8) + '...' + key.slice(-4);
+            } else {
+                currentKeyDisplay.textContent = 'Chưa có';
+            }
+            if (expiry) {
+                currentExpiryDisplay.textContent = expiry;
+            } else {
+                currentExpiryDisplay.textContent = 'Vĩnh viễn';
+            }
+        }
 
-  return { pred, conf: Math.round(conf), streak, last };
-}
+        // ===== TỰ ĐỘNG ĐIỀN KEY ĐÃ LƯU (nếu có) =====
+        (function loadSavedKey() {
+            const saved = getSavedKey();
+            if (saved) {
+                loginInput.value = saved;
+                saveKeyCheckbox.checked = true;
+            }
+        })();
 
-// ========== AUTO ==========
-function toggleAuto() {
-  isAuto = !isAuto;
-  const btn = document.getElementById('btnAuto');
-  if (isAuto) {
-    btn.classList.add('on');
-    btn.textContent = '⏸ Đang tự động';
-    fetchData();
-    autoTimer = setInterval(() => fetchData(false), 6000);
-  } else {
-    btn.classList.remove('on');
-    btn.textContent = '▶ Tự động';
-    if (autoTimer) clearInterval(autoTimer);
-    autoTimer = null;
-  }
-}
+        // ===== SỰ KIỆN TICK CHECKBOX =====
+        saveKeyCheckbox.addEventListener('change', function() {
+            const key = loginInput.value.trim();
+            if (this.checked) {
+                if (key) {
+                    saveKeyToStorage(key);
+                } else {
+                    showToastMsg('Vui Lòng Nhập Key Để Lưu', true);
+                }
+            } else {
+                localStorage.removeItem('saved_tool_key');
+                showToastMsg('🗑️ Đã xoá key đã lưu', false);
+            }
+        });
 
-// Init
-fetchData(true);
-</script>
+        // ===== HÀM KIỂM TRA KEY – TRẢ VỀ THÔNG TIN ĐẦY ĐỦ =====
+        async function verifyKey(userKey) {
+            try {
+                const response = await fetch(MOCKAPI_URL, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'x-api-key': MOCKAPI_PROJECT_KEY
+                    }
+                });
+                if (!response.ok) throw new Error('Lỗi kết nối API');
+                const data = await response.json();
+                let keys = Array.isArray(data) ? data : (data.items || []);
+                // Tìm key khớp
+                const found = keys.find(item => item.key === userKey);
+                if (found) {
+                    return { valid: true, key: found.key, expiry: found.expiry || null };
+                } else {
+                    return { valid: false, key: null, expiry: null };
+                }
+            } catch (error) {
+                console.error('Verify error:', error);
+                return { valid: false, key: null, expiry: null };
+            }
+        }
+
+        // ===== XỬ LÝ ĐĂNG NHẬP =====
+        loginBtn.addEventListener('click', async () => {
+            const userKey = loginInput.value.trim();
+            if (!userKey) {
+                showToastMsg('Vui lòng nhập key', true);
+                return;
+            }
+
+            loginBtn.disabled = true;
+            loginBtn.textContent = 'Đang kiểm tra...';
+            loginMsg.textContent = '';
+            loginMsg.className = 'login-msg';
+
+            const result = await verifyKey(userKey);
+
+            if (result.valid) {
+                currentUserKey = result.key;
+                currentUserExpiry = result.expiry;
+                showToastMsg('✅ Xác thực thành công!', false);
+                if (saveKeyCheckbox.checked) {
+                    saveKeyToStorage(userKey);
+                } else {
+                    localStorage.removeItem('saved_tool_key');
+                }
+                setTimeout(() => {
+                    overlay.classList.add('hidden');
+                    welcomeScreen.classList.add('show');
+                    setTimeout(() => {
+                        welcomeScreen.classList.remove('show');
+                        widgetWrapper.style.display = 'block';
+                        toast.style.display = 'flex';
+                        // Cập nhật thông tin key trên tool
+                        updateKeyInfoDisplay(currentUserKey, currentUserExpiry);
+                        initTool();
+                    }, 2800);
+                }, 400);
+            } else {
+                showToastMsg('❌ Key Không Tồn Tại,Vui Lòng Liên Hệ Admin.', true);
+                loginBtn.disabled = false;
+                loginBtn.textContent = 'Xác nhận';
+                currentUserKey = null;
+                currentUserExpiry = null;
+            }
+        });
+
+        loginInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') loginBtn.click();
+        });
+
+        // ===== KHỞI TẠO TOOL (GIỮ NGUYÊN TOÀN BỘ THUẬT TOÁN) =====
+        function initTool() {
+            const TEXT_TAI = "Tài";
+            const TEXT_XIU = "Xỉu";
+
+            const startBtn = document.getElementById('start-btn');
+            const exitBtn = document.getElementById('exit-btn');
+            const codeInput = document.getElementById('code-input');
+            const inputMsg = document.getElementById('input-msg');
+            const closeWidgetBtn = document.getElementById('close-widget-btn');
+            const vipBtn = document.getElementById('vip-btn');
+            const telegramLink = document.getElementById('telegram-link');
+
+            const rotateLeftBtn = document.getElementById('rotate-left-btn');
+            const rotateRightBtn = document.getElementById('rotate-right-btn');
+            const zoomInBtn = document.getElementById('zoom-in-btn');
+            const zoomOutBtn = document.getElementById('zoom-out-btn');
+
+            let currentRotation = 0;
+            let currentScale = 1;
+
+            function updateWidgetTransform() {
+                widgetWrapper.style.transform = `rotate(${currentRotation}deg) scale(${currentScale})`;
+            }
+
+            rotateLeftBtn.addEventListener('click', () => {
+                currentRotation -= 90;
+                updateWidgetTransform();
+            });
+
+            rotateRightBtn.addEventListener('click', () => {
+                currentRotation += 90;
+                updateWidgetTransform();
+            });
+
+            zoomInBtn.addEventListener('click', () => {
+                if (currentScale < 1.5) {
+                    currentScale += 0.1;
+                    updateWidgetTransform();
+                }
+            });
+
+            zoomOutBtn.addEventListener('click', () => {
+                if (currentScale > 0.6) {
+                    currentScale -= 0.1;
+                    updateWidgetTransform();
+                }
+            });
+
+            const REQUIRED_LENGTH = 32;
+            const FIXED_KEY = "Make By Van Vinh";
+
+            let lastEvaluatedSession = "";
+            let sessionResult = { isTai: true, percent: 75 };
+
+            telegramLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                window.location.href = "tg://resolve?domain=vanvinh10";
+                setTimeout(() => {
+                    window.location.href = "https://t.me/vanvinh10";
+                }, 1000);
+            });
+
+            // ===== HÀM DỰ ĐOÁN – KHÔNG THAY ĐỔI =====
+            function getSessionData(sessionCode) {
+                let combined = sessionCode + FIXED_KEY;
+                let hash = 0;
+                for (let i = 0; i < combined.length; i++) {
+                    hash = (hash << 5) - hash + combined.charCodeAt(i);
+                    hash |= 0;
+                }
+                const isTai = Math.abs(hash) % 2 === 0;
+                const percent = 70 + (Math.abs(hash) % 25);
+                return { isTai, percent };
+            }
+
+            codeInput.addEventListener('input', () => {
+                const val = codeInput.value.trim();
+                if (val.length !== REQUIRED_LENGTH) {
+                    inputMsg.className = 'input-msg error';
+                    inputMsg.innerText = 'Chưa hợp lệ! Yêu cầu đúng ' + REQUIRED_LENGTH + ' ký tự (' + val.length + '/' + REQUIRED_LENGTH + ')';
+
+                    document.getElementById('result').innerText = '-';
+                    document.getElementById('percent').innerText = '--%';
+                    document.getElementById('circle-tai').classList.remove('active');
+                    document.getElementById('circle-xiu').classList.remove('active');
+                    lastEvaluatedSession = "";
+                } else {
+                    inputMsg.className = 'input-msg success';
+                    inputMsg.innerText = 'Hợp lệ! Đã nhận mã phiên.';
+
+                    if (val !== lastEvaluatedSession) {
+                        lastEvaluatedSession = val;
+                        sessionResult = getSessionData(val);
+
+                        document.getElementById('result').innerText = '-';
+                        document.getElementById('percent').innerText = '--%';
+                        document.getElementById('circle-tai').classList.remove('active');
+                        document.getElementById('circle-xiu').classList.remove('active');
+                    }
+                }
+            });
+
+            startBtn.addEventListener('click', () => {
+                const val = codeInput.value.trim();
+                if (val.length !== REQUIRED_LENGTH) {
+                    inputMsg.className = 'input-msg error';
+                    inputMsg.innerText = 'Vui lòng nhập đủ 32 ký tự mã phiên trước khi bắt đầu!';
+                    return;
+                }
+
+                if (lastEvaluatedSession !== val) {
+                    sessionResult = getSessionData(val);
+                    lastEvaluatedSession = val;
+                }
+
+                startBtn.disabled = true;
+                startBtn.style.opacity = '0.6';
+                startBtn.innerText = 'ĐANG XỬ LÝ...';
+
+                document.getElementById('result').innerText = '...';
+                document.getElementById('percent').innerText = '...%';
+
+                setTimeout(() => {
+                    startBtn.disabled = false;
+                    startBtn.style.opacity = '1';
+                    startBtn.innerText = 'BẮT ĐẦU';
+
+                    document.getElementById('percent').innerText = sessionResult.percent + '%';
+
+                    const resultEl = document.getElementById('result');
+                    const circleTai = document.getElementById('circle-tai');
+                    const circleXiu = document.getElementById('circle-xiu');
+
+                    if (sessionResult.isTai) {
+                        resultEl.innerText = TEXT_TAI;
+                        circleTai.classList.add('active');
+                        circleXiu.classList.remove('active');
+                    } else {
+                        resultEl.innerText = TEXT_XIU;
+                        circleXiu.classList.add('active');
+                        circleTai.classList.remove('active');
+                    }
+                }, 1200);
+            });
+
+            exitBtn.addEventListener('click', () => {
+                codeInput.value = '';
+                inputMsg.className = 'input-msg error';
+                inputMsg.innerText = 'Hệ Thống Phân Tích MD5 Đã Dừng Hoạt Động';
+
+                document.getElementById('result').innerText = '-';
+                document.getElementById('percent').innerText = '--%';
+                document.getElementById('circle-tai').classList.remove('active');
+                document.getElementById('circle-xiu').classList.remove('active');
+
+                lastEvaluatedSession = "";
+            });
+
+            closeWidgetBtn.addEventListener('click', () => {
+                widgetWrapper.style.display = 'none';
+                toast.style.display = 'none';
+                vipBtn.style.display = 'block';
+            });
+
+            let isDragging = false;
+            let hasDragged = false;
+            let startX, startY, initialLeft, initialTop;
+
+            function dragStart(e) {
+                isDragging = true;
+                hasDragged = false;
+
+                if (e.type === "touchstart") {
+                    startX = e.touches[0].clientX;
+                    startY = e.touches[0].clientY;
+                } else {
+                    startX = e.clientX;
+                    startY = e.clientY;
+                }
+
+                if (vipBtn.style.margin !== '0px') {
+                    const rect = vipBtn.getBoundingClientRect();
+                    vipBtn.style.margin = '0px';
+                    vipBtn.style.left = rect.left + 'px';
+                    vipBtn.style.top = rect.top + 'px';
+                }
+
+                initialLeft = parseFloat(vipBtn.style.left) || 0;
+                initialTop = parseFloat(vipBtn.style.top) || 0;
+            }
+
+            function drag(e) {
+                if (!isDragging) return;
+
+                let currentX, currentY;
+                if (e.type === "touchmove") {
+                    currentX = e.touches[0].clientX;
+                    currentY = e.touches[0].clientY;
+                } else {
+                    currentX = e.clientX;
+                    currentY = e.clientY;
+                }
+
+                const dx = currentX - startX;
+                const dy = currentY - startY;
+
+                if (Math.abs(dx) > 5 || Math.abs(dy) > 5) {
+                    hasDragged = true;
+                }
+
+                if (hasDragged) {
+                    e.preventDefault();
+                    vipBtn.style.left = (initialLeft + dx) + 'px';
+                    vipBtn.style.top = (initialTop + dy) + 'px';
+                }
+            }
+
+            function dragEnd() {
+                isDragging = false;
+            }
+
+            vipBtn.addEventListener('mousedown', dragStart);
+            vipBtn.addEventListener('touchstart', dragStart, { passive: false });
+
+            document.addEventListener('mousemove', drag);
+            document.addEventListener('touchmove', drag, { passive: false });
+
+            document.addEventListener('mouseup', dragEnd);
+            document.addEventListener('touchend', dragEnd);
+
+            vipBtn.addEventListener('click', (e) => {
+                if (hasDragged) {
+                    e.preventDefault();
+                    hasDragged = false;
+                    return;
+                }
+                widgetWrapper.style.display = 'block';
+                toast.style.display = 'flex';
+                vipBtn.style.display = 'none';
+            });
+        }
+
+        // ===== KHỞI TẠO TRANG =====
+        // Mặc định overlay hiển thị
+    </script>
 </body>
 </html>
