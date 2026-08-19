@@ -1,303 +1,848 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>LC79 · HŨ + MD5 + Game</title>
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body {
-      height: 100%;
-      overflow: hidden;
-      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
-      background: #0a0a10;
-      color: #eee;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>MD5 Tài Xỉu · SunWin API · Sicbo AI</title>
+    <!-- Font & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    .wrap {
-      display: flex;
-      height: 100%;
-      width: 100%;
-    }
+        :root {
+            --bg-dark: #0b0f1c;
+            --bg-card: #131a2a;
+            --bg-card-2: #1a2340;
+            --border-glow: #2a3a5c;
+            --text-main: #eef2ff;
+            --text-soft: #a0b3d9;
+            --accent-tai: #2ec4b6;
+            --accent-xiu: #ff6b6b;
+            --accent-gold: #fbbf24;
+            --accent-blue: #60a5fa;
+            --accent-purple: #a78bfa;
+            --shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+        }
 
-    /* ===== BÊN TRÁI: 2 khung HŨ + MD5 ===== */
-    .left {
-      width: 300px;
-      min-width: 260px;
-      max-width: 340px;
-      background: #0e0e16;
-      border-right: 1px solid #222;
-      display: flex;
-      flex-direction: column;
-      padding: 10px;
-      gap: 10px;
-      overflow-y: auto;
-    }
+        body {
+            background: radial-gradient(circle at 10% 20%, #131b2e, #070a12);
+            font-family: 'Be Vietnam Pro', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            color: var(--text-main);
+        }
 
-    .card {
-      background: #fff;
-      border-radius: 14px;
-      padding: 12px 14px;
-      color: #222;
-      text-align: center;
-      box-shadow: 0 4px 18px #0006;
-      flex-shrink: 0;
-    }
-    .card .label {
-      font-size: 12px;
-      font-weight: 800;
-      letter-spacing: 1.5px;
-      margin-bottom: 4px;
-    }
-    .card .label.hu { color: #ff9f43; }
-    .card .label.md5 { color: #00b894; }
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            background: rgba(10, 14, 26, 0.75);
+            backdrop-filter: blur(10px);
+            border-radius: 48px;
+            padding: 28px 30px 35px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
 
-    .card .phien {
-      font-size: 13px;
-      font-weight: 700;
-      color: #555;
-      margin-bottom: 8px;
-    }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
 
-    .dots {
-      display: flex;
-      justify-content: center;
-      gap: 14px;
-      margin-bottom: 8px;
-    }
-    .dot {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      opacity: 0.3;
-      transition: all 0.3s;
-    }
-    .dot.g { background: #b8f0d0; }
-    .dot.r { background: #f5b0b8; }
-    .dot.g.on {
-      background: #2ee59d;
-      opacity: 1;
-      box-shadow: 0 0 14px #2ee59d99;
-      animation: blink 1.15s ease-in-out infinite;
-    }
-    .dot.r.on {
-      background: #ff4d6d;
-      opacity: 1;
-      box-shadow: 0 0 14px #ff4d6d99;
-      animation: blink 1.15s ease-in-out infinite;
-    }
-    @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.65; }
-    }
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+            background: linear-gradient(135deg, #f9fafb, #b9c8ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 20px rgba(96, 165, 250, 0.4);
+            margin-bottom: 5px;
+        }
 
-    .pred {
-      font-size: 14px;
-      font-weight: 700;
-      line-height: 1.3;
-    }
-    .pred .pct {
-      font-size: 18px;
-      font-weight: 900;
-    }
-    .pred.xiu .pct { color: #00a86b; }
-    .pred.tai .pct { color: #e63950; }
+        .header .badge {
+            background: rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(8px);
+            padding: 8px 22px;
+            border-radius: 100px;
+            font-weight: 600;
+            color: #cdd9ff;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            margin-top: 8px;
+        }
 
-    .meta {
-      margin-top: 6px;
-      font-size: 11px;
-      color: #777;
-    }
+        .header .badge i {
+            color: var(--accent-gold);
+        }
 
-    .status {
-      font-size: 10px;
-      color: #666;
-      text-align: center;
-      margin-top: 4px;
-    }
+        .api-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+            margin-bottom: 25px;
+        }
 
-    /* ===== BÊN PHẢI: GAME ===== */
-    .right {
-      flex: 1;
-      position: relative;
-      background: #111;
-    }
-    .right iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-    }
-    .fallback {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      background: #0e0e16;
-      text-align: center;
-      padding: 20px;
-      display: none;
-    }
-    .fallback a {
-      display: inline-block;
-      margin-top: 14px;
-      padding: 12px 24px;
-      background: linear-gradient(135deg, #00e5b0, #00b4ff);
-      color: #000;
-      font-weight: 800;
-      border-radius: 10px;
-      text-decoration: none;
-    }
+        .btn {
+            border: none;
+            background: #1e2a44;
+            color: white;
+            font-weight: 600;
+            padding: 12px 22px;
+            border-radius: 40px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: 0.25s;
+            font-size: 0.95rem;
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.4);
+            border: 1px solid #3b4b70;
+            letter-spacing: 0.3px;
+            position: relative;
+            overflow: hidden;
+        }
 
-    /* Mobile: xếp dọc */
-    @media (max-width: 700px) {
-      .wrap { flex-direction: column; }
-      .left {
-        width: 100%;
-        max-width: none;
-        flex-direction: row;
-        overflow-x: auto;
-        border-right: none;
-        border-bottom: 1px solid #222;
-        padding: 8px;
-        gap: 8px;
-      }
-      .card {
-        min-width: 200px;
-        flex: 1;
-      }
-      .right { min-height: 60vh; }
-    }
-  </style>
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 14px 24px rgba(0, 0, 0, 0.6);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-sunwin {
+            background: linear-gradient(145deg, #f59e0b, #d97706);
+            border: 1px solid #fbbf24;
+            color: #1a1a1a;
+            font-weight: 700;
+        }
+
+        .btn-sunwin:hover {
+            background: linear-gradient(145deg, #fbbf24, #f59e0b);
+        }
+
+        .btn-sicbo {
+            background: linear-gradient(145deg, #8b5cf6, #7c3aed);
+            border: 1px solid #a78bfa;
+            color: white;
+            font-weight: 700;
+        }
+
+        .btn-sicbo:hover {
+            background: linear-gradient(145deg, #a78bfa, #8b5cf6);
+        }
+
+        .btn-primary {
+            background: linear-gradient(145deg, #2c3f66, #1a2740);
+            border: 1px solid #5a7ab9;
+        }
+
+        .btn-primary:hover {
+            background: #304a7a;
+        }
+
+        .btn-accent {
+            background: linear-gradient(145deg, #22543d, #1a3b2e);
+            border: 1px solid #36b38f;
+            color: #d1fae5;
+        }
+
+        .btn-accent:hover {
+            background: #2c6b4f;
+        }
+
+        .btn-danger {
+            background: linear-gradient(145deg, #5c2525, #3d1a1a);
+            border: 1px solid #a15858;
+            color: #ffe0e0;
+        }
+
+        .btn-danger:hover {
+            background: #722f2f;
+        }
+
+        .btn i {
+            font-size: 1rem;
+        }
+
+        .loading-spinner {
+            display: none;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 26px;
+            margin-bottom: 30px;
+        }
+
+        @media (max-width: 720px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            .container {
+                padding: 20px 15px;
+                border-radius: 30px;
+            }
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            .api-buttons {
+                flex-direction: column;
+            }
+        }
+
+        .card {
+            background: var(--bg-card);
+            border-radius: 32px;
+            padding: 24px 22px;
+            box-shadow: 0 16px 30px -10px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+            border: 1px solid #2f3d5c;
+            transition: all 0.2s ease;
+            backdrop-filter: blur(4px);
+        }
+
+        .card:hover {
+            border-color: #40557a;
+            box-shadow: 0 18px 36px -12px #000000cc, 0 0 0 1px #3a4b6e inset;
+        }
+
+        .card-title {
+            font-size: 1.35rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            letter-spacing: -0.3px;
+        }
+
+        .card-title i {
+            font-size: 1.5rem;
+            color: var(--accent-blue);
+        }
+
+        .input-area {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            margin-bottom: 16px;
+        }
+
+        .hash-input {
+            background: #0e1426;
+            border: 1.5px solid #2f4162;
+            border-radius: 20px;
+            padding: 16px 20px;
+            font-size: 0.95rem;
+            color: #e0e7ff;
+            font-family: 'Be Vietnam Pro', monospace;
+            outline: none;
+            transition: 0.2s;
+            letter-spacing: 0.3px;
+            resize: vertical;
+        }
+
+        .hash-input:focus {
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 20px rgba(96, 165, 250, 0.3);
+            background: #0f172e;
+        }
+
+        .button-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+        }
+
+        .result-box {
+            margin-top: 20px;
+            background: #0d1222;
+            border-radius: 22px;
+            padding: 22px 18px;
+            border: 1px solid #2f4162;
+            text-align: center;
+        }
+
+        .result-label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #8ea4cf;
+            margin-bottom: 10px;
+        }
+
+        .result-number {
+            font-size: 4.5rem;
+            font-weight: 800;
+            line-height: 1;
+            letter-spacing: -2px;
+            display: flex;
+            align-items: baseline;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .sum-icon {
+            font-size: 2.4rem;
+            opacity: 0.75;
+        }
+
+        .tai-xiu-badge {
+            font-size: 1.8rem;
+            font-weight: 800;
+            padding: 8px 24px;
+            border-radius: 60px;
+            display: inline-block;
+            margin-top: 12px;
+            letter-spacing: 1px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.5);
+        }
+
+        .tai {
+            background: #1e3a3a;
+            color: #7de2d0;
+            border: 1px solid #39b8a0;
+        }
+
+        .xiu {
+            background: #4a2525;
+            color: #ffaeae;
+            border: 1px solid #d45c5c;
+        }
+
+        .analysis-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #121a2d;
+            padding: 14px 18px;
+            border-radius: 20px;
+            border: 1px solid #263550;
+            font-weight: 500;
+        }
+
+        .stat-label {
+            color: #a1b5da;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .stat-value {
+            font-weight: 700;
+            font-size: 1.4rem;
+        }
+
+        .mini-bar {
+            display: flex;
+            gap: 6px;
+            margin: 14px 0 8px;
+        }
+
+        .bar {
+            height: 10px;
+            border-radius: 20px;
+            background: #1f2b44;
+            flex: 1;
+            transition: 0.3s;
+            border: 1px solid #374a6b;
+        }
+
+        .bar.active-tai {
+            background: #38b29d;
+            box-shadow: 0 0 15px #2ec4b6;
+        }
+
+        .bar.active-xiu {
+            background: #d65c5c;
+            box-shadow: 0 0 15px #ff6b6b;
+        }
+
+        .api-result {
+            margin-top: 20px;
+            background: #0d1222;
+            border-radius: 22px;
+            padding: 20px;
+            border: 1px solid #2f4162;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .api-result pre {
+            color: #b6c6ec;
+            font-size: 0.85rem;
+            white-space: pre-wrap;
+            word-break: break-all;
+            font-family: 'Be Vietnam Pro', monospace;
+        }
+
+        .api-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #4ade80;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .status-dot.error {
+            background: #ef4444;
+        }
+
+        .history-log {
+            margin-top: 28px;
+            background: #0c1222;
+            border-radius: 22px;
+            padding: 18px;
+            border: 1px solid #26334f;
+            max-height: 170px;
+            overflow-y: auto;
+            font-family: monospace;
+        }
+
+        .history-log p {
+            padding: 6px 0;
+            border-bottom: 1px dashed #1f2c42;
+            color: #b6c6ec;
+        }
+
+        .footer {
+            margin-top: 22px;
+            text-align: center;
+            color: #6883b0;
+            font-size: 0.85rem;
+            letter-spacing: 0.6px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .footer i {
+            color: #fbbf24;
+        }
+
+        .api-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-left: 8px;
+        }
+
+        .api-badge.sunwin {
+            background: #f59e0b;
+            color: #1a1a1a;
+        }
+
+        .api-badge.sicbo {
+            background: #8b5cf6;
+            color: white;
+        }
+    </style>
 </head>
 <body>
-  <div class="wrap">
-    <!-- TRÁI: 2 khung -->
-    <div class="left">
-      <!-- HŨ -->
-      <div class="card">
-        <div class="label hu">HŨ</div>
-        <div class="phien" id="phHu">Phiên —</div>
-        <div class="dots">
-          <div class="dot g" id="gHu"></div>
-          <div class="dot r" id="rHu"></div>
+    <div class="container">
+        <div class="header">
+            <h1>🎲 MD5 TÀI XỈU · API SUNWIN · SICBO AI</h1>
+            <span class="badge"><i class="fa-solid fa-shield-halved"></i> Phân tích chuẩn · By Minh Hieu</span>
         </div>
-        <div class="pred" id="pHu">Đang tải...</div>
-        <div class="meta" id="mHu">—</div>
-        <div class="status" id="sHu">—</div>
-      </div>
 
-      <!-- MD5 -->
-      <div class="card">
-        <div class="label md5">MD5</div>
-        <div class="phien" id="phMd5">Phiên —</div>
-        <div class="dots">
-          <div class="dot g" id="gMd5"></div>
-          <div class="dot r" id="rMd5"></div>
+        <!-- API Buttons -->
+        <div class="api-buttons">
+            <button class="btn btn-sunwin" id="btnSunwinApi">
+                <i class="fa-solid fa-sun"></i> SunWin API
+                <span class="api-badge sunwin">LIVE</span>
+            </button>
+            <button class="btn btn-sicbo" id="btnSicboApi">
+                <i class="fa-solid fa-dice"></i> Sicbo AI
+                <span class="api-badge sicbo">AI</span>
+            </button>
         </div>
-        <div class="pred" id="pMd5">Đang tải...</div>
-        <div class="meta" id="mMd5">—</div>
-        <div class="status" id="sMd5">—</div>
-      </div>
+
+        <div class="grid">
+            <!-- Cột trái: Nhập liệu MD5 và kết quả chính -->
+            <div class="card">
+                <div class="card-title">
+                    <i class="fa-solid fa-key"></i> Hash MD5
+                </div>
+                <div class="input-area">
+                    <textarea id="hashInput" class="hash-input" rows="2" placeholder="Nhập hash MD5 (32 ký tự hex), ví dụ: 5d41402abc4b2a76b9719d911017c592...">5d41402abc4b2a76b9719d911017c592</textarea>
+                    <div class="button-group">
+                        <button class="btn btn-primary" id="btnAnalyze"><i class="fa-solid fa-magnifying-glass-chart"></i> Phân tích</button>
+                        <button class="btn btn-accent" id="btnRandom"><i class="fa-solid fa-shuffle"></i> Hash ngẫu nhiên</button>
+                        <button class="btn btn-danger" id="btnClear"><i class="fa-solid fa-broom"></i> Xóa lịch sử</button>
+                    </div>
+                </div>
+
+                <div class="result-box" id="resultBox">
+                    <div class="result-label">Tổng 3 viên xúc xắc</div>
+                    <div class="result-number" id="sumDisplay">—</div>
+                    <div id="taiXiuBadge" class="tai-xiu-badge tai">TÀI</div>
+                </div>
+            </div>
+
+            <!-- Cột phải: Phân tích chi tiết + API Results -->
+            <div class="card">
+                <div class="card-title">
+                    <i class="fa-solid fa-chart-pie"></i> Phân tích nâng cao
+                </div>
+                <div class="analysis-grid">
+                    <div class="stat-item">
+                        <span class="stat-label"><i class="fa-solid fa-cube"></i> Giá trị 3 xúc xắc</span>
+                        <span class="stat-value" id="diceValues">-</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label"><i class="fa-solid fa-percent"></i> Độ chắc chắn (từ MD5)</span>
+                        <span class="stat-value" id="confidence">-</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label"><i class="fa-solid fa-fire"></i> Loại kết quả</span>
+                        <span class="stat-value" id="resultType">-</span>
+                    </div>
+                    <div class="mini-bar">
+                        <div class="bar" id="barTai" style="flex: 1;">&nbsp;</div>
+                        <div class="bar" id="barXiu" style="flex: 1;">&nbsp;</div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: #9bb1df;">
+                        <span><i class="fa-solid fa-circle" style="color: #38b29d;"></i> Tài (11-17)</span>
+                        <span><i class="fa-solid fa-circle" style="color: #d65c5c;"></i> Xỉu (3-10)</span>
+                    </div>
+                </div>
+
+                <!-- API Result -->
+                <div class="api-result" id="apiResult">
+                    <div class="api-status">
+                        <span class="status-dot" id="statusDot"></span>
+                        <span style="font-size: 0.85rem; color: #a1b5da;" id="apiStatusText">Sẵn sàng kết nối API</span>
+                    </div>
+                    <pre id="apiData">Chưa có dữ liệu từ API</pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- Lịch sử phân tích -->
+        <div class="history-log" id="historyLog">
+            <p style="color: #7690c2; text-align: center; border: none;">📋 Lịch sử phân tích sẽ hiển thị tại đây...</p>
+        </div>
+
+        <div class="footer">
+            <i class="fa-regular fa-copyright"></i> Tool MD5 Tài Xỉu · SunWin API · Sicbo AI · Thiết kế bởi <strong>Minh Hieu</strong> <i class="fa-solid fa-heart" style="color: #ff4d6d;"></i>
+        </div>
     </div>
 
-    <!-- PHẢI: GAME -->
-    <div class="right">
-      <iframe id="gameFrame" src="https://lc79b.bet" allowfullscreen></iframe>
-      <div class="fallback" id="fallback">
-        <div style="font-size:15px;color:#aaa">Game chặn iframe</div>
-        <a href="https://lc79b.bet" target="_blank">Mở game LC79 ↗</a>
-      </div>
-    </div>
-  </div>
+    <script>
+        (function() {
+            // DOM elements
+            const hashInput = document.getElementById('hashInput');
+            const sumDisplay = document.getElementById('sumDisplay');
+            const taiXiuBadge = document.getElementById('taiXiuBadge');
+            const diceValuesSpan = document.getElementById('diceValues');
+            const confidenceSpan = document.getElementById('confidence');
+            const resultTypeSpan = document.getElementById('resultType');
+            const barTai = document.getElementById('barTai');
+            const barXiu = document.getElementById('barXiu');
+            const historyLog = document.getElementById('historyLog');
+            const btnAnalyze = document.getElementById('btnAnalyze');
+            const btnRandom = document.getElementById('btnRandom');
+            const btnClear = document.getElementById('btnClear');
+            const btnSunwinApi = document.getElementById('btnSunwinApi');
+            const btnSicboApi = document.getElementById('btnSicboApi');
+            const apiResult = document.getElementById('apiResult');
+            const apiData = document.getElementById('apiData');
+            const apiStatusText = document.getElementById('apiStatusText');
+            const statusDot = document.getElementById('statusDot');
 
-<script>
-const APIS = {
-  hu:  'https://wtx.tele68.com/v1/tx/sessions?cp=R&cl=R&pf=web&at=5bd771bd28adc628097d99d6ecf80c62',
-  md5: 'https://wtxmd52.tele68.com/v1/txmd5/sessions?cp=R&cl=R&pf=web&at=5bd771bd28adc628097d99d6ecf80c62'
-};
+            // Helper: validate MD5 (32 hex chars)
+            function isValidMD5(str) {
+                return /^[a-fA-F0-9]{32}$/.test(str.trim());
+            }
 
-function analyze(list) {
-  if (!list || list.length < 8) return { guess: null, pct: 50, reason: '...' };
-  const res = list.map(x => x.resultTruyenThong);
-  const last = res[0];
-  let st = 1;
-  for (let i = 1; i < res.length; i++) {
-    if (res[i] === last) st++; else break;
-  }
-  let is11 = true;
-  for (let i = 0; i < 5; i++) {
-    if (res[i] === res[i+1]) { is11 = false; break; }
-  }
-  const is22 = res[0]===res[1] && res[2]===res[3] && res[0]!==res[2];
-  const t10 = res.slice(0,10).filter(x => x==='TAI').length;
-  const t15 = res.slice(0,15).filter(x => x==='TAI').length;
+            // Phân tích MD5 thành 3 viên xúc xắc
+            function analyzeMD5(md5Hash) {
+                if (!isValidMD5(md5Hash)) {
+                    return null;
+                }
+                const normalized = md5Hash.toLowerCase();
+                const part1 = normalized.substring(0, 8);
+                const part2 = normalized.substring(8, 16);
+                const part3 = normalized.substring(16, 24);
+                const part4 = normalized.substring(24, 32);
 
-  let guess, pct, reason;
-  if (st >= 5) { guess = last==='TAI'?'XỈU':'TÀI'; pct = 68+Math.min(st-5,4)*3; reason = 'Bệt '+st; }
-  else if (st === 4) { guess = last==='TAI'?'XỈU':'TÀI'; pct = 64; reason = 'Bệt 4'; }
-  else if (st === 3) { guess = last==='TAI'?'XỈU':'TÀI'; pct = 58; reason = 'Bệt 3'; }
-  else if (is11) { guess = last==='TAI'?'XỈU':'TÀI'; pct = 62; reason = '1-1'; }
-  else if (is22) { guess = last; pct = 60; reason = '2-2'; }
-  else if (Math.abs(t15-(15-t15)) >= 6) { guess = t15>8?'XỈU':'TÀI'; pct = 61; reason = 'Hồi quy'; }
-  else if (t10 >= 6) { guess = 'TÀI'; pct = 54+(t10-6)*3; reason = t10+'T'; }
-  else if (t10 <= 4) { guess = 'XỈU'; pct = 54+(4-t10)*3; reason = (10-t10)+'X'; }
-  else { guess = last==='TAI'?'XỈU':'TÀI'; pct = 52; reason = 'Cân'; }
-  pct = Math.min(78, Math.max(51, pct));
-  return { guess, pct, reason };
-}
+                const dice1 = (parseInt(part1, 16) % 6) + 1;
+                const dice2 = (parseInt(part2, 16) % 6) + 1;
+                const dice3 = (parseInt(part3, 16) % 6) + 1;
 
-async function load(mode, ids) {
-  try {
-    const res = await fetch(APIS[mode], { cache: 'no-store' });
-    const data = await res.json();
-    const list = data.list || [];
-    const L = list[0];
-    if (!L) return;
+                const sum = dice1 + dice2 + dice3;
+                const isTai = sum >= 11 && sum <= 17;
+                const confidenceBase = parseInt(part4, 16) % 101;
+                const confidence = confidenceBase + (isTai ? 5 : -3);
+                const finalConfidence = Math.min(100, Math.max(40, confidence));
 
-    document.getElementById(ids.ph).textContent = 'Phiên #' + L.id;
-    const isT = L.resultTruyenThong === 'TAI';
-    const a = analyze(list);
+                return {
+                    dice: [dice1, dice2, dice3],
+                    sum: sum,
+                    isTai: isTai,
+                    confidence: finalConfidence,
+                    resultType: isTai ? "TÀI" : "XỈU",
+                    md5: normalized
+                };
+            }
 
-    const gEl = document.getElementById(ids.g);
-    const rEl = document.getElementById(ids.r);
-    const pEl = document.getElementById(ids.p);
-    gEl.classList.remove('on');
-    rEl.classList.remove('on');
+            // Hiển thị kết quả MD5
+            function renderResult(analysis) {
+                if (!analysis) {
+                    sumDisplay.textContent = '—';
+                    taiXiuBadge.textContent = 'LỖI';
+                    taiXiuBadge.className = 'tai-xiu-badge xiu';
+                    diceValuesSpan.textContent = '-';
+                    confidenceSpan.textContent = '-';
+                    resultTypeSpan.textContent = '-';
+                    barTai.className = 'bar';
+                    barXiu.className = 'bar';
+                    return;
+                }
 
-    if (a.guess === 'XỈU') {
-      gEl.classList.add('on');
-      pEl.className = 'pred xiu';
-      pEl.innerHTML = 'Dự Đoán <b>Xỉu</b><br><span class="pct">' + a.pct + '%</span>';
-    } else if (a.guess === 'TÀI') {
-      rEl.classList.add('on');
-      pEl.className = 'pred tai';
-      pEl.innerHTML = 'Dự Đoán <b>Tài</b><br><span class="pct">' + a.pct + '%</span>';
-    }
+                const diceStr = analysis.dice.join(' - ');
+                sumDisplay.innerHTML = `${analysis.sum} <span style="font-size: 1.8rem;">⚄</span>`;
+                diceValuesSpan.textContent = `${diceStr}  (${analysis.dice[0]}+${analysis.dice[1]}+${analysis.dice[2]})`;
+                confidenceSpan.textContent = `${analysis.confidence}%`;
+                resultTypeSpan.textContent = analysis.isTai ? 'TÀI' : 'XỈU';
 
-    document.getElementById(ids.m).textContent = (isT ? 'TÀI' : 'XỈU') + ' · ' + a.reason;
-    document.getElementById(ids.s).textContent = 'Tự cập nhật';
-  } catch (e) {
-    document.getElementById(ids.p).textContent = 'Lỗi kết nối';
-  }
-}
+                taiXiuBadge.textContent = analysis.isTai ? 'TÀI' : 'XỈU';
+                taiXiuBadge.className = `tai-xiu-badge ${analysis.isTai ? 'tai' : 'xiu'}`;
 
-function tick() {
-  load('hu',  { ph:'phHu',  g:'gHu',  r:'rHu',  p:'pHu',  m:'mHu',  s:'sHu'  });
-  load('md5', { ph:'phMd5', g:'gMd5', r:'rMd5', p:'pMd5', m:'mMd5', s:'sMd5' });
-}
+                barTai.className = 'bar';
+                barXiu.className = 'bar';
+                if (analysis.isTai) {
+                    barTai.classList.add('active-tai');
+                } else {
+                    barXiu.classList.add('active-xiu');
+                }
+            }
 
-tick();
-setInterval(tick, 6000);
+            // Thêm vào lịch sử
+            function addHistory(analysis, hash) {
+                if (!analysis) {
+                    const p = document.createElement('p');
+                    p.textContent = `⚠️ Hash không hợp lệ: ${hash}`;
+                    historyLog.prepend(p);
+                    return;
+                }
+                const time = new Date().toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+                const p = document.createElement('p');
+                p.innerHTML = `<span style="color:#b6c6ec;">${time}</span> | <span style="color:#9fc0ff;">${hash.substring(0,12)}…</span> → <strong style="color:${analysis.isTai ? '#7de2d0' : '#ffaeae'};">${analysis.resultType}</strong> (${analysis.sum}) | 🎲 ${analysis.dice.join(',')} | ${analysis.confidence}%`;
+                historyLog.prepend(p);
+                while (historyLog.children.length > 20) {
+                    historyLog.removeChild(historyLog.lastChild);
+                }
+            }
 
-// Kiểm tra iframe bị chặn
-setTimeout(() => {
-  try {
-    const f = document.getElementById('gameFrame');
-    // Nếu load được thì thôi, không thì hiện fallback
-  } catch(e) {}
-}, 3000);
-</script>
+            // Xử lý phân tích MD5
+            function handleAnalyze() {
+                const hash = hashInput.value.trim();
+                if (!isValidMD5(hash)) {
+                    renderResult(null);
+                    const p = document.createElement('p');
+                    p.textContent = `⚠️ MD5 không đúng định dạng (32 ký tự hex).`;
+                    historyLog.prepend(p);
+                    return;
+                }
+                const analysis = analyzeMD5(hash);
+                renderResult(analysis);
+                addHistory(analysis, hash);
+            }
+
+            // Tạo hash ngẫu nhiên
+            function generateRandomMD5() {
+                const chars = '0123456789abcdef';
+                let result = '';
+                for (let i = 0; i < 32; i++) {
+                    result += chars[Math.floor(Math.random() * 16)];
+                }
+                return result;
+            }
+
+            // Gọi API SunWin
+            async function callSunwinApi() {
+                btnSunwinApi.disabled = true;
+                btnSunwinApi.innerHTML = '<i class="fa-solid fa-spinner loading-spinner" style="display:inline-block;"></i> Đang tải...';
+                statusDot.className = 'status-dot';
+                apiStatusText.textContent = 'Đang kết nối SunWin API...';
+                
+                try {
+                    const response = await fetch('https://sunlaymaynkx.hacksieucap.pro/ttsunver2?t=1786867327826', {
+                        method: 'GET',
+                        headers: {
+                            'Accept': 'application/json',
+                        },
+                        mode: 'cors'
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}`);
+                    }
+                    
+                    const data = await response.json();
+                    apiData.textContent = JSON.stringify(data, null, 2);
+                    apiStatusText.textContent = 'SunWin API - Kết nối thành công';
+                    statusDot.className = 'status-dot';
+                    
+                    // Thêm vào lịch sử
+                    const time = new Date().toLocaleTimeString('vi-VN');
+                    const p = document.createElement('p');
+                    p.innerHTML = `🌞 <strong>SunWin API</strong> (${time}) - Dữ liệu đã tải`;
+                    historyLog.prepend(p);
+                    
+                    // Nếu API trả về hash MD5, tự động phân tích
+                    if (data && data.hash) {
+                        hashInput.value = data.hash;
+                        handleAnalyze();
+                    }
+                } catch (error) {
+                    apiData.textContent = `Lỗi: ${error.message}\nKhông thể kết nối đến SunWin API. Vui lòng thử lại.`;
+                    apiStatusText.textContent = 'SunWin API - Lỗi kết nối';
+                    statusDot.className = 'status-dot error';
+                    
+                    const p = document.createElement('p');
+                    p.innerHTML = `❌ <strong>SunWin API</strong> - Lỗi: ${error.message}`;
+                    historyLog.prepend(p);
+                } finally {
+                    btnSunwinApi.disabled = false;
+                    btnSunwinApi.innerHTML = '<i class="fa-solid fa-sun"></i> SunWin API <span class="api-badge sunwin">LIVE</span>';
+                }
+            }
+
+            // Gọi API Sicbo
+            async function callSicboApi() {
+                btnSicboApi.disabled = true;
+                btnSicboApi.innerHTML = '<i class="fa-solid fa-spinner loading-spinner" style="display:inline-block;"></i> Đang tải...';
+                statusDot.className = 'status-dot';
+                apiStatusText.textContent = 'Đang kết nối Sicbo AI...';
+                
+                try {
+                    const response = await fetch('https://sunwinsicbo.hacksieucap.pro/sicbosunwin/ai', {
+                        method: 'GET',
+                        headers: {
+                            'Accept': 'application/json',
+                        },
+                        mode: 'cors'
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}`);
+                    }
+                    
+                    const data = await response.json();
+                    apiData.textContent = JSON.stringify(data, null, 2);
+                    apiStatusText.textContent = 'Sicbo AI - Kết nối thành công';
+                    statusDot.className = 'status-dot';
+                    
+                    const time = new Date().toLocaleTimeString('vi-VN');
+                    const p = document.createElement('p');
+                    p.innerHTML = `🎲 <strong>Sicbo AI</strong> (${time}) - Dữ liệu đã tải`;
+                    historyLog.prepend(p);
+                    
+                    // Nếu API trả về hash hoặc kết quả
+                    if (data && data.hash) {
+                        hashInput.value = data.hash;
+                        handleAnalyze();
+                    } else if (data && data.result) {
+                        // Nếu API trả về kết quả trực tiếp
+                        apiData.textContent = JSON.stringify(data, null, 2);
+                    }
+                } catch (error) {
+                    apiData.textContent = `Lỗi: ${error.message}\nKhông thể kết nối đến Sicbo AI. Vui lòng thử lại.`;
+                    apiStatusText.textContent = 'Sicbo AI - Lỗi kết nối';
+                    statusDot.className = 'status-dot error';
+                    
+                    const p = document.createElement('p');
+                    p.innerHTML = `❌ <strong>Sicbo AI</strong> - Lỗi: ${error.message}`;
+                    historyLog.prepend(p);
+                } finally {
+                    btnSicboApi.disabled = false;
+                    btnSicboApi.innerHTML = '<i class="fa-solid fa-dice"></i> Sicbo AI <span class="api-badge sicbo">AI</span>';
+                }
+            }
+
+            // Event Listeners
+            btnAnalyze.addEventListener('click', handleAnalyze);
+            btnRandom.addEventListener('click', () => {
+                const randomHash = generateRandomMD5();
+                hashInput.value = randomHash;
+                handleAnalyze();
+            });
+            btnClear.addEventListener('click', () => {
+                historyLog.innerHTML = '<p style="color: #7690c2; text-align: center; border: none;">📋 Lịch sử phân tích sẽ hiển thị tại đây...</p>';
+                renderResult(null);
+                hashInput.value = '';
+                apiData.textContent = 'Chưa có dữ liệu từ API';
+                apiStatusText.textContent = 'Sẵn sàng kết nối API';
+                statusDot.className = 'status-dot';
+            });
+            
+            btnSunwinApi.addEventListener('click', callSunwinApi);
+            btnSicboApi.addEventListener('click', callSicboApi);
+
+            hashInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    handleAnalyze();
+                }
+            });
+
+            // Khởi tạo
+            window.addEventListener('load', () => {
+                const initHash = '5d41402abc4b2a76b9719d911017c592';
+                hashInput.value = initHash;
+                handleAnalyze();
+            });
+        })();
+    </script>
 </body>
 </html>
