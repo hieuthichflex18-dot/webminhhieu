@@ -3,12 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title id="page-title">Tài Xỉu Md5</title>
+    <title id="page-title">Tài Xỉu MD5 Pro</title>
     <style>
-        /* ===== TOOL VỚI NỀN TỐI – GIAO DIỆN XANH DƯƠNG NEON ===== */
+        /* ===== RESET & NỀN ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            margin: 0;
             height: 100vh;
             overflow: hidden;
             display: flex;
@@ -18,87 +23,130 @@
             width: 100%;
             top: 0;
             left: 0;
-            background-image: url('image_11.png');
-            background-size: 100% 100%;
-            background-position: center;
-            background-repeat: no-repeat;
+            background: #0b0e1a;
         }
 
+        /* Nền gradient động */
+        body::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(ellipse at 20% 50%, rgba(10, 60, 120, 0.4) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 50%, rgba(0, 180, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 100%, rgba(0, 80, 160, 0.2) 0%, transparent 40%);
+            z-index: 0;
+        }
+
+        /* ===== TOAST ===== */
         .toast {
-            background: rgba(0, 20, 40, 0.85);
-            color: #00e5ff;
-            padding: 10px 16px;
-            border-radius: 8px;
+            background: rgba(8, 16, 32, 0.92);
+            color: #7ec8ff;
+            padding: 12px 20px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 500;
             font-size: 13px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.8);
-            width: 320px;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(0, 180, 255, 0.1);
+            width: 340px;
             box-sizing: border-box;
             position: absolute;
-            bottom: 20px;
+            bottom: 24px;
             left: 50%;
-            transform: translateX(-160px);
+            transform: translateX(-50%);
             text-align: center;
-            line-height: 1.4;
-            backdrop-filter: blur(5px);
+            line-height: 1.5;
+            backdrop-filter: blur(12px);
             z-index: 1001;
-            transition: opacity 0.3s ease;
-            border: 1px solid rgba(0, 229, 255, 0.2);
+            transition: opacity 0.4s ease;
+            border: 1px solid rgba(0, 180, 255, 0.15);
+            letter-spacing: 0.3px;
+        }
+        .toast strong {
+            color: #00d4ff;
+            font-weight: 700;
         }
 
         .widget-wrapper {
             position: relative;
             z-index: 1000;
-            transition: transform 0.2s ease;
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
             transform-origin: center center;
         }
 
+        /* ===== WIDGET CHÍNH ===== */
         .widget {
-            background: #0a0e17;
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 20px;
-            width: 320px;
-            box-shadow: 0 12px 24px rgba(0,0,0,0.9), 0 0 30px rgba(0, 180, 255, 0.05);
+            background: linear-gradient(145deg, #0d1524, #080e1a);
+            backdrop-filter: blur(20px);
+            border-radius: 28px;
+            padding: 24px 22px 22px;
+            width: 340px;
+            box-shadow:
+                0 20px 60px rgba(0, 0, 0, 0.8),
+                0 0 80px rgba(0, 100, 200, 0.04),
+                inset 0 1px 0 rgba(255, 255, 255, 0.03);
             box-sizing: border-box;
-            border: 1px solid rgba(0, 180, 255, 0.25);
+            border: 1px solid rgba(0, 150, 255, 0.12);
             position: relative;
+            overflow: hidden;
+        }
+
+        /* Hiệu ứng ánh sáng nền widget */
+        .widget::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(ellipse at 30% 20%, rgba(0, 150, 255, 0.03), transparent 60%);
+            pointer-events: none;
         }
 
         .close-btn {
             position: absolute;
-            top: 12px;
-            right: 14px;
-            background: transparent;
+            top: 14px;
+            right: 16px;
+            background: rgba(255, 255, 255, 0.04);
             border: none;
-            color: #00b4ff;
+            color: #4a7a9a;
             font-size: 18px;
-            font-weight: bold;
+            font-weight: 300;
             cursor: pointer;
             padding: 0;
             line-height: 1;
-            opacity: 0.6;
-            transition: 0.2s;
+            opacity: 0.5;
+            transition: 0.3s;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
         }
         .close-btn:hover {
             opacity: 1;
-            color: #00e5ff;
+            color: #00d4ff;
+            background: rgba(0, 180, 255, 0.1);
         }
 
+        /* ===== CONTROL PANEL ===== */
         .control-panel {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: rgba(0, 180, 255, 0.08);
-            padding: 6px 12px;
-            border-radius: 10px;
-            margin-bottom: 12px;
-            border: 1px solid rgba(0, 180, 255, 0.15);
+            background: rgba(0, 60, 120, 0.15);
+            padding: 5px 12px;
+            border-radius: 12px;
+            margin-bottom: 14px;
+            border: 1px solid rgba(0, 150, 255, 0.06);
             font-size: 12px;
-            color: #80d4ff;
+            color: #5a8aaa;
+            backdrop-filter: blur(4px);
         }
 
         .control-group {
@@ -106,358 +154,481 @@
             align-items: center;
             gap: 6px;
         }
+        .control-group span {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #4a7a9a;
+            font-weight: 600;
+        }
 
         .control-btn {
-            background: rgba(0, 180, 255, 0.12);
-            border: 1px solid rgba(0, 180, 255, 0.2);
-            color: #80d4ff;
+            background: rgba(0, 100, 200, 0.08);
+            border: 1px solid rgba(0, 150, 255, 0.08);
+            color: #5a8aaa;
             width: 26px;
             height: 26px;
-            border-radius: 6px;
-            font-weight: bold;
+            border-radius: 8px;
+            font-weight: 400;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.2s;
+            transition: all 0.25s;
+            font-size: 14px;
         }
-
         .control-btn:hover {
-            background: rgba(0, 180, 255, 0.3);
-            border-color: #00b4ff;
-            box-shadow: 0 0 12px rgba(0, 180, 255, 0.2);
-            color: #fff;
+            background: rgba(0, 150, 255, 0.15);
+            border-color: rgba(0, 180, 255, 0.2);
+            box-shadow: 0 0 16px rgba(0, 150, 255, 0.06);
+            color: #8ac8ff;
         }
 
+        /* ===== HEADER ===== */
         .header {
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
-            color: #a0c4e0;
+            color: #7a9aba;
             font-size: 13px;
-            font-weight: bold;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid rgba(0, 180, 255, 0.1);
+            font-weight: 500;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(0, 150, 255, 0.06);
             user-select: none;
             text-align: center;
-            line-height: 1.4;
             flex-wrap: wrap;
+            position: relative;
+            z-index: 1;
         }
 
         .header div {
             width: 100%;
         }
 
-        /* Hiển thị thời gian key */
-        .key-info {
+        #header-author {
+            color: #4a7a9a;
+            display: block;
+            font-weight: 600;
             font-size: 11px;
-            color: #7799bb;
-            margin-top: 4px;
-        }
-        .key-info span {
-            color: #00b4ff;
+            letter-spacing: 1px;
+            text-transform: uppercase;
         }
 
+        #header-title {
+            color: #00c8ff;
+            font-size: 18px;
+            display: block;
+            margin-top: 2px;
+            font-weight: 700;
+            text-shadow: 0 0 30px rgba(0, 180, 255, 0.05);
+            letter-spacing: 1px;
+        }
+
+        #header-contact {
+            color: #3a6a8a;
+            display: block;
+            font-size: 12px;
+            margin-top: 2px;
+            font-weight: 500;
+        }
+
+        .key-info {
+            font-size: 11px;
+            color: #3a6a8a;
+            margin-top: 6px;
+            background: rgba(0, 40, 80, 0.2);
+            padding: 4px 12px;
+            border-radius: 20px;
+            display: inline-block;
+            border: 1px solid rgba(0, 150, 255, 0.05);
+        }
+        .key-info span {
+            color: #6ab8ee;
+            font-weight: 600;
+        }
+
+        /* ===== INPUT ===== */
         .input-section {
-            margin-bottom: 12px;
+            margin-bottom: 14px;
+            position: relative;
+            z-index: 1;
         }
         .input-section input {
             width: 100%;
-            padding: 10px;
+            padding: 12px 16px;
             box-sizing: border-box;
-            border: 1px solid rgba(0, 180, 255, 0.2);
-            background-color: rgba(0, 0, 0, 0.5);
-            color: #fff;
-            border-radius: 6px;
+            border: 1px solid rgba(0, 100, 200, 0.15);
+            background: rgba(0, 20, 40, 0.5);
+            color: #c8e0f0;
+            border-radius: 14px;
             font-size: 14px;
-            margin-bottom: 6px;
-            transition: 0.2s;
+            transition: 0.3s;
+            font-family: 'SF Mono', 'Menlo', monospace;
+            letter-spacing: 0.5px;
         }
         .input-section input:focus {
-            border-color: #00b4ff;
-            box-shadow: 0 0 12px rgba(0, 180, 255, 0.15);
+            border-color: rgba(0, 180, 255, 0.3);
+            box-shadow: 0 0 0 4px rgba(0, 150, 255, 0.04), 0 0 30px rgba(0, 150, 255, 0.02);
             outline: none;
+            background: rgba(0, 20, 50, 0.6);
         }
         .input-section input::placeholder {
-            color: #6688aa;
+            color: #2a5a7a;
+            font-weight: 400;
+            font-family: -apple-system, sans-serif;
         }
         .input-msg {
-            font-size: 11px;
+            font-size: 12px;
             font-weight: 500;
-            min-height: 16px;
+            min-height: 18px;
+            margin-top: 4px;
+            padding-left: 4px;
         }
-        .error { color: #ff6b6b; }
-        .success { color: #69db7c; }
+        .error {
+            color: #ff6b7a;
+        }
+        .success {
+            color: #5cdb8a;
+        }
 
+        /* ===== MAIN CONTENT ===== */
         .main-content {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 15px;
+            margin-bottom: 16px;
+            padding: 0 4px;
+            position: relative;
+            z-index: 1;
         }
 
         .circles {
             display: flex;
-            gap: 12px;
+            gap: 14px;
         }
         .circle {
-            width: 50px;
-            height: 50px;
+            width: 54px;
+            height: 54px;
             border-radius: 50%;
-            transition: all 0.3s ease;
-            opacity: 0.3;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            opacity: 0.2;
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.3);
+            position: relative;
         }
 
         .circle.left-circle {
-            background: linear-gradient(135deg, #8b0000, #ff4444);
+            background: linear-gradient(135deg, #6b1a1a, #d43a3a);
         }
         .circle.right-circle {
-            background: linear-gradient(135deg, #00008b, #4444ff);
+            background: linear-gradient(135deg, #0a2a6a, #3a7ad8);
         }
 
-        @keyframes blink-effect {
-            0% { opacity: 1; transform: scale(1.15); box-shadow: 0 0 20px rgba(0, 180, 255, 0.4); }
-            50% { opacity: 0.5; transform: scale(1); box-shadow: none; }
-            100% { opacity: 1; transform: scale(1.15); box-shadow: 0 0 20px rgba(0, 180, 255, 0.4); }
+        @keyframes pulse-glow {
+            0% {
+                opacity: 1;
+                transform: scale(1.1);
+                box-shadow: 0 0 30px rgba(0, 180, 255, 0.15), inset 0 0 20px rgba(0, 180, 255, 0.05);
+            }
+            50% {
+                opacity: 0.6;
+                transform: scale(0.95);
+                box-shadow: 0 0 10px rgba(0, 180, 255, 0.02);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1.1);
+                box-shadow: 0 0 30px rgba(0, 180, 255, 0.15), inset 0 0 20px rgba(0, 180, 255, 0.05);
+            }
         }
 
         .circle.active {
-            animation: blink-effect 1s infinite;
+            animation: pulse-glow 1.2s ease-in-out infinite;
             opacity: 1;
+        }
+
+        .circle.active.left-circle {
+            box-shadow: 0 0 40px rgba(255, 60, 60, 0.15), inset 0 0 30px rgba(255, 60, 60, 0.05);
+        }
+        .circle.active.right-circle {
+            box-shadow: 0 0 40px rgba(60, 120, 255, 0.15), inset 0 0 30px rgba(60, 120, 255, 0.05);
         }
 
         .prediction {
             text-align: right;
         }
         .prediction-result {
-            font-size: 32px;
-            font-weight: 700;
-            color: #00b4ff;
-            margin: 4px 0;
-            text-shadow: 0 0 20px rgba(0, 180, 255, 0.3);
+            font-size: 34px;
+            font-weight: 800;
+            color: #00c8ff;
+            margin: 0;
+            text-shadow: 0 0 40px rgba(0, 180, 255, 0.04);
+            letter-spacing: 1px;
+            line-height: 1.2;
         }
         .prediction-percent {
-            font-size: 18px;
-            color: #80d4ff;
-            font-weight: 500;
-            opacity: 0.9;
+            font-size: 16px;
+            color: #5a9ac8;
+            font-weight: 600;
+            opacity: 0.8;
+            letter-spacing: 0.5px;
         }
 
+        /* ===== BUTTONS ===== */
         .action-container {
             display: flex;
             gap: 10px;
             width: 100%;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
+            position: relative;
+            z-index: 1;
         }
 
         .big-action-btn {
             flex: 1;
-            padding: 12px;
-            background: linear-gradient(135deg, #003366, #001a33);
-            color: #00b4ff;
-            border: 1px solid #00b4ff;
-            border-radius: 10px;
+            padding: 13px 10px;
+            background: linear-gradient(135deg, #0a2a5a, #0a1a3a);
+            color: #6ab8ee;
+            border: 1px solid rgba(0, 150, 255, 0.12);
+            border-radius: 14px;
             font-size: 15px;
-            font-weight: bold;
+            font-weight: 700;
             cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
             text-align: center;
+            letter-spacing: 1px;
         }
         .big-action-btn:hover {
-            background: linear-gradient(135deg, #00b4ff, #0088cc);
-            color: #fff;
-            border-color: #00e5ff;
-            box-shadow: 0 0 20px rgba(0, 180, 255, 0.3);
+            background: linear-gradient(135deg, #0a3a7a, #0a2a5a);
+            border-color: rgba(0, 180, 255, 0.2);
+            box-shadow: 0 0 30px rgba(0, 150, 255, 0.04);
+            color: #8ad0ff;
+            transform: translateY(-1px);
+        }
+        .big-action-btn:active {
+            transform: scale(0.97);
         }
 
         .exit-action-btn {
             flex: 1;
-            padding: 12px;
-            background: rgba(255,255,255,0.02);
-            color: #8899aa;
-            border: 1px solid #445566;
-            border-radius: 10px;
+            padding: 13px 10px;
+            background: rgba(255, 255, 255, 0.02);
+            color: #4a6a8a;
+            border: 1px solid rgba(60, 80, 100, 0.15);
+            border-radius: 14px;
             font-size: 15px;
-            font-weight: bold;
+            font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
             text-align: center;
+            letter-spacing: 0.5px;
         }
         .exit-action-btn:hover {
-            background: rgba(255,255,255,0.06);
-            color: #c0d0e0;
-            border-color: #6688aa;
+            background: rgba(255, 255, 255, 0.04);
+            color: #6a9aba;
+            border-color: rgba(60, 100, 140, 0.2);
         }
 
         .social-container {
             display: flex;
             gap: 10px;
             width: 100%;
+            position: relative;
+            z-index: 1;
         }
 
         .social-btn {
             flex: 1;
-            padding: 10px;
+            padding: 11px 10px;
             border: none;
-            border-radius: 8px;
+            border-radius: 14px;
             font-size: 13px;
-            font-weight: bold;
+            font-weight: 600;
             cursor: pointer;
             text-align: center;
             text-decoration: none;
             display: inline-block;
-            transition: opacity 0.3s;
+            transition: all 0.3s;
+            letter-spacing: 0.5px;
         }
         .social-btn:hover {
             opacity: 0.85;
+            transform: translateY(-1px);
         }
         .telegram-btn {
-            background: #0088cc;
+            background: linear-gradient(135deg, #0088cc, #006699);
             color: #fff;
+            box-shadow: 0 4px 16px rgba(0, 136, 204, 0.15);
         }
 
+        /* ===== VIP TOGGLE ===== */
         .vip-toggle-btn {
             position: fixed;
             top: 50%;
             left: 50%;
-            margin-top: -27px;
-            margin-left: -50px;
-            background: #0a0e17;
-            color: #00b4ff;
-            border: 2px solid #00b4ff;
-            padding: 14px 28px;
-            border-radius: 30px;
-            font-size: 20px;
-            font-weight: bold;
+            margin-top: -28px;
+            margin-left: -52px;
+            background: linear-gradient(135deg, #0a1a3a, #0d0e1a);
+            color: #6ab8ee;
+            border: 1px solid rgba(0, 150, 255, 0.1);
+            padding: 14px 32px;
+            border-radius: 40px;
+            font-size: 18px;
+            font-weight: 700;
             cursor: move;
             display: none;
             z-index: 1002;
-            backdrop-filter: blur(5px);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.9), 0 0 30px rgba(0, 180, 255, 0.1);
+            backdrop-filter: blur(12px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8), 0 0 60px rgba(0, 100, 200, 0.02);
             letter-spacing: 2px;
             user-select: none;
             touch-action: none;
             transition: 0.3s;
         }
         .vip-toggle-btn:hover {
-            box-shadow: 0 0 40px rgba(0, 180, 255, 0.2);
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.9), 0 0 80px rgba(0, 150, 255, 0.03);
+            border-color: rgba(0, 180, 255, 0.15);
         }
 
-        /* ===== OVERLAY LOGIN ===== */
+        /* ===== LOGIN OVERLAY ===== */
         #login-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(12px);
+            background: rgba(2, 6, 16, 0.92);
+            backdrop-filter: blur(20px);
             display: flex;
             justify-content: center;
             align-items: center;
             z-index: 9999;
-            transition: opacity 0.5s;
+            transition: opacity 0.6s ease;
         }
         #login-overlay.hidden {
             opacity: 0;
             pointer-events: none;
         }
+
         .login-box {
-            background: #0a0e17;
+            background: linear-gradient(145deg, #0c1628, #060c1a);
             backdrop-filter: blur(20px);
-            border-radius: 40px;
-            padding: 40px 30px;
-            width: 90%;
+            border-radius: 48px;
+            padding: 44px 34px 38px;
+            width: 92%;
             max-width: 400px;
-            border: 1px solid rgba(0, 180, 255, 0.2);
-            box-shadow: 0 30px 60px rgba(0,0,0,0.9), 0 0 40px rgba(0, 180, 255, 0.03);
+            border: 1px solid rgba(0, 150, 255, 0.06);
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.9), 0 0 60px rgba(0, 100, 200, 0.02);
             text-align: center;
+            position: relative;
+            overflow: hidden;
         }
+        .login-box::before {
+            content: '';
+            position: absolute;
+            top: -30%;
+            left: -30%;
+            width: 160%;
+            height: 160%;
+            background: radial-gradient(ellipse at 30% 20%, rgba(0, 100, 200, 0.03), transparent 60%);
+            pointer-events: none;
+        }
+
         .login-box h2 {
-            color: #00b4ff;
-            font-weight: 600;
-            font-size: 24px;
-            margin-bottom: 8px;
-            text-shadow: 0 0 20px rgba(0, 180, 255, 0.1);
+            color: #00c8ff;
+            font-weight: 700;
+            font-size: 26px;
+            margin-bottom: 6px;
+            text-shadow: 0 0 40px rgba(0, 180, 255, 0.02);
+            letter-spacing: 1px;
         }
-        .login-box p {
-            color: #7799bb;
+        .login-box .sub-title {
+            color: #3a6a8a;
             font-size: 14px;
             margin-bottom: 24px;
+            font-weight: 400;
         }
         .login-box input {
             width: 100%;
-            padding: 14px 18px;
-            background: #1a2233;
-            border: 1px solid #334455;
-            border-radius: 30px;
+            padding: 15px 20px;
+            background: rgba(0, 20, 40, 0.6);
+            border: 1px solid rgba(0, 100, 200, 0.1);
+            border-radius: 40px;
             font-size: 16px;
-            color: #fff;
+            color: #c8e0f0;
             outline: none;
-            transition: 0.2s;
-            margin-bottom: 16px;
+            transition: 0.3s;
+            margin-bottom: 14px;
+            font-family: 'SF Mono', 'Menlo', monospace;
+            letter-spacing: 0.5px;
         }
         .login-box input:focus {
-            border-color: #00b4ff;
-            box-shadow: 0 0 0 4px rgba(0, 180, 255, 0.1);
+            border-color: rgba(0, 180, 255, 0.2);
+            box-shadow: 0 0 0 4px rgba(0, 150, 255, 0.03);
         }
         .login-box input::placeholder {
-            color: #556677;
-        }
-        .login-box .login-btn {
-            width: 100%;
-            padding: 14px;
-            background: linear-gradient(135deg, #00b4ff, #0088cc);
-            border: none;
-            border-radius: 40px;
-            font-size: 18px;
-            font-weight: 700;
-            color: #fff;
-            cursor: pointer;
-            transition: 0.25s;
-            box-shadow: 0 8px 24px rgba(0, 180, 255, 0.2);
-        }
-        .login-box .login-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 32px rgba(0, 180, 255, 0.4);
-        }
-        .login-box .login-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-        }
-        .login-box .login-msg {
-            margin-top: 12px;
-            font-size: 14px;
-            min-height: 20px;
-            color: #ff6b6b;
-        }
-        .login-box .login-msg.success {
-            color: #69db7c;
+            color: #2a5a7a;
+            font-family: -apple-system, sans-serif;
+            letter-spacing: 0;
         }
 
-        /* Checkbox lưu key – nhỏ gọn */
         .save-key-wrapper {
             display: flex;
             align-items: center;
-            justify-content: flex-start;
-            gap: 6px;
-            margin-bottom: 14px;
-            color: #7799bb;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 18px;
+            color: #3a6a8a;
             font-size: 13px;
             cursor: pointer;
         }
         .save-key-wrapper input[type="checkbox"] {
-            width: 16px;
-            height: 16px;
+            width: 17px;
+            height: 17px;
             accent-color: #00b4ff;
             cursor: pointer;
-            background: #1a2233;
-            border: 1px solid #334455;
-            border-radius: 3px;
+            background: rgba(0, 20, 40, 0.6);
+            border: 1px solid rgba(0, 100, 200, 0.1);
+            border-radius: 4px;
+        }
+
+        .login-box .login-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #0a3a7a, #0a2a5a);
+            border: 1px solid rgba(0, 150, 255, 0.08);
+            border-radius: 40px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #6ab8ee;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            letter-spacing: 1px;
+        }
+        .login-box .login-btn:hover {
+            background: linear-gradient(135deg, #0a4a8a, #0a2a6a);
+            border-color: rgba(0, 180, 255, 0.1);
+            box-shadow: 0 8px 40px rgba(0, 100, 200, 0.05);
+            color: #8ad0ff;
+            transform: translateY(-1px);
+        }
+        .login-box .login-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .login-box .login-msg {
+            margin-top: 14px;
+            font-size: 14px;
+            min-height: 20px;
+            color: #ff6b7a;
+            font-weight: 500;
+        }
+        .login-box .login-msg.success {
+            color: #5cdb8a;
         }
 
         /* ===== WELCOME SCREEN ===== */
@@ -467,27 +638,28 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            backdrop-filter: blur(8px);
+            background: rgba(2, 6, 16, 0.95);
+            backdrop-filter: blur(12px);
             display: none;
             justify-content: center;
             align-items: center;
             z-index: 10000;
             flex-direction: column;
-            transition: opacity 0.5s;
+            transition: opacity 0.6s ease;
         }
         #welcome-screen.show {
             display: flex;
         }
+
         #welcome-screen .welcome-box {
             text-align: center;
             padding: 40px;
         }
         #welcome-screen .welcome-box h1 {
-            font-size: 42px;
+            font-size: 44px;
             font-weight: 700;
-            color: #00e5ff;
-            text-shadow: 0 0 30px rgba(0, 229, 255, 0.3);
+            color: #00c8ff;
+            text-shadow: 0 0 60px rgba(0, 180, 255, 0.04);
             letter-spacing: 2px;
             overflow: hidden;
             white-space: nowrap;
@@ -497,28 +669,68 @@
             animation: marquee 8s linear infinite;
         }
         @keyframes marquee {
-            0% { transform: translateX(100%); opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { transform: translateX(-100%); opacity: 0; }
+            0% {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateX(-100%);
+                opacity: 0;
+            }
         }
         #welcome-screen .welcome-box .sub {
-            color: #aac0d0;
-            font-size: 18px;
-            margin-top: 16px;
+            color: #4a7a9a;
+            font-size: 16px;
+            margin-top: 14px;
+            font-weight: 400;
+            letter-spacing: 0.5px;
         }
         .spinner {
-            margin-top: 20px;
-            width: 40px;
-            height: 40px;
-            border: 4px solid #2a3a4a;
-            border-top: 4px solid #00e5ff;
+            margin-top: 24px;
+            width: 44px;
+            height: 44px;
+            border: 3px solid rgba(0, 100, 200, 0.08);
+            border-top: 3px solid #00c8ff;
             border-radius: 50%;
             animation: spin 1s linear infinite;
+            box-shadow: 0 0 40px rgba(0, 180, 255, 0.02);
         }
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 380px) {
+            .widget {
+                width: 300px;
+                padding: 18px 16px 16px;
+            }
+            .circle {
+                width: 44px;
+                height: 44px;
+            }
+            .prediction-result {
+                font-size: 28px;
+            }
+            .toast {
+                width: 290px;
+                font-size: 12px;
+                padding: 10px 14px;
+            }
+            .login-box {
+                padding: 32px 20px 28px;
+            }
         }
     </style>
 </head>
@@ -528,64 +740,64 @@
     <div id="login-overlay">
         <div class="login-box">
             <h2>🔐 Xác thực</h2>
-            <p>Nhập key của bạn để sử dụng tool</p>
+            <p class="sub-title">Nhập key để sử dụng công cụ dự đoán</p>
             <input type="text" id="login-key-input" placeholder="Nhập key ..." autocomplete="off">
-
-            <!-- Checkbox lưu key (nhỏ) -->
             <div class="save-key-wrapper">
                 <input type="checkbox" id="save-key-checkbox">
                 <label for="save-key-checkbox">Lưu key</label>
             </div>
-
             <button class="login-btn" id="login-btn">Xác nhận</button>
             <div class="login-msg" id="login-msg"></div>
         </div>
     </div>
 
-    <!-- ===== BẢNG CHÀO MỪNG ===== -->
+    <!-- ===== WELCOME SCREEN ===== -->
     <div id="welcome-screen">
         <div class="welcome-box">
-            <h1><span class="marquee-text">🎉 Chào mừng đến với TOOL VIP 🎉</span></h1>
-            <div class="sub">Đang tải công cụ dự đoán ...</div>
+            <h1><span class="marquee-text">🚀 Chào mừng đến với TOOL VIP Pro 🚀</span></h1>
+            <div class="sub">Đang khởi tạo công cụ dự đoán ...</div>
             <div class="spinner"></div>
         </div>
     </div>
 
+    <!-- ===== TOAST ===== -->
+    <div class="toast" id="txt-toast">✨ Chào mừng <strong>VIP</strong> đến với <strong>Tool Lc79b.bet</strong></div>
+
+    <!-- ===== VIP TOGGLE ===== -->
+    <button class="vip-toggle-btn" id="vip-btn">✦ ViP</button>
+
     <!-- ===== TOOL CHÍNH ===== -->
-    <div class="toast" id="txt-toast">Chào Mừng Khách ViP Đến Với TOOL Lc79b.bet</div>
-
-    <button class="vip-toggle-btn" id="vip-btn">ViP</button>
-
     <div class="widget-wrapper" id="widget-wrapper" style="display: none;">
         <div class="widget" id="tool-widget">
-            <button class="close-btn" id="close-widget-btn">&times;</button>
+            <button class="close-btn" id="close-widget-btn">✕</button>
 
             <div class="control-panel">
                 <div class="control-group">
-                    <span>Xoay:</span>
+                    <span>Xoay</span>
                     <button class="control-btn" id="rotate-left-btn" title="Xoay trái">↺</button>
                     <button class="control-btn" id="rotate-right-btn" title="Xoay phải">↻</button>
                 </div>
                 <div class="control-group">
-                    <span>Cỡ:</span>
-                    <button class="control-btn" id="zoom-out-btn" title="Thu nhỏ">-</button>
+                    <span>Cỡ</span>
+                    <button class="control-btn" id="zoom-out-btn" title="Thu nhỏ">−</button>
                     <button class="control-btn" id="zoom-in-btn" title="Phóng to">+</button>
                 </div>
             </div>
 
             <div class="header">
                 <div>
-                    <span id="header-author" style="color: #7799bb; display: block; font-weight: bold; font-size: 12px;">Tool Tx MD5 Van Vinh</span>
-                    <strong id="header-title" style="color: #00b4ff; font-size: 14px; display: block; margin-top: 2px; font-weight: bold; text-shadow: 0 0 10px rgba(0,180,255,0.1);">Tài Xỉu MD5</strong>
-                    <span id="header-contact" style="color: #557799; display: block; font-size: 12px; margin-top: 2px; font-weight: bold;">Tele : @vanvinhdzvailoz</span>
-                    <!-- Hiển thị thông tin key -->
-                    <div class="key-info" id="key-info-display">Key: <span id="current-key-display">Chưa có</span> | Hết hạn: <span id="current-expiry-display">--</span></div>
+                    <span id="header-author">Tool Tx MD5 • Van Vinh</span>
+                    <strong id="header-title">Tài Xỉu MD5 Pro</strong>
+                    <span id="header-contact">Telegram : @vanvinhdzvailoz</span>
+                    <div class="key-info" id="key-info-display">
+                        Key: <span id="current-key-display">Chưa có</span> &nbsp;|&nbsp; Hết hạn: <span id="current-expiry-display">--</span>
+                    </div>
                 </div>
             </div>
 
             <div class="input-section">
-                <input type="text" id="code-input" placeholder="Dán mã phiên (32 ký tự)...">
-                <div class="input-msg error" id="input-msg">Chưa nhập đủ 32 ký tự!</div>
+                <input type="text" id="code-input" placeholder="Dán mã phiên (32 ký tự)..." autocomplete="off">
+                <div class="input-msg error" id="input-msg">Chưa nhập đủ 32 ký tự</div>
             </div>
 
             <div class="main-content">
@@ -594,7 +806,7 @@
                     <div class="circle right-circle" id="circle-xiu"></div>
                 </div>
                 <div class="prediction">
-                    <div class="prediction-result" id="result">-</div>
+                    <div class="prediction-result" id="result">−</div>
                     <div class="prediction-percent" id="percent">--%</div>
                 </div>
             </div>
@@ -605,7 +817,7 @@
             </div>
 
             <div class="social-container">
-                <a href="https://t.me/vanvinh10" id="telegram-link" class="social-btn telegram-btn">Telegram</a>
+                <a href="https://t.me/vanvinh10" id="telegram-link" class="social-btn telegram-btn">📱 Telegram</a>
             </div>
         </div>
     </div>
@@ -632,11 +844,11 @@
         const currentKeyDisplay = document.getElementById('current-key-display');
         const currentExpiryDisplay = document.getElementById('current-expiry-display');
 
-        // ===== BIẾN TOÀN CỤC LƯU THÔNG TIN KEY =====
+        // ===== BIẾN TOÀN CỤC =====
         let currentUserKey = null;
         let currentUserExpiry = null;
 
-        // ===== LƯU KEY VÀO LOCALSTORAGE =====
+        // ===== LƯU KEY =====
         function saveKeyToStorage(key) {
             if (!key) return;
             localStorage.setItem('saved_tool_key', key);
@@ -652,7 +864,6 @@
             loginMsg.className = isError ? 'login-msg' : 'login-msg success';
         }
 
-        // ===== HIỂN THỊ THÔNG TIN KEY TRONG TOOL =====
         function updateKeyInfoDisplay(key, expiry) {
             if (key) {
                 currentKeyDisplay.textContent = key.slice(0, 8) + '...' + key.slice(-4);
@@ -666,7 +877,7 @@
             }
         }
 
-        // ===== TỰ ĐỘNG ĐIỀN KEY ĐÃ LƯU (nếu có) =====
+        // ===== TỰ ĐỘNG ĐIỀN KEY ĐÃ LƯU =====
         (function loadSavedKey() {
             const saved = getSavedKey();
             if (saved) {
@@ -675,14 +886,13 @@
             }
         })();
 
-        // ===== SỰ KIỆN TICK CHECKBOX =====
         saveKeyCheckbox.addEventListener('change', function() {
             const key = loginInput.value.trim();
             if (this.checked) {
                 if (key) {
                     saveKeyToStorage(key);
                 } else {
-                    showToastMsg('Vui Lòng Nhập Key Để Lưu', true);
+                    showToastMsg('Vui lòng nhập key để lưu', true);
                 }
             } else {
                 localStorage.removeItem('saved_tool_key');
@@ -690,7 +900,7 @@
             }
         });
 
-        // ===== HÀM KIỂM TRA KEY – TRẢ VỀ THÔNG TIN ĐẦY ĐỦ =====
+        // ===== KIỂM TRA KEY =====
         async function verifyKey(userKey) {
             if (userKey === "1") {
                 return { valid: true, key: "1", expiry: null };
@@ -729,13 +939,12 @@
                         welcomeScreen.classList.remove('show');
                         widgetWrapper.style.display = 'block';
                         toast.style.display = 'flex';
-                        // Cập nhật thông tin key trên tool
                         updateKeyInfoDisplay(currentUserKey, currentUserExpiry);
                         initTool();
                     }, 2800);
                 }, 400);
             } else {
-                showToastMsg('❌ Key Không Tồn Tại,Vui Lòng Liên Hệ Admin.', true);
+                showToastMsg('❌ Key không tồn tại, vui lòng liên hệ Admin.', true);
                 loginBtn.disabled = false;
                 loginBtn.textContent = 'Xác nhận';
                 currentUserKey = null;
@@ -747,7 +956,7 @@
             if (e.key === 'Enter') loginBtn.click();
         });
 
-        // ===== KHỞI TẠO TOOL (GIỮ NGUYÊN TOÀN BỘ THUẬT TOÁN) =====
+        // ===== KHỞI TẠO TOOL =====
         function initTool() {
             const TEXT_TAI = "Tài";
             const TEXT_XIU = "Xỉu";
@@ -810,7 +1019,6 @@
                 }, 1000);
             });
 
-            // ===== HÀM DỰ ĐOÁN – KHÔNG THAY ĐỔI =====
             function getSessionData(sessionCode) {
                 let combined = sessionCode + FIXED_KEY;
                 let hash = 0;
@@ -828,8 +1036,7 @@
                 if (val.length !== REQUIRED_LENGTH) {
                     inputMsg.className = 'input-msg error';
                     inputMsg.innerText = 'Chưa hợp lệ! Yêu cầu đúng ' + REQUIRED_LENGTH + ' ký tự (' + val.length + '/' + REQUIRED_LENGTH + ')';
-
-                    document.getElementById('result').innerText = '-';
+                    document.getElementById('result').innerText = '−';
                     document.getElementById('percent').innerText = '--%';
                     document.getElementById('circle-tai').classList.remove('active');
                     document.getElementById('circle-xiu').classList.remove('active');
@@ -837,12 +1044,10 @@
                 } else {
                     inputMsg.className = 'input-msg success';
                     inputMsg.innerText = 'Hợp lệ! Đã nhận mã phiên.';
-
                     if (val !== lastEvaluatedSession) {
                         lastEvaluatedSession = val;
                         sessionResult = getSessionData(val);
-
-                        document.getElementById('result').innerText = '-';
+                        document.getElementById('result').innerText = '−';
                         document.getElementById('percent').innerText = '--%';
                         document.getElementById('circle-tai').classList.remove('active');
                         document.getElementById('circle-xiu').classList.remove('active');
@@ -864,7 +1069,7 @@
                 }
 
                 startBtn.disabled = true;
-                startBtn.style.opacity = '0.6';
+                startBtn.style.opacity = '0.5';
                 startBtn.innerText = 'ĐANG XỬ LÝ...';
 
                 document.getElementById('result').innerText = '...';
@@ -896,13 +1101,11 @@
             exitBtn.addEventListener('click', () => {
                 codeInput.value = '';
                 inputMsg.className = 'input-msg error';
-                inputMsg.innerText = 'Hệ Thống Phân Tích MD5 Đã Dừng Hoạt Động';
-
-                document.getElementById('result').innerText = '-';
+                inputMsg.innerText = 'Hệ thống phân tích MD5 đã dừng hoạt động';
+                document.getElementById('result').innerText = '−';
                 document.getElementById('percent').innerText = '--%';
                 document.getElementById('circle-tai').classList.remove('active');
                 document.getElementById('circle-xiu').classList.remove('active');
-
                 lastEvaluatedSession = "";
             });
 
@@ -912,6 +1115,7 @@
                 vipBtn.style.display = 'block';
             });
 
+            // ===== DRAG VIP BUTTON =====
             let isDragging = false;
             let hasDragged = false;
             let startX, startY, initialLeft, initialTop;
@@ -989,9 +1193,6 @@
                 vipBtn.style.display = 'none';
             });
         }
-
-        // ===== KHỞI TẠO TRANG =====
-        // Mặc định overlay hiển thị
     </script>
 </body>
 </html>
