@@ -107,17 +107,17 @@ def detect_pattern_3(history):
 
 def analyze(history):
     if len(history) < 3:
-        result = {}
-        result["prediction"] = "T"
-        result["prediction_text"] = "TAI"
-        result["confidence"] = 0
-        result["reasons"] = ["Chua du du lieu"]
-        result["streak"] = 0
-        result["last"] = None
-        result["freq_t"] = 0
-        result["freq_x"] = 0
-        result["history_len"] = 0
-        return result
+        return {
+            "prediction": "T",
+            "prediction_text": "TAI",
+            "confidence": 0,
+            "reasons": ["Chua du du lieu"],
+            "streak": 0,
+            "last": None,
+            "freq_t": 0,
+            "freq_x": 0,
+            "history_len": 0
+        }
 
     score_t = 0
     score_x = 0
@@ -209,14 +209,14 @@ def analyze(history):
     else:
         pred_text = "XIU"
 
-    result = {}
-    result["prediction"] = pred
-    result["prediction_text"] = pred_text
-    result["confidence"] = conf
-    result["reasons"] = reasons
-    result["streak"] = streak
-    result["last"] = last
-    result["freq_t"] = round(freq_t, 2)
-    result["freq_x"] = round(freq_x, 2)
-    result["history_len"] = total
-    return result
+    return {
+        "prediction": pred,
+        "prediction_text": pred_text,
+        "confidence": conf,
+        "reasons": reasons,
+        "streak": streak,
+        "last": last,
+        "freq_t": round(freq_t, 2),
+        "freq_x": round(freq_x, 2),
+        "history_len": total
+    }
