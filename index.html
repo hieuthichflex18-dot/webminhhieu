@@ -1,1 +1,679 @@
-<script>document.write(decodeURIComponent(escape(atob("PCFET0NUWVBFIGh0bWw+CjxodG1sIGxhbmc9InZpIj4KPGhlYWQ+CjxtZXRhIGNoYXJzZXQ9IlVURi04Ij4KPG1ldGEgbmFtZT0idmlld3BvcnQiIGNvbnRlbnQ9IndpZHRoPWRldmljZS13aWR0aCwgaW5pdGlhbC1zY2FsZT0xLjAiPgo8dGl0bGU+TUhTVCAtIFTDoGkgWOG7iXUgVG9vbDwvdGl0bGU+CjxzdHlsZT4KICAqIHsgYm94LXNpemluZzogYm9yZGVyLWJveDsgbWFyZ2luOiAwOyBwYWRkaW5nOiAwOyB9CgogIGJvZHkgewogICAgZm9udC1mYW1pbHk6ICdTZWdvZSBVSScsIHNhbnMtc2VyaWY7CiAgICBiYWNrZ3JvdW5kOiAjMGEwYTFhOwogICAgY29sb3I6ICNlMGUwZmY7CiAgICBtaW4taGVpZ2h0OiAxMDB2aDsKICAgIG92ZXJmbG93OiBoaWRkZW47CiAgICB1c2VyLXNlbGVjdDogbm9uZTsKICB9CgogIC8qIEdBTUUgRlJBTUUgKi8KICAjZ2FtZS1mcmFtZSB7CiAgICBwb3NpdGlvbjogZml4ZWQ7CiAgICB0b3A6IDA7CiAgICBsZWZ0OiAwOwogICAgd2lkdGg6IDEwMCU7CiAgICBoZWlnaHQ6IDEwMCU7CiAgICB6LWluZGV4OiAxOwogICAgYm9yZGVyOiBub25lOwogICAgYmFja2dyb3VuZDogIzBhMGExYTsKICB9CgogIC8qIE1JTkkgTUVOVSAtIERSQUdHQUJMRSAqLwogICNtaW5pLW1lbnUgewogICAgcG9zaXRpb246IGZpeGVkOwogICAgei1pbmRleDogOTk5OTsKICAgIGN1cnNvcjogZ3JhYjsKICAgIHRvdWNoLWFjdGlvbjogbm9uZTsKICAgIHRvcDogMjBweDsKICAgIHJpZ2h0OiAyMHB4OwogICAgYmFja2dyb3VuZDogcmdiYSgyMCwgMTAsIDE1LCAwLjc1KTsKICAgIGJhY2tkcm9wLWZpbHRlcjogYmx1cigyMHB4KTsKICAgIC13ZWJraXQtYmFja2Ryb3AtZmlsdGVyOiBibHVyKDIwcHgpOwogICAgYm9yZGVyLXJhZGl1czogMTZweDsKICAgIHBhZGRpbmc6IDEycHggMTZweDsKICAgIGJvcmRlcjogMXB4IHNvbGlkIHJnYmEoMjU1LCAxMDEsIDEzMiwgMC4yKTsKICAgIGJveC1zaGFkb3c6IDAgOHB4IDMycHggcmdiYSgwLDAsMCwwLjUpLCAwIDAgNDBweCByZ2JhKDI1NSwgMTAxLCAxMzIsIDAuMDUpOwogICAgbWluLXdpZHRoOiAxNDBweDsKICAgIHRyYW5zaXRpb246IGJveC1zaGFkb3cgMC4zcywgdHJhbnNmb3JtIDAuMnM7CiAgICBkaXNwbGF5OiBmbGV4OwogICAgZmxleC1kaXJlY3Rpb246IGNvbHVtbjsKICAgIGdhcDogNnB4OwogIH0KCiAgI21pbmktbWVudTpob3ZlciB7CiAgICBib3gtc2hhZG93OiAwIDhweCA0MHB4IHJnYmEoMCwwLDAsMC42KSwgMCAwIDYwcHggcmdiYSgyNTUsIDEwMSwgMTMyLCAwLjEpOwogIH0KCiAgI21pbmktbWVudTphY3RpdmUgewogICAgY3Vyc29yOiBncmFiYmluZzsKICB9CgogIC5tZW51LWhhbmRsZSB7CiAgICBkaXNwbGF5OiBmbGV4OwogICAgYWxpZ24taXRlbXM6IGNlbnRlcjsKICAgIGp1c3RpZnktY29udGVudDogc3BhY2UtYmV0d2VlbjsKICAgIGN1cnNvcjogZ3JhYjsKICAgIHBhZGRpbmc6IDJweCAwOwogIH0KCiAgLm1lbnUtaGFuZGxlOmFjdGl2ZSB7CiAgICBjdXJzb3I6IGdyYWJiaW5nOwogIH0KCiAgLm1lbnUtYnJhbmQgewogICAgZm9udC1zaXplOiAxMXB4OwogICAgZm9udC13ZWlnaHQ6IDcwMDsKICAgIGJhY2tncm91bmQ6IGxpbmVhci1ncmFkaWVudCg5MGRlZywgI2ZmNjU4NCwgI2ZmOGZhMyk7CiAgICAtd2Via2l0LWJhY2tncm91bmQtY2xpcDogdGV4dDsKICAgIC13ZWJraXQtdGV4dC1maWxsLWNvbG9yOiB0cmFuc3BhcmVudDsKICAgIGxldHRlci1zcGFjaW5nOiAxcHg7CiAgfQoKICAubWVudS10b2dnbGUtYnRuIHsKICAgIGJhY2tncm91bmQ6IHJnYmEoMjU1LCAxMDEsIDEzMiwgMC4xNSk7CiAgICBib3JkZXI6IDFweCBzb2xpZCByZ2JhKDI1NSwgMTAxLCAxMzIsIDAuMik7CiAgICBjb2xvcjogI2ZmOGZhMzsKICAgIHdpZHRoOiAyNnB4OwogICAgaGVpZ2h0OiAyNnB4OwogICAgYm9yZGVyLXJhZGl1czogNTAlOwogICAgY3Vyc29yOiBwb2ludGVyOwogICAgZm9udC1zaXplOiAxMnB4OwogICAgZGlzcGxheTogZmxleDsKICAgIGFsaWduLWl0ZW1zOiBjZW50ZXI7CiAgICBqdXN0aWZ5LWNvbnRlbnQ6IGNlbnRlcjsKICAgIHRyYW5zaXRpb246IGFsbCAwLjNzOwogICAgZmxleC1zaHJpbms6IDA7CiAgfQoKICAubWVudS10b2dnbGUtYnRuOmhvdmVyIHsKICAgIGJhY2tncm91bmQ6IHJnYmEoMjU1LCAxMDEsIDEzMiwgMC4zKTsKICAgIHRyYW5zZm9ybTogc2NhbGUoMS4xKTsKICB9CgogIC5tZW51LWNvbnRlbnQgewogICAgZGlzcGxheTogZmxleDsKICAgIGZsZXgtZGlyZWN0aW9uOiBjb2x1bW47CiAgICBnYXA6IDRweDsKICB9CgogIC5tZW51LWNvbnRlbnQuaGlkZGVuIHsKICAgIGRpc3BsYXk6IG5vbmU7CiAgfQoKICAuc2Vzc2lvbi1yb3ctbWluaSB7CiAgICBkaXNwbGF5OiBmbGV4OwogICAgYWxpZ24taXRlbXM6IGNlbnRlcjsKICAgIGp1c3RpZnktY29udGVudDogc3BhY2UtYmV0d2VlbjsKICAgIGZvbnQtc2l6ZTogMTFweDsKICAgIGNvbG9yOiAjY2M5OWFhOwogIH0KCiAgLnNlc3Npb24taWQtbWluaSB7CiAgICBjb2xvcjogI2ZmZjsKICAgIGZvbnQtd2VpZ2h0OiA3MDA7CiAgICBmb250LXNpemU6IDEzcHg7CiAgfQoKICAucHJlZC1yb3ctbWluaSB7CiAgICBkaXNwbGF5OiBmbGV4OwogICAgYWxpZ24taXRlbXM6IGNlbnRlcjsKICAgIGp1c3RpZnktY29udGVudDogc3BhY2UtYmV0d2VlbjsKICAgIGdhcDogOHB4OwogICAgcGFkZGluZzogNHB4IDA7CiAgICBib3JkZXItdG9wOiAxcHggc29saWQgcmdiYSgyNTUsIDEwMSwgMTMyLCAwLjA4KTsKICAgIGJvcmRlci1ib3R0b206IDFweCBzb2xpZCByZ2JhKDI1NSwgMTAxLCAxMzIsIDAuMDgpOwogIH0KCiAgLnByZWQtbGFiZWwtbWluaSB7CiAgICBmb250LXNpemU6IDEwcHg7CiAgICBjb2xvcjogI2ZmOGZhMzsKICAgIHRleHQtdHJhbnNmb3JtOiB1cHBlcmNhc2U7CiAgICBsZXR0ZXItc3BhY2luZzogMC41cHg7CiAgfQoKICAucHJlZC1yZXN1bHQtbWluaSB7CiAgICBmb250LXNpemU6IDE2cHg7CiAgICBmb250LXdlaWdodDogODAwOwogICAgbGV0dGVyLXNwYWNpbmc6IDAuNXB4OwogICAgdHJhbnNpdGlvbjogYWxsIDAuM3M7CiAgfQoKICAucHJlZC10YWktbWluaSB7IGNvbG9yOiAjZmY0ZDZkOyB9CiAgLnByZWQteGl1LW1pbmkgeyBjb2xvcjogIzQzZTk3YjsgfQogIC5wcmVkLXNraXAtbWluaSB7IGNvbG9yOiAjZmZhNTAwOyBmb250LXNpemU6IDEzcHg7IH0KICAucHJlZC1zdG9wLW1pbmkgeyBjb2xvcjogI2ZmMDAwMDsgZm9udC1zaXplOiAxM3B4OyB9CgogIC5jb25mLW1pbmktd3JhcCB7CiAgICBkaXNwbGF5OiBmbGV4OwogICAgYWxpZ24taXRlbXM6IGNlbnRlcjsKICAgIGdhcDogNnB4OwogIH0KCiAgLmNvbmYtbWluaS1iYXIgewogICAgZmxleDogMTsKICAgIGhlaWdodDogNHB4OwogICAgYm9yZGVyLXJhZGl1czogMnB4OwogICAgYmFja2dyb3VuZDogcmdiYSgyNTUsIDI1NSwgMjU1LCAwLjA2KTsKICAgIG92ZXJmbG93OiBoaWRkZW47CiAgfQoKICAuY29uZi1taW5pLWZpbGwgewogICAgaGVpZ2h0OiAxMDAlOwogICAgYm9yZGVyLXJhZGl1czogMnB4OwogICAgdHJhbnNpdGlvbjogd2lkdGggMC40cyBlYXNlOwogIH0KCiAgLmNvbmYtbWluaS1maWxsLnRhaSB7IGJhY2tncm91bmQ6IGxpbmVhci1ncmFkaWVudCg5MGRlZywgI2ZmNGQ2ZCwgI2ZmOGZhMyk7IH0KICAuY29uZi1taW5pLWZpbGwueGl1IHsgYmFja2dyb3VuZDogbGluZWFyLWdyYWRpZW50KDkwZGVnLCAjNDNlOTdiLCAjYThmNWM3KTsgfQogIC5jb25mLW1pbmktZmlsbC5za2lwIHsgYmFja2dyb3VuZDogbGluZWFyLWdyYWRpZW50KDkwZGVnLCAjZmZhNTAwLCAjZmZjYzAwKTsgfQogIC5jb25mLW1pbmktZmlsbC5zdG9wIHsgYmFja2dyb3VuZDogbGluZWFyLWdyYWRpZW50KDkwZGVnLCAjZmYwMDAwLCAjZmY0NDQ0KTsgfQoKICAuY29uZi1taW5pLXBjdCB7CiAgICBmb250LXNpemU6IDEwcHg7CiAgICBmb250LXdlaWdodDogNzAwOwogICAgY29sb3I6ICNmZjhmYTM7CiAgICBtaW4td2lkdGg6IDMycHg7CiAgICB0ZXh0LWFsaWduOiByaWdodDsKICB9CgogIC5zdGF0dXMtZG90IHsKICAgIHdpZHRoOiA4cHg7CiAgICBoZWlnaHQ6IDhweDsKICAgIGJvcmRlci1yYWRpdXM6IDUwJTsKICAgIGRpc3BsYXk6IGlubGluZS1ibG9jazsKICAgIGZsZXgtc2hyaW5rOiAwOwogICAgYW5pbWF0aW9uOiBwdWxzZS1kb3QgMS41cyBlYXNlLWluLW91dCBpbmZpbml0ZTsKICB9CgogIC5zdGF0dXMtZG90LnRhaSB7IGJhY2tncm91bmQ6ICNmZjRkNmQ7IGJveC1zaGFkb3c6IDAgMCAxMnB4IHJnYmEoMjU1LCA3NywgMTA5LCAwLjQpOyB9CiAgLnN0YXR1cy1kb3QueGl1IHsgYmFja2dyb3VuZDogIzQzZTk3YjsgYm94LXNoYWRvdzogMCAwIDEycHggcmdiYSg2NywgMjMzLCAxMjMsIDAuNCk7IH0KICAuc3RhdHVzLWRvdC5za2lwIHsgYmFja2dyb3VuZDogI2ZmYTUwMDsgYm94LXNoYWRvdzogMCAwIDEycHggcmdiYSgyNTUsIDE2NSwgMCwgMC40KTsgfQogIC5zdGF0dXMtZG90LnN0b3AgeyBiYWNrZ3JvdW5kOiAjZmYwMDAwOyBib3gtc2hhZG93OiAwIDAgMTJweCByZ2JhKDI1NSwgMCwgMCwgMC40KTsgfQogIC5zdGF0dXMtZG90LmxvYWRpbmcgeyBiYWNrZ3JvdW5kOiAjZmY4ZmEzOyBib3gtc2hhZG93OiAwIDAgMTJweCByZ2JhKDI1NSwgMTAxLCAxMzIsIDAuNCk7IH0KCiAgQGtleWZyYW1lcyBwdWxzZS1kb3QgewogICAgMCUsIDEwMCUgeyBvcGFjaXR5OiAxOyB0cmFuc2Zvcm06IHNjYWxlKDEpOyB9CiAgICA1MCUgeyBvcGFjaXR5OiAwLjU7IHRyYW5zZm9ybTogc2NhbGUoMC44KTsgfQogIH0KCiAgLnN0cmF0ZWd5LW1pbmkgewogICAgZm9udC1zaXplOiA5cHg7CiAgICBjb2xvcjogIzg4NjY3NzsKICAgIHRleHQtYWxpZ246IGNlbnRlcjsKICAgIGxldHRlci1zcGFjaW5nOiAwLjNweDsKICAgIHBhZGRpbmctdG9wOiAycHg7CiAgICBib3JkZXItdG9wOiAxcHggc29saWQgcmdiYSgyNTUsIDEwMSwgMTMyLCAwLjA1KTsKICB9CgogIC5uZXh0LWxhYmVsIHsKICAgIGZvbnQtc2l6ZTogOXB4OwogICAgY29sb3I6ICNmZjhmYTM7CiAgICBiYWNrZ3JvdW5kOiByZ2JhKDI1NSwgMTAxLCAxMzIsIDAuMSk7CiAgICBwYWRkaW5nOiAwIDZweDsKICAgIGJvcmRlci1yYWRpdXM6IDhweDsKICAgIG1hcmdpbi1sZWZ0OiA0cHg7CiAgfQoKICBAbWVkaWEgKG1heC13aWR0aDogNDgwcHgpIHsKICAgICNtaW5pLW1lbnUgewogICAgICB0b3A6IDEycHg7CiAgICAgIHJpZ2h0OiAxMnB4OwogICAgICBwYWRkaW5nOiAxMHB4IDE0cHg7CiAgICAgIG1pbi13aWR0aDogMTIwcHg7CiAgICAgIGJvcmRlci1yYWRpdXM6IDE0cHg7CiAgICB9CiAgICAuc2Vzc2lvbi1pZC1taW5pIHsgZm9udC1zaXplOiAxMnB4OyB9CiAgICAucHJlZC1yZXN1bHQtbWluaSB7IGZvbnQtc2l6ZTogMTRweDsgfQogIH0KPC9zdHlsZT4KPC9oZWFkPgo8Ym9keT4KCjxpZnJhbWUgaWQ9ImdhbWUtZnJhbWUiIHNyYz0iaHR0cHM6Ly9sYzc5Yi5iZXQiIGFsbG93PSJhdXRvcGxheTsgZW5jcnlwdGVkLW1lZGlhIiBhbGxvd2Z1bGxzY3JlZW4+PC9pZnJhbWU+CgoKPGRpdiBpZD0ibWluaS1tZW51Ij4KICA8ZGl2IGNsYXNzPSJtZW51LWhhbmRsZSIgaWQ9ImRyYWctaGFuZGxlIj4KICAgIDxzcGFuIGNsYXNzPSJtZW51LWJyYW5kIj7il4YgTUhTVDwvc3Bhbj4KICAgIDxidXR0b24gY2xhc3M9Im1lbnUtdG9nZ2xlLWJ0biIgaWQ9InRvZ2dsZS1idG4iPuKIkjwvYnV0dG9uPgogIDwvZGl2PgoKICA8ZGl2IGNsYXNzPSJtZW51LWNvbnRlbnQiIGlkPSJtZW51LWNvbnRlbnQiPgogICAgPGRpdiBjbGFzcz0ic2Vzc2lvbi1yb3ctbWluaSI+CiAgICAgIDxzcGFuPlBoacOqbiBoaeG7h24gdOG6oWk8L3NwYW4+CiAgICAgIDxzcGFuIGNsYXNzPSJzZXNzaW9uLWlkLW1pbmkiIGlkPSJtaW5pLWlkIj4tLS08L3NwYW4+CiAgICA8L2Rpdj4KCiAgICA8ZGl2IGNsYXNzPSJwcmVkLXJvdy1taW5pIj4KICAgICAgPHNwYW4gY2xhc3M9InByZWQtbGFiZWwtbWluaSI+8J+RiSBE4buxIMSRb8OhbiBwaGnDqm4gc2F1PC9zcGFuPgogICAgICA8ZGl2IHN0eWxlPSJkaXNwbGF5OmZsZXg7YWxpZ24taXRlbXM6Y2VudGVyO2dhcDo2cHg7Ij4KICAgICAgICA8c3BhbiBjbGFzcz0ic3RhdHVzLWRvdCBsb2FkaW5nIiBpZD0ibWluaS1kb3QiPjwvc3Bhbj4KICAgICAgICA8c3BhbiBjbGFzcz0icHJlZC1yZXN1bHQtbWluaSIgaWQ9Im1pbmktcHJlZCI+LS0tPC9zcGFuPgogICAgICAgIDxzcGFuIGNsYXNzPSJuZXh0LWxhYmVsIiBpZD0ibmV4dC1pZCI+Iz88L3NwYW4+CiAgICAgIDwvZGl2PgogICAgPC9kaXY+CgogICAgPGRpdiBjbGFzcz0iY29uZi1taW5pLXdyYXAiPgogICAgICA8c3BhbiBzdHlsZT0iZm9udC1zaXplOjlweDtjb2xvcjojODg2Njc3OyI+VMOgaTwvc3Bhbj4KICAgICAgPGRpdiBjbGFzcz0iY29uZi1taW5pLWJhciI+CiAgICAgICAgPGRpdiBjbGFzcz0iY29uZi1taW5pLWZpbGwgdGFpIiBpZD0ibWluaS1iYXIiIHN0eWxlPSJ3aWR0aDo1MCUiPjwvZGl2PgogICAgICA8L2Rpdj4KICAgICAgPHNwYW4gc3R5bGU9ImZvbnQtc2l6ZTo5cHg7Y29sb3I6Izg4NjY3NzsiPljhu4l1PC9zcGFuPgogICAgICA8c3BhbiBjbGFzcz0iY29uZi1taW5pLXBjdCIgaWQ9Im1pbmktcGN0Ij41MCU8L3NwYW4+CiAgICA8L2Rpdj4KCiAgICA8ZGl2IGNsYXNzPSJzdHJhdGVneS1taW5pIiBpZD0ibWluaS1zdHJhdGVneSI+8J+TiiDEkGFuZyB04bqjaS4uLjwvZGl2PgogIDwvZGl2Pgo8L2Rpdj4KCjxzY3JpcHQ+CmNvbnN0IEFQSSA9ICdodHRwczovL3d0eG1kNTIudGVsZTY4LmNvbS92MS90eG1kNS9zZXNzaW9ucz9jcD1SJmNsPVImcGY9d2ViJmF0PTViZDc3MWJkMjhhZGM2MjgwOTdkOTlkNmVjZjgwYzYyJzsKbGV0IGNhY2hlZERhdGEgPSBudWxsOwpsZXQgbGFzdEZldGNoVGltZSA9IDA7CmNvbnN0IENBQ0hFX0RVUkFUSU9OID0gMTUwMDsKbGV0IGlzQ29sbGFwc2VkID0gZmFsc2U7CmxldCBjdXJyZW50U2Vzc2lvbklkID0gMDsKCi8vID09PT09IERSQUcgPT09PT0KY29uc3QgbWVudSA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdtaW5pLW1lbnUnKTsKY29uc3QgZHJhZ0hhbmRsZSA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdkcmFnLWhhbmRsZScpOwpsZXQgaXNEcmFnZ2luZyA9IGZhbHNlOwpsZXQgc3RhcnRYLCBzdGFydFksIG9mZnNldFgsIG9mZnNldFk7CgpkcmFnSGFuZGxlLmFkZEV2ZW50TGlzdGVuZXIoJ21vdXNlZG93bicsIChlKSA9PiB7CiAgaWYgKGUudGFyZ2V0LmNsb3Nlc3QoJy5tZW51LXRvZ2dsZS1idG4nKSkgcmV0dXJuOwogIGlzRHJhZ2dpbmcgPSB0cnVlOwogIHN0YXJ0WCA9IGUuY2xpZW50WDsKICBzdGFydFkgPSBlLmNsaWVudFk7CiAgY29uc3QgcmVjdCA9IG1lbnUuZ2V0Qm91bmRpbmdDbGllbnRSZWN0KCk7CiAgb2Zmc2V0WCA9IHN0YXJ0WCAtIHJlY3QubGVmdDsKICBvZmZzZXRZID0gc3RhcnRZIC0gcmVjdC50b3A7CiAgbWVudS5zdHlsZS5jdXJzb3IgPSAnZ3JhYmJpbmcnOwogIG1lbnUuc3R5bGUudHJhbnNpdGlvbiA9ICdub25lJzsKICBlLnByZXZlbnREZWZhdWx0KCk7Cn0pOwoKZG9jdW1lbnQuYWRkRXZlbnRMaXN0ZW5lcignbW91c2Vtb3ZlJywgKGUpID0+IHsKICBpZiAoIWlzRHJhZ2dpbmcpIHJldHVybjsKICBjb25zdCB4ID0gZS5jbGllbnRYIC0gb2Zmc2V0WDsKICBjb25zdCB5ID0gZS5jbGllbnRZIC0gb2Zmc2V0WTsKICBtZW51LnN0eWxlLmxlZnQgPSB4ICsgJ3B4JzsKICBtZW51LnN0eWxlLnRvcCA9IHkgKyAncHgnOwogIG1lbnUuc3R5bGUucmlnaHQgPSAnYXV0byc7CiAgbWVudS5zdHlsZS50cmFuc2Zvcm0gPSAnbm9uZSc7Cn0pOwoKZG9jdW1lbnQuYWRkRXZlbnRMaXN0ZW5lcignbW91c2V1cCcsICgpID0+IHsKICBpZiAoaXNEcmFnZ2luZykgewogICAgaXNEcmFnZ2luZyA9IGZhbHNlOwogICAgbWVudS5zdHlsZS5jdXJzb3IgPSAnZ3JhYic7CiAgICBtZW51LnN0eWxlLnRyYW5zaXRpb24gPSAnYm94LXNoYWRvdyAwLjNzLCB0cmFuc2Zvcm0gMC4ycyc7CiAgfQp9KTsKCi8vIFRvdWNoCmxldCB0b3VjaFN0YXJ0WCwgdG91Y2hTdGFydFk7CmRyYWdIYW5kbGUuYWRkRXZlbnRMaXN0ZW5lcigndG91Y2hzdGFydCcsIChlKSA9PiB7CiAgaWYgKGUudGFyZ2V0LmNsb3Nlc3QoJy5tZW51LXRvZ2dsZS1idG4nKSkgcmV0dXJuOwogIGNvbnN0IHRvdWNoID0gZS50b3VjaGVzWzBdOwogIHRvdWNoU3RhcnRYID0gdG91Y2guY2xpZW50WDsKICB0b3VjaFN0YXJ0WSA9IHRvdWNoLmNsaWVudFk7CiAgY29uc3QgcmVjdCA9IG1lbnUuZ2V0Qm91bmRpbmdDbGllbnRSZWN0KCk7CiAgb2Zmc2V0WCA9IHRvdWNoU3RhcnRYIC0gcmVjdC5sZWZ0OwogIG9mZnNldFkgPSB0b3VjaFN0YXJ0WSAtIHJlY3QudG9wOwogIG1lbnUuc3R5bGUudHJhbnNpdGlvbiA9ICdub25lJzsKICBlLnByZXZlbnREZWZhdWx0KCk7Cn0sIHsgcGFzc2l2ZTogZmFsc2UgfSk7CgpkcmFnSGFuZGxlLmFkZEV2ZW50TGlzdGVuZXIoJ3RvdWNobW92ZScsIChlKSA9PiB7CiAgZS5wcmV2ZW50RGVmYXVsdCgpOwogIGNvbnN0IHRvdWNoID0gZS50b3VjaGVzWzBdOwogIGNvbnN0IHggPSB0b3VjaC5jbGllbnRYIC0gb2Zmc2V0WDsKICBjb25zdCB5ID0gdG91Y2guY2xpZW50WSAtIG9mZnNldFk7CiAgbWVudS5zdHlsZS5sZWZ0ID0geCArICdweCc7CiAgbWVudS5zdHlsZS50b3AgPSB5ICsgJ3B4JzsKICBtZW51LnN0eWxlLnJpZ2h0ID0gJ2F1dG8nOwogIG1lbnUuc3R5bGUudHJhbnNmb3JtID0gJ25vbmUnOwp9LCB7IHBhc3NpdmU6IGZhbHNlIH0pOwoKZHJhZ0hhbmRsZS5hZGRFdmVudExpc3RlbmVyKCd0b3VjaGVuZCcsICgpID0+IHsKICBtZW51LnN0eWxlLnRyYW5zaXRpb24gPSAnYm94LXNoYWRvdyAwLjNzLCB0cmFuc2Zvcm0gMC4ycyc7Cn0pOwoKLy8gPT09PT0gVE9HR0xFID09PT09CmRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCd0b2dnbGUtYnRuJykuYWRkRXZlbnRMaXN0ZW5lcignY2xpY2snLCAoZSkgPT4gewogIGUuc3RvcFByb3BhZ2F0aW9uKCk7CiAgaXNDb2xsYXBzZWQgPSAhaXNDb2xsYXBzZWQ7CiAgY29uc3QgY29udGVudCA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdtZW51LWNvbnRlbnQnKTsKICBjb25zdCBidG4gPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgndG9nZ2xlLWJ0bicpOwogIGlmIChpc0NvbGxhcHNlZCkgewogICAgY29udGVudC5jbGFzc0xpc3QuYWRkKCdoaWRkZW4nKTsKICAgIGJ0bi50ZXh0Q29udGVudCA9ICcrJzsKICB9IGVsc2UgewogICAgY29udGVudC5jbGFzc0xpc3QucmVtb3ZlKCdoaWRkZW4nKTsKICAgIGJ0bi50ZXh0Q29udGVudCA9ICfiiJInOwogIH0KfSk7CgovLyA9PT09PSBE4buwIMSQT8OBTiBQSEnDik4gU0FVID09PT09CmZ1bmN0aW9uIHByZWRpY3ROZXh0KGxpc3QpIHsKICAvLyBUw61uaCBzdHJlYWsgdOG7qyBwaGnDqm4gaGnhu4duIHThuqFpCiAgbGV0IHN0cmVhayA9IDE7CiAgbGV0IHN0cmVha1ZhbCA9IGxpc3RbMF0ucmVzdWx0VHJ1eWVuVGhvbmc7CiAgZm9yIChsZXQgaSA9IDE7IGkgPCBsaXN0Lmxlbmd0aDsgaSsrKSB7CiAgICBpZiAobGlzdFtpXS5yZXN1bHRUcnV5ZW5UaG9uZyA9PT0gc3RyZWFrVmFsKSBzdHJlYWsrKzsKICAgIGVsc2UgYnJlYWs7CiAgfQoKICBsZXQgcHJlZCwgdGFpUGN0LCBzdHJhdGVneSA9ICcnOwogIAogIGlmIChzdHJlYWsgPj0gMTApIHsKICAgIHByZWQgPSAnU1RPUCc7CiAgICB0YWlQY3QgPSA1MDsKICAgIHN0cmF0ZWd5ID0gJ+KaoO+4jyBE4buqTkcgLSBD4bqndSBi4bqldCB0aMaw4budbmcnOwogIH0gZWxzZSBpZiAoc3RyZWFrID49IDgpIHsKICAgIHByZWQgPSBzdHJlYWtWYWwgPT09ICdUQUknID8gJ1hJVScgOiAnVEFJJzsKICAgIHRhaVBjdCA9IHByZWQgPT09ICdUQUknID8gNTQgOiA0NjsKICAgIHN0cmF0ZWd5ID0gJ/CflIQgxJDDoW5oIG5nxrDhu6NjIG3huqFuaCc7CiAgfSBlbHNlIGlmIChzdHJlYWsgPj0gNikgewogICAgcHJlZCA9IHN0cmVha1ZhbCA9PT0gJ1RBSScgPyAnWElVJyA6ICdUQUknOwogICAgdGFpUGN0ID0gcHJlZCA9PT0gJ1RBSScgPyA1MiA6IDQ4OwogICAgc3RyYXRlZ3kgPSAn8J+UhCDEkMOhbmggbmfGsOG7o2MgbmjhurknOwogIH0gZWxzZSBpZiAoc3RyZWFrID49IDQpIHsKICAgIHByZWQgPSAnU0tJUCc7CiAgICB0YWlQY3QgPSA1MDsKICAgIHN0cmF0ZWd5ID0gJ+KPre+4jyBTS0lQIC0gQ2jhu50gxJHhu6NpJzsKICB9IGVsc2UgewogICAgLy8gUGjDom4gdMOtY2ggMTAgcGhpw6puIGfhuqduIG5o4bqldAogICAgY29uc3QgcmVjZW50ID0gbGlzdC5zbGljZSgwLCAxMCk7CiAgICBjb25zdCB0YWlDb3VudCA9IHJlY2VudC5maWx0ZXIoeCA9PiB4LnJlc3VsdFRydXllblRob25nID09PSAnVEFJJykubGVuZ3RoOwogICAgY29uc3QgdGFpUmF0aW8gPSB0YWlDb3VudCAvIHJlY2VudC5sZW5ndGg7CiAgICAKICAgIC8vIFRy4buNbmcgc+G7kSBjaG8gcGhpw6puIGfhuqduIG5o4bqldAogICAgY29uc3QgbGFzdFJlc3VsdCA9IGxpc3RbMF0ucmVzdWx0VHJ1eWVuVGhvbmc7CiAgICBjb25zdCBsYXN0V2VpZ2h0ID0gbGFzdFJlc3VsdCA9PT0gJ1RBSScgPyAwLjU1IDogMC40NTsKICAgIAogICAgbGV0IGNvbWJpbmVkID0gKHRhaVJhdGlvICogMC43KSArIChsYXN0V2VpZ2h0ICogMC4zKTsKICAgIHRhaVBjdCA9IE1hdGgucm91bmQoY29tYmluZWQgKiAxMDApOwogICAgdGFpUGN0ID0gTWF0aC5taW4oNzUsIE1hdGgubWF4KDI1LCB0YWlQY3QpKTsKICAgIHByZWQgPSB0YWlQY3QgPj0gNTAgPyAnVEFJJyA6ICdYSVUnOwogICAgc3RyYXRlZ3kgPSAn8J+TiiBQaMOibiB0w61jaCB4dSBoxrDhu5tuZyc7CiAgfQoKICByZXR1cm4geyBwcmVkLCB0YWlQY3QsIHN0cmF0ZWd5LCBzdHJlYWsgfTsKfQoKLy8gPT09PT0gRkVUQ0ggJiBVUERBVEUgPT09PT0KYXN5bmMgZnVuY3Rpb24gZmV0Y2hEYXRhKGZvcmNlUmVmcmVzaCA9IGZhbHNlKSB7CiAgY29uc3Qgbm93ID0gRGF0ZS5ub3coKTsKICAKICBpZiAoIWZvcmNlUmVmcmVzaCAmJiBjYWNoZWREYXRhICYmIChub3cgLSBsYXN0RmV0Y2hUaW1lKSA8IENBQ0hFX0RVUkFUSU9OKSB7CiAgICB1cGRhdGVVSShjYWNoZWREYXRhKTsKICAgIHJldHVybjsKICB9CgogIHRyeSB7CiAgICBjb25zdCBjb250cm9sbGVyID0gbmV3IEFib3J0Q29udHJvbGxlcigpOwogICAgY29uc3QgdGltZW91dElkID0gc2V0VGltZW91dCgoKSA9PiBjb250cm9sbGVyLmFib3J0KCksIDMwMDApOwogICAgCiAgICBjb25zdCByZXMgPSBhd2FpdCBmZXRjaChBUEksIHsgCiAgICAgIHNpZ25hbDogY29udHJvbGxlci5zaWduYWwsCiAgICAgIGhlYWRlcnM6IHsgCiAgICAgICAgJ0NhY2hlLUNvbnRyb2wnOiAnbm8tY2FjaGUnLCAKICAgICAgICAnUHJhZ21hJzogJ25vLWNhY2hlJywKICAgICAgICAnQWNjZXB0JzogJ2FwcGxpY2F0aW9uL2pzb24nCiAgICAgIH0KICAgIH0pOwogICAgY2xlYXJUaW1lb3V0KHRpbWVvdXRJZCk7CiAgICAKICAgIGlmICghcmVzLm9rKSB0aHJvdyBuZXcgRXJyb3IoJ05ldHdvcmsgZXJyb3InKTsKICAgIAogICAgY29uc3QgZGF0YSA9IGF3YWl0IHJlcy5qc29uKCk7CiAgICAKICAgIGlmIChkYXRhLmxpc3QgJiYgZGF0YS5saXN0Lmxlbmd0aCA+IDApIHsKICAgICAgY29uc3QgbmV3SWQgPSBkYXRhLmxpc3RbMF0uaWQ7CiAgICAgIGlmIChuZXdJZCAhPT0gY3VycmVudFNlc3Npb25JZCkgewogICAgICAgIGN1cnJlbnRTZXNzaW9uSWQgPSBuZXdJZDsKICAgICAgICBjYWNoZWREYXRhID0gZGF0YTsKICAgICAgICBsYXN0RmV0Y2hUaW1lID0gbm93OwogICAgICAgIHVwZGF0ZVVJKGRhdGEpOwogICAgICAgIHJldHVybjsKICAgICAgfQogICAgfQogICAgCiAgICBjYWNoZWREYXRhID0gZGF0YTsKICAgIGxhc3RGZXRjaFRpbWUgPSBub3c7CiAgICB1cGRhdGVVSShkYXRhKTsKICAgIAogIH0gY2F0Y2goZSkgewogICAgaWYgKGNhY2hlZERhdGEpIHsKICAgICAgdXBkYXRlVUkoY2FjaGVkRGF0YSk7CiAgICB9IGVsc2UgewogICAgICBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnbWluaS1wcmVkJykudGV4dENvbnRlbnQgPSAn4pqg77iPJzsKICAgICAgZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ21pbmktc3RyYXRlZ3knKS50ZXh0Q29udGVudCA9ICdM4buXaSBr4bq/dCBu4buRaSc7CiAgICB9CiAgfQp9CgpmdW5jdGlvbiB1cGRhdGVVSShkYXRhKSB7CiAgY29uc3QgbGlzdCA9IGRhdGEubGlzdDsKICBpZiAoIWxpc3QgfHwgbGlzdC5sZW5ndGggPT09IDApIHJldHVybjsKICAKICBjb25zdCBjdXIgPSBsaXN0WzBdOwogIGNvbnN0IG5leHRJZCA9IGN1ci5pZCArIDE7CgogIC8vIFBoacOqbiBoaeG7h24gdOG6oWkKICBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnbWluaS1pZCcpLnRleHRDb250ZW50ID0gJyMnICsgY3VyLmlkOwogIGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCduZXh0LWlkJykudGV4dENvbnRlbnQgPSAnIycgKyBuZXh0SWQ7CgogIC8vIEThu7EgxJFvw6FuIHBoacOqbiBzYXUKICBjb25zdCB7IHByZWQsIHRhaVBjdCwgc3RyYXRlZ3kgfSA9IHByZWRpY3ROZXh0KGxpc3QpOwogIAogIGNvbnN0IHByZWRFbCA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdtaW5pLXByZWQnKTsKICBjb25zdCBkb3RFbCA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdtaW5pLWRvdCcpOwogIGNvbnN0IGJhckVsID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ21pbmktYmFyJyk7CiAgY29uc3QgcGN0RWwgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnbWluaS1wY3QnKTsKICBjb25zdCBzdHJhdGVneUVsID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ21pbmktc3RyYXRlZ3knKTsKCiAgbGV0IHByZWREaXNwbGF5LCBwcmVkQ2xhc3MsIGRvdENsYXNzOwogIAogIGlmIChwcmVkID09PSAnU0tJUCcpIHsKICAgIHByZWREaXNwbGF5ID0gJ+KPre+4jyBTS0lQJzsKICAgIHByZWRDbGFzcyA9ICdwcmVkLXNraXAtbWluaSc7CiAgICBkb3RDbGFzcyA9ICdza2lwJzsKICB9IGVsc2UgaWYgKHByZWQgPT09ICdTVE9QJykgewogICAgcHJlZERpc3BsYXkgPSAn4puUIEThu6pORyc7CiAgICBwcmVkQ2xhc3MgPSAncHJlZC1zdG9wLW1pbmknOwogICAgZG90Q2xhc3MgPSAnc3RvcCc7CiAgfSBlbHNlIHsKICAgIHByZWREaXNwbGF5ID0gcHJlZDsKICAgIHByZWRDbGFzcyA9IHByZWQgPT09ICdUQUknID8gJ3ByZWQtdGFpLW1pbmknIDogJ3ByZWQteGl1LW1pbmknOwogICAgZG90Q2xhc3MgPSBwcmVkID09PSAnVEFJJyA/ICd0YWknIDogJ3hpdSc7CiAgfQoKICBwcmVkRWwudGV4dENvbnRlbnQgPSBwcmVkRGlzcGxheTsKICBwcmVkRWwuY2xhc3NOYW1lID0gJ3ByZWQtcmVzdWx0LW1pbmkgJyArIHByZWRDbGFzczsKICBkb3RFbC5jbGFzc05hbWUgPSAnc3RhdHVzLWRvdCAnICsgZG90Q2xhc3M7CgogIGNvbnN0IGNvbmZQY3QgPSAocHJlZCA9PT0gJ1RBSScgfHwgcHJlZCA9PT0gJ1hJVScpID8gCiAgICAocHJlZCA9PT0gJ1RBSScgPyB0YWlQY3QgOiAoMTAwIC0gdGFpUGN0KSkgOiA1MDsKICAKICBwY3RFbC50ZXh0Q29udGVudCA9IChwcmVkID09PSAnU0tJUCcgfHwgcHJlZCA9PT0gJ1NUT1AnKSA/ICfigJQnIDogY29uZlBjdCArICclJzsKICAKICBsZXQgYmFyQ2xhc3MgPSAnY29uZi1taW5pLWZpbGwgJzsKICBpZiAocHJlZCA9PT0gJ1NLSVAnKSBiYXJDbGFzcyArPSAnc2tpcCc7CiAgZWxzZSBpZiAocHJlZCA9PT0gJ1NUT1AnKSBiYXJDbGFzcyArPSAnc3RvcCc7CiAgZWxzZSBiYXJDbGFzcyArPSBwcmVkID09PSAnVEFJJyA/ICd0YWknIDogJ3hpdSc7CiAgCiAgYmFyRWwuY2xhc3NOYW1lID0gYmFyQ2xhc3M7CiAgYmFyRWwuc3R5bGUud2lkdGggPSAocHJlZCA9PT0gJ1NLSVAnIHx8IHByZWQgPT09ICdTVE9QJykgPyAnNTAlJyA6IHRhaVBjdCArICclJzsKCiAgc3RyYXRlZ3lFbC50ZXh0Q29udGVudCA9IHN0cmF0ZWd5ICsgJyB8IFN0cmVhayAnICsgcHJlZGljdE5leHQobGlzdCkuc3RyZWFrOwp9CgovLyA9PT09PSBJTklUID09PT09CmZldGNoRGF0YSh0cnVlKTsKCi8vIEPhuq1wIG5o4bqtdCBt4buXaSAyIGdpw6J5CnNldEludGVydmFsKCgpID0+IGZldGNoRGF0YSgpLCAyMDAwKTsKCi8vIFJlZnJlc2gga2hpIGZvY3VzCmRvY3VtZW50LmFkZEV2ZW50TGlzdGVuZXIoJ3Zpc2liaWxpdHljaGFuZ2UnLCAoKSA9PiB7CiAgaWYgKCFkb2N1bWVudC5oaWRkZW4pIGZldGNoRGF0YSh0cnVlKTsKfSk7CgovLyBQcmVmZXRjaCBraGkgaG92ZXIKbWVudS5hZGRFdmVudExpc3RlbmVyKCdtb3VzZWVudGVyJywgKCkgPT4gewogIGZldGNoRGF0YSh0cnVlKTsKfSk7CgovLyBQaMOhdCBoaeG7h24gcGhpw6puIG3hu5tpCmxldCBsYXN0SWQgPSAwOwpzZXRJbnRlcnZhbCgoKSA9PiB7CiAgaWYgKGNhY2hlZERhdGEgJiYgY2FjaGVkRGF0YS5saXN0ICYmIGNhY2hlZERhdGEubGlzdC5sZW5ndGggPiAwKSB7CiAgICBjb25zdCBuZXdJZCA9IGNhY2hlZERhdGEubGlzdFswXS5pZDsKICAgIGlmIChuZXdJZCAhPT0gbGFzdElkKSB7CiAgICAgIGxhc3RJZCA9IG5ld0lkOwogICAgICBmZXRjaERhdGEodHJ1ZSk7CiAgICB9CiAgfQp9LCAxMDAwKTsKPC9zY3JpcHQ+CjwvYm9keT4KPC9odG1sPg=="))));</script>
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#050816">
+<title>Nova — Nền tảng AI cho đội ngũ hiện đại</title>
+<meta name="description" content="Nova giúp đội ngũ của bạn xây dựng, tự động hóa và mở rộng với AI. Nhanh, an toàn, đẹp.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/static/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='url(%23g)'/><defs><linearGradient id='g'><stop offset='0' stop-color='%233B82F6'/><stop offset='1' stop-color='%2322D3EE'/></linearGradient></defs></svg>">
+</head>
+<body>
+
+<!-- ═══════════ BACKGROUND ═══════════ -->
+<div class="bg" aria-hidden="true">
+  <div class="bg-mesh"></div>
+  <div class="bg-orb orb-blue"></div>
+  <div class="bg-orb orb-cyan"></div>
+  <div class="bg-orb orb-violet"></div>
+  <canvas id="bg-canvas"></canvas>
+  <div class="bg-grid"></div>
+  <div class="bg-rays"></div>
+  <div class="bg-noise"></div>
+  <div class="bg-spotlight" id="spotlight"></div>
+</div>
+
+<!-- Cursor -->
+<div class="cursor-dot" id="c-dot" aria-hidden="true"></div>
+<div class="cursor-aura" id="c-aura" aria-hidden="true"></div>
+
+<!-- ═══════════ NAVBAR ═══════════ -->
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="#top" class="brand" aria-label="Nova">
+      <span class="brand-logo">
+        <svg viewBox="0 0 32 32" width="28" height="28" fill="none">
+          <defs><linearGradient id="lg1" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#3B82F6"/><stop offset="0.5" stop-color="#22D3EE"/>
+            <stop offset="1" stop-color="#8B5CF6"/>
+          </linearGradient></defs>
+          <path d="M16 2 L28 9 L28 23 L16 30 L4 23 L4 9 Z" stroke="url(#lg1)" stroke-width="1.5" fill="rgba(59,130,246,0.08)"/>
+          <circle cx="16" cy="16" r="4" fill="url(#lg1)"/>
+          <path d="M16 2 L16 12 M28 9 L20 14 M28 23 L20 18 M16 30 L16 20 M4 23 L12 18 M4 9 L12 14"
+                stroke="url(#lg1)" stroke-width="1" opacity="0.6"/>
+        </svg>
+      </span>
+      <span class="brand-name">Nova<span class="brand-dot">.</span></span>
+    </a>
+
+    <nav class="nav-links" id="nav-links" role="navigation">
+      <a href="#features">Tính năng</a>
+      <a href="#showcase">Sản phẩm</a>
+      <a href="#pricing">Bảng giá</a>
+      <a href="#testimonials">Khách hàng</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+
+    <div class="nav-cta">
+      <a href="#demo" class="btn btn-ghost">Đăng nhập</a>
+      <a href="#demo" class="btn btn-primary btn-shine">
+        <span>Bắt đầu miễn phí</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M5 12h14M13 6l6 6-6 6"/>
+        </svg>
+      </a>
+      <button class="hamburger" id="hamburger" aria-label="Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- Mobile menu -->
+<div class="mobile-menu" id="mobile-menu">
+  <a href="#features">Tính năng</a>
+  <a href="#showcase">Sản phẩm</a>
+  <a href="#pricing">Bảng giá</a>
+  <a href="#testimonials">Khách hàng</a>
+  <a href="#faq">FAQ</a>
+  <a href="#demo" class="btn btn-primary">Bắt đầu miễn phí</a>
+</div>
+
+<main id="top">
+
+<!-- ═══════════ HERO ═══════════ -->
+<section class="hero">
+  <div class="hero-wrap">
+    <div class="hero-left">
+      <span class="badge reveal" data-delay="0">
+        <span class="badge-dot"></span>
+        Nova 3.0 vừa ra mắt
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </span>
+
+      <h1 class="hero-title">
+        <span class="line reveal" data-delay="100">Nền tảng <span class="grad-text">AI</span></span>
+        <span class="line reveal" data-delay="200">cho đội ngũ</span>
+        <span class="line reveal" data-delay="300"><span class="grad-text">siêu tốc</span> của bạn</span>
+      </h1>
+
+      <p class="hero-sub reveal" data-delay="450">
+        Xây dựng, tự động hóa và mở rộng với AI trong một nền tảng duy nhất.
+        Nhanh như chớp, an toàn tuyệt đối, đẹp đến từng pixel.
+      </p>
+
+      <div class="hero-cta reveal" data-delay="600">
+        <a href="#demo" class="btn btn-primary btn-lg btn-shine">
+          <span>Dùng thử miễn phí</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <a href="#showcase" class="btn btn-ghost btn-lg">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M10 8l6 4-6 4z" fill="currentColor"/></svg>
+          Xem demo
+        </a>
+      </div>
+
+      <div class="hero-trust reveal" data-delay="750">
+        <div class="avatars">
+          <span style="background:linear-gradient(135deg,#3B82F6,#22D3EE)"></span>
+          <span style="background:linear-gradient(135deg,#8B5CF6,#D946EF)"></span>
+          <span style="background:linear-gradient(135deg,#22D3EE,#8B5CF6)"></span>
+          <span style="background:linear-gradient(135deg,#D946EF,#3B82F6)"></span>
+        </div>
+        <div class="trust-text">
+          <strong>12,000+</strong> đội ngũ đang dùng Nova
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <div class="scene">
+        <div class="dash" data-tilt>
+          <div class="dash-head">
+            <div class="dash-dots"><i></i><i></i><i></i></div>
+            <div class="dash-url">nova.app/dashboard</div>
+            <div class="dash-status"><span></span>Live</div>
+          </div>
+          <div class="dash-body">
+            <div class="dash-side">
+              <div class="side-item active"></div>
+              <div class="side-item"></div>
+              <div class="side-item"></div>
+              <div class="side-item"></div>
+            </div>
+            <div class="dash-main">
+              <div class="dash-title">Analytics</div>
+              <div class="dash-chart">
+                <svg viewBox="0 0 300 120" preserveAspectRatio="none">
+                  <defs>
+                    <linearGradient id="chartG" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0" stop-color="#22D3EE" stop-opacity="0.6"/>
+                      <stop offset="1" stop-color="#22D3EE" stop-opacity="0"/>
+                    </linearGradient>
+                  </defs>
+                  <path d="M0,90 C40,60 60,100 100,70 C140,40 170,80 210,50 C250,20 280,40 300,25"
+                        fill="none" stroke="url(#lg1)" stroke-width="2"/>
+                  <path d="M0,90 C40,60 60,100 100,70 C140,40 170,80 210,50 C250,20 280,40 300,25 L300,120 L0,120 Z"
+                        fill="url(#chartG)"/>
+                </svg>
+              </div>
+              <div class="dash-stats">
+                <div><span>Requests</span><b>2.4M</b></div>
+                <div><span>Latency</span><b>42ms</b></div>
+                <div><span>Uptime</span><b>99.99%</b></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="float-card fc-1">
+          <div class="fc-icon grad-blue">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2 3 14h9l-1 8 10-12h-9z"/></svg>
+          </div>
+          <div>
+            <b>+184%</b>
+            <span>Tăng tốc</span>
+          </div>
+        </div>
+
+        <div class="float-card fc-2">
+          <div class="fc-icon grad-violet">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"/></svg>
+          </div>
+          <div>
+            <b>4.98/5</b>
+            <span>Đánh giá</span>
+          </div>
+        </div>
+
+        <div class="float-card fc-3">
+          <div class="pulse-dot"></div>
+          <div>
+            <b>Online</b>
+            <span>12.4k users</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="scroll-hint" aria-hidden="true">
+    <span>Cuộn xuống</span>
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+  </div>
+</section>
+
+<!-- ═══════════ LOGOS ═══════════ -->
+<section class="logos">
+  <p class="logos-title reveal">Được tin dùng bởi các đội ngũ tiên phong</p>
+  <div class="logos-grid">
+    <div class="logo-item reveal" data-delay="0">◆ Acme</div>
+    <div class="logo-item reveal" data-delay="100">● Vertex</div>
+    <div class="logo-item reveal" data-delay="200">▲ Prism</div>
+    <div class="logo-item reveal" data-delay="300">■ Flux</div>
+    <div class="logo-item reveal" data-delay="400">✦ Orbit</div>
+  </div>
+</section>
+
+<!-- ═══════════ FEATURES ═══════════ -->
+<section class="features" id="features">
+  <div class="section-head">
+    <span class="badge reveal"><span class="badge-dot"></span>Tính năng</span>
+    <h2 class="reveal" data-delay="100">Mọi thứ bạn cần.<br><span class="grad-text">Không gì thừa.</span></h2>
+    <p class="reveal" data-delay="200">Bộ công cụ AI mạnh mẽ, gọn gàng, sẵn sàng cho production từ ngày đầu.</p>
+  </div>
+
+  <div class="feature-grid">
+    <article class="card glass" data-tilt data-delay="0">
+      <div class="card-icon grad-blue">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2 3 14h9l-1 8 10-12h-9z"/></svg>
+      </div>
+      <h3>Siêu tốc</h3>
+      <p>Xử lý hàng triệu request mỗi giây với độ trễ dưới 50ms trên toàn cầu.</p>
+      <div class="card-stat"><b>42ms</b><span>p99 latency</span></div>
+      <a href="#demo" class="card-link">Tìm hiểu <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    </article>
+
+    <article class="card glass" data-tilt data-delay="100">
+      <div class="card-icon grad-cyan">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+      </div>
+      <h3>Bảo mật cấp doanh nghiệp</h3>
+      <p>Mã hóa đầu-cuối, tuân thủ SOC 2, ISO 27001 và GDPR.</p>
+      <div class="card-stat"><b>256-bit</b><span>AES encryption</span></div>
+      <a href="#demo" class="card-link">Tìm hiểu <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    </article>
+
+    <article class="card glass" data-tilt data-delay="200">
+      <div class="card-icon grad-violet">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M5 19l2-2M17 7l2-2"/></svg>
+      </div>
+      <h3>Tự động hóa thông minh</h3>
+      <p>Workflow AI tự chạy, tự học, tự tối ưu — không cần can thiệp.</p>
+      <div class="card-stat"><b>24/7</b><span>auto-pilot</span></div>
+      <a href="#demo" class="card-link">Tìm hiểu <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    </article>
+
+    <article class="card glass" data-tilt data-delay="300">
+      <div class="card-icon grad-magenta">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 14l4-4 4 4 5-5"/></svg>
+      </div>
+      <h3>Phân tích real-time</h3>
+      <p>Dashboards sống động, cập nhật từng mili-giây, chia sẻ tức thì.</p>
+      <div class="card-stat"><b>1ms</b><span>refresh rate</span></div>
+      <a href="#demo" class="card-link">Tìm hiểu <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    </article>
+
+    <article class="card glass" data-tilt data-delay="400">
+      <div class="card-icon grad-blue">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l9 5v10l-9 5-9-5V7z"/><path d="M12 12l9-5M12 12v10M12 12L3 7"/></svg>
+      </div>
+      <h3>Mở rộng tức thì</h3>
+      <p>Từ 1 đến 1 tỷ user, không cần đổi kiến trúc. Tự động scale.</p>
+      <div class="card-stat"><b>∞</b><span>scale</span></div>
+      <a href="#demo" class="card-link">Tìm hiểu <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    </article>
+
+    <article class="card glass" data-tilt data-delay="500">
+      <div class="card-icon grad-cyan">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+      </div>
+      <h3>Hỗ trợ 24/7</h3>
+      <p>Đội ngũ kỹ sư thật, phản hồi dưới 5 phút, mọi múi giờ.</p>
+      <div class="card-stat"><b>&lt;5ph</b><span>response</span></div>
+      <a href="#demo" class="card-link">Tìm hiểu <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    </article>
+  </div>
+</section>
+
+<!-- ═══════════ STATS ═══════════ -->
+<section class="stats">
+  <div class="stats-grid">
+    <div class="stat reveal">
+      <b class="grad-text" data-count="12000" data-suffix="+">0</b>
+      <span>Đội ngũ tin dùng</span>
+    </div>
+    <div class="stat-sep"></div>
+    <div class="stat reveal" data-delay="100">
+      <b class="grad-text" data-count="2400" data-suffix="M">0</b>
+      <span>Request / ngày</span>
+    </div>
+    <div class="stat-sep"></div>
+    <div class="stat reveal" data-delay="200">
+      <b class="grad-text" data-count="99" data-suffix=".99%">0</b>
+      <span>Uptime SLA</span>
+    </div>
+    <div class="stat-sep"></div>
+    <div class="stat reveal" data-delay="300">
+      <b class="grad-text" data-count="42" data-suffix="ms">0</b>
+      <span>Độ trễ trung bình</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ SHOWCASE ═══════════ -->
+<section class="showcase" id="showcase">
+  <div class="section-head">
+    <span class="badge reveal"><span class="badge-dot"></span>Sản phẩm</span>
+    <h2 class="reveal" data-delay="100">Một dashboard.<br><span class="grad-text">Toàn bộ sức mạnh.</span></h2>
+    <p class="reveal" data-delay="200">Thiết kế để bạn ra quyết định nhanh hơn, thông minh hơn.</p>
+  </div>
+
+  <div class="showcase-wrap reveal">
+    <div class="browser glass">
+      <div class="browser-head">
+        <div class="browser-dots"><i></i><i></i><i></i></div>
+        <div class="browser-url">app.nova.ai / analytics</div>
+        <div class="browser-actions"><span></span><span></span></div>
+      </div>
+      <div class="browser-body">
+        <aside class="bs">
+          <div class="bs-brand"></div>
+          <div class="bs-item on"></div>
+          <div class="bs-item"></div>
+          <div class="bs-item"></div>
+          <div class="bs-item"></div>
+          <div class="bs-item"></div>
+        </aside>
+        <div class="bm">
+          <div class="bm-head">
+            <h4>Overview</h4>
+            <div class="bm-filters"><span></span><span></span><span class="active"></span></div>
+          </div>
+          <div class="bm-cards">
+            <div class="bm-card">
+              <span>Doanh thu</span>
+              <b>$482,921</b>
+              <em>+24.3%</em>
+            </div>
+            <div class="bm-card">
+              <span>Người dùng</span>
+              <b>84,219</b>
+              <em>+12.8%</em>
+            </div>
+            <div class="bm-card">
+              <span>Chuyển đổi</span>
+              <b>7.42%</b>
+              <em>+3.1%</em>
+            </div>
+          </div>
+          <div class="bm-chart glass-inner">
+            <svg viewBox="0 0 600 200" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="g1" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#3B82F6" stop-opacity="0.5"/>
+                  <stop offset="1" stop-color="#3B82F6" stop-opacity="0"/>
+                </linearGradient>
+                <linearGradient id="g2" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#22D3EE" stop-opacity="0.4"/>
+                  <stop offset="1" stop-color="#22D3EE" stop-opacity="0"/>
+                </linearGradient>
+              </defs>
+              <path d="M0,150 C80,110 120,170 200,120 C280,70 320,140 400,90 C480,40 540,80 600,50"
+                    fill="none" stroke="#3B82F6" stroke-width="2.5"/>
+              <path d="M0,150 C80,110 120,170 200,120 C280,70 320,140 400,90 C480,40 540,80 600,50 L600,200 L0,200 Z" fill="url(#g1)"/>
+              <path d="M0,170 C80,140 120,160 200,140 C280,120 320,150 400,120 C480,90 540,110 600,85"
+                    fill="none" stroke="#22D3EE" stroke-width="2" opacity="0.7"/>
+              <path d="M0,170 C80,140 120,160 200,140 C280,120 320,150 400,120 C480,90 540,110 600,85 L600,200 L0,200 Z" fill="url(#g2)"/>
+            </svg>
+          </div>
+          <div class="bm-row">
+            <div class="mini glass-inner">
+              <span class="pulse-dot"></span>
+              <div><b>Deploy #1284</b><em>thành công · 2s trước</em></div>
+            </div>
+            <div class="mini glass-inner">
+              <b>API Health</b>
+              <div class="bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="float-card sc-1">
+      <b>99.99%</b><span>Uptime</span>
+    </div>
+    <div class="float-card sc-2">
+      <span class="pulse-dot"></span><b>Live</b><span>2.4M req/s</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ DEMO CHAT ═══════════ -->
+<section class="demo" id="demo">
+  <div class="section-head">
+    <span class="badge reveal"><span class="badge-dot"></span>Dùng thử</span>
+    <h2 class="reveal" data-delay="100">Nói chuyện với <span class="grad-text">Nova AI</span></h2>
+    <p class="reveal" data-delay="200">Bản demo thật, chạy trên hạ tầng của Nova. Không cần đăng ký.</p>
+  </div>
+
+  <div class="chat-shell glass reveal">
+    <div class="chat-head">
+      <div class="chat-head-l">
+        <span class="pulse-dot"></span>
+        <div><b>Nova AI</b><span>Trực tuyến</span></div>
+      </div>
+      <div class="chat-model">
+        <label for="model">Model</label>
+        <select id="model" aria-label="Chọn model">
+          {% for m in models %}<option value="{{ m }}">{{ m }}</option>{% endfor %}
+        </select>
+      </div>
+      <button class="btn-icon" onclick="clearChat()" title="Xóa hội thoại" aria-label="Xóa hội thoại">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/></svg>
+      </button>
+    </div>
+
+    <div class="chat-body" id="chat-body">
+      <div class="chat-welcome" id="chat-welcome">
+        <div class="cw-icon">
+          <svg viewBox="0 0 32 32" width="40" height="40" fill="none">
+            <path d="M16 2 L28 9 L28 23 L16 30 L4 23 L4 9 Z" stroke="url(#lg1)" stroke-width="1.5" fill="rgba(59,130,246,0.08)"/>
+            <circle cx="16" cy="16" r="4" fill="url(#lg1)"/>
+          </svg>
+        </div>
+        <h3>Xin chào 👋</h3>
+        <p>Tôi là Nova. Hỏi tôi bất cứ điều gì — code, dịch, viết, phân tích.</p>
+        <div class="chips">
+          <button class="chip" data-q="Viết hàm Python sắp xếp nhanh">💻 Viết code Python</button>
+          <button class="chip" data-q="Giải thích blockchain cho người mới bắt đầu">📚 Giải thích blockchain</button>
+          <button class="chip" data-q="Viết email xin nghỉ phép lịch sự">✉️ Viết email</button>
+          <button class="chip" data-q="Dịch sang tiếng Anh: Xin chào các bạn">🌐 Dịch thuật</button>
+        </div>
+      </div>
+    </div>
+
+    <form class="chat-bar" id="chat-form" onsubmit="return false;">
+      <textarea id="chat-input" rows="1" placeholder="Nhập câu hỏi... (Enter để gửi, Shift+Enter xuống dòng)" aria-label="Câu hỏi"></textarea>
+      <button class="btn btn-primary btn-send" id="chat-send" aria-label="Gửi">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4z"/></svg>
+      </button>
+    </form>
+  </div>
+</section>
+
+<!-- ═══════════ PRICING ═══════════ -->
+<section class="pricing" id="pricing">
+  <div class="section-head">
+    <span class="badge reveal"><span class="badge-dot"></span>Bảng giá</span>
+    <h2 class="reveal" data-delay="100">Trả cho những gì bạn <span class="grad-text">thực sự dùng</span></h2>
+    <p class="reveal" data-delay="200">Không phí ẩn. Hủy bất kỳ lúc nào. Miễn phí 14 ngày.</p>
+  </div>
+
+  <div class="toggle-wrap reveal">
+    <span id="lbl-m" class="active">Hàng tháng</span>
+    <button class="switch" id="billing-switch" role="switch" aria-checked="false" aria-label="Chuyển đổi kỳ thanh toán">
+      <span class="switch-knob"></span>
+    </button>
+    <span id="lbl-y">Hàng năm <em>-20%</em></span>
+  </div>
+
+  <div class="price-grid">
+    <article class="price-card glass reveal" data-delay="0">
+      <h3>Starter</h3>
+      <p class="price-desc">Cho cá nhân & dự án nhỏ</p>
+      <div class="price">
+        <span class="cur">$</span>
+        <b class="amount" data-m="0" data-y="0">0</b>
+        <span class="per">/tháng</span>
+      </div>
+      <a href="#" class="btn btn-ghost btn-block">Bắt đầu</a>
+      <ul class="price-features">
+        <li><i>✓</i> 10,000 request / tháng</li>
+        <li><i>✓</i> 1 workspace</li>
+        <li><i>✓</i> Cộng đồng hỗ trợ</li>
+        <li><i>✓</i> SSL miễn phí</li>
+      </ul>
+    </article>
+
+    <article class="price-card glass recommended reveal" data-delay="100">
+      <span class="reco-badge">Được chọn nhiều nhất</span>
+      <h3>Pro</h3>
+      <p class="price-desc">Cho đội ngũ đang tăng trưởng</p>
+      <div class="price">
+        <span class="cur">$</span>
+        <b class="amount" data-m="29" data-y="23">29</b>
+        <span class="per">/tháng</span>
+      </div>
+      <a href="#" class="btn btn-primary btn-block btn-shine">Dùng thử 14 ngày</a>
+      <ul class="price-features">
+        <li><i>✓</i> 1,000,000 request / tháng</li>
+        <-mli><i>✓</i> 10 workspace</li>
+        <li><i=">✓</i> Hỗ trợ ưu tiên 24/7</li>
+        <li><i>✓</i> Analytics nâng cao</li>
+        <li><i>✓</i>99 Tích hợp API đầy đủ</li>
+      </ul">
+    </article>
+
+    <article data class="price-card glass reveal" data-y-delay="200">
+      <h3>Enterprise</h3>
+      <p class="price-desc">Cho tổ chức lớn</p>
+      <div class="price">
+        <span class="cur">$</span>
+        <b class="amount" data="79">99</b>
+        <span class="per">/tháng</span>
+      </div>
+      <a href="#" class="btn btn-ghost btn-block">Liên hệ sales</a>
+      <ul class="price-features">
+        <li><i>✓</i> Không giới hạn request</li>
+        <li><i>✓</i> Workspace không giới hạn</li>
+        <li><i>✓</i> SLA 99.99%</li>
+        <li><i>✓</i> SSO / SAML</li>
+        <li><i>✓</i> Quản lý riêng</li>
+      </ul>
+    </article>
+  </div>
+</section>
+
+<!-- ═══════════ TESTIMONIALS ═══════════ -->
+<section class="testimonials" id="testimonials">
+  <div class="section-head">
+    <span class="badge reveal"><span class="badge-dot"></span>Khách hàng</span>
+    <h2 class="reveal" data-delay="100">Đội ngũ nói gì về <span class="grad-text">Nova</span></h2>
+  </div>
+
+  <div class="carousel reveal" id="carousel">
+    <div class="carousel-track" id="carousel-track">
+      <div class="t-card glass">
+        <div class="stars">★★★★★</div>
+        <p>"Nova đã thay đổi cách đội chúng tôi làm việc. Tốc độ deploy nhanh gấp 3 lần, lỗi giảm 80%."</p>
+        <div class="t-user">
+          <div class="t-av" style="background:linear-gradient(135deg,#3B82F6,#22D3EE)">MA</div>
+          <div><b>Minh Anh</b><span>CTO · TechFlow</span></div>
+        </div>
+      </div>
+      <div class="t-card glass">
+        <div class="stars">★★★★★</div>
+        <p>"Giao diện đẹp nhất tôi từng dùng. Nhưng quan trọng hơn — nó thực sự nhanh và ổn định."</p>
+        <div class="t-user">
+          <div class="t-av" style="background:linear-gradient(135deg,#8B5CF6,#D946EF)">TL</div>
+          <div><b>Tuấn Long</b><span>Founder · Studio X</span></div>
+        </div>
+      </div>
+      <div class="t-card glass">
+        <div class="stars">★★★★★</div>
+        <p>"Từ 0 lên 100k user trong 6 tháng, Nova scale cùng chúng tôi mà không cần đổi gì."</p>
+        <div class="t-user">
+          <div class="t-av" style="background:linear-gradient(135deg,#22D3EE,#8B5CF6)">HP</div>
+          <div><b>Hải Phong</b><span>Head of Eng · VietScale</span></div>
+        </div>
+      </div>
+      <div class="t-card glass">
+        <div class="stars">★★★★★</div>
+        <p>"Support phản hồi trong 2 phút lúc 3 giờ sáng. Đó là lý do chúng tôi trung thành."</p>
+        <div class="t-user">
+          <div class="t-av" style="background:linear-gradient(135deg,#D946EF,#3B82F6)">NH</div>
+          <div><b>Ngọc Hà</b><span>PM · Cloud Nine</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="carousel-ctrls">
+      <button class="btn-icon" id="prev" aria-label="Trước"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <div class="dots" id="dots"></div>
+      <button class="btn-icon" id="next" aria-label="Sau"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg></button>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ FAQ ═══════════ -->
+<section class="faq" id="faq">
+  <div class="section-head">
+    <span class="badge reveal"><span class="badge-dot"></span>FAQ</span>
+    <h2 class="reveal" data-delay="100">Câu hỏi <span class="grad-text">thường gặp</span></h2>
+  </div>
+
+  <div class="faq-list">
+    <details class="faq-item glass reveal" data-delay="0">
+      <summary><span>Nova có thật sự miễn phí không?</span><i class="faq-icon"></i></summary>
+      <div class="faq-body"><p>Có. Gói Starter miễn phí vĩnh viễn với 10,000 request/tháng. Không cần thẻ tín dụng.</p></div>
+    </details>
+    <details class="faq-item glass reveal" data-delay="100">
+      <summary><span>Tôi có thể đổi gói bất kỳ lúc nào không?</span><i class="faq-icon"></i></summary>
+      <div class="faq-body"><p>Được. Nâng cấp có hiệu lực ngay. Hạ cấp áp dụng từ chu kỳ thanh toán tiếp theo.</p></div>
+    </details>
+    <details class="faq-item glass reveal" data-delay="200">
+      <summary><span>Dữ liệu của tôi có an toàn không?</span><i class="faq-icon"></i></summary>
+      <div class="faq-body"><p>Mã hóa AES-256 khi lưu và TLS 1.3 khi truyền. Chúng tôi tuân thủ SOC 2 Type II và GDPR.</p></div>
+    </details>
+    <details class="faq-item glass reveal" data-delay="300">
+      <summary><span>Có hỗ trợ tích hợp API không?</span><i class="faq-icon"></i></summary>
+      <div class="faq-body"><p>Có. REST API đầy đủ, SDK cho Python, Node.js, Go. Webhooks cho mọi sự kiện.</p></div>
+    </details>
+    <details class="faq-item glass reveal" data-delay="400">
+      <summary><span>Hoàn tiền thế nào?</span><i class="faq-icon"></i></summary>
+      <div class="faq-body"><p>Hoàn 100% trong 30 ngày đầu, không cần lý do.</p></div>
+    </details>
+  </div>
+</section>
+
+<!-- ═══════════ FINAL CTA ═══════════ -->
+<section class="cta-final">
+  <div class="cta-inner glass">
+    <div class="cta-rings">
+      <span></span><span></span><span></span>
+    </div>
+    <h2 class="reveal">Sẵn sàng <span class="grad-text">tăng tốc?</span></h2>
+    <p class="reveal" data-delay="100">Bắt đầu trong 30 giây. Không cần thẻ. Không ràng buộc.</p>
+    <a href="#demo" class="btn btn-primary btn-lg btn-shine reveal" data-delay="200">
+      <span>Bắt đầu miễn phí</span>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </a>
+  </div>
+</section>
+
+</main>
+
+<!-- ═══════════ FOOTER ═══════════ -->
+<footer class="footer">
+  <div class="footer-line"></div>
+  <div class="footer-grid">
+    <div class="f-brand">
+      <div class="brand">
+        <span class="brand-name">Nova<span class="brand-dot">.</span></span>
+      </div>
+      <p>Nền tảng AI cho đội ngũ hiện đại. Nhanh, an toàn, đẹp.</p>
+      <div class="socials">
+        <a href="#" aria-label="Twitter"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M22 5.9c-.7.3-1.5.5-2.3.6.8-.5 1.4-1.3 1.7-2.2-.8.5-1.6.8-2.5 1a3.9 3.9 0 00-6.7 3.6A11 11 0 013.2 4.7a3.9 3.9 0 001.2 5.2c-.6 0-1.2-.2-1.7-.5v.1c0 1.9 1.3 3.5 3.1 3.8-.6.2-1.2.2-1.7.1a3.9 3.9 0 003.6 2.7A7.9 7.9 0 012 17.8a11 11 0 006 1.8c7.2 0 11.2-6 11.2-11.2v-.5c.8-.6 1.4-1.3 1.8-2z"/></svg></a>
+        <a href="#" aria-label="GitHub"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 00-3.2 19.5c.5 0 .7-.2.7-.5v-1.7c-2.8.6-3.4-1.4-3.4-1.4-.4-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.5 2.3 1.1 2.9.8 0-.7.3-1.1.6-1.4-2.2-.2-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7 0-.3-.4-1.3.1-2.7 0 0 .8-.3 2.8 1a9.6 9.6 0 015 0c2-1.3 2.8-1 2.8-1 .5 1.4.2 2.4.1 2.7.6.7 1 1.6 1 2.7 0 3.9-2.4 4.7-4.6 5 .4.3.7.9.7 1.9v2.8c0 .3.2.5.7.5A10 10 0 0012 2z"/></svg></a>
+        <a href="#" aria-label="LinkedIn"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 11-.02 5 2.5 2.5 0 01.02-5zM3 9h4v12H3zM9 9h3.8v1.7h.1c.5-1 1.8-2 3.7-2 4 0 4.7 2.6 4.7 5.9V21h-4v-5.6c0-1.3 0-3-1.9-3s-2.2 1.4-2.2 2.9V21H9z"/></svg></a>
+      </div>
+    </div>
+
+    <div class="f-col">
+      <h4>Sản phẩm</h4>
+      <a href="#features">Tính năng</a>
+      <a href="#pricing">Bảng giá</a>
+      <a href="#showcase">Demo</a>
+      <a href="#">Changelog</a>
+    </div>
+    <div class="f-col">
+      <h4>Công ty</h4>
+      <a href="#">Về chúng tôi</a>
+      <a href="#">Tuyển dụng</a>
+      <a href="#">Blog</a>
+      <a href="#">Liên hệ</a>
+    </div>
+    <div class="f-col">
+      <h4>Pháp lý</h4>
+      <a href="#">Điều khoản</a>
+      <a href="#">Bảo mật</a>
+      <a href="#">Cookie</a>
+      <a href="#">GDPR</a>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <span>© 2026 Nova Inc. Mọi quyền được bảo lưu.</span>
+    <span>Made with care in Vietnam</span>
+  </div>
+</footer>
+
+<script src="/static/app.js" defer></script>
+</body>
+</html>
