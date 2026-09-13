@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Đăng ký · MH Predictor</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<div class="bg-fx"></div>
+<div class="orb b"></div>
+<div class="orb c"></div>
+<div class="orb v"></div>
+
+<div class="login-page">
+  <div class="login-card glass">
+    <div class="brand" style="margin-bottom:20px;">
+      <div class="brand-logo">⚡</div>
+      <div class="brand-name">MH PREDICTOR</div>
+    </div>
+
+    <h1>Đăng ký</h1>
+    <p>Tạo tài khoản miễn phí để dùng thử</p>
+
+    <div id="errMsg" class="error-msg" style="display:none;"></div>
+    <div id="okMsg" style="display:none;padding:12px 16px;border-radius:10px;margin-bottom:16px;background:rgba(34,211,238,0.1);border:1px solid rgba(34,211,238,0.3);color:#22D3EE;font-size:0.85rem;"></div>
+
+    <div class="field">
+      <label>Tài khoản</label>
+      <input class="input" type="text" id="r-user" placeholder="Từ 4-20 ký tự, không dấu">
+    </div>
+    <div class="field">
+      <label>Mật khẩu</label>
+      <input class="input" type="password" id="r-pass" placeholder="Ít nhất 6 ký tự">
+    </div>
+    <div class="field">
+      <label>Nhập lại mật khẩu</label>
+      <input class="input" type="password" id="r-pass2" placeholder="Nhập lại mật khẩu">
+    </div>
+
+    <button class="btn" id="btnRegister" style="width:100%;justify-content:center;margin-top:8px;">
+      Đăng ký
+    </button>
+
+    <div style="text-align:center;margin-top:16px;font-size:0.85rem;color:#94A3B8;">
+      Đã có tài khoản?
+      <a href="/login" style="color:#22D3EE;text-decoration:none;font-weight:600;">Đăng nhập</a>
+    </div>
+  </div>
+</div>
+
+<script src="/static/register.js"></script>
+</body>
+</html>
