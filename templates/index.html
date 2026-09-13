@@ -15,7 +15,7 @@
 <div class="wrap">
   <nav class="nav" id="nav">
     <div class="brand">
-      <div class="brand-logo">⚡</div>
+      <img src="/static/logo.jpg" alt="Logo" style="width:38px;height:38px;border-radius:12px;object-fit:cover;">
       <div class="brand-name">MH PREDICTOR</div>
     </div>
     <div class="nav-links">
@@ -31,6 +31,11 @@
       <span class="tier-badge {{ 'admin' if role == 'admin' }}">{{ tier }}</span>
     </div>
   </nav>
+
+  <!-- ẢNH BANNER CHÍNH (ảnh bạn upload) -->
+  <div style="margin:20px 0;border-radius:22px;overflow:hidden;box-shadow:0 30px 60px rgba(0,0,0,0.6),0 0 0 1px rgba(34,211,238,0.2);">
+    <img src="/static/banner.jpg" alt="Banner" style="width:100%;display:block;">
+  </div>
 
   <h1 class="page-title">Bảng điều khiển dự đoán</h1>
   <p class="page-sub">Chọn nhà cái để xem phiên hiện tại và dự đoán phiên tiếp theo</p>
