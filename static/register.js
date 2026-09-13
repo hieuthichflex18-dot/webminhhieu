@@ -1,8 +1,8 @@
 // static/register.js
 
-const btn = document.getElementById('btnRegister');
-const errMsg = document.getElementById('errMsg');
-const okMsg = document.getElementById('okMsg');
+var btn = document.getElementById('btnRegister');
+var errMsg = document.getElementById('errMsg');
+var okMsg = document.getElementById('okMsg');
 
 function showErr(msg) {
   errMsg.textContent = msg;
@@ -16,10 +16,10 @@ function showOk(msg) {
   errMsg.style.display = 'none';
 }
 
-btn.addEventListener('click', async () => {
-  const username = document.getElementById('r-user').value.trim();
-  const password = document.getElementById('r-pass').value;
-  const password2 = document.getElementById('r-pass2').value;
+btn.addEventListener('click', function () {
+  var username = document.getElementById('r-user').value.trim();
+  var password = document.getElementById('r-pass').value;
+  var password2 = document.getElementById('r-pass2').value;
 
   if (username.length < 4) {
     showErr('Tài khoản phải từ 4 ký tự');
@@ -45,27 +45,27 @@ btn.addEventListener('click', async () => {
   btn.disabled = true;
   btn.textContent = 'Đang xử lý...';
 
-  try {
-    const res = await fetch('/api/register', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, password })
-    });
-    const data = await res.json();
-
-    if (data.ok) {
-      showOk('Đăng ký thành công! Đang chuyển sang trang đăng nhập...');
-      setTimeout(() => {
-        window.location.href = '/login';
-      }, 1500);
-    } else {
-      showErr(data.message || 'Đăng ký thất bại');
+  fetch('/api/register', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ username: username, password: password })
+  })
+    .then(function (res) { return res.json(); })
+    .then(function (data) {
+      if (data.ok) {
+        showOk('Đăng ký thành công! Đang chuyển sang trang đăng nhập...');
+        setTimeout(function () {
+          window.location.href = '/login';
+        }, 1500);
+      } else {
+        showErr(data.message || 'Đăng ký thất bại');
+        btn.disabled = false;
+        btn.textContent = 'Đăng ký';
+      }
+    })
+    .catch(function (e) {
+      showErr('Lỗi kết nối: ' + e.message);
       btn.disabled = false;
       btn.textContent = 'Đăng ký';
-    }
-  } catch (e) {
-    showErr('Lỗi kết nối: ' + e.message);
-    btn.disabled = false;
-    btn.textContent = 'Đăng ký';
-  }
+    });
 });
