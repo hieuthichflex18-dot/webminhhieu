@@ -17,9 +17,7 @@ app = Flask(__name__)
 app.secret_key = os.getenv("SECRET_KEY", "dev-secret-change-me")
 
 ADMIN_USER = os.getenv("ADMIN_USER")
-ADMIN_PASS_HASH = os.getenv("ADMIN_PASS_HASH")
-
-init_db()
+ADMIN_PASS = os.getenv("ADMIN_PASS")
 
 
 def login_required(f):
@@ -91,19 +89,15 @@ def login():
         u = request.form.get("username", "").strip()
         p = request.form.get("password", "")
 
-        if u == ADMIN_USER:
-            try:
-                if bcrypt.checkpw(p.encode(), ADMIN_PASS_HASH.encode()):
-                    session.update({
-                        "username": u,
-                        "role": "admin",
-                        "tier": "admin",
-                        "login_at": datetime.now().isoformat()
-                    })
-                    log_action(u, "admin_login", request.remote_addr, request.user_agent.string)
-                    return redirect("/admin")
-            except Exception:
-                pass
+        if u == ADMIN_USER and p == ADMIN_PASS:
+            session.update({
+                "username": u,
+                "role": "admin",
+                "tier": "admin",
+                "login_at": datetime.now().isoformat()
+            })
+            log_action(u, "admin_login", request.remote_addr, request.user_agent.string)
+            return redirect("/admin")
 
         with get_db() as db:
             row = db.execute(
