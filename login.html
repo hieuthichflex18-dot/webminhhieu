@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Đăng nhập · MH Predictor</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<div class="bg-fx"></div>
+<div class="orb b"></div>
+<div class="orb c"></div>
+<div class="orb v"></div>
+
+<div class="login-page">
+  <div class="login-card glass">
+    <div class="brand" style="margin-bottom:20px;">
+      <div class="brand-logo">⚡</div>
+      <div class="brand-name">MH PREDICTOR</div>
+    </div>
+
+    <h1>Đăng nhập</h1>
+    <p>Hệ thống dự đoán Tài Xỉu đa nhà cái</p>
+
+    {% if error %}
+    <div class="error-msg">⚠️ {{ error }}</div>
+    {% endif %}
+
+    <form method="POST">
+      <div class="field">
+        <label>Tài khoản</label>
+        <input class="input" type="text" name="username" required autocomplete="username" placeholder="Nhập tài khoản">
+      </div>
+      <div class="field">
+        <label>Mật khẩu</label>
+        <input class="input" type="password" name="password" required autocomplete="current-password" placeholder="Nhập mật khẩu">
+      </div>
+      <button class="btn" type="submit" style="width:100%;justify-content:center;margin-top:8px;">
+        🔐 Đăng nhập
+      </button>
+    </form>
+  </div>
+</div>
+</body>
+</html>
