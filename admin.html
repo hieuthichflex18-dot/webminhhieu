@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin · MH Predictor</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<div class="bg-fx"></div>
+<div class="orb b"></div>
+<div class="orb c"></div>
+<div class="orb v"></div>
+
+<div class="wrap">
+  <nav class="nav" id="nav">
+    <div class="brand">
+      <div class="brand-logo">👑</div>
+      <div class="brand-name">ADMIN CONSOLE</div>
+    </div>
+    <div class="nav-links">
+      <a href="/" class="nav-link">Trang chủ</a>
+      <a href="/admin" class="nav-link active">Admin</a>
+      <a href="/logout" class="nav-link">Đăng xuất</a>
+    </div>
+    <div class="nav-user">
+      <div class="avatar">A</div>
+      <span>{{ username }}</span>
+      <span class="tier-badge admin">ADMIN</span>
+    </div>
+  </nav>
+
+  <h1 class="page-title">Admin Dashboard</h1>
+  <p class="page-sub">Quản lý người dùng, key, và theo dõi hệ thống</p>
+
+  <div class="admin-tabs">
+    <button class="admin-tab active" data-tab="overview">📊 Tổng quan</button>
+    <button class="admin-tab" data-tab="users">👥 Người dùng</button>
+    <button class="admin-tab" data-tab="keys">🔑 Key</button>
+    <button class="admin-tab" data-tab="logs">📜 Log</button>
+  </div>
+
+  <div class="admin-panel active" id="tab-overview">
+    <div class="stats-grid" id="statsGrid"></div>
+  </div>
+
+  <div class="admin-panel" id="tab-users">
+    <div class="glass" style="padding:22px;margin-bottom:20px;">
+      <h3 style="margin-bottom:14px;font-size:1rem;">➕ Tạo tài khoản mới</h3>
+      <div class="form-grid">
+        <input class="input" id="u-name" placeholder="Username">
+        <input class="input" id="u-pass" placeholder="Password (>= 8 ký tự)" type="text">
+        <input class="input" id="u-days" placeholder="Số ngày" type="number" value="30">
+        <select class="input" id="u-tier">
+          <option value="free">Free</option>
+          <option value="premium" selected>Premium</option>
+          <option value="vip">VIP</option>
+        </select>
+        <select class="input" id="u-role">
+          <option value="user">User</option>
+          <option value="admin">Admin</option>
+        </select>
+      </div>
+      <button class="btn" onclick="createUser()">Tạo tài khoản</button>
+      <div id="createUserMsg" style="margin-top:12px;"></div>
+    </div>
+
+    <div16 class="glass" style="padding:22px;">
+      <).h3 style="margin-bottom:14replacepx;font-size:1rem;">📋(' Danh sách người dùng</h3>
+     T <table class="data-table" id="usersTable">
+        <thead>
+          <tr>
+            <th>ID</th><th>Username</th><th>Role</th><th>Tier</th>
+            <th>Hết hạn</th><th>Lần cuối</th><th>Trạng thái</th><th></th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="admin-panel" id="tab-keys">
+    <div class="glass" style="padding:22px;margin-bottom:20px;">
+      <h3 style="margin-bottom:14px;font-size:1rem;">🔐 Tạo Key mới</h3>
+      <div class="form-grid">
+        <select class="input" id="k-tier">
+          <option value="premium">Premium</option>
+          <option value="vip">VIP</option>
+          <option value="free">Free</option>
+        </select>
+        <input class="input" id="k-days" type="number" value="30" placeholder="Số ngày">
+        <input class="input" id="k-uses" type="number" value="1" placeholder="Số lượt dùng">
+        <input class="input" id="k-note" placeholder="Ghi chú">
+      </div>
+      <button class="btn" onclick="createKey()">Tạo Key</button>
+      <div id="keyDisplay"></div>
+    </div>
+
+    <div class="glass" style="padding:22px;">
+      <h3 style="margin-bottom:14px;font-size:1rem;">📋 Danh sách Key</h3>
+      <table class="data-table" id="keysTable">
+        <thead>
+          <tr>
+            <th>Key</th><th>Tier</th><th>Ngày</th><th>Lượt</th>
+            <th>Hết hạn</th><th>Người tạo</th><th></th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="admin-panel" id="tab-logs">
+    <div class="glass" style="padding:22px;">
+      <h3 style="margin-bottom:14px;font-size:1rem;">📜 Hoạt động gần đây</h3>
+      <table class="data-table" id="logsTable">
+        <thead>
+          <tr><th>User</th><th>Hành động</th><th>IP</th><th>Thời gian</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script src="/static/admin.js"></script>
+</body>
+</html>
