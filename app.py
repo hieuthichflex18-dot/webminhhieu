@@ -180,7 +180,7 @@ def api_game_detail(game_key):
             "session_id": session_id
         },
         "block_prediction": {
-            "title": "DỰ ĐOÁN PHIÊN SAU · " + game["name"],
+            "title": "DỰ ĐOÁN PHIÊN SAU",
             "mode": game["mode"],
             "prediction": result["prediction"],
             "prediction_text": result["prediction_text"],
@@ -260,7 +260,7 @@ def admin_create_user():
     role = data.get("role", "user")
 
     if not u or not p or len(p) < 8:
-        return jsonify({"ok": False, "message": "Username/password không hợp lệ (password >= 8 ký tự)"})
+        return jsonify({"ok": False, "message": "Password >= 8 ký tự"})
 
     exp = (datetime.now() + timedelta(days=days)).isoformat()
     pw_hash = bcrypt.hashpw(p.encode(), bcrypt.gensalt(12)).decode()
