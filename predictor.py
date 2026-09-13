@@ -18,15 +18,15 @@ def normalize_history(data):
     for item in arr:
         if isinstance(item, str):
             s = item.upper()
-            if "T" in s or "TAI" in s:
+            if "T" in s:
                 out.append("T")
-            elif "X" in s or "XIU" in s:
+            elif "X" in s:
                 out.append("X")
         elif isinstance(item, dict):
-            v = str(item.get("result") or item.get("ket_qua") or item.get("value") or item.get("side") or "").upper()
-            if "T" in v or "TAI" in v:
+            v = str(item.get("result") or item.get("ket_qua") or item.get("value") or "").upper()
+            if "T" in v:
                 out.append("T")
-            elif "X" in v or "XIU" in v:
+            elif "X" in v:
                 out.append("X")
             else:
                 total = item.get("sum") or item.get("total") or item.get("tong")
@@ -91,16 +91,15 @@ def detect_pattern_3(history):
     if len(history) < 3:
         return None
     last3 = history[-3] + history[-2] + history[-1]
-    patterns = {
-        "TTT": ("X", 35),
-        "XXX": ("T", 35),
-        "TTX": ("T", 15),
-        "XXT": ("X", 15),
-        "TXX": ("T", 15),
-        "XTT": ("X", 15),
-        "TXT": ("X", 22),
-        "XTX": ("T", 22)
-    }
+    patterns = {}
+    patterns["TTT"] = ("X", 35)
+    patterns["XXX"] = ("T", 35)
+    patterns["TTX"] = ("T", 15)
+    patterns["XXT"] = ("X", 15)
+    patterns["TXX"] = ("T", 15)
+    patterns["XTT"] = ("X", 15)
+    patterns["TXT"] = ("X", 22)
+    patterns["XTX"] = ("T", 22)
     if last3 in patterns:
         return patterns[last3]
     return None
@@ -108,47 +107,45 @@ def detect_pattern_3(history):
 
 def analyze(history):
     if len(history) < 3:
-        return {
-            "prediction": "T",
-            "prediction_text": "TAI",
-            "confidence": 0,
-            "reasons")
-
-": ["Chua du du lieu de phan tich"],
-            "streak": 0,
-            "last": None,
-            "freq_t": 0,
-               "freq_x": 0,
-            "history_len": 0
-        }
+        result = {}
+        result["prediction"] = "T"
+        result["prediction_text"] = "TAI"
+        result["confidence"] = 0
+        result["reasons"] = ["Chua du du lieu"]
+        result["streak"] = 0
+        result["last"] = None
+        result["freq_t"] = 0
+        result["freq_x"] = 0
+        result["history_len"] = 0
+        return result
 
     score_t = 0
     score_x = 0
- if    reasons = []
+    reasons = []
 
     last, streak = detect_streak(history)
 
-    score if streak >= 5:
-        if last == "T_t":
+    if streak >= 5:
+        if last == "T":
             score_x = score_x + 45
-            reasons.append("Bet " + str(streak) + " phien TAI -> be cau man >h")
+            reasons.append("Bet " + str(streak) + " phien TAI")
         else:
             score_t = score_t + 45
-            reasons.append("Bet " + str(streak) + " phien XIU -> be cau manh")
+            reasons.append("Bet " + str(streak) + " phien XIU")
     elif streak >= 3:
         if last == "T":
             score_x = score_x + 20
-            reasons.append("Bet " + str(streak) + " phien -> nghieng be cau")
+            reasons.append("Bet " + str(streak) + " phien TAI nhe")
         else:
             score_t = score_t + 20
-            reasons.append("Bet " + str(streak) + " phien -> nghieng be cau")
+            reasons.append("Bet " + str(streak) + " phien XIU nhe")
 
     if detect_alternating(history, 6):
         if last == "T":
             score_x = score_x + 30
         else:
             score_t = score_t + 30
-        reasons.append("Cau 1-1 dang chay on dinh -> dao chieu")
+        reasons.append("Cau 1-1 dao chieu")
 
     mp, mp_conf = markov_predict(history, 2)
     if mp is not None:
@@ -156,7 +153,7 @@ def analyze(history):
             score_t = score_t + int(mp_conf * 0.4)
         else:
             score_x = score_x + int(mp_conf * 0.4)
-        reasons.append("Markov bac 2 du doan " + str(mp) + " (" + str(mp_conf) + "%)")
+        reasons.append("Markov 2: " + str(mp) + " " + str(mp_conf) + "%")
 
     mp3, mp3_conf = markov_predict(history, 3)
     if mp3 is not None and mp3_conf > 55:
@@ -164,7 +161,7 @@ def analyze(history):
             score_t = score_t + 15
         else:
             score_x = score_x + 15
-        reasons.append("Markov bac 3 uung ho " + str(mp3) + " (" + str(mp3_conf) + "%)")
+        reasons.append("Markov 3: " + str(mp3) + " " + str(mp3_conf) + "%")
 
     pat = detect_pattern_3(history)
     if pat is not None:
@@ -174,7 +171,7 @@ def analyze(history):
             score_t = score_t + bonus
         else:
             score_x = score_x + bonus
-        reasons.append("Mau 3 phien -> " + str(pred))
+        reasons.append("Mau 3 phien: " + str(pred))
 
     t_cnt = history.count("T")
     x_cnt = history.count("X")
@@ -184,17 +181,22 @@ def analyze(history):
 
     if freq_t > 0.68:
         score_x = score_x + 25
-        reasons.append("TAI chiem " + str(int(freq_t * 100)) + "% -> kha nang hoi XIU")
+        reasons.append("TAI nhieu: " + str(int(freq_t * 100)) + "%")
     elif freq_x > 0.68:
         score_t = score_t + 25
-        reasons.append("XIU chiem " + str(int(freq_x * 100)) + "% -> kha nang hoi TAI score_x:
+        reasons.append("XIU nhieu: " + str(int(freq_x * 100)) + "%")
+
+    if score_t > score_x:
         pred = "T"
         conf = score_t
     elif score_x > score_t:
         pred = "X"
         conf = score_x
     else:
-        pred = last if last else "T"
+        if last is not None:
+            pred = last
+        else:
+            pred = "T"
         conf = 30
 
     if conf > 96:
@@ -207,14 +209,14 @@ def analyze(history):
     else:
         pred_text = "XIU"
 
-    return {
-        "prediction": pred,
-        "prediction_text": pred_text,
-        "confidence": conf,
-        "reasons": reasons,
-        "streak": streak,
-        "last": last,
-        "freq_t": round(freq_t, 2),
-        "freq_x": round(freq_x, 2),
-        "history_len": total
-    }
+    result = {}
+    result["prediction"] = pred
+    result["prediction_text"] = pred_text
+    result["confidence"] = conf
+    result["reasons"] = reasons
+    result["streak"] = streak
+    result["last"] = last
+    result["freq_t"] = round(freq_t, 2)
+    result["freq_x"] = round(freq_x, 2)
+    result["history_len"] = total
+    return result
