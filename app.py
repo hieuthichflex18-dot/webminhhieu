@@ -9,11 +9,7 @@ app = Flask(__name__)
 app.secret_key = os.getenv("FLASK_SECRET", "dev")
 
 BAI_URL = os.getenv("BAI_URL", "https://api.b.ai/v1/chat/completions")
-BAI_KEY = os.getenv("BAI_KEY", " BAI_KEY=sk-1onamwk2hglxbx6f0gmlcp2on0b8mnog
-BAI_URL=https://api.b.ai/v1/chat/completions
-MODELS=gpt-4o,claude-3.5-sonnet,gemini-1.5-pro
-FLASK_SECRET=change_me_random_string
-PORT=5000")
+BAI_KEY = os.getenv("BAI_KEY", "sk-1qthbwkeo7ot4fb8o30d9lx1gm9643fy")
 MODELS  = [m.strip() for m in os.getenv("MODELS", "gpt-4o").split(",") if m.strip()]
 DB      = "data.db"
 
