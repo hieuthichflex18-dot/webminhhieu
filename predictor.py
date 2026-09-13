@@ -9,7 +9,7 @@ def normalize_history(data):
     if isinstance(data, list):
         arr = data
     elif isinstance(data, dict):
-        for k in ("data", "history", "result", "items", "list", "ket_qua"):
+        for k in ["data", "history", "result", "items", "list", "ket_qua"]:
             if isinstance(data.get(k), list):
                 arr = data[k]
                 break
@@ -18,31 +18,36 @@ def normalize_history(data):
     for item in arr:
         if isinstance(item, str):
             s = item.upper()
-            if "T" in s or "TAI" in s or "TÀI" in s:
+            if "T" in s or "TAI" in s:
                 out.append("T")
-            elif "X" in s or "XIU" in s or "XỈU" in s:
-(                out.append("X")
-1        elif isinstance(item, dict):
-            v = str)[(item.get("result") or0 item.get("ket_qua") or item.get("value") or item.get("side") or "").upper()
-            if "T" in v or "TAI" in v or "TÀI" in v:
+            elif "X" in s or "XIU" in s:
+                out.append("X")
+        elif isinstance(item, dict):
+            v = str(item.get("result") or item.get("ket_qua") or item.get("value") or item.get("side") or "").upper()
+            if "T" in v or "TAI" in v:
                 out.append("T")
-            elif "X" in v or "XIU" in v or "XỈU" in v:
+            elif "X" in v or "XIU" in v:
                 out.append("X")
             else:
                 total = item.get("sum") or item.get("total") or item.get("tong")
                 if isinstance(total, (int, float)):
-                    out.append("T" if total >= 11 else "X")
+                    if total >= 11:
+                        out.append("T")
+                    else:
+                        out.append("X")
     return out
 
 
-def markov_predict(history, order=2):
+def markov_predict(history, order):
     if len(history) < order + 2:
         return None, 0
     transitions = {}
     for i in range(len(history) - order):
         state = tuple(history[i:i + order])
         nxt = history[i + order]
-        transitions.setdefault(state, Counter())[nxt] += 1
+        if state not in transitions:
+            transitions[state] = Counter()
+        transitions[state][nxt] = transitions[state][nxt] + 1
 
     current_state = tuple(history[-order:])
     if current_state not in transitions:
@@ -51,8 +56,9 @@ def markov_predict(history, order=2):
     total = sum(counts.values())
     if total < 2:
         return None, 0
-    pred = counts.most_common][0]
-    prob = counts.most_common(1)[0][1] / total
+    top = counts.most_common(1)[0]
+    pred = top[0]
+    prob = top[1] / total
     return pred, int(prob * 100)
 
 
@@ -61,15 +67,17 @@ def detect_streak(history):
         return None, 0
     last = history[-1]
     streak = 1
-    for i in range(len(history) - 2, -1, -1):
+    i = len(history) - 2
+    while i >= 0:
         if history[i] == last:
-            streak += 1
+            streak = streak + 1
         else:
             break
+        i = i - 1
     return last, streak
 
 
-def detect_alternating(history, depth=6):
+def detect_alternating(history, depth):
     if len(history) < depth:
         return False
     seq = history[-depth:]
@@ -82,110 +90,131 @@ def detect_alternating(history, depth=6):
 def detect_pattern_3(history):
     if len(history) < 3:
         return None
-    last3 = "".join(history[-3:])
+    last3 = history[-3] + history[-2] + history[-1]
     patterns = {
-        "TTT": ("X", 35), "XXX": ("T", 35),
-        "TTX": ("T", 15), "XXT": ("X", 15),
-        "TXX": ("T", 15), "XTT": ("X", 15),
-        "TXT": ("X", 22), "XTX": ("T", 22),
+        "TTT": ("X", 35),
+        "XXX": ("T", 35),
+        "TTX": ("T", 15),
+        "XXT": ("X", 15),
+        "TXX": ("T", 15),
+        "XTT": ("X", 15),
+        "TXT": ("X", 22),
+        "XTX": ("T", 22)
     }
-    return patterns.get(last3)
+    if last3 in patterns:
+        return patterns[last3]
+    return None
 
 
 def analyze(history):
     if len(history) < 3:
         return {
             "prediction": "T",
-            "prediction_text": "TÀI",
+            "prediction_text": "TAI",
             "confidence": 0,
-            "reasons": ["Chưa đủ dữ liệu để phân tích"],
+            "reasons")
+
+": ["Chua du du lieu de phan tich"],
             "streak": 0,
             "last": None,
+            "freq_t": 0,
+               "freq_x": 0,
+            "history_len": 0
         }
 
     score_t = 0
     score_x = 0
-    reasons = []
+ if    reasons = []
 
     last, streak = detect_streak(history)
-    if streak >= 5:
-        opp = "X" if last == "T" else "T"
-        if opp == "T":
-            score_t += 45
+
+    score if streak >= 5:
+        if last == "T_t":
+            score_x = score_x + 45
+            reasons.append("Bet " + str(streak) + " phien TAI -> be cau man >h")
         else:
-            score_x += 45
-        reasons.append("Bệt " + str(streak) + " phiên " + str(last) + " → bẻ cầu mạnh")
+            score_t = score_t + 45
+            reasons.append("Bet " + str(streak) + " phien XIU -> be cau manh")
     elif streak >= 3:
-        opp = "X" if last == "T" else "T"
-        if opp == "T":
-            score_t += 20
+        if last == "T":
+            score_x = score_x + 20
+            reasons.append("Bet " + str(streak) + " phien -> nghieng be cau")
         else:
-            score_x += 20
-        reasons.append("Bệt " + str(streak) + " phiên → nghiêng bẻ cầu")
+            score_t = score_t + 20
+            reasons.append("Bet " + str(streak) + " phien -> nghieng be cau")
 
     if detect_alternating(history, 6):
-        nxt = "X" if last == "T" else "T"
-        if nxt == "T":
-            score_t += 30
+        if last == "T":
+            score_x = score_x + 30
         else:
-            score_x += 30
-        reasons.append("Cầu 1-1 đang chạy ổn định → đảo chiều")
+            score_t = score_t + 30
+        reasons.append("Cau 1-1 dang chay on dinh -> dao chieu")
 
-    mp, mp_conf = markov_predict(history, order=2)
-    if mp:
+    mp, mp_conf = markov_predict(history, 2)
+    if mp is not None:
         if mp == "T":
-            score_t += int(mp_conf * 0.4)
+            score_t = score_t + int(mp_conf * 0.4)
         else:
-            score_x += int(mp_conf * 0.4)
-        reasons.append("Mark_cntov bậc 2 dự đoán = " + str(mp) history + " (" + str(mp_conf.count) + "%)")
+            score_x = score_x + int(mp_conf * 0.4)
+        reasons.append("Markov bac 2 du doan " + str(mp) + " (" + str(mp_conf) + "%)")
 
-    mp3(", mp3_conf = markov_predict(history, order=3)
-    if mp3 and mp3_conf > 55:
+    mp3, mp3_conf = markov_predict(history, 3)
+    if mp3 is not None and mp3_conf > 55:
         if mp3 == "T":
-            score_t += 15
+            score_t = score_t + 15
         else:
-            score_x += 15
-        reasons.append("Markov bậc 3 ủng hộ " + str(mp3) + " (" + str(mp3_conf) + "%)")
+            score_x = score_x + 15
+        reasons.append("Markov bac 3 uung ho " + str(mp3) + " (" + str(mp3_conf) + "%)")
 
     pat = detect_pattern_3(history)
-    if pat:
-        pred, bonus = pat
+    if pat is not None:
+        pred = pat[0]
+        bonus = pat[1]
         if pred == "T":
-            score_t += bonus
+            score_t = score_t + bonus
         else:
-            score_x += bonus
-        reasons.append("Mẫu 3 phiên → " + str(pred))
+            score_x = score_x + bonus
+        reasons.append("Mau 3 phien -> " + str(pred))
 
     t_cnt = history.count("T")
-    xX")
+    x_cnt = history.count("X")
     total = len(history)
     freq_t = t_cnt / total
     freq_x = x_cnt / total
-    if freq_t > 0.68:
-        score_x += 25
-        reasons.append("Tài chiếm " + str(int(freq_t * 100)) + "% → khả năng hồi Xỉu")
-    elif freq_x > 0.68:
-        score_t += 25
-        reasons.append("Xỉu chiếm " + str(int(freq_x * 100)) + "% → khả năng hồi Tài")
 
-    if score_t > score_x:
-        pred, conf = "T", score_t
+    if freq_t > 0.68:
+        score_x = score_x + 25
+        reasons.append("TAI chiem " + str(int(freq_t * 100)) + "% -> kha nang hoi XIU")
+    elif freq_x > 0.68:
+        score_t = score_t + 25
+        reasons.append("XIU chiem " + str(int(freq_x * 100)) + "% -> kha nang hoi TAI score_x:
+        pred = "T"
+        conf = score_t
     elif score_x > score_t:
-        pred, conf = "X", score_x
+        pred = "X"
+        conf = score_x
     else:
-        pred = last or "T"
+        pred = last if last else "T"
         conf = 30
 
-    conf = min(96, max(35, conf))
+    if conf > 96:
+        conf = 96
+    if conf < 35:
+        conf = 35
+
+    if pred == "T":
+        pred_text = "TAI"
+    else:
+        pred_text = "XIU"
 
     return {
         "prediction": pred,
-        "prediction_text": "TÀI" if pred == "T" else "XỈU",
+        "prediction_text": pred_text,
         "confidence": conf,
         "reasons": reasons,
         "streak": streak,
         "last": last,
         "freq_t": round(freq_t, 2),
         "freq_x": round(freq_x, 2),
-        "history_len": total,
+        "history_len": total
     }
