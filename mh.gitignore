@@ -1,6 +1,8 @@
-.env
+mh.env
+venv/
 __pycache__/
 *.pyc
-data.db
-.venv/
-venv/
+mh_data.db
+.env
+*.log
+.DS_Store
