@@ -49,4 +49,4 @@ def fetch(game_key):
     except requests.exceptions.ConnectionError:
         return {"error": "Không kết nối được (tunnel có thể đã renew)"}
     except Exception as e:
-        return {"error": f"Lỗi: {e}"}
+        return {"error": "Lỗi: " + str(e)}
