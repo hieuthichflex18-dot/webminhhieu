@@ -72,16 +72,16 @@ def gen_key(prefix="MH"):
     def block(n=4):
         alphabet = string.ascii_uppercase + string.digits
         return ''.join(secrets.choice(alphabet) for _ in range(n))
-    return f"{prefix}-{block()}-{block()}-{block()}-{block()}"
+    return prefix + "-" + block() + "-" + block() + "-" + block() + "-" + block()
 
 def create_key(tier, days, max_uses=1, created_by="admin", note=""):
     key = gen_key()
     exp = (datetime.now() + timedelta(days=days)).isoformat()
     with get_db() as db:
-        db.execute("""
-            INSERT INTO access_keys (key_code, tier, duration_days, max_uses, expires_at, created_by, note)
-            VALUES (?, ?, ?, ?, ?, ?, ?)
-        """, (key, tier, days, max_uses, exp, created_by, note))
+        db.execute(
+            "INSERT INTO access_keys (key_code, tier, duration_days, max_uses, expires_at, created_by, note) VALUES (?, ?, ?, ?, ?, ?, ?)",
+            (key, tier, days, max_uses, exp, created_by, note)
+        )
     return key
 
 def use_key(key_code, username):
@@ -93,13 +93,14 @@ def use_key(key_code, username):
             return False, "Key đã hết lượt"
         if row["expires_at"] and datetime.fromisoformat(row["expires_at"]) < datetime.now():
             return False, "Key đã hết hạn"
-
         new_exp = (datetime.now() + timedelta(days=row["duration_days"])).isoformat()
         db.execute("UPDATE access_keys SET used_count=used_count+1 WHERE id=?", (row["id"],))
         db.execute("UPDATE users SET tier=?, expires_at=? WHERE username=?", (row["tier"], new_exp, username))
-    return True, f"Nâng cấp {row['tier']} thành công"
+    return True, "Nâng cấp " + row["tier"] + " thành công"
 
 def log_action(username, action, ip="", ua=""):
     with get_db() as db:
-        db.execute("INSERT INTO sessions_log (username, action, ip, user_agent) VALUES (?,?,?,?)",
-                   (username, action, ip, ua))
+        db.execute(
+            "INSERT INTO sessions_log (username, action, ip, user_agent) VALUES (?,?,?,?)",
+            (username, action, ip, ua)
+        )
