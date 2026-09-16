@@ -1,8 +1,9 @@
-Flask==3.0.3
-Flask-Login==0.6.3
-Flask-WTF==1.2.1
-WTForms==3.1.2
-requests==2.32.3
-python-dotenv==1.0.1
-bcrypt==4.2.0
-gunicorn==22.0.0
+yt-dlp>=2024.12.0
+requests>=2.31.0
+Pillow>=10.2.0
+moviepy>=1.0.3
+tqdm>=4.66.0
+schedule>=1.2.0
+rich>=13.7.0
+playwright>=1.40.0
+pyktok>=0.0.9
